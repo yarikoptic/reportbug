@@ -1,0 +1,89 @@
+#!/usr/bin/make -f
+# Made with the aid of dh_make, by Craig Small -*- makefile -*-
+# Sample debian/rules that uses debhelper. GNU copyright 1997 by Joey Hess.
+# Some lines taken from debmake, by Cristoph Lameter.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+export DH_COMPAT=3
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+
+	# Add here commands to compile the package.
+	echo 'No make needed.'
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp install-stamp
+
+	# Add here commands to clean up after the build process.
+	rm -rf `find . -name '*~' -o -name '.#*' -o -name '*.orig' -o -name '*.rej' -o -name '*.py[co]'` test sed-script
+
+	dh_clean
+
+install: install-stamp
+install-stamp: build-stamp
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	@echo "s/##VERSION##/`head -1 debian/changelog | sed -e 's/[^(]*(\([^)]*\).*/\1/'`/g" > sed-script
+	cat sed-script
+
+	# Add here commands to install the package into debian/reportbug.
+	debian/install-sed /usr/bin reportbug querybts
+	debian/install-sed /usr/share/reportbug *.py
+	# Copy correct email module into place under the reportbug private path
+	#mkdir `pwd`/debian/reportbug/usr/share/reportbug/email
+	#cp -vr /usr/lib/python2.3/email/*.py `pwd`/debian/reportbug/usr/share/reportbug/email
+	# Remove unneeded .py files
+	rm `pwd`/debian/reportbug/usr/share/reportbug/urllib2.py
+	rm `pwd`/debian/reportbug/usr/share/reportbug/test_hiermatch.py
+
+	chmod 0755 `pwd`/debian/reportbug/usr/bin/*
+	cp handle_bugscript reportbug.el `pwd`/debian/reportbug/usr/share/reportbug
+	cp -p reportbug.conf `pwd`/debian/reportbug/etc
+	cp -p presubj script `pwd`/debian/reportbug/usr/share/bug/reportbug/
+
+	touch install-stamp
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+#	dh_testversion
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installexamples
+	dh_installmenu
+#	dh_installemacsen
+#	dh_installinit
+	dh_installcron
+	dh_installmanpages
+#	dh_undocumented
+	dh_installchangelogs 
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+#	dh_makeshlibs
+	dh_md5sums
+	dh_builddeb
+
+source diff:								      
+	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary
