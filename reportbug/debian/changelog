@@ -1,3 +1,9 @@
+reportbug (2.99.1) experimental; urgency=low
+
+  * Fix stupid typos.  (Closes: #263459, #263460)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Wed,  4 Aug 2004 17:54:48 -0400
+
 reportbug (2.99.0) experimental; urgency=low
 
   * Upload to experimental since sarge is now frozen for base packages
