@@ -1,3 +1,13 @@
+reportbug (3.9) unstable; urgency=medium
+
+  * Respect Bccs when using MTAs and MUAs; note that broken MUAs may fail
+    to suppress the Bcc field when they send, and that's not my
+    problem--blame the MUA author.  However, this code works around broken
+    MTAs.  Note that smtphost behavior was correct in 3.8.
+    (Closes: #298919, #297452)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 20 Mar 2005 18:10:35 -0600
+
 reportbug (3.8) unstable; urgency=medium
 
   * Create .reportbugrc with mode 600.  (Closes: #295407)
