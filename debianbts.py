@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.12 2004-09-13 01:41:48 lawrencc Exp $
+# $Id: debianbts.py,v 1.13 2004-09-20 00:40:50 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -394,8 +394,7 @@ def cgi_package_url(system, package, archived=False, source=False,
     repeat = yn_bool(repeatmerged)
     archive = yn_bool(archived)
 
-    return '%spkgreport.cgi?%s=%s&archive=%s&repeatmerged=%s' % (
-        root, qtype, package, archive, repeat)
+    return '%spkgreport.cgi?%s=%s&archive=%s&repeatmerged=%s&show_list_header=no&show_list_footer=no' % (root, qtype, package, archive, repeat)
 
 def package_url(system, package, mirrors=None, source=False,
                 repeatmerged=True):
