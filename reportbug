@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.47 2004-09-09 05:30:34 lawrencc Exp $
+# $Id: reportbug,v 1.48 2004-09-13 00:47:42 lawrencc Exp $
 
 import site
 
@@ -1433,7 +1433,6 @@ orphaned for a long period of time are often removed from the archive.\n''')
                     severity = 'important'
                     justification = 'fails to build from source'
 
-    TMPDIR = os.environ.get('TMPDIR', '/tmp')
     HOMEDIR = os.environ.get('HOME', '/')
 
     if (rtype == 'debbugs' and not options.tags and
