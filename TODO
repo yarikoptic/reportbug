@@ -1,6 +1,6 @@
 reportbug now has public CVS read access at:
 
-http://phys251.phy.olemiss.edu/cgi-bin/viewcvs.cgi/reportbug
+http://cvs.alioth.debian.org/cgi-bin/cvsweb.cgi/reportbug/
 
 --
 
@@ -44,7 +44,10 @@ Silly TODO list (in no particular order):
 
 8. Allow followups from the command line using a specific bug number,
    rather than requiring people to go through the browser.  Coupled
-   with --query-only, this should allow me to drop querybts completely.
+   with --query-only, this should allow me to drop querybts
+   completely.  (See #223335)
 
 9. Allow a --body option with a filename; this would prefill the
    "body" section of the report.  Might be useful for frontends.
+
+10. Document reportbug.conf properly.
