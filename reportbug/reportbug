@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.16 2004-02-17 23:16:00 lawrencc Exp $
+# $Id: reportbug,v 1.17 2004-02-17 23:17:34 lawrencc Exp $
 
 import site
 
@@ -738,7 +738,8 @@ def main():
                       'package is installed when filing a report (default)')
     parser.add_option('--body', dest="body", type="string",
                       help="specify the body for the report as a string")
-    parser.add_option('--body-file', dest="bodyfile", type="string",
+    parser.add_option('--body-file', '--bodyfile', dest="bodyfile",
+                      type="string",
                       help="use the specified file as the body of the report")
     parser.add_option('-I', '--no-check-installed', action='store_false',
                       default=True, dest='querydpkg',
