@@ -3,8 +3,11 @@ reportbug (2.99.4) unstable; urgency=low
   * Add "paranoid" mode; shows the exact message that will be sent via
     SMTP before it happens.  Also include a bit more chatter to clarify
     how messages are being sent.  (Closes: #272306)
+  * Include additional arguments in BTS query string to suppress the
+    headers and footers, in case a proxy (e.g. Privoxy) rewrites the
+    User-Agent header.  (Closes: #226491)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 19 Sep 2004 19:46:37 -0500
 
 reportbug (2.99.3) unstable; urgency=low
 
