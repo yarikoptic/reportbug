@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.26 2004-03-13 02:37:51 lawrencc Exp $
+# $Id: reportbug,v 1.27 2004-03-20 02:40:44 lawrencc Exp $
 
 import site
 
@@ -1765,8 +1765,8 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 if not smtppasswd:
                     smtppasswd = ui.get_password(
                         'Enter SMTP password for %s@%s: ' %
-                        (smtpuser, smtphost))
-                conn.login(smtpuser, smtppasswd)
+                        (options.smtpuser, smtphost))
+                conn.login(options.smtpuser, smtppasswd)
             conn.sendmail(fromaddr, toaddrs, smtp_message)
             conn.quit()
         except (socket.error, smtplib.SMTPException), x:
