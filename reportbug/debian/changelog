@@ -1,3 +1,10 @@
+reportbug (2.53) unstable; urgency=medium
+
+  * Properly handle the "no bugs found" case in the newt interface of
+    querybts.  (Closes: #237956)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon, 15 Mar 2004 03:00:17 -0600
+
 reportbug (2.52) unstable; urgency=medium
 
   * Support new packages.debian.org pages.  (Closes: #237068)
