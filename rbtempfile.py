@@ -1,7 +1,7 @@
 #
 # rbtempfile module - Temporary file handling for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2003 Chris Lawrence
+#   (C) 1999-2004 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -21,12 +21,13 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: rbtempfile.py,v 1.1.1.1 2004-02-05 04:29:08 lawrencc Exp $
+# $Id: rbtempfile.py,v 1.2 2004-09-13 00:50:00 lawrencc Exp $
 
 import os
 import tempfile
+import time
 
-template = 'reportbug-%d-' % os.getpid()
+template = 'reportbug-%d-%d-' % (time.strftime('%Y%m%d'), os.getpid())
 
 # Derived version of mkstemp that returns a Python file object
 _text_openflags = os.O_RDWR | os.O_CREAT | os.O_EXCL
