@@ -1,3 +1,12 @@
+reportbug (3.7) unstable; urgency=low
+
+  * Actually exit when user decides to abort after network connection is
+    not detected.  (Closes: #292348)
+  * Better error message (than traceback) when user supplies invalid
+    $http_proxy.  (Closes: #292340)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Wed, 26 Jan 2005 19:58:59 -0600
+
 reportbug (3.6) unstable; urgency=low
 
   * Add support for owner tags in WNPP bugs.  (Closes: #288268)
