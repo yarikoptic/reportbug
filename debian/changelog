@@ -8,7 +8,7 @@ reportbug (2.48) unstable; urgency=medium
   * Fix crashers related to #232590.  (Closes: #233026, #233299)
   * Wrap the "check your email for the bug number" message.
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 17 Feb 2004 20:21:53 -0600
 
 reportbug (2.47) unstable; urgency=medium
 
