@@ -2,7 +2,7 @@
 # urlutils.py - Simplified urllib handling
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2004 Chris Lawrence
+#   (C) 1999-2005 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -30,6 +30,7 @@ import re
 import socket
 import commands
 import os
+import sys
 from reportbug_exceptions import *
 try:
     import webbrowser
