@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.23 2004-03-05 17:13:46 lawrencc Exp $
+# $Id: reportbug,v 1.24 2004-03-05 20:35:53 lawrencc Exp $
 
 import site
 
@@ -572,12 +572,11 @@ def main():
     body = ''
     filename = None
 
-    defaults = {
-        'sendto' : 'submit', 'mode' : 'novice', 'mta' : '/usr/sbin/sendmail',
-        'check_available' : True, 'query_src' : True, 'debconf' : True,
-        'editor' : '', 'offline' : False, 'verify' : True, 'check_uid' : True,
-        'testmode' : False, 'attachments' : [], 'keyid' : '', 'body' : None,
-        'bodyfile' : None }
+    defaults = dict(sendto="submit", mode="novice", mta="/usr/sbin/sendmail",
+                    check_available=True, query_src=True, debconf=True,
+                    editor='', offline=False, verify=True, check_uid=True,
+                    testmode=False, attachments=[], keyid='', body=None,
+                    bodyfile=None, smtptls=False, smtpuser='', smtppasswd='')
 
     if not sys.stdin.isatty():
         defaults.update({ 'dontquery' : True, 'notatty' : True,
@@ -684,6 +683,10 @@ def main():
     parser.add_option('--email', help='specify originating email address')
     parser.add_option('--realname', help='specify real name for your report')
     parser.add_option('--smtphost', help='specify SMTP server for mailing')
+    parser.add_option('--tls', help='use TLS to talk to SMTP servers',
+                      dest="smtptls", action='store_true')
+    parser.add_option('--smtpuser', help='username to use for SMTP')
+    parser.add_option('--smtppasswd', help='password to use for SMTP')
     parser.add_option('--replyto', '--reply-to', help='specify Reply-To '
                       'address for your report')
     parser.add_option('--query-source', action='store_true', dest='query_src',
@@ -1758,6 +1761,15 @@ orphaned for a long period of time are often removed from the archive.\n''')
         ewrite("Connecting to %s...\n", smtphost)
         try:
             conn = smtplib.SMTP(smtphost)
+            if options.smtptls:
+                conn.starttls()
+            if options.smtpuser:
+                smtppasswd = options.smtppasswd
+                if not smtppasswd:
+                    smtppasswd = ui.get_password(
+                        'Enter SMTP password for %s@%s: ' %
+                        (smtpuser, smtphost))
+                conn.login(smtpuser, smtppasswd)
             conn.sendmail(fromaddr, toaddrs, smtp_message)
             conn.quit()
         except (socket.error, smtplib.SMTPException), x:
