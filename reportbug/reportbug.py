@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.8 2004-03-13 02:37:51 lawrencc Exp $
+# $Id: reportbug.py,v 1.9 2004-04-06 07:27:56 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -805,7 +805,8 @@ def cleanup_msg(dmessage, headers, type):
             newheaders.append(mob.groups())
 
     for line in dmessage.split(os.linesep):
-        if not line and parsing: parsing = False
+        if not line and parsing:
+            parsing = False
         elif parsing:
             mob = headerre.match(line)
             # GNATS and debbugs have different ideas of what a pseudoheader
