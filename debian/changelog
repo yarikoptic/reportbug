@@ -1,3 +1,10 @@
+reportbug (2.55) unstable; urgency=low
+
+  * Add --exit-prompt option and use it in the menu entry.
+    (Closes: #239272)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 26 Mar 2004 18:31:01 -0600
+
 reportbug (2.54) unstable; urgency=low
 
   * Fix smtpuser code path: smtpuser -> options.smtpuser.
