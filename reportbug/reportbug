@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.27 2004-03-20 02:40:44 lawrencc Exp $
+# $Id: reportbug,v 1.28 2004-03-27 00:27:29 lawrencc Exp $
 
 import site
 
@@ -754,6 +754,8 @@ def main():
     parser.add_option('-I', '--no-check-installed', action='store_false',
                       default=True, dest='querydpkg',
                       help='don\'t check whether the package is installed')
+    parser.add_option('--exit-prompt', action='store_true', dest='exitprompt',
+                      help='prompt before exiting')
     (options, args) = parser.parse_args()
 
     if options.configure:
@@ -1837,6 +1839,10 @@ information to %s (e.g. %s), where n is the bug number.\n""",
     if filename and os.path.exists(filename) and not mua:
         # Message is misleading if an MUA is used.
         ewrite("A copy of the report is stored as: %s\n" % filename)
+
+    if options.exitprompt:
+        ui.get_string('Please press ENTER to exit reportbug: ')
+
     return
 
 if __name__ == '__main__':
