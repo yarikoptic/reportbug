@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_newt.py,v 1.3 2004-02-07 05:56:17 lawrencc Exp $
+# $Id: reportbug_ui_newt.py,v 1.4 2004-03-15 08:59:39 lawrencc Exp $
 
 import commands, string, sys, snack, re, debianbts
 from reportbug_exceptions import *
@@ -87,6 +87,11 @@ def newt_dialog(text, buttons=('Ok', 'Cancel'), width=50,
 def newt_msgbox(text, width=50, title="", screen=None):
     "Display a message and wait for an OK from the user."
     return newt_dialog(text, ['Ok'], width, title, screen)
+
+def long_message(message, *args):
+    if args:
+        message = message % tuple(args)
+    newt_msgbox(message)
 
 def newt_menu(text, height=20, width=60, menuheight=15, menu=None,
          title="", scroll=0, screen=None, startpos=1):
