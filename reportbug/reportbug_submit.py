@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.5 2004-09-19 08:15:57 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.6 2004-09-19 08:23:10 lawrencc Exp $
 
 import sys
 
@@ -301,7 +301,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         pipe = sys.stdout
     elif mua:
         pipe, filename = TempFile(prefix=tfprefix)
-    elif outfile or not os.path.exists(mta):
+    elif outfile or not mta or not os.path.exists(mta):
         msgname = outfile or ('/var/tmp/%s.bug' % package)
         if os.path.exists(msgname):
             try:
