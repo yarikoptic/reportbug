@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.58 2004-10-15 02:30:39 lawrencc Exp $
+# $Id: reportbug,v 1.59 2004-10-15 02:35:36 lawrencc Exp $
 
 import site
 
@@ -1015,6 +1015,7 @@ def main():
             if not packages and not pkgavail and not pack:
                 (tmp, pack) = find_package_for(package, notatty)
                 if pack:
+                    status = None
                     if not ui.yes_no(
                         "A package named '%s' does not appear to be installed "
                         "on your system; however, '%s' contains a file named "
