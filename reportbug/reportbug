@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.29 2004-03-29 22:34:56 lawrencc Exp $
+# $Id: reportbug,v 1.30 2004-05-21 10:32:37 lawrencc Exp $
 
 import site
 
@@ -997,6 +997,7 @@ def main():
                 if package != src:
                     ewrite("Getting status for %s...\n", package)
                     status = reportbug.get_package_status(package)
+                    pkgavail, installed = status[1], status[5]
                 else:
                     issource = True
             else:
