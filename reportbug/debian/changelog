@@ -1,3 +1,10 @@
+reportbug (3.8) unstable; urgency=low
+
+  * Drop references to bug(1) from man page.  (Closes: #293188)
+  * Don't send Bcc field in messages to any external programs.
+
+ --
+
 reportbug (3.7.1) unstable; urgency=low
 
   * Import sys call was forgotten in fix for #292340.
