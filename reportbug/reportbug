@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.40 2004-07-04 12:43:38 lawrencc Exp $
+# $Id: reportbug,v 1.41 2004-07-12 18:30:58 lawrencc Exp $
 
 import site
 
@@ -941,10 +941,17 @@ def main():
             if len(packages) > 0:
                 src = package
                 if len(packages) and not notatty:
-                    packages.append( (src, 'Source package') )
-                    package = ui.menu('Which of the following packages is the '
-                                      'bug in?', packages, empty_ok=True,
-                                      prompt='Select one of these packages: ')
+                    if src not in [x[0] for x in packages]:
+                        packages.append( (src, 'Source package') )
+                        
+                    if len(packages) > 1:
+                        package = ui.menu('Which of the following packages is '
+                                          'the bug in?', packages,
+                                          empty_ok=True,
+                                          prompt='Select one of these packages: ')
+                    else:
+                        package = packages[0][0]
+                        
                 if not package:
                     ewrite("No package specified; stopping.\n")
                     sys.exit(1)
