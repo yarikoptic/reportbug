@@ -7,7 +7,7 @@ reportbug (2.63) unstable; urgency=low
   * reportbug_ui_text.ewrite() now flushes output.  (Closes: #257534)
   * Make things more POSIXly-sound.  (Closes: #256101)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Sun,  4 Jul 2004 07:54:29 -0500
 
 reportbug (2.62) unstable; urgency=low
 
