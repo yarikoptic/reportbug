@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.10 2004-02-14 21:40:51 lawrencc Exp $
+# $Id: reportbug,v 1.11 2004-02-17 22:38:40 lawrencc Exp $
 
 import site
 
@@ -1009,7 +1009,7 @@ def main():
                     'A package named "%s" does not appear to be installed; do '
                     'you want to search for a similar-looking filename in '
                     'an installed package' % package,
-                    'Look for a file with a similar filename.'
+                    'Look for a file with a similar filename.',
                     'Continue filing with this package name.', True):
                     pkgavail = False
                 else:
