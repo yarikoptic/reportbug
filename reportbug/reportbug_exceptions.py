@@ -1,6 +1,6 @@
-# UI exceptions for reportbug
+# Exceptions for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2002 Chris Lawrence
+#   (C) 2002-04 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -17,6 +17,8 @@
 ##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
+#
+# $Id: reportbug_exceptions.py,v 1.2 2004-06-29 19:48:28 lawrencc Exp $
 
 class reportbug_exception(Exception):
     pass
@@ -37,8 +39,8 @@ class NoReport(reportbug_ui_exception):
     pass
 
 # Code is not implemented
-class NotImplemented(reportbug_ui_exception):
-    pass
+#class NotImplemented(reportbug_ui_exception):
+#    pass
 
 # Other exceptions
 # No network access
@@ -47,4 +49,8 @@ class NoNetwork(reportbug_exception):
 
 # Invalid regular expression
 class InvalidRegex(reportbug_exception):
+    pass
+
+# Lame empty exception used later to save some coding
+class NoMessage(reportbug_exception):
     pass
