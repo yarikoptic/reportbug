@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.35 2004-06-22 22:14:30 lawrencc Exp $
+# $Id: reportbug,v 1.36 2004-06-22 22:52:43 lawrencc Exp $
 
 import site
 
@@ -203,8 +203,12 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             for name in attachments:
                 ewrite(' %s\n', name)
 
+        subject = re.search('^Subject: ', message, re.M | re.I)
+        if not subject:
+            ewrite('No subject found in message.  Please edit again.\n')
+        
         menuopts = "Ynaceilmp"
-        if not changed: menuopts = "ynacEilmp"
+        if not changed or not subject: menuopts = "ynacEilmp"
 
         x = ui.select_options(prompt, menuopts,
                               {'y': 'Submit the bug report via email.',
@@ -244,7 +248,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             if ed:
                 editor = ed
         elif x == 'm':
-            mailers = [(x, "") for x in reportbug.MUA.keys()]
+            mailers = [(x, '') for x in reportbug.MUA.keys()]
             mailers.sort()
             mailer = ui.menu('Choose a mailer for your report', mailers,
                              'Select mailer: ', default='', empty_ok=True)
@@ -940,9 +944,10 @@ def main():
                 sys.exit(1)
         incfiles += '\n'
 
-    pkgavail = maintainer = ''
+    pkgavail = maintainer = origin = ''
     depends = []
     conffiles = []
+    reportinfo = None
     isvirtual = (package in sysinfo['otherpkgs'].keys() and
                  package not in sysinfo.get('nonvirtual', []))
     issource = installed = False
