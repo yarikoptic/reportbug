@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.4 2004-02-07 05:50:20 lawrencc Exp $
+# $Id: reportbug,v 1.5 2004-02-09 15:22:08 lawrencc Exp $
 
 import site
 
@@ -1679,7 +1679,10 @@ orphaned for a long period of time are often removed from the archive.\n''')
     elif options.outfile or not os.path.exists(options.mta):
         msgname = options.outfile or ('/var/tmp/%s.bug' % package)
         if os.path.exists(msgname):
-            os.rename(msgname, msgname+'~')
+            try:
+                os.rename(msgname, msgname+'~')
+            except OSError:
+                pass
         try:
             pipe = open_write_safe(msgname, 'w')
         except OSError:
