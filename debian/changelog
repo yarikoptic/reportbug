@@ -1,8 +1,12 @@
 reportbug (2.48) unstable; urgency=medium
 
+  * Add --body and --body-file options.  These options are provided to
+    make scripting of reportbug easier; they are strongly *discouraged*
+    for routine use.  (Closes: #233210)
   * Add --keyid option.  (Closes: #232896)
   * Improve wording of the "serious" severity.  (Closes: #233300)
   * Fix crashers related to #232590.  (Closes: #233026, #233299)
+  * Wrap the "check your email for the bug number" message.
 
  --
 
