@@ -1,11 +1,17 @@
 reportbug (3.3) unstable; urgency=low
 
-  * Correct option name for SMTP passowrd in reportbug.conf.
+  * Correct option name for SMTP password in reportbug.conf.
     (Closes: #284277)
   * Omit smtppasswd value from reportbug.conf included in bug reports
     filed against reportbug.  (Closes: #284391)
+  * Check attachments at prompt for readability and "fileness".
+    (Closes: #284528, #283148)
+  * Update patter to indicate that bug acks may take longer than a "few
+    minutes" to appear.  (Closes: #283644)
+  * Add French manual page.  (Closes: #281505)
+  * Add support for 'reportbug other'.  (Closes: #283035)
 
- -- Chris Lawrence <lawrencc@debian.org>  Mon,  6 Dec 2004 08:16:32 -0600
+ -- Chris Lawrence <lawrencc@debian.org>  Tue,  7 Dec 2004 05:41:55 -0600
 
 reportbug (3.2) unstable; urgency=low
 
