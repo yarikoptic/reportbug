@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.25 2004-03-08 07:12:00 lawrencc Exp $
+# $Id: reportbug,v 1.26 2004-03-13 02:37:51 lawrencc Exp $
 
 import site
 
@@ -1116,9 +1116,10 @@ def main():
     elif check_available and not (options.kudos or notatty or
                                   options.offline):
         ewrite('Checking for newer versions at packages.debian.org...\n')
+        arch = reportbug.get_arch()
         (avail, toonew) = checkversions.check_available(
             package, pkgversion, check_incoming=(mode > MODE_STANDARD),
-            http_proxy=options.http_proxy)
+            http_proxy=options.http_proxy, arch=arch)
         if toonew:
             if not ui.yes_no(
                 '\nYour version of %s (%s) is newer than that in Debian!\n'

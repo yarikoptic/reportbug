@@ -2,7 +2,7 @@
 # checkversions.py - Find if the installed version of a package is the latest
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2002-03 Chris Lawrence
+#   (C) 2002-04 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -20,6 +20,8 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
+# $Id: checkversions.py,v 1.2 2004-03-13 02:37:51 lawrencc Exp $
+#
 # Version ##VERSION##; see changelog for revision history
 
 import sgmllib, os, re, sys, urllib2
@@ -29,15 +31,16 @@ from reportbug_exceptions import *
 PACKAGES_URL = 'http://packages.debian.org/%s'
 INCOMING_URL = 'http://incoming.debian.org/'
 
-# The format is a table.  We take the rows that have two complete columns
-# only...
+# The format is an unordered list
 
 class PackagesParser(sgmllib.SGMLParser):
-    def __init__(self):
+    def __init__(self, arch='i386'):
         sgmllib.SGMLParser.__init__(self)
         self.versions = {}
         self.savedata = None
         self.row = None
+        self.arch = arch
+        self.dist = None
 
     # --- Formatter interface, taking care of 'savedata' mode;
     # shouldn't need to be overridden
@@ -56,37 +59,42 @@ class PackagesParser(sgmllib.SGMLParser):
         if not mode and data is not None: data = ' '.join(data.split())
         return data
 
-    def start_tr(self, attrs):
+    def start_li(self, attrs):
         if self.row is not None:
-            self.end_tr()
+            self.end_li()
         self.row = []
 
-    def end_tr(self):
-        if self.savedata:
-            self.end_td()
-        if self.row:
-            dist = self.row[0].strip()
-            if dist:
-                version = self.row[1].strip().split()[1]
-                self.versions[dist] = version
-        self.row = None
-
-    def start_td(self, attrs):
-        if self.savedata:
-            self.end_td()
+    def start_a(self, attrs):
         if self.row is not None:
             self.save_bgn()
 
-    def end_td(self):
-        if self.row is not None:
-            self.row.append(self.save_end())
+    def end_a(self):
+        if self.row is not None and self.savedata:
+            self.dist = self.save_end()
+
+    def lineend(self):
+        line = self.save_end().strip()
+        if self.arch in line.split(' '):
+            version = line.split(': ', 1)
+            self.versions[self.dist] = version[0]
+
+    def start_br(self, attrs):
+        if self.savedata:
+            self.lineend()
+        self.save_bgn()
+
+    def end_li(self):
+        if self.savedata:
+            self.lineend()
+        self.row = None
 
 class IncomingParser(sgmllib.SGMLParser):
-    def __init__(self, package):
+    def __init__(self, package, arch='i386'):
         sgmllib.SGMLParser.__init__(self)
         self.found = []
         self.savedata = None
-        self.package = re.compile(re.escape(package)+r'_([^_]+)_[^.]+.deb')
+        arch = r'(?:all|'+re.escape(arch)+')'
+        self.package = re.compile(re.escape(package)+r'_([^_]+)_'+arch+'.deb')
 
     def start_a(self, attrs):
         for attrib, value in attrs:
@@ -114,7 +122,7 @@ def later_version(a, b):
         return b
     return a
 
-def get_versions_available(package, dists=None, http_proxy=None):
+def get_versions_available(package, dists=None, http_proxy=None, arch='i386'):
     if not dists:
         dists = ('stable', 'testing', 'unstable')
 
@@ -128,7 +136,7 @@ def get_versions_available(package, dists=None, http_proxy=None):
     if not page:
         return {}
     
-    parser = PackagesParser()
+    parser = PackagesParser(arch)
     parser.feed(page.read())
     parser.close()
     page.close()
@@ -140,7 +148,7 @@ def get_versions_available(package, dists=None, http_proxy=None):
 
     return versions
 
-def get_incoming_version(package, http_proxy=None):
+def get_incoming_version(package, http_proxy=None, arch='i386'):
     try:
         page = open_url(INCOMING_URL, http_proxy)
     except NoNetwork:
@@ -151,7 +159,7 @@ def get_incoming_version(package, http_proxy=None):
     if not page:
         return None
     
-    parser = IncomingParser(package)
+    parser = IncomingParser(package, arch)
     parser.feed(page.read())
     parser.close()
     page.close()
@@ -161,16 +169,16 @@ def get_incoming_version(package, http_proxy=None):
     
     return None
 
-def check_available(package, version, dists=None, check_incoming=1,
-                    http_proxy=None):
+def check_available(package, version, dists=None, check_incoming=True,
+                    http_proxy=None, arch='i386'):
     avail = {}
 
     if check_incoming:
-        iv = get_incoming_version(package, http_proxy)
+        iv = get_incoming_version(package, http_proxy, arch)
         if iv:
             avail['incoming'] = iv
 
-    avail.update(get_versions_available(package, dists, http_proxy))
+    avail.update(get_versions_available(package, dists, http_proxy, arch))
 
     new = {}
     newer = 0
@@ -192,6 +200,6 @@ def check_available(package, version, dists=None, check_incoming=1,
     return new, False
 
 if __name__=='__main__':
-    print check_available('mozilla-browser', '2:1.5-3')
-    print check_available('reportbug', '2.39')
-    
+    print check_available('mozilla-browser', '2:1.5-3', arch='s390')
+    print check_available('reportbug', '2.51', arch='i386')
+    print check_available('dpkg', '1.10.2', arch='sparc')
