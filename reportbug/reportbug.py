@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.22 2004-10-15 02:40:05 lawrencc Exp $
+# $Id: reportbug.py,v 1.23 2004-10-20 12:34:05 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -610,9 +610,10 @@ def generate_blank_report(package, pkgversion, severity, justification,
         if setting == 'LANG':
             env = langsetting
         else:
-            env = os.environ.get(setting, langsetting)
+            env = '%s (charmap=%s)' % (os.environ.get(setting, langsetting), commands.getoutput("locale charmap"))
+
             if allsetting and env:
-                env = "%s (ignored: LC_ALL set to %s)" % (os.environ.get(setting, langsetting), allsetting)
+                env = "%s (ignored: LC_ALL set to %s)" % (env, allsetting)
             else:
                 env = allsetting or env
         locinfo.append('%s=%s' % (setting, env))

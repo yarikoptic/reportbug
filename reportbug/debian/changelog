@@ -1,3 +1,11 @@
+reportbug (3.0) unstable; urgency=low
+
+  * Apply locale information patch from Adeodato Simo.  (Closes: #277445)
+  * Prompt again for package version of uninstalled packages; this was an
+    unintentional bug.  (Closes: #276961)
+
+ --
+
 reportbug (2.99.6) unstable; urgency=low
 
   * Initialize src_name.  (Closes: #276260)
