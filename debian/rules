@@ -68,7 +68,7 @@ binary-arch: build install
 #	dh_installemacsen
 #	dh_installinit
 	dh_installcron
-	dh_installmanpages
+	dh_installman querybts.1 reportbug.1
 #	dh_undocumented
 	dh_installchangelogs 
 	dh_link
