@@ -21,9 +21,10 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.14 2004-06-29 19:42:30 lawrencc Exp $
+# $Id: reportbug.py,v 1.15 2004-06-29 20:27:42 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
+VERSION_NUMBER = "##VERSION##"
 COPYRIGHT = VERSION + '\nCopyright (C) 1999-2004 Chris Lawrence <lawrencc@debian.org>'
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
