@@ -1,8 +1,23 @@
-reportbug (2.44) unstable; urgency=low
+reportbug (2.46) unstable; urgency=medium
+
+  * Behave properly when told not to search for files.  (Closes: #232590)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 13 Feb 2004 17:45:46 -0600
+
+reportbug (2.45) unstable; urgency=medium
+
+  * Use message.as_string() one place where message is still an email
+    object.  (Closes: #232318)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 12 Feb 2004 04:56:49 -0600
+
+reportbug (2.44) unstable; urgency=medium
 
   * Catch exceptions in os.rename() calls.  (Closes: #231883)
+  * Properly handle potential exceptions in get_debian_release_info()
+    due to unknown releases.  (Closes: #232220)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Wed, 11 Feb 2004 13:15:17 -0600
 
 reportbug (2.43) unstable; urgency=low
 
