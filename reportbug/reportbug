@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.57 2004-10-01 08:22:17 lawrencc Exp $
+# $Id: reportbug,v 1.58 2004-10-15 02:30:39 lawrencc Exp $
 
 import site
 
@@ -920,7 +920,7 @@ def main():
                 sys.exit(1)
         incfiles += '\n'
 
-    pkgavail = maintainer = origin = ''
+    pkgavail = maintainer = origin = src_name = ''
     depends = []
     conffiles = []
     reportinfo = None
