@@ -1,3 +1,9 @@
+reportbug (2.56) unstable; urgency=medium
+
+  * Improve the robustness of the attachment code.  (Closes: #240815)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon, 29 Mar 2004 16:59:51 -0600
+
 reportbug (2.55) unstable; urgency=low
 
   * Add --exit-prompt option and use it in the menu entry.
