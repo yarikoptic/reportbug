@@ -1,3 +1,9 @@
+reportbug (3.6) unstable; urgency=low
+
+  * Add support for owner tags in WNPP bugs.  (Closes: #288268)
+
+ --
+
 reportbug (3.5) unstable; urgency=low
 
   * Fix line endings in reportbug.conf inclusion code.
