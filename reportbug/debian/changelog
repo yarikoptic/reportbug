@@ -1,3 +1,11 @@
+reportbug (3.5) unstable; urgency=low
+
+  * Fix line endings in reportbug.conf inclusion code.
+  * Allow reporting bugs on dummy/dependency packages with single
+    dependencies in advanced and expert modes.  (Closes: #286159)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 17 Dec 2004 22:00:56 -0600
+
 reportbug (3.4) unstable; urgency=low
 
   * Parse 'lsb_release -si' to decide what BTS to use if nothing else fits;
