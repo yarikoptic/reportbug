@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: rbtempfile.py,v 1.4 2004-09-13 01:05:32 lawrencc Exp $
+# $Id: rbtempfile.py,v 1.5 2004-09-13 01:13:10 lawrencc Exp $
 
 import os
 import tempfile
@@ -35,7 +35,8 @@ def tempfile_prefix(package=None, extra=None):
             package = extra
     
     if package:
-        'reportbug-%s-%s-%d-' % (package, time.strftime('%Y%m%d'), os.getpid())
+        return 'reportbug-%s-%s-%d-' % (
+            package, time.strftime('%Y%m%d'), os.getpid())
     return 'reportbug-%s-%d-' % (time.strftime('%Y%m%d'), os.getpid())
 
 template = tempfile_prefix()
