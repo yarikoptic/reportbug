@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Adapted from bits and pieces of /usr/bin/bug, to provide the functions
 # that package says are permitted.
@@ -58,5 +58,5 @@ yesno()
 
 export -f yesno
 
->&3
+#&>3
 $1 3>|$2
