@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.10 2004-11-08 08:20:00 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.11 2004-12-07 11:32:35 lawrencc Exp $
 
 import sys
 
@@ -411,7 +411,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
 receive the bug tracking number via email; you may then send any extra
 information to %s (e.g. %s), where n is the bug number.  Normally you
 will receive an acknowledgement via email including the bug report number
-within a few minutes.\n""",
+within an hour.\n""",
             (sysinfo['email'] % 'n'), (sysinfo['email'] % '999999'))
 
     # If we've stored more than one copy of the message, delete the
