@@ -1,3 +1,10 @@
+reportbug (2.49) unstable; urgency=low
+
+  * Skip the unknown policy warning, as snapshot.debian.net confuses this
+    code.  (Closes: #233587)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 28 Feb 2004 05:09:05 -0600
+
 reportbug (2.48) unstable; urgency=medium
 
   * Add --body and --body-file options.  These options are provided to
