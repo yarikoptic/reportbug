@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.16 2005-01-02 20:54:05 lawrencc Exp $
+# $Id: debianbts.py,v 1.17 2005-02-01 18:58:43 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -319,6 +319,10 @@ SYSTEMS = { 'debian' :
             'guug' :
             { 'name' : 'GUUG (German Unix User Group)',
               'email' : '%s@bugs.guug.de', 'query-dpkg' : False },
+            'grml' :
+            { 'name' : 'grml', 'email': '%s@bugs.grml.org',
+              'btsroot' : 'http://bugs.grml.org/',
+              'cgiroot' : 'http://bugs.grml.org/cgi-bin/' },
             }
 
 SYSTEMS['helixcode'] = SYSTEMS['ximian']
