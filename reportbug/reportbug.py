@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.5 2004-02-20 07:27:22 lawrencc Exp $
+# $Id: reportbug.py,v 1.6 2004-02-21 05:03:02 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -527,7 +527,8 @@ def get_debian_release_info():
                              DISTORDER.index(match.group(2)))
                 found[(pri, dist)] = True
             except ValueError:
-                warn += 'Found unknown policy: '+str(match.groups())+'\n'
+                #warn += 'Found unknown policy: '+str(match.groups())+'\n'
+                pass
 
         if found:
             dists = found.keys()
