@@ -2,7 +2,7 @@
 # debianbts.py - Routines to deal with the debbugs web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2003 Chris Lawrence
+#   (C) 1999-2004 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.3 2004-02-17 22:59:48 lawrencc Exp $
+# $Id: debianbts.py,v 1.4 2004-03-08 07:14:08 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
