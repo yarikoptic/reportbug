@@ -1,10 +1,31 @@
+reportbug (3.2) unstable; urgency=low
+
+  * Apply patch from Ian Wienand to improve the failure mode when an
+    attachment can't be included in the outgoing message.
+    (Closes: #226729, #265112)
+  * Fix another corner case where version numbers were being assumed for
+    uninstalled packages (although I can't completely confirm it fixes the
+    problem reported since the submitter foolishly removed the name of the
+    package that he had a problem with from his report).
+    (Closes: #279917)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  8 Nov 2004 02:22:05 -0600
+
+reportbug (3.1) unstable; urgency=low
+
+  * Trap message send failure in the pipe.write() call.  (Closes: #277870)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 24 Oct 2004 13:37:40 -0500
+
 reportbug (3.0) unstable; urgency=low
 
   * Apply locale information patch from Adeodato Simo.  (Closes: #277445)
   * Prompt again for package version of uninstalled packages; this was an
     unintentional bug.  (Closes: #276961)
+  * Clarify that the filter option is also a search option in the help.
+    (Closes: #277745)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 22 Oct 2004 06:18:29 -0500
 
 reportbug (2.99.6) unstable; urgency=low
 
