@@ -1,3 +1,10 @@
+reportbug (2.51) unstable; urgency=low
+
+  * Support reporting bugs in source packages that have exactly one binary
+    package (e.g. debian-installer).  (Closes: #236672)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  8 Mar 2004 01:15:24 -0600
+
 reportbug (2.50) unstable; urgency=low
 
   * Add support for completing package names at the enter a package name
