@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.6 2004-05-15 21:56:24 lawrencc Exp $
+# $Id: debianbts.py,v 1.7 2004-06-22 21:53:52 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -408,7 +408,8 @@ def parse_bts_url(url):
     if len(bits) != 2: return None
 
     type, loc = bits
-    if loc[0:2] == '//': loc = loc[2:]
+    if loc.startswith('//'): loc = loc[2:]
+    while loc.endswith('/'): loc = loc[:-1]
     return type, loc
 
 # Dynamically add any additional systems found
