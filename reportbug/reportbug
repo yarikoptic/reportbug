@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.37 2004-06-29 19:42:14 lawrencc Exp $
+# $Id: reportbug,v 1.38 2004-06-29 20:31:20 lawrencc Exp $
 
 import site
 
@@ -45,15 +45,7 @@ import textwrap
 
 from reportbug import VERSION, COPYRIGHT
 
-import email
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
-from email.MIMEAudio import MIMEAudio
-from email.MIMEImage import MIMEImage
-from email.MIMEBase import MIMEBase
-from email.MIMEMessage import MIMEMessage
-from email.Header import Header
-from email import Encoders
+import reportbug_submit
 
 # Ignore the f*cking deprecation warnings that slipped into a stable release
 #import warnings
@@ -70,10 +62,6 @@ import reportbug_ui_text as ui
 MIN_USER_ID = 250
 
 quietly = False
-
-# Lame empty exception used later to save some coding
-class NoMessage(Exception):
-    pass
 
 # Cheat for now.
 # ewrite() may put stuff on the status bar or in message boxes depending on UI
@@ -495,47 +483,6 @@ def offer_configuration(options):
     ui.long_message('Default preferences file written.  To reconfigure, '
                     're-run reportbug with the "--configure" option.\n')
 
-ascii_range = ''.join([chr(x) for x in range(32,127)])
-notascii = re.compile(r'[^'+re.escape(ascii_range)+']')
-notascii2 = re.compile(r'[^'+re.escape(ascii_range)+r'\s]')
-
-# Wrapper for MIMEText
-class BetterMIMEText(MIMEText):
-    def __init__(self, _text, _subtype='plain', _charset=None):
-        MIMEText.__init__(self, _text, _subtype, 'us-ascii')
-        # Only set the charset paraemeter to non-ASCII if the body
-        # includes unprintable characters
-        if notascii2.search(_text):
-            self.set_param('charset', _charset)
-
-def encode_if_needed(text, charset, encoding='q'):
-    needed = False
-    
-    if notascii.search(text):
-        # Fall back on something vaguely sensible if there are high chars
-        # and the encoding is us-ascii
-        if charset == 'us-ascii':
-            charset = 'iso-8859-15'
-        return Header(text, charset)
-    else:
-        return Header(text, 'us-ascii')
-
-def rfc2047_encode_address(addr, charset, mua=None):
-    newlist = []
-    addresses = rfc822.AddrlistClass(addr).getaddrlist()
-    for (realname, address) in addresses:
-        if realname:
-            newlist.append( email.Utils.formataddr(
-                (str(rfc2047_encode_header(realname, charset, mua)), address)))
-        else:
-            newlist.append( address )
-    return ', '.join(newlist)
-
-def rfc2047_encode_header(header, charset, mua=None):
-    if mua: return header
-    
-    return encode_if_needed(header, charset)
-
 def verify_option(option, opt, value, parser, *args):
     heading, valid = args
     if value == 'help':
@@ -885,6 +832,7 @@ def main():
         iface = 'reportbug_ui_'+options.interface
         exec 'import '+iface
         ui = eval(iface)
+        reportbug_submit.ui = ui
 
     if (reportbug.first_run() and not args):
         offer_configuration(options)
@@ -1583,45 +1531,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
     if sign:
         ewrite('Passing message to %s for signature...\n', sign)
-        if not pgp_addr:
-            pgp_addr = reportbug.get_email_addr(fromaddr)[1]
-
-        # Make the unsigned file first
-        (unsigned, file1) = TempFile(
-            prefix=('reportbug-unsigned-%s-%d-' % (package, os.getpid())) )
-        unsigned.write(body)
-        unsigned.close()
-
-        # Now make the signed file
-        (signed, file2) = TempFile(
-            prefix=('reportbug-signed-%s-%d-' % (package, os.getpid())))
-        signed.close()
-
-        if sign == 'gpg':
-            signcmd = "gpg --local-user '%s' --clearsign" % pgp_addr
-        else:
-            signcmd = "pgp -u '%s' -fast" % pgp_addr
-
-        signcmd += '<'+commands.mkarg(file1)+' >'+commands.mkarg(file2)
-        try:
-            os.system(signcmd)
-            x = file(file2, 'r')
-            signedbody = x.read()
-            x.close()
-
-            if os.path.exists(file1):
-                os.unlink(file1)
-            if os.path.exists(file2):
-                os.unlink(file2)
-
-            if not signedbody:
-                raise NoMessage
-            body = signedbody
-        except (NoMessage, IOError, OSError):
-            fh, tmpfile2 = TempFile(prefix="reportbug-")
-            fh.write(body)
-            fh.close()
-            ewrite('gpg/pgp failed; input file in %s\n', tmpfile2)
+        body = reportbug_submit.sign_message(body, fromaddr, package, pgp_addr,
+                                             sign)
+        if not body:
             sys.exit(1)
 
     if pseudoheaders:
@@ -1631,243 +1543,15 @@ orphaned for a long period of time are often removed from the archive.\n''')
     # newline in the message.  See #234963.
     body = body.rstrip('\n')+'\n'
 
-    if attachments and not mua:
-        import mimetypes
-        mimetypes.init()
-        
-        message = MIMEMultipart('mixed')
-        bodypart = BetterMIMEText(body, _charset=charset)
-        bodypart.add_header('Content-Disposition', 'inline')
-        message.preamble = 'This is a multi-part MIME message sent by reportbug.\n\n'
-        message.epilogue = ''
-        message.attach(bodypart)
-        for attachment in attachments:
-            try:
-                fp = file(attachment)
-                fp.close()
-            except EnvironmentError, x:
-                ewrite("Warning: opening '%s' failed: %s.\n", attachment,
-                       x.strerror)
-                continue
-            ctype = None
-            cset = charset
-            info = commands.getoutput('file --mime --brief' +
-                                       commands.mkarg(attachment) +
-                                      ' 2>/dev/null')
-            if info:
-                match = re.match(r'([^;, ]*)(,[^;]+)?(?:; )?(.*)', info)
-                if match:
-                    ctype, junk, extras = match.groups()
-                    match = re.search(r'charset=([^,]+|"[^,"]+")', extras)
-                    if match:
-                        cset = match.group(1)
-                    # If we didn't get a real MIME type, fall back
-                    if '/' not in ctype:
-                        ctype = None
-            # If file doesn't work, try to guess based on the extension
-            if not ctype:
-                ctype, encoding = mimetypes.guess_type(
-                    attachment, strict=False)
-            if not ctype:
-                ctype = 'application/octet-stream'
-
-            maintype, subtype = ctype.split('/', 1)
-            if maintype == 'text':
-                fp = file(attachment, 'rU')
-                part = BetterMIMEText(fp.read(), _subtype=subtype, 
-                                      _charset=cset)
-                fp.close()
-            elif maintype == 'message':
-                fp = file(attachment, 'rb')
-                part = MIMEMessage(email.message_from_file(fp),
-                                   _subtype=subtype)
-                fp.close()
-            elif maintype == 'image':
-                fp = file(attachment, 'rb')
-                part = MIMEImage(fp.read(), _subtype=subtype)
-                fp.close()
-            elif maintype == 'audio':
-                fp = file(attachment, 'rb')
-                part = MIMEAudio(fp.read(), _subtype=subtype)
-                fp.close()
-            else:
-                fp = file(attachment, 'rb')
-                part = MIMEBase(maintype, subtype)
-                part.set_payload(fp.read())
-                fp.close()
-                email.Encoders.encode_base64(part)
-            part.add_header('Content-Disposition', 'attachment',
-                            filename=os.path.basename(attachment))
-            message.attach(part)
-    else:
-        message = BetterMIMEText(body, _charset=charset)
-    
-    # Standard headers
-    message['From'] = rfc2047_encode_address(fromaddr, charset, mua)
-    message['To'] = rfc2047_encode_address(sendto, charset, mua)
-
-    for (header, value) in headers:
-        if header in ['From', 'To', 'Cc', 'Bcc', 'X-Debbugs-CC', 'Reply-To',
-                      'Mail-Followup-To']:
-            message[header] = rfc2047_encode_address(value, charset, mua)
-        else:
-            message[header] = rfc2047_encode_header(value, charset, mua)
-    
-    if ccaddr:
-        message['Cc'] = rfc2047_encode_address(ccaddr, charset, mua)
-
-    if bccaddr:
-        message['Bcc'] = rfc2047_encode_address(bccaddr, charset, mua)
-
-    replyto = os.environ.get("REPLYTO", options.replyto)
-    if replyto:
-        message['Reply-To'] = rfc2047_encode_address(replyto, charset, mua)
-
-    if mailing:
-        message['X-Mailer'] = VERSION
-        message['Date'] = email.Utils.formatdate(localtime=True)
-    elif mua and not (options.printonly or options.template):
-        message['X-Reportbug-Version'] = "##VERSION##"
-
-    failed = using_sendmail = False
-    msgname = ''
-    # Disable smtphost if mua is set
-    if mua and smtphost:
-        smtphost = ''
-
-    addrs = [str(x) for x in (message.get_all('To', []) +
-                              message.get_all('Cc', []) +
-                              message.get_all('Bcc', []))]
-    alist = email.Utils.getaddresses(addrs)
-
-    cclist = [str(x) for x in message.get_all('X-Debbugs-Cc', [])]
-    debbugs_cc = email.Utils.getaddresses(cclist)
-    if cclist:
-        del message['X-Debbugs-Cc']
-        addrlist = ', '.join(cclist)
-        message['X-Debbugs-Cc'] = rfc2047_encode_address(addrlist, charset, mua)
-
-    if options.template or options.printonly:
-        pipe = sys.stdout
-    elif mua:
-        pipe, filename = TempFile()
-    elif options.outfile or not os.path.exists(options.mta):
-        msgname = options.outfile or ('/var/tmp/%s.bug' % package)
-        if os.path.exists(msgname):
-            try:
-                os.rename(msgname, msgname+'~')
-            except OSError:
-                ewrite('Unable to rename existing %s as %s~\n',
-                       msgname, msgname)
-        try:
-            pipe = open_write_safe(msgname, 'w')
-        except OSError:
-            fh, newmsgname = TempFile(prefix=('reportbug-%s-%d-' %
-                                              (package, os.getpid())))
-            fh.write(message.as_string())
-            fh.close()
-            ewrite('Writing to %s failed; '
-                   'wrote bug report to %s\n', msgname, newmsgname)
-            msgname = newmsgname
-    elif not smtphost:
-        try:
-            x = os.getcwd()
-        except OSError:
-            os.chdir('/')
-        pipe = os.popen(options.mta+' -t -oi -oem', 'w')
-        using_sendmail = True
-
-    message = message.as_string()
-    if smtphost:
-        toaddrs = [x[1] for x in alist]
-        smtp_message = re.sub(r'(?m)^[.]', '..', message)
-
-        ewrite("Connecting to %s...\n", smtphost)
-        try:
-            conn = smtplib.SMTP(smtphost)
-            if options.smtptls:
-                conn.starttls()
-            if options.smtpuser:
-                smtppasswd = options.smtppasswd
-                if not smtppasswd:
-                    smtppasswd = ui.get_password(
-                        'Enter SMTP password for %s@%s: ' %
-                        (options.smtpuser, smtphost))
-                conn.login(options.smtpuser, smtppasswd)
-            conn.sendmail(fromaddr, toaddrs, smtp_message)
-            conn.quit()
-        except (socket.error, smtplib.SMTPException), x:
-            failed = True
-            ewrite('SMTP send failure: %s\n', x)
-            fh, msgname = TempFile(prefix=('reportbug-%s-%d-' %
-                                           (package, os.getpid())))
-            fh.write(message)
-            fh.close()
-            ewrite('Wrote bug report to %s\n', msgname)
-    else:
-        pipe.write(message)
-        if msgname:
-            ewrite("Bug report written as %s\n", msgname)
-
-        if pipe.close() and using_sendmail:
-            failed = True
-            fh, msgname = TempFile(prefix=('reportbug-%s-%d-' %
-                                           (package, os.getpid())))
-            fh.write(message)
-            fh.close()
-            ewrite('Wrote bug report to %s\n', msgname)
-
-    if mua:
-        for bit in mua.split():
-            if '%s' not in bit: break
-        ewrite("Spawning %s...\n", bit or mua)
-        if '%s' not in mua:
-            mua += ' %s'
-        system(mua % commands.mkarg(filename)[1:])
-    elif not failed and (using_sendmail or smtphost):
-        if options.kudos:
-            ewrite('\nMessage sent to: %s\n', sendto)
-        else:
-            ewrite("\nBug report submitted to: %s\n", sendto)
-
-        addresses = []
-        for addr in alist:
-            if addr[1] != rfc822.parseaddr(sendto)[1]:
-                addresses.append(addr)
-
-        if len(addresses):
-            ewrite("Copies sent to:\n")
-            for address in addresses:
-                ewrite('  %s\n', rfc822.dump_address_pair(address))
-
-        if debbugs_cc and rtype == 'debbugs':
-            ewrite("Copies will be sent after processing to:\n")
-            for address in debbugs_cc:
-                ewrite('  %s\n', rfc822.dump_address_pair(address))
-
-        if not (exinfo or options.kudos) and rtype == 'debbugs':
-            ewrite('\n')
-            ui.long_message(
-"""If you want to provide additional information, please wait to
-receive the bug tracking number via email; you may then send any extra
-information to %s (e.g. %s), where n is the bug number.\n""",
-            (sysinfo['email'] % 'n'), (sysinfo['email'] % '999999'))
-
-    # If we've stored more than one copy of the message, delete the
-    # one without the SMTP headers.
-    if os.path.exists(msgname) and os.path.exists(filename):
-        try:
-            os.unlink(filename)
-        except:
-            pass
-
-    if filename and os.path.exists(filename) and not mua:
-        # Message is misleading if an MUA is used.
-        ewrite("A copy of the report is stored as: %s\n" % filename)
+    reportbug_submit.send_report(
+        body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
+        headers, package, charset, mailing, sysinfo, rtype, exinfo,
+        options.replyto, options.printonly, options.template,
+        options.outfile, options.mta, options.kudos, options.smtptls,
+        smtphost, options.smtpuser, options.smtppasswd)
 
     if options.exitprompt:
         ui.get_string('Please press ENTER to exit reportbug: ')
-
     return
 
 if __name__ == '__main__':

@@ -1,3 +1,10 @@
+reportbug (2.63) unstable; urgency=low
+
+  * Refactor email and signing code into a separate module.  Thanks to Ha
+    Shao for doing most of the work.
+
+ --
+
 reportbug (2.62) unstable; urgency=low
 
   * Cope better with Origin fields in Packages file, since there seem to
