@@ -1,5 +1,7 @@
 reportbug (2.50) unstable; urgency=low
 
+  * Add support for completing package names at the enter a package name
+    prompt.
   * Move the calls to /usr/share/bug/* after the package check.
     (Closes: #236251)
 

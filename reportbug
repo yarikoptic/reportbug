@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.22 2004-03-05 16:11:39 lawrencc Exp $
+# $Id: reportbug,v 1.23 2004-03-05 17:13:46 lawrencc Exp $
 
 import site
 
@@ -331,7 +331,14 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
     else:
         prompt += '.'
     
-    package = ui.get_string(prompt, force_prompt=True)
+    options = []
+    pkglist = commands.getoutput('apt-cache pkgnames')
+    if pkglist:
+        options += pkglist.split()
+    if others:
+        options += others.keys()
+   
+    package = ui.get_string(prompt, options, force_prompt=True)
     if not package:
         return
     if others and package and package == 'other':
