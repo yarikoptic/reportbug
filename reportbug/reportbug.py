@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.16 2004-08-09 00:55:30 lawrencc Exp $
+# $Id: reportbug.py,v 1.17 2004-08-09 00:58:02 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -381,6 +381,9 @@ def get_source_package(package):
     return packages
 
 def get_package_info(packages):
+    if not packages:
+        return []
+    
     packinfo = get_dpkg_database()
     pkgname = r'(?:[\S]+(?:$|,\s+))'
 
