@@ -207,9 +207,8 @@ default), \fBstandard\fP, \fBadvanced\fP, and \fBexpert\fP.
 mode is designed to minimize prompting about things that "ordinary
 users" would be unlikely to know or care about, shifting the triage
 burden onto the maintainer.  Checking for new versions is only done
-for the stable distribution in this mode, and a prompt is included in
-the editor to provide a cue as to where the bug report should be
-typed.  It is currently the default mode.
+for the stable distribution in this mode.  It is currently the default
+mode.
 
 .B standard
 mode is more-or-less equivalent to the prompting that was provided by
@@ -222,8 +221,9 @@ mode is like \fBstandard\fP mode, but may include shortcuts suitable
 for more advanced users of Debian, without being as close to the metal
 (and potential flamage) as \fBexpert\fP mode.  (Currently, the only
 differences from \fBstandard\fP mode are that it assumes familiarity
-with the "incoming" queue and that it allows the reporting of bugs
-on "dependency" packages.)
+with the "incoming" queue; it allows the reporting of bugs on
+"dependency" packages; and it does not prompt where to insert the
+report text in the editor.)
 
 .B expert
 mode is designed to minimize prompts that are designed to discourage
