@@ -1,3 +1,11 @@
+reportbug (2.43) unstable; urgency=low
+
+  * Don't include the full path in the attachment filename sent in bug
+    reports.  Avoids nastiness with certain MUAs (*cough* mutt) that don't
+    truncate the path provided by the sender.
+
+ --
+
 reportbug (2.42) unstable; urgency=low
 
   * 'os' wasn't being imported in urlutils.py (for some reason, I thought
