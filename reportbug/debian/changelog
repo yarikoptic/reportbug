@@ -1,3 +1,24 @@
+reportbug (2.62) unstable; urgency=low
+
+  * Cope better with Origin fields in Packages file, since there seem to
+    be a lot more coming through now.  (Closes: #255754)
+  * Remove severity-inflation reduction code in novice mode; it was too
+    confusing, apparently.  Maybe reportbug should just refuse to run in
+    novice mode... (Closes: #254327, #255479)
+  * Don't include severity info or other cruft in bug followups.
+    (Closes: #255550)
+  * Hide sid tag, as it's not generally useful for end users.
+    (Closes: #252275)
+  * keyid was left out of CONFIG_ARGS accidentally.  (Closes: #255044)
+  * Just because debsums can't read a file doesn't stop reportbug from
+    working (unless you tell it to stop).  (Closes: #250397)
+  * Fix undefined locals when --package-version is used.  (Closes: #254818)
+  * Barf if no subject is found after calling the editor.
+    (Closes: #254687)
+  * Fix choose mailer menu.  (Closes: #253003)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 22 Jun 2004 17:53:43 -0500
+
 reportbug (2.61) unstable; urgency=low
 
   * Add support for the "report-with" header in bug control files.  Thanks
