@@ -1,3 +1,13 @@
+reportbug (3.4) unstable; urgency=low
+
+  * Parse 'lsb_release -si' to decide what BTS to use if nothing else fits;
+    any Origin or Bugs information in the control file will be obeyed first.
+    (This should be the final bit needed for transparent Ubuntu support.)
+  * Fix options.bts bug introduced in fixing #283035.  (Closes: #284811)
+  * reportbug.conf was fixed in 3.3.  (Closes: #284692)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Wed,  8 Dec 2004 19:38:17 -0600
+
 reportbug (3.3) unstable; urgency=low
 
   * Correct option name for SMTP password in reportbug.conf.
