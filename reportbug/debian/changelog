@@ -1,3 +1,10 @@
+reportbug (2.64) unstable; urgency=low
+
+  * Fix incorrect detection of some uninstalled binaries as source
+    packages.  (Closes: #259001)
+
+  --
+
 reportbug (2.63) unstable; urgency=low
 
   * Refactor email and signing code into a separate module.  Thanks to Ha
