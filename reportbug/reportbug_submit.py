@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.4 2004-09-19 08:00:27 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.5 2004-09-19 08:15:57 lawrencc Exp $
 
 import sys
 
@@ -234,7 +234,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 rtype='debbugs', exinfo=None, replyto=None, printonly=False,
                 template=False, outfile=None, mta='', kudos=False,
                 smtptls=False, smtphost='localhost',
-                smtpuser=None, smtppasswd=None):
+                smtpuser=None, smtppasswd=None, paranoid=False):
     '''Send a report.'''
 
     tfprefix = tempfile_prefix(package)
@@ -288,6 +288,14 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         addrlist = ', '.join(cclist)
         message['X-Debbugs-Cc'] = rfc2047_encode_address(addrlist, charset, mua)
 
+    message = message.as_string()
+    if paranoid:
+        pager = os.environ.get('PAGER', 'sensible-pager')
+        os.popen(pager, 'w').write(message)
+        if not ui.yes_no('Does your report seem satisfactory', 'Yes, send it.',
+                         'No, don\'t send it.'):
+            smtphost = mta = None
+            
     filename = None
     if template or printonly:
         pipe = sys.stdout
@@ -310,7 +318,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             ewrite('Writing to %s failed; '
                    'wrote bug report to %s\n', msgname, newmsgname)
             msgname = newmsgname
-    elif not smtphost:
+    elif mta and not smtphost:
         try:
             x = os.getcwd()
         except OSError:
@@ -322,7 +330,6 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             mta, commands.mkarg(faddr)), 'w')
         using_sendmail = True
 
-    message = message.as_string()
     if smtphost:
         toaddrs = [x[1] for x in alist]
         smtp_message = re.sub(r'(?m)^[.]', '..', message)
