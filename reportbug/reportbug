@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.3 2004-02-05 08:50:51 lawrencc Exp $
+# $Id: reportbug,v 1.4 2004-02-07 05:50:20 lawrencc Exp $
 
 import site
 
@@ -284,7 +284,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
     return file(filename).read()
 
 def find_package_for(filename, notatty=False, pathonly=False):
-    ewrite("Finding package for %s\n", filename)
+    ewrite("Finding package for '%s'...\n", filename)
     (newfilename, packages) = reportbug.find_package_for(filename, pathonly)
     if newfilename != filename:
         filename = newfilename
@@ -815,7 +815,7 @@ def main():
             ewrite("reportbug will not run as root non-interactively.\n")
             sys.exit(1)
 
-        if not uid or options.check_uid or mode < MODE_EXPERT:
+        if not uid or options.check_uid:
             if not uid:
                 message = "Running 'reportbug' as root is probably insecure!"
             else:
@@ -990,6 +990,16 @@ def main():
         if not installed and not notatty and not isvirtual and not issource:
             packages = reportbug.packages_providing(package)
             pack = None
+            if not packages:
+                if ui.yes_no(
+                    'A package named "%s" does not appear to be installed; do '
+                    'you want to search for a similar-looking filename in '
+                    'another package' % package,
+                    'Look for a file with a similar filename.'
+                    'Continue filing with this package name.', True):
+                    #ewrite("Package not installed; stopping.\n")
+                    pkgavail = False
+
             if not packages and not pkgavail:
                 (tmp, pack) = find_package_for(package, notatty)
                 if pack:
@@ -999,16 +1009,18 @@ def main():
                         "'%s'.  Do you want to file your report on the "
                         "package reportbug found" % (package, pack, tmp),
                         'Yes, use the package specified.',
-                        'No, look for another possible package.'):
-                        pack = None
+                        'No, give up the search.'):
+                        ewrite("Package not installed; stopping.\n")
+                        sys.exit(1)
+
             if pack:
                 foundfile, package = tmp, pack
                 ewrite("Getting status for %s...\n", package)
                 status = reportbug.get_package_status(package)
             elif not len(packages):
                 if not ui.yes_no(
-                    'This package does not appear to be installed; continue',
-                    'Ignore this problem and continue.',
+                    'This package does not appear to be installed; continue '
+                    'with this report', 'Ignore this problem and continue.',
                     'Exit without filing a report.', False):
                     ewrite("Package not installed; stopping.\n")
                     sys.exit(1)
