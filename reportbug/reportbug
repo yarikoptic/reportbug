@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.31 2004-05-21 10:34:09 lawrencc Exp $
+# $Id: reportbug,v 1.32 2004-05-21 10:38:46 lawrencc Exp $
 
 import site
 
@@ -603,8 +603,8 @@ def main():
                       callback_args=('Permitted report classes:',
                                      debianbts.CLASSLIST),
                       help='specify report class for GNATS BTSes')
-    #parser.add_option('-d', '--debug', action='store_const', const=DEBUGGER,
-    #                  dest='sendto', help='send report only to '+DEBUGGER)
+    parser.add_option('-d', '--debug', action='store_true', default=False,
+                      dest='debugmode', help='send report only to yourself')
     parser.add_option('--test', action="store_true", default=False,
                       dest="testmode",
                       help="operate in test mode (maintainer use only)")
@@ -768,6 +768,7 @@ def main():
         sys.exit(0)
 
     # These option values may get adjusted below, so give them a variable name.
+    sendto = options.sendto
     check_available = options.check_available
     dontquery = options.dontquery
     headers = options.headers or []
@@ -809,7 +810,7 @@ def main():
         taglist = []
 
     if options.testmode:
-        options.sendto = DEBUGGER
+        options.debugmode = True
         options.tags = ['none']
         check_available = False
         dontquery = True
@@ -912,7 +913,8 @@ def main():
 
     fromaddr = reportbug.get_user_id(options.email, options.realname)
     ewrite("Using '%s' as your from address.\n", fromaddr)
-
+    if options.debugmode:
+        sendto = fromaddr
 
     try:
         blah = u'hello'.encode(charset)
@@ -1197,7 +1199,6 @@ def main():
                 dontquery = True
             special = True
 
-    sendto = options.sendto
     exinfo = None
     if not (dontquery or notatty or options.kudos):
         pkg, src = package, issource
