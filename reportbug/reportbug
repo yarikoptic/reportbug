@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.38 2004-06-29 20:31:20 lawrencc Exp $
+# $Id: reportbug,v 1.39 2004-07-04 12:41:21 lawrencc Exp $
 
 import site
 
@@ -1046,11 +1046,19 @@ def main():
             presubj = buginfo+'/presubj'
 
         if os.path.isfile(buginfo+'/control'):
-            submitas, submitto, reportwith = reportbug.parse_bug_control_file(buginfo+
-                                                                  '/control')
+            submitas, submitto, reportwith = reportbug.parse_bug_control_file(
+                buginfo+'/control')
+
+    if submitas:
+        if reportwith:
+            if submitas not in reportwith:
+                reportwith = reportwith + (submitas,)
+        else:
+            reportwith = (submitas,)
+
     if reportwith:
         # Remove current package from report-with list
-        reportwith = filter(lambda x, p=package: x!=p,reportwith)
+        reportwith = [x for x in reportwith if x != package]
 
     if (pkgavail and options.verify and os.path.exists('/usr/bin/debsums')
         and not (notatty or options.kudos) and state == 'installed'):
