@@ -7,7 +7,8 @@ Build-Depends-Indep: debhelper (>> 4), python2.3 (>= 2.3-4)
 
 Package: reportbug
 Architecture: all
-Depends: python2.3, python2.3-iconvcodec
+Depends: python2.3
+Recommends: python2.3-cjkcodecs | python2.3-iconvcodec
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30)
 Description: Reports bugs in the Debian distribution
  reportbug is a tool designed to make the reporting of bugs in Debian
@@ -24,3 +25,9 @@ Description: Reports bugs in the Debian distribution
  reportbug is designed to be used on systems with an installed mail
  transport agent, like exim or sendmail; however, you can edit the
  configuration file and send reports using any available mail server.
+ .
+ If your system's users use locales with character sets other than
+ UTF-8 and ISO-8859-*, one of either python2.3-cjkcodecs or
+ python2.3-iconvcodec is required for proper operation.  For Asian
+ locales, the use of python2.3-cjkcodecs is preferred over the more
+ limited python2.3-iconvcodec.
