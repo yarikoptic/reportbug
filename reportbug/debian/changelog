@@ -1,3 +1,11 @@
+reportbug (2.99.4) unstable; urgency=low
+
+  * Add "paranoid" mode; shows the exact message that will be sent via
+    SMTP before it happens.  Also include a bit more chatter to clarify
+    how messages are being sent.  (Closes: #272306)
+
+ --
+
 reportbug (2.99.3) unstable; urgency=low
 
   * Move back to uploading to unstable, since any updates to sarge would
