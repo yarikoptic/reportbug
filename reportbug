@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.62 2004-11-08 08:18:18 lawrencc Exp $
+# $Id: reportbug,v 1.63 2004-12-07 11:29:21 lawrencc Exp $
 
 import site
 
@@ -218,18 +218,22 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     attachfile = ui.get_filename('Choose a file to attach: ')
                 if attachfile:
                     attachfile = os.path.expanduser(attachfile)
-                    if os.path.exists(attachfile):
+                    if os.access(attachfile, os.R_OK) and os.path.isfile(attachfile):
                         invalid = False
                         if x == 'i':
-                            fp = file(attachfile)
-                            message += '\n*** %s\n%s' % (attachfile, fp.read())
-                            fp.close()
-                            fp, filename2 = TempFile(
-                                prefix=tempfile_prefix(package))
-                            fp.write(message)
-                            fp.close()
-                            os.unlink(filename)
-                            filename = filename2
+                            try:
+                                fp = file(attachfile)
+                                message += '\n*** %s\n%s' % (attachfile, fp.read())
+                                fp.close()
+                                fp, filename2 = TempFile(
+                                    prefix=tempfile_prefix(package))
+                                fp.write(message)
+                                fp.close()
+                                os.unlink(filename)
+                                filename = filename2
+                            except (IOError, OSError), x:
+                                ewrite('Unable to attach file %s\n%s\n',
+                                       attachfile, str(x))
                         else:
                             attachments.append(attachfile)
                             skip_editing = True
