@@ -334,14 +334,16 @@ you will be prompted for a subject.
 Specify a severity level, from critical, grave, serious, important,
 normal, minor, and wishlist.
 .TP
-.B \-\-smtphost=HOST
+.B \-\-smtphost=HOST[:PORT]
 Use the mail transport agent (MTA) at
 .B HOST
 to send your report, instead of your local
 .B /usr/sbin/sendmail
 program.  This should generally be your ISP's outgoing mail server;
 you can also use 'localhost' if you have a working mail server running
-on your machine.
+on your machine.  If the
+.B PORT
+is omitted, the standard port for SMTP, port 25, is used.
 .TP
 .B \-\-tls
 If using SMTP, use Transport Layer Security (TLS) encryption to secure

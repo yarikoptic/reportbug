@@ -1,3 +1,10 @@
+reportbug (2.57) unstable; urgency=low
+
+  * Document that reportbug's --smtphost option also accepts an optional
+    port (e.g. '--smtphost mail.debian.org:3125').  (Closes: #243266)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 20 Apr 2004 17:34:28 -0500
+
 reportbug (2.56) unstable; urgency=medium
 
   * Improve the robustness of the attachment code.  (Closes: #240815)
