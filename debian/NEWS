@@ -15,10 +15,10 @@ reportbug (2.47) unstable; urgency=medium
   
     Users of other locales should use python2.3-iconvcodec.
   
-    In addition, reportbug will now issue a warning on startup if the
+  * In addition, reportbug will now issue a warning on startup if the
     encoders installed on your system are insufficient for encoding the
     character set used by your locale.  (Previously, this would lead to a
     mysterious crash with a "LookupError" later in the reporting process.)
 
- -- Chris Lawrence <lawrencc@debian.org>  Sat, 14 Feb 2004 15:33:41 -0600
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 14 Feb 2004 15:35:29 -0600
 
