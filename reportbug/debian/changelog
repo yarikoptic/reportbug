@@ -1,3 +1,9 @@
+reportbug (2.44) unstable; urgency=low
+
+  * Catch exceptions in os.rename() calls.  (Closes: #231883)
+
+ --
+
 reportbug (2.43) unstable; urgency=low
 
   * Don't include the full path in the attachment filename sent in bug
