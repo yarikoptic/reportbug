@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.24 2004-03-05 20:35:53 lawrencc Exp $
+# $Id: reportbug,v 1.25 2004-03-08 07:12:00 lawrencc Exp $
 
 import site
 
@@ -983,11 +983,7 @@ def main():
             packages = reportbug.get_source_package(package)
             if len(packages) > 0:
                 src = package
-                if len(packages) == 1:
-                    ewrite('Source package "%s" corresponds to '
-                           'binary package "%s".\n', package, packages[0][0])
-                    package = packages[0][0]
-                elif len(packages) and not notatty:
+                if len(packages) and not notatty:
                     packages.append( (src, 'Source package') )
                     package = ui.menu('Which of the following packages is the '
                                       'bug in?', packages, empty_ok=True,
