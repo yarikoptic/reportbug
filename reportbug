@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.61 2004-10-20 12:34:05 lawrencc Exp $
+# $Id: reportbug,v 1.62 2004-11-08 08:18:18 lawrencc Exp $
 
 import site
 
@@ -926,7 +926,7 @@ def main():
     reportinfo = None
     isvirtual = (package in sysinfo['otherpkgs'].keys() and
                  package not in sysinfo.get('nonvirtual', []))
-    issource = installed = False
+    issource = installed = usedavail = False
     status = None
     
     if not pkgversion and options.querydpkg and sysinfo['query-dpkg']:
@@ -1011,6 +1011,7 @@ def main():
                     ewrite("Getting available info for %s...\n", package)
                     status = reportbug.get_package_status(package, avail=True)
                     check_available = False
+                    usedavail = True
                     
             if not packages and not pkgavail and not pack:
                 (tmp, pack) = find_package_for(package, notatty)
@@ -1118,7 +1119,8 @@ def main():
                 ewrite("Package integrity check failed; stopping.\n")
                 sys.exit(1)
 
-    if not pkgversion or (not pkgavail and not options.pkgversion):
+    if not pkgversion or usedavail or (not pkgavail and
+                                       not options.pkgversion):
         if not (isvirtual or issource or notatty):
             pkgversion = ui.get_string('Please enter the version of the '
                                        'package this report applies to '
