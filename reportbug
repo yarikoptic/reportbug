@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.66 2004-12-09 01:31:36 lawrencc Exp $
+# $Id: reportbug,v 1.67 2004-12-18 04:01:23 lawrencc Exp $
 
 import site
 
@@ -954,9 +954,10 @@ def main():
                         newdepends.extend(x)
                     depends = newdepends
                     if len(depends) == 1:
-                        ewrite('Dependency package "%s" corresponds to '
+                        if mode < MODE_ADVANCED:
+                            ewrite('Dependency package "%s" corresponds to '
                                'actual package "%s".\n', package, depends[0])
-                        package = depends[0]
+                            package = depends[0]
                     else:
                         opts = [(x, reportbug.get_package_status(x)[10])
                                 for x in depends]
