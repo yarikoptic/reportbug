@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.15 2004-02-17 22:57:58 lawrencc Exp $
+# $Id: reportbug,v 1.16 2004-02-17 23:16:00 lawrencc Exp $
 
 import site
 
@@ -43,6 +43,7 @@ from rbtempfile import TempFile, open_write_safe
 from reportbug import MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD
 from reportbug_exceptions import *
 from optparse import OptionParser, OptionValueError
+import textwrap
 
 import email
 from email.MIMEMultipart import MIMEMultipart
@@ -568,7 +569,8 @@ def main():
         'sendto' : 'submit', 'mode' : 'novice', 'mta' : '/usr/sbin/sendmail',
         'check_available' : True, 'query_src' : True, 'debconf' : True,
         'editor' : '', 'offline' : False, 'verify' : True, 'check_uid' : True,
-        'testmode' : False, 'attachments' : [], keyid = '' }
+        'testmode' : False, 'attachments' : [], 'keyid' : '', 'body' : None,
+        'bodyfile' : None }
 
     if not sys.stdin.isatty():
         defaults.update({ 'dontquery' : True, 'notatty' : True,
@@ -734,6 +736,10 @@ def main():
     parser.add_option('--check-installed', action='store_true',
                       dest='querydpkg', help='check whether the specified '
                       'package is installed when filing a report (default)')
+    parser.add_option('--body', dest="body", type="string",
+                      help="specify the body for the report as a string")
+    parser.add_option('--body-file', dest="bodyfile", type="string",
+                      help="use the specified file as the body of the report")
     parser.add_option('-I', '--no-check-installed', action='store_false',
                       default=True, dest='querydpkg',
                       help='don\'t check whether the package is installed')
@@ -762,6 +768,15 @@ def main():
     rtype = options.type or sysinfo['type']
     attachments = options.attachments
     pgp_addr = options.keyid
+
+    if options.body:
+        body = textwrap.fill(options.body)
+    elif options.bodyfile:
+        try:
+            body = file(options.bodyfile).read()
+        except:
+            ewrite('Unable to read body from file %s.\n', options.bodyfile)
+            sys.exit(1)
 
     if options.queryonly:
         check_available = False
@@ -1159,7 +1174,7 @@ def main():
         headers.append('X-Debbugs-CC: '+', '.join(options.listcc))
 
     special = False
-    if not subject and not notatty:
+    if not body and not subject and not notatty:
         res = special_prompts(package, bts, ui)
         if res:
             (subject, severity, h, body, query) = res
@@ -1501,8 +1516,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
         fh.write(message)
         fh.close()
         oldmua = mua or options.mua
-        message = handle_editing(filename, message, options, sendto,
-                                 attachments, package)
+        if not options.body and not options.bodyfile:
+            message = handle_editing(filename, message, options, sendto,
+                                     attachments, package)
         if not oldmua and options.mua:
             mua = options.mua
         if mua:
