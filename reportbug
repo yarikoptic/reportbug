@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.20 2004-02-17 23:37:33 lawrencc Exp $
+# $Id: reportbug,v 1.21 2004-02-26 21:53:51 lawrencc Exp $
 
 import site
 
@@ -1599,6 +1599,10 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
     if pseudoheaders:
         body = '\n'.join(pseudoheaders)+'\n\n'+body
+
+    # Strip the body of useless whitespace at the end, then put a final
+    # newline in the message.  See #234963.
+    body = body.rstrip('\n')+'\n'
 
     if attachments and not mua:
         import mimetypes
