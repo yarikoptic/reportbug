@@ -1,10 +1,13 @@
-reportbug (2.65) unstable; urgency=low
+reportbug (2.99.0) experimental; urgency=low
 
+  * Upload to experimental since sarge is now frozen for base packages
+    (and there may be a need for a future RC upload).
   * Fix redirection problem in handle_bugscript that emerged due to bash
     3.0.  (Closes: #262557)
   * Add support for "RFH" in the WNPP codepath.  (Closes: #262593)
+  * Use dh_installman in rules file instead of dh_installmanpages.
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  2 Aug 2004 17:01:05 -0400
 
 reportbug (2.64) unstable; urgency=low
 
