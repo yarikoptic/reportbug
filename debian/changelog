@@ -2,6 +2,10 @@ reportbug (2.63) unstable; urgency=low
 
   * Refactor email and signing code into a separate module.  Thanks to Ha
     Shao for doing most of the work.
+  * Submit-As headers are now treated as a special case of Report-With.
+    (Closes: #257546)
+  * reportbug_ui_text.ewrite() now flushes output.  (Closes: #257534)
+  * Make things more POSIXly-sound.  (Closes: #256101)
 
  --
 

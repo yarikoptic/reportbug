@@ -48,7 +48,7 @@ submitted to (i.e. the Package: field of the report). This will be mainly
 used to redirect bugs in packages coming from a single source to where the
 maintainer likes to have them.
 
- This is done by having this line in /usr/share/bug/$package/control
+
 	Submit-As: $new-package
 
  Note that bug will not check if the $new-package exists as a valid package.
