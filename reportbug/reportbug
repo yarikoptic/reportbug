@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.44 2004-08-04 21:42:17 lawrencc Exp $
+# $Id: reportbug,v 1.45 2004-08-09 01:04:49 lawrencc Exp $
 
 import site
 
@@ -1210,6 +1210,12 @@ def main():
     else:
         bccaddr = os.environ.get('MAILBCC', fromaddr)
 
+    depinfo = ""
+    # Grab dependency list, removing version conditions.
+    if depends and not options.kudos:
+        ewrite("Looking up dependencies of %s...\n", package)
+        depinfo = reportbug.get_dependency_info(package, depends)
+
     if maintainer:
         lmaintainer = maintainer.decode('UTF-8', 'ignore').encode(charset,
                                                                   'ignore')
@@ -1229,19 +1235,14 @@ orphaned for a long period of time are often removed from the archive.\n''')
             ewrite('Unable to determine maintainer for %s; exiting.', package)
             sys.exit(1)
 
-    depinfo = ""
-    # Grab dependency list, removing version conditions.
-    if depends and not options.kudos:
-        ewrite("Getting dependency information for %s...\n", package)
-        depinfo = reportbug.get_dependency_info(package, depends)
-
     if reportwith and not options.kudos:
         for extrapackage in reportwith:
             ewrite("Getting status for related package %s...\n", extrapackage)
             extrastatus = reportbug.get_package_status(extrapackage)
-            extradepends = [x for x in extrastatus[2] if package not in x]
-            ewrite("Getting dependency information for related package %s...\n", extrapackage)
-            depinfo = depinfo + reportbug.get_dependency_info(extrapackage, extradepends)
+            if extrastatus[2]:
+                extradepends = [x for x in extrastatus[2] if package not in x]
+                ewrite("Looking up dependencies of related package %s...\n", extrapackage)
+                depinfo = depinfo + reportbug.get_dependency_info(extrapackage, extradepends)
 
     confinfo = []
     conftext = ''
