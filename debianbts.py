@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.2 2004-02-07 05:47:05 lawrencc Exp $
+# $Id: debianbts.py,v 1.3 2004-02-17 22:59:48 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -43,7 +43,9 @@ SEVERITIES = {
     'serious' : """is a severe violation of Debian policy (that is,
     the problem is a violation of a 'must' or 'required' directive);
     may or may not affect the usability of the package.  Note that non-severe
-    policy violations may be 'normal,' 'minor,' or 'wishlist' bugs.""",
+    policy violations may be 'normal,' 'minor,' or 'wishlist' bugs.
+    (Package maintainers may also designate other bugs as 'serious' and thus
+    release-critical; however, end users should not do so.)""",
     'important' : """a bug which has a major effect on the usability
     of a package, without rendering it completely unusable to
     everyone.""",
