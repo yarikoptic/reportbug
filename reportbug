@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.51 2004-09-13 01:39:57 lawrencc Exp $
+# $Id: reportbug,v 1.52 2004-09-13 01:49:25 lawrencc Exp $
 
 import site
 
@@ -1351,7 +1351,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
             ewrite("Rewriting subject to '%s'\n", subject)
 
     listcc = options.listcc
-    if not listcc and mode > MODE_STANDARD and rtype == 'debbugs':
+    if not listcc and mode > MODE_STANDARD and rtype == 'debbugs' and not options.testmode:
         listcc = []
         ewrite('\n')
         ui.long_message('Enter any additional addresses this report should be sent to; press ENTER after each address.  Press ENTER on a blank line to continue.')
