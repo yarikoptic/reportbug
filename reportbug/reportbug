@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.43 2004-07-29 00:27:59 lawrencc Exp $
+# $Id: reportbug,v 1.44 2004-08-04 21:42:17 lawrencc Exp $
 
 import site
 
@@ -1464,7 +1464,8 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
         fh, filename = TempFile()
         fh.close()
-        system(handler+' '+bugexec+' '+filename)
+        system('%s %s %s' % (handler, commands.mkarg(bugexec),
+                             commands.mkarg(filename)))
 
         addinfo = "\n-- Package-specific info:\n"+file(filename).read()
         os.unlink(filename)
