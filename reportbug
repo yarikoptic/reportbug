@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.59 2004-10-15 02:35:36 lawrencc Exp $
+# $Id: reportbug,v 1.60 2004-10-15 02:37:37 lawrencc Exp $
 
 import site
 
@@ -438,7 +438,7 @@ def offer_configuration(options):
         smtphost = ui.get_string(
             'Please enter the name of your SMTP host.  Usually it\'s called '
             'something like "mail.example.org" or "smtp.example.org". '
-            'Just press ENTER if you don\'t.',
+            'Just press ENTER if you don\'t have one or don\'t know.',
             options=[smtphost], force_prompt=True)
         if smtphost:
             stupidmode = False
