@@ -1,7 +1,7 @@
 #
 # Reportbug module - common functions for reportbug and greportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2003 Chris Lawrence
+#   Copyright (C) 1999-2004 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.7 2004-03-05 20:30:07 lawrencc Exp $
+# $Id: reportbug.py,v 1.8 2004-03-13 02:37:51 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -551,6 +551,16 @@ def get_debian_release_info():
 
     return debinfo
 
+def get_arch():
+    arch = commands.getoutput('COLUMNS=79 dpkg --print-installation-architecture 2>/dev/null')
+    if not arch:
+        un = os.uname()
+        arch = un[4]
+        arch = re.sub(r'i[456]86', 'i386', arch)
+        arch = re.sub(r's390x', 's390', arch)
+        arch = re.sub(r'ppc', 'powerpc', arch)
+    return arch
+
 def generate_blank_report(package, pkgversion, severity, justification,
                           depinfo, confinfo, foundfile='', incfiles='',
                           system='debian', exinfo=0, type=None, klass='',
@@ -560,7 +570,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
     debinfo = ''
     if debianbts.SYSTEMS[system]['query-dpkg']:
         debinfo += get_debian_release_info()
-        debarch = commands.getoutput('COLUMNS=79 dpkg --print-installation-architecture 2>/dev/null')
+        debarch = get_arch()
         if debarch:
             if utsmachine == debarch:
                 debinfo += 'Architecture: %s\n' % (debarch)
