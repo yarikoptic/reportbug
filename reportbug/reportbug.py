@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.2 2004-02-11 19:11:18 lawrencc Exp $
+# $Id: reportbug.py,v 1.3 2004-02-17 22:55:50 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -711,7 +711,7 @@ def parse_config_files():
                     args[token] = True
                 elif token in ('email', 'realname', 'replyto', 'http_proxy',
                                'smtphost', 'editor', 'mua', 'mta',
-                               'justification'):
+                               'justification', 'keyid'):
                     args[token] = lex.get_token()
                 elif token == 'sign':
                     token = lex.get_token().lower()
