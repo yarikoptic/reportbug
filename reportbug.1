@@ -284,6 +284,13 @@ so you can redirect it to a file or pipe it to another program.
 This option only outputs a template for a bug report; you will need to
 fill in the long description.
 .TP
+.B \-\-paranoid
+Show the contents of the message before it is sent, including all
+headers.  Automatically disabled if in template mode.
+.TP
+.B \-\-no\-paranoid
+Don't show the full contents of the message before it is sent (default).
+.TP
 .B \-\-pgp
 Attach a digital signature to the bug report using
 .B PGP
