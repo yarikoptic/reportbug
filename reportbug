@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.52 2004-09-13 01:49:25 lawrencc Exp $
+# $Id: reportbug,v 1.53 2004-09-16 04:42:26 lawrencc Exp $
 
 import site
 
@@ -871,8 +871,6 @@ def main():
         sys.exit(1)
     
     tfprefix = tempfile_prefix(package)
-    ewrite(tfprefix+'\n')
-
     if options.interface == 'text':
         ewrite('*** Welcome to reportbug.  Use ? for help at prompts. ***\n')
 
