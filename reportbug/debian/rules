@@ -33,7 +33,7 @@ install-stamp: build-stamp
 	dh_clean -k
 	dh_installdirs
 
-	@echo "s/##VERSION##/`head -1 debian/changelog | sed -e 's/[^(]*(\([^)]*\).*/\1/'`/g" > sed-script
+	@echo "s/##VERSION##/`head -n 1 debian/changelog | sed -e 's/[^(]*(\([^)]*\).*/\1/'`/g" > sed-script
 	cat sed-script
 
 	# Add here commands to install the package into debian/reportbug.

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Adapted from bits and pieces of /usr/bin/bug, to provide the functions
 # that package says are permitted.
@@ -37,13 +37,13 @@ yesno()
 		getkey
 
 		# if 'n'
-		if [ "$KEY" = "${YESNO:2:1}" -o "$KEY" = "${YESNO:3:1}" ]; then
+		if [ "$KEY" = "${YESNO:2:1}" ] || [ "$KEY" = "${YESNO:3:1}" ]; then
 			REPLY=nop
 			return
 		fi
 
 		# if 'y'
-		if [ "$KEY" = "${YESNO:0:1}" -o "$KEY" = "${YESNO:1:1}" ]; then
+		if [ "$KEY" = "${YESNO:0:1}" ] || [ "$KEY" = "${YESNO:1:1}" ]; then
 			REPLY=yep
 			return
 		fi
