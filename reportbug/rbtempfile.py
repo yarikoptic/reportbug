@@ -21,13 +21,24 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: rbtempfile.py,v 1.2 2004-09-13 00:50:00 lawrencc Exp $
+# $Id: rbtempfile.py,v 1.3 2004-09-13 00:55:36 lawrencc Exp $
 
 import os
 import tempfile
 import time
 
-template = 'reportbug-%d-%d-' % (time.strftime('%Y%m%d'), os.getpid())
+def tempfile_prefix(package=None, extra=None):
+    if extra:
+        if package:
+            package = '%s-%s' % (package, extra)
+        else:
+            package = extra
+    
+    if package:
+        'reportbug-%s-%d-%d-' % (package, time.strftime('%Y%m%d'), os.getpid())
+    return 'reportbug-%d-%d-' % (time.strftime('%Y%m%d'), os.getpid())
+
+template = tempfile_prefix()
 
 # Derived version of mkstemp that returns a Python file object
 _text_openflags = os.O_RDWR | os.O_CREAT | os.O_EXCL
