@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.9 2004-04-06 07:27:56 lawrencc Exp $
+# $Id: reportbug.py,v 1.10 2004-04-21 03:35:59 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -674,7 +674,7 @@ CONFIG_ARGS = (
     'replyto', 'http_proxy', 'smtphost', 'editor', 'debconf', 'justification',
     'sign', 'nocc', 'nocompress', 'dontquery', 'noconf', 'mirrors',
     'headers', 'interface', 'template', 'mode', 'check_available', 'query_src',
-    'printonly', 'offline', 'check_uid')
+    'printonly', 'offline', 'check_uid', 'smtptls', 'smtpuser', 'smtppasswd')
 
 MUA = {
     'mutt' : 'mutt -H',
