@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.6 2004-02-21 05:03:02 lawrencc Exp $
+# $Id: reportbug.py,v 1.7 2004-03-05 20:30:07 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -712,9 +712,11 @@ def parse_config_files():
                 elif token in ('printonly', 'template', 'offline'):
                     args[token] = True
                 elif token in ('email', 'realname', 'replyto', 'http_proxy',
-                               'smtphost', 'editor', 'mua', 'mta',
-                               'justification', 'keyid'):
+                               'smtphost', 'editor', 'mua', 'mta', 'smtpuser',
+                               'smtppasswd', 'justification', 'keyid'):
                     args[token] = lex.get_token()
+                elif token in ('no-smtptls', 'smtptls'):
+                    args['smtptls'] = (token == 'smtptls')
                 elif token == 'sign':
                     token = lex.get_token().lower()
                     if token in ('pgp', 'gpg'):
