@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.20 2004-09-30 05:20:30 lawrencc Exp $
+# $Id: reportbug.py,v 1.21 2004-09-30 05:26:14 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -136,7 +136,7 @@ def query_dpkg_for(filename):
     except OSError:
         os.chdir('/')
     searchfilename = glob_escape(filename)
-    pipe = os.popen("COLUMNS=79 dpkg --search '%s' 2>/dev/null" % searchfilename)
+    pipe = os.popen("COLUMNS=79 dpkg --search %s 2>/dev/null" % commands.mkarg(searchfilename))
     packages = {}
 
     for line in pipe:
@@ -517,7 +517,7 @@ def get_changed_config_files(conffiles, nocompress=False):
             confinfo[filename] = msg
             continue
 
-        filemd5 = commands.getoutput('md5sum ' + filename).split()[0]
+        filemd5 = commands.getoutput('md5sum ' + commands.mkarg(filename)).split()[0]
         if filemd5 == md5sum: continue
 
         changed.append(filename)
