@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.19 2004-09-30 05:04:00 lawrencc Exp $
+# $Id: reportbug.py,v 1.20 2004-09-30 05:20:30 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -220,6 +220,12 @@ def get_user_id(email='', realname=''):
             realname = info[4].split(',', 1)[0]
             # Convert & in gecos field 4 to capitalized logname: #224231
             realname = realname.replace('&', info[0].upper())
+
+    if not realname:
+        return email
+    
+    if re.match(r'[\w\s]+$', realname):
+        return '%s <%s>' % (realname, email)
 
     return rfc822.dump_address_pair( (realname, email) )
 
