@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.55 2004-09-19 08:20:38 lawrencc Exp $
+# $Id: reportbug,v 1.56 2004-09-30 05:21:52 lawrencc Exp $
 
 import site
 
@@ -927,6 +927,7 @@ def main():
     isvirtual = (package in sysinfo['otherpkgs'].keys() and
                  package not in sysinfo.get('nonvirtual', []))
     issource = installed = False
+    status = None
     
     if not pkgversion and options.querydpkg and sysinfo['query-dpkg']:
         ewrite("Getting status for %s...\n", package)
@@ -973,10 +974,10 @@ def main():
                         packages.append( (src, 'Source package') )
                         
                     if len(packages) > 1:
-                        package = ui.menu('Which of the following packages is '
-                                          'the bug in?', packages,
-                                          empty_ok=True,
-                                          prompt='Select one of these packages: ')
+                        package = ui.menu(
+                            'Which of the following packages is the bug in?',
+                            packages, empty_ok=True,
+                            prompt='Select one of these packages: ')
                     else:
                         package = packages[0][0]
                         
@@ -1006,6 +1007,10 @@ def main():
                     pkgavail = False
                 else:
                     pack = package
+                    packages = [(package, '')]
+                    ewrite("Getting available info for %s...\n", package)
+                    status = reportbug.get_package_status(package, avail=True)
+                    check_available = False
                     
             if not packages and not pkgavail and not pack:
                 (tmp, pack) = find_package_for(package, notatty)
@@ -1020,7 +1025,7 @@ def main():
                         ewrite("Package not installed; stopping.\n")
                         sys.exit(1)
 
-            if pack:
+            if not status and pack:
                 foundfile, package = tmp, pack
                 ewrite("Getting status for %s...\n", package)
                 status = reportbug.get_package_status(package)
@@ -1201,6 +1206,8 @@ def main():
         pkg, src = package, issource
         if options.query_src:
             src = True
+            if src_name:
+                pkg = src_name
         try:
             exinfo = ui.handle_bts_query(pkg, bts, options.mirrors,
                                          options.http_proxy, source=src)
