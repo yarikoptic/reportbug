@@ -68,8 +68,23 @@ bug report mail is send to.
 (Note: you probably should use dpkg's support for Origin and Bugs tags
 in lieu of this support.)
 
-Nicol·s Lichtmaier.-
+Nicol√°s Lichtmaier.-
 nick@debian.org
+
+Related packages
+================
+
+ Often programs are distributed across several different packages, for
+example an upstream package 'foo' may be packaged in Debian as foo, libfoo,
+foo-common and foo-data.  In such cases it can be useful to include related
+package information in bugreports, to minimise the need for 'moreinfo' requests
+to the submitter :) This is done by adding a "report-with" header to the
+control file.
+
+ report-with: foo libfoo foo-common foo-data
+
+Package information will be added to the bug report for each extra package
+listed.
 
 Addendum: Languages other than SH
 =================================

@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.10 2004-04-21 03:35:59 lawrencc Exp $
+# $Id: reportbug.py,v 1.11 2004-05-29 04:31:42 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -774,7 +774,7 @@ def parse_config_files():
     return args
 
 def parse_bug_control_file(filename):
-    submitas = submitto = None
+    submitas = submitto = reportwith = None
     fh = file(filename)
     for line in fh:
         line = line.strip()
@@ -787,8 +787,10 @@ def parse_bug_control_file(filename):
             submitas = data
         elif header == 'send-to':
             submitto = data
+        elif header == 'report-with':
+            reportwith = data.split(' ')
 
-    return submitas, submitto
+    return submitas, submitto, reportwith
 
 def cleanup_msg(dmessage, headers, type):
     pseudoheaders = []
