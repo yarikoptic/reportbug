@@ -13,8 +13,12 @@ reportbug (2.99.3) unstable; urgency=low
   * Add example X-Debbugs-No-Ack header to reportbug.conf.
     (Closes: #271316)
   * Add X-Debbugs-CC prompting with mode >= Advanced.  (Closes: #271135)
+  * Add HTTPBasicAuth and HTTPDigestAuth support in urlutils.py.
+    Patch from Bastian Kleineidam. (Closes: #269322)
+  * Change "pithy" to "concise" in the subject prompt.  (Closes: #267907)
+  * Improve ITP/RFP package found prompt.  (Closes: #267800)
 
- -- Chris Lawrence <lawrencc@debian.org>  Sun, 12 Sep 2004 20:32:38 -0500
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 12 Sep 2004 21:19:04 -0500
 
 reportbug (2.99.2) experimental; urgency=low
 

@@ -97,10 +97,13 @@ def urlopen(url, proxies=None, data=None):
 
     proxy_support = urllib2.ProxyHandler(proxies)
     if _opener is None:
+        pwd_manager = handlepasswd()
         handlers = [proxy_support,
             urllib2.UnknownHandler, HttpWithGzipHandler,
-            urllib2.ProxyBasicAuthHandler(handlepasswd()),
-            urllib2.ProxyDigestAuthHandler(handlepasswd()),
+            urllib2.HTTPBasicAuthHandler(pwd_manager),
+            urllib2.ProxyBasicAuthHandler(pwd_manager),
+            urllib2.HTTPDigestAuthHandler(pwd_manager),
+            urllib2.ProxyDigestAuthHandler(pwd_manager),
             urllib2.HTTPDefaultErrorHandler, urllib2.HTTPRedirectHandler,
         ]
         if hasattr(httplib, 'HTTPS'):
