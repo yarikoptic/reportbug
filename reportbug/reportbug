@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.18 2004-02-17 23:26:47 lawrencc Exp $
+# $Id: reportbug,v 1.19 2004-02-17 23:37:07 lawrencc Exp $
 
 import site
 
@@ -1799,7 +1799,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 ewrite('  %s\n', rfc822.dump_address_pair(address))
 
         if not (exinfo or options.kudos) and rtype == 'debbugs':
-            ewrite(
+            ui.long_message(
 """\nIf you want to provide additional information, please wait to
 receive the bug tracking number via email; you may then send any extra
 information to %s (e.g. %s), where n is the bug number.\n""",
