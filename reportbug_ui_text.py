@@ -60,7 +60,7 @@ def indent_wrap_text(text, starttext='', indent=0, linelen=None):
     text = ' '.join(text.split())
     output = textwrap.fill(text, width=linelen, initial_indent=starttext,
                            subsequent_indent=si)
-    if output[-1] == '\n':
+    if output.endswith('\n'):
         return output
     return output + '\n'
 
@@ -482,7 +482,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
     while category:
         scount = scount + 1
         catname, reports = category[0:2]
-        while catname[-1] == ':': catname = catname[:-1]
+        while catname.endswith(':'): catname = catname[:-1]
         total = len(reports)
 
         while len(reports):
@@ -678,7 +678,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
     while category:
         scount = scount + 1
         catname, reports = category[0:2]
-        while catname[-1] == ':': catname = catname[:-1]
+        while catname.endswith(':'): catname = catname[:-1]
         total = len(reports)
 
         while len(reports):
