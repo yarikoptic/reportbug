@@ -17,11 +17,6 @@ Using the
 option, you can also report bugs to other servers that use the Debian
 bug tracking system, \fBdebbugs\fP.
 .PP
-It is mostly compatible with
-.B bug
-from the user's point of view, but has a more extensive featureset
-intended to make reporting bugs as painless as possible.
-.PP
 You may specify either a package name or an absolute filename; if you
 use a filename, it must begin with a \fB/\fP to be recognized.  If you
 want \fBreportbug\fP to search the system for a filename, see the
@@ -467,15 +462,6 @@ should be a valid
 URL for a proxy server, including any required port number (simply
 specifying a hostname, or omitting a port other than 80, WILL NOT WORK).
 .SH NOTES
-The email that's sent out is somewhat different from that made by
-\fBbug\fP; in particular, the
-.B Architecture
-field is new (based on a suggestion by
-.B sam@debian.org
-in the
-.B bug
-wishlist).
-
 Python's getopt module is pickier than GNU getopt() about the order of
 command line arguments; all switches must be specified before the
 package name.
@@ -488,7 +474,5 @@ should probably be compatible with other bug tracking systems, like
 (used by Samba, AbiSource and FreeCiv) but it isn't.
 .SH "SEE ALSO"
 querybts(1)
-.SH "COMPARE WITH"
-bug(1)
 .SH AUTHOR
 Chris Lawrence <lawrencc@debian.org>.
