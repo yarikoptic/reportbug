@@ -339,6 +339,27 @@ program.  This should generally be your ISP's outgoing mail server;
 you can also use 'localhost' if you have a working mail server running
 on your machine.
 .TP
+.B \-\-tls
+If using SMTP, use Transport Layer Security (TLS) encryption to secure
+the connection to the mail server.  Some SMTP servers may require this
+option.
+.TP
+.B \-\-smtpuser=USERNAME
+If using SMTP, use the specified
+.B USERNAME
+for authentication.
+.TP
+.B \-\-smtppasswd=PASSWORD
+If using SMTP, use the specified
+.B PASSWORD
+for authentication.  If the password isn't specified on the command
+line or in the configuration file, a prompt will be displayed asking
+for it.
+
+Use of this option is insecure on multiuser systems.  Instead, you
+should set this option in .reportbugrc and ensure it is only readable
+by your user (e.g. with chmod 600 $HOME/.reportbugrc).
+.TP
 .B \-t TYPE, \-\-type=TYPE
 Specify the type of report to be submitted; currently accepts either
 gnats or debbugs.
