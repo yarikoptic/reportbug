@@ -4,6 +4,7 @@ reportbug (2.50) unstable; urgency=low
     prompt.
   * Move the calls to /usr/share/bug/* after the package check.
     (Closes: #236251)
+  * Add support for SMTP TLS and authentication.  (Closes: #236335)
 
  --
 
