@@ -135,7 +135,8 @@ specified FILENAME.  Specifying an absolute path with the \-f option
 .B \-g, \-\-gnupg, \-\-gpg
 Attach a digital signature to the bug report using
 .B GnuPG
-(the GNU Privacy Guard).
+(the GNU Privacy Guard).  (This argument will be ignored if you are
+using an MUA to edit and send your report.)
 .TP
 .B \-G, \-\-gnus
 Use the GNUS mail and news reader to send your report, rather than
@@ -287,7 +288,8 @@ fill in the long description.
 Attach a digital signature to the bug report using
 .B PGP
 (Pretty Good Privacy).  Please note, however, that the Debian project
-is phasing out the use of PGP in favor of GnuPG.
+is phasing out the use of PGP in favor of GnuPG.  (This argument will
+be ignored if using an MUA to edit and send your report.)
 .TP
 .B \-\-proxy=PROXY, \-\-http_proxy=PROXY
 Specify the WWW proxy server to use to handle the query of the bug
