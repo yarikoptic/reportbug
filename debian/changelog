@@ -1,3 +1,12 @@
+reportbug (2.99.2) experimental; urgency=low
+
+  * Fix problem where a package with no dependencies, if in the
+    Report-With list for a package, would pull in version info of
+    everything installed on your system.  (Closes: #264466)
+  * Warn that --gpg/--pgp is ignored in MUA and printonly modes.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun,  8 Aug 2004 21:23:10 -0400
+
 reportbug (2.99.1) experimental; urgency=low
 
   * Fix stupid typos.  (Closes: #263459, #263460)
