@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.12 2005-02-01 18:55:13 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.13 2005-03-10 19:22:56 lawrencc Exp $
 
 import sys
 
@@ -294,10 +294,11 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         message['X-Debbugs-Cc'] = rfc2047_encode_address(addrlist, charset, mua)
 
     # Drop any Bcc headers from the message to be sent
-    try:
-        del message['Bcc']
-    except:
-        pass
+    if not outfile and not mua:
+        try:
+            del message['Bcc']
+        except:
+            pass
 
     message = message.as_string()
     if paranoid and not (template or printonly):
@@ -335,10 +336,13 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         except OSError:
             os.chdir('/')
 
+        malist = [commands.mkarg(a[1]) for a in alist]
+        jalist = ','.join(malist)
+        
         faddr = rfc822.parseaddr(fromaddr)[1]
         ewrite("Sending message via %s...\n", mta)
-        pipe = os.popen('%s -f %s -t -oi -oem' % (
-            mta, commands.mkarg(faddr)), 'w')
+        pipe = os.popen('%s -f %s -oi -oem %s' % (
+            mta, commands.mkarg(faddr), jalist), 'w')
         using_sendmail = True
 
     if smtphost:
