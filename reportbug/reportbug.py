@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.12 2004-06-22 22:30:15 lawrencc Exp $
+# $Id: reportbug.py,v 1.13 2004-06-22 22:35:00 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -673,7 +673,7 @@ FILES = ('/etc/reportbug.conf', USERFILE)
 CONFIG_ARGS = (
     'sendto', 'severity', 'mua', 'mta', 'email', 'realname', 'bts', 'verify',
     'replyto', 'http_proxy', 'smtphost', 'editor', 'debconf', 'justification',
-    'sign', 'nocc', 'nocompress', 'dontquery', 'noconf', 'mirrors',
+    'sign', 'nocc', 'nocompress', 'dontquery', 'noconf', 'mirrors', 'keyid',
     'headers', 'interface', 'template', 'mode', 'check_available', 'query_src',
     'printonly', 'offline', 'check_uid', 'smtptls', 'smtpuser', 'smtppasswd')
 
