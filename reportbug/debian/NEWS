@@ -1,0 +1,24 @@
+reportbug (2.47) unstable; urgency=medium
+
+  * The dependency relationships between reportbug and Python's locale
+    support modules have changed in this version of reportbug:
+  
+    . python2.3-iconvcodec is now a Recommendation.
+    . python2.3-cjkcodec is now recommended as an alternative.
+  
+    Users of Unicode (UTF-*), ISO-8859-*, and KOI8 locales may use
+    reportbug without either module installed.  These encodings are
+    supported by the base install of Python 2.3.
+    
+    Users of Chinese, Japanese, and Korean-language locales who do not use
+    a UTF encoding should use python2.3-cjkcodec.
+  
+    Users of other locales should use python2.3-iconvcodec.
+  
+    In addition, reportbug will now issue a warning on startup if the
+    encoders installed on your system are insufficient for encoding the
+    character set used by your locale.  (Previously, this would lead to a
+    mysterious crash with a "LookupError" later in the reporting process.)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 14 Feb 2004 15:33:41 -0600
+
