@@ -24,6 +24,7 @@ from urlutils import launch_browser
 from types import StringTypes
 import dircache
 import glob
+import getpass
 
 try:
     import textwrap
@@ -199,6 +200,9 @@ def get_string(prompt, options=None, title=None, force_prompt=False,
         if default:
             return our_raw_input('[%s]> ' % default, options, completer) or default
         return our_raw_input('> ', options, completer)
+
+def get_password(prompt=None):
+    return getpass.getpass(prompt)
 
 def FilenameCompleter(text, i):
     paths = glob.glob(text+'*')
