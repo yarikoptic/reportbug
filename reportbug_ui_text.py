@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.7 2004-09-30 04:54:47 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.8 2004-09-30 04:55:31 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -440,8 +440,6 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
         ewrite('Querying %s bug tracking system for reports on %s%s...\n',
                debianbts.SYSTEMS[bts]['name'], ' '.join([str(x) for x in
                                                          package]), srcstr)
-               
-    #ewrite('(Use ? for help at prompts.)\n')
     bugs = []
 
     try:
