@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.6 2004-09-19 08:23:10 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.7 2004-09-19 08:27:16 lawrencc Exp $
 
 import sys
 
@@ -289,7 +289,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         message['X-Debbugs-Cc'] = rfc2047_encode_address(addrlist, charset, mua)
 
     message = message.as_string()
-    if paranoid:
+    if paranoid and not (template or printonly):
         pager = os.environ.get('PAGER', 'sensible-pager')
         os.popen(pager, 'w').write(message)
         if not ui.yes_no('Does your report seem satisfactory', 'Yes, send it.',
