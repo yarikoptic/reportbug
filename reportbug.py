@@ -1,7 +1,7 @@
 #
 # Reportbug module - common functions for reportbug and greportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2004 Chris Lawrence
+#   Copyright (C) 1999-2005 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.24 2004-12-23 07:50:52 lawrencc Exp $
+# $Id: reportbug.py,v 1.25 2005-01-02 20:54:05 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -39,7 +39,7 @@ STATUSDB = os.path.join(DPKGLIB, 'status')
 
 # Headers other than these become email headers for debbugs servers
 PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
-                 'Justification', 'Followup-For')
+                 'Justification', 'Followup-For', 'Owner')
 
 VALID_UIS = ('newt', 'text', 'gnome')
 #VALID_UIS = ('text', 'gnome')
@@ -588,7 +588,8 @@ def get_arch():
 def generate_blank_report(package, pkgversion, severity, justification,
                           depinfo, confinfo, foundfile='', incfiles='',
                           system='debian', exinfo=0, type=None, klass='',
-                          subject='', tags='', body='', mode=MODE_EXPERT):
+                          subject='', tags='', body='', mode=MODE_EXPERT,
+                          pseudos=None):
     un = os.uname()
     utsmachine = un[4]
     debinfo = ''
@@ -623,7 +624,11 @@ def generate_blank_report(package, pkgversion, severity, justification,
     if debianbts.SYSTEMS[system].has_key('namefmt'):
         package = debianbts.SYSTEMS[system]['namefmt'] % package
 
-    headers = ''
+    if pseudos:
+        headers = '\n'.join(pseudos)+'\n'
+    else:
+        headers = ''
+    
     if pkgversion:
         headers += 'Version: %s\n' % pkgversion
 
