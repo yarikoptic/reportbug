@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.1.1.1 2004-02-05 04:29:10 lawrencc Exp $
+# $Id: reportbug,v 1.2 2004-02-05 08:35:01 lawrencc Exp $
 
 import site
 
@@ -1610,7 +1610,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 fp.close()
                 email.Encoders.encode_base64(part)
             part.add_header('Content-Disposition', 'attachment',
-                            filename=attachment)
+                            filename=os.path.basename(attachment))
             message.attach(part)
     else:
         message = BetterMIMEText(body, _charset=charset)
