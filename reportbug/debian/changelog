@@ -1,3 +1,15 @@
+reportbug (2.47) unstable; urgency=medium
+
+  * Downgrade python2.3-iconvcodec to a recommendation.
+  * Recommend python2.3-cjkcodecs; since non-CJK users don't need the 1 MB
+    CJK codec for proper operation, a strict dependency on cjkcodecs is
+    inappropriate.  (Closes: #232642)
+  * Warn if the locale's specified encoding can't be handled by Python's
+    detected codecs.
+  * Document the recommendations in the control file and NEWS.Debian.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 14 Feb 2004 15:21:56 -0600
+
 reportbug (2.46) unstable; urgency=medium
 
   * Behave properly when told not to search for files.  (Closes: #232590)
