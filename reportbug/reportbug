@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.17 2004-02-17 23:17:34 lawrencc Exp $
+# $Id: reportbug,v 1.18 2004-02-17 23:26:47 lawrencc Exp $
 
 import site
 
@@ -778,6 +778,9 @@ def main():
         except:
             ewrite('Unable to read body from file %s.\n', options.bodyfile)
             sys.exit(1)
+
+    if body and not body.endswith('\n'):
+        body += '\n'
 
     if options.queryonly:
         check_available = False
