@@ -1,3 +1,12 @@
+reportbug (2.99.5) unstable; urgency=low
+
+  * Use source package name to query BTS when querying on source.
+    (Closes: #273209)
+  * Ensure shell parameters are escaped by calling commands.mkarg().
+    (Closes: #272897)
+
+ --
+
 reportbug (2.99.4) unstable; urgency=low
 
   * Add "paranoid" mode; shows the exact message that will be sent via
