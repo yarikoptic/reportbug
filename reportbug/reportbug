@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.21 2004-02-26 21:53:51 lawrencc Exp $
+# $Id: reportbug,v 1.22 2004-03-05 16:11:39 lawrencc Exp $
 
 import site
 
@@ -914,35 +914,6 @@ def main():
         ewrite("Detected character set: %s\n"
                "Please change your locale if this is incorrect.\n\n", charset)
 
-    buginfo = '/usr/share/bug/' + package
-    bugexec = submitas = submitto = presubj = None
-    if os.path.isfile(buginfo) and os.access(buginfo, os.X_OK):
-        bugexec = buginfo
-    elif os.path.isdir(buginfo):
-        if os.path.isfile(buginfo+'/script') and os.access(buginfo+'/script', os.X_OK):
-            bugexec = buginfo+'/script'
-
-        if os.path.isfile(buginfo+'/presubj'):
-            presubj = buginfo+'/presubj'
-
-        if os.path.isfile(buginfo+'/control'):
-            submitas, submitto = reportbug.parse_bug_control_file(buginfo+'/control')
-    elif os.path.isfile('/usr/share/bug/default/'+package) \
-         and os.access('/usr/share/bug/default/'+package, os.X_OK):
-        bugexec = '/usr/share/bug/default/'+package
-    elif os.path.isdir('/usr/share/bug/default/'+package):
-        buginfo = '/usr/share/bug/default/'+package
-        if os.path.isfile(buginfo+'/script') and os.access(buginfo+'/script',
-                                                           os.X_OK):
-            bugexec = buginfo+'/script'
-
-        if os.path.isfile(buginfo+'/presubj'):
-            presubj = buginfo+'/presubj'
-
-        if os.path.isfile(buginfo+'/control'):
-            submitas, submitto = reportbug.parse_bug_control_file(buginfo+
-                                                                  '/control')
-
     incfiles = ""
     if options.include:
         for f in options.include:
@@ -1084,6 +1055,35 @@ def main():
         (pkgversion, pkgavail, depends, conffiles, maintainer, installed,
          origin, vendor, reportinfo, priority, desc, src_name,
          fulldesc, state) = status
+
+    buginfo = '/usr/share/bug/' + package
+    bugexec = submitas = submitto = presubj = None
+    if os.path.isfile(buginfo) and os.access(buginfo, os.X_OK):
+        bugexec = buginfo
+    elif os.path.isdir(buginfo):
+        if os.path.isfile(buginfo+'/script') and os.access(buginfo+'/script', os.X_OK):
+            bugexec = buginfo+'/script'
+
+        if os.path.isfile(buginfo+'/presubj'):
+            presubj = buginfo+'/presubj'
+
+        if os.path.isfile(buginfo+'/control'):
+            submitas, submitto = reportbug.parse_bug_control_file(buginfo+'/control')
+    elif os.path.isfile('/usr/share/bug/default/'+package) \
+         and os.access('/usr/share/bug/default/'+package, os.X_OK):
+        bugexec = '/usr/share/bug/default/'+package
+    elif os.path.isdir('/usr/share/bug/default/'+package):
+        buginfo = '/usr/share/bug/default/'+package
+        if os.path.isfile(buginfo+'/script') and os.access(buginfo+'/script',
+                                                           os.X_OK):
+            bugexec = buginfo+'/script'
+
+        if os.path.isfile(buginfo+'/presubj'):
+            presubj = buginfo+'/presubj'
+
+        if os.path.isfile(buginfo+'/control'):
+            submitas, submitto = reportbug.parse_bug_control_file(buginfo+
+                                                                  '/control')
 
     if (pkgavail and options.verify and os.path.exists('/usr/bin/debsums')
         and not (notatty or options.kudos) and state == 'installed'):
