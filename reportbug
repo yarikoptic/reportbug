@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.34 2004-06-22 21:44:53 lawrencc Exp $
+# $Id: reportbug,v 1.35 2004-06-22 22:14:30 lawrencc Exp $
 
 import site
 
@@ -1165,13 +1165,13 @@ def main():
         ewrite("Will send report to %s (per request).\n",
                debianbts.SYSTEMS[bts]['name'])
     elif origin:
-        if origin == bts:
+        if origin.lower() == bts:
             ewrite("Package originates from %s.\n", vendor or origin)
             reportinfo = None
-        elif origin in debianbts.SYSTEMS.keys():
+        elif origin.lower() in debianbts.SYSTEMS.keys():
             ewrite("Package originates from %s; overriding your system "
                    "selection.\n", vendor or origin)
-            bts = origin
+            bts = origin.lower()
             reportinfo = None
         elif reportinfo:
             ewrite("Unknown origin %s; will send to %s.\n", origin,
