@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.15 2004-06-29 20:27:42 lawrencc Exp $
+# $Id: reportbug.py,v 1.16 2004-08-09 00:55:30 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -264,7 +264,7 @@ def get_package_status(package):
             if line[0] != '/':
                 confmode = False
             else:
-                conffiles.append(line.split())
+                conffiles = conffiles + (line.split(),)
 
         if versionre.match(line):
             (crud, pkgversion) = line.split(": ", 1)
@@ -314,9 +314,9 @@ def get_package_status(package):
     else:
         vendor = ''
 
-    info = (pkgversion, pkgavail, depends, conffiles, maintainer, installed,
-            origin, vendor, reportinfo, priority, desc, src_name,
-            os.linesep.join(fulldesc), state)
+    info = (pkgversion, pkgavail, tuple(depends), tuple(conffiles),
+            maintainer, installed, origin, vendor, reportinfo, priority,
+            desc, src_name, os.linesep.join(fulldesc), state)
     statuscache[package] = info
     return info
 
@@ -456,6 +456,9 @@ def packages_providing(package):
     return ret
 
 def get_dependency_info(package, depends):
+    if not depends:
+        return ('\n%s has no dependencies.\n' % package)
+
     dependencies = []
     for dep in depends:
         for bit in dep:
