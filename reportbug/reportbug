@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.14 2004-02-17 22:56:59 lawrencc Exp $
+# $Id: reportbug,v 1.15 2004-02-17 22:57:58 lawrencc Exp $
 
 import site
 
@@ -759,7 +759,7 @@ def main():
     smtphost = options.smtphost
     subject = options.subject
     sysinfo = debianbts.SYSTEMS[options.bts or 'debian']
-    type = options.type or sysinfo['type']
+    rtype = options.type or sysinfo['type']
     attachments = options.attachments
     pgp_addr = options.keyid
 
@@ -1141,18 +1141,18 @@ def main():
         elif reportinfo:
             ewrite("Unknown origin %s; will send to %s.\n", origin,
                    reportinfo[1])
-            type, submitto = reportinfo
+            rtype, submitto = reportinfo
         elif submitto:
             ewrite("Unknown origin %s; will send to %s.\n", origin, submitto)
         else:
             ewrite("Unknown origin %s; will send to %s.\n", origin, bts)
     elif reportinfo:
-        type, submitto = reportinfo
-        ewrite("Will use %s protocol talking to %s.\n", type, submitto)
+        rtype, submitto = reportinfo
+        ewrite("Will use %s protocol talking to %s.\n", rtype, submitto)
         dontquery = True
 
-    if type == 'mailto':
-        type = 'debbugs'
+    if rtype == 'mailto':
+        rtype = 'debbugs'
         dontquery = True
 
     if options.listcc:
@@ -1187,7 +1187,7 @@ def main():
                 'system.\nSend report directly to maintainer',
                 'Send the report to the maintainer (%s).' % maintainer,
                 'Send the report to the BTS anyway.'):
-                type = 'debbugs'
+                rtype = 'debbugs'
                 sendto = maintainer
         except NoBugs:
             ewrite('No bug reports found.\n')
@@ -1324,13 +1324,13 @@ orphaned for a long period of time are often removed from the archive.\n''')
             subject = package + ": " + subject
             ewrite("Rewriting subject to '%s'\n", subject)
 
-    if severity and type:
-        severity = debianbts.convert_severity(severity, type)
+    if severity and rtype:
+        severity = debianbts.convert_severity(severity, rtype)
 
     klass = options.klass
     if not notatty and not (exinfo or options.kudos):
         if not severity:
-            if type == 'gnats':
+            if rtype == 'gnats':
                 severities = debianbts.SEVERITIES_gnats
                 default = 'non-critical'
             else:
@@ -1348,7 +1348,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                                'Please select a severity level: ',
                                default=default, order=debianbts.SEVLIST)
 
-        if type == 'gnats':
+        if rtype == 'gnats':
             # Class of report
             klass = ui.menu("What sort of problem are you reporting?",
                             debianbts.CLASSES, 'Please select a class: ',
@@ -1357,7 +1357,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
     severity = severity or 'normal'
 
     justification = options.justification
-    if type == 'debbugs' and package != 'wnpp' and mode < MODE_EXPERT:
+    if rtype == 'debbugs' and package != 'wnpp' and mode < MODE_EXPERT:
         if severity in ('critical', 'grave'):
             justification = ui.menu(
                 'You are reporting a ' +severity+' bug; which of the '
@@ -1417,7 +1417,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
     TMPDIR = os.environ.get('TMPDIR', '/tmp')
     HOMEDIR = os.environ.get('HOME', '/')
 
-    if (type == 'debbugs' and not options.tags and
+    if (rtype == 'debbugs' and not options.tags and
         not (notatty or options.kudos or exinfo) and package != 'wnpp' and
         mode > MODE_NOVICE):
         # Multiple-choice checkbox
@@ -1463,7 +1463,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
     else:
         message = reportbug.generate_blank_report(
             submitas or package, pkgversion, severity, justification, depinfo,
-            conftext, foundfile, incfiles, bts, exinfo, type, klass, subject,
+            conftext, foundfile, incfiles, bts, exinfo, rtype, klass, subject,
             tags, body, mode)
 
     # Substitute server email address
@@ -1532,7 +1532,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 else:
                     break
 
-    body, headers, pseudoheaders = reportbug.cleanup_msg(message,headers,type)
+    body, headers, pseudoheaders = reportbug.cleanup_msg(message,headers,rtype)
 
     if sign:
         ewrite('Passing message to %s for signature...\n', sign)
@@ -1773,12 +1773,12 @@ orphaned for a long period of time are often removed from the archive.\n''')
             for address in addresses:
                 ewrite('  %s\n', rfc822.dump_address_pair(address))
 
-        if debbugs_cc and type == 'debbugs':
+        if debbugs_cc and rtype == 'debbugs':
             ewrite("Copies will be sent after processing to:\n")
             for address in debbugs_cc:
                 ewrite('  %s\n', rfc822.dump_address_pair(address))
 
-        if not (exinfo or options.kudos) and type == 'debbugs':
+        if not (exinfo or options.kudos) and rtype == 'debbugs':
             ewrite(
 """\nIf you want to provide additional information, please wait to
 receive the bug tracking number via email; you may then send any extra
