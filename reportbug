@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.70 2005-01-20 05:03:51 lawrencc Exp $
+# $Id: reportbug,v 1.71 2005-01-26 17:32:55 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1245,7 +1245,7 @@ def main():
         except NotImplemented:
             exinfo = None
         except NoNetwork:
-            ewrite('Unable to contact BTS; continuing anyway.\n')
+            sys.exit(1)
         except NoPackage:
             if not options.queryonly and maintainer and ui.yes_no(
                 'There is no record of this package in the bug tracking '
