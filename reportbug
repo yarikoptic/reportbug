@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.50 2004-09-13 01:31:13 lawrencc Exp $
+# $Id: reportbug,v 1.51 2004-09-13 01:39:57 lawrencc Exp $
 
 import site
 
@@ -1329,7 +1329,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         subject = ui.get_string(
             'Please briefly describe your problem (you can elaborate in '
             'a moment; an empty response will stop reportbug).  This '
-            'should be a pithy summary of what is wrong with the package, '
+            'should be a concise summary of what is wrong with the package, '
             'for example, "fails to send email" or "does not start with -q '
             'option specified."', force_prompt=True)
 
