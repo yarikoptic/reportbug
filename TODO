@@ -59,3 +59,5 @@ reportbug 3.x (2.99.x) things.
 8. Optionally display changelogs for new upstream versions.
    (See: #241552)  Perhaps it should cooperate with apt-listchanges
    somehow to do this?
+
+9. Improve MUA code to allow arbitrary arguments to MUAs; see #271084.
