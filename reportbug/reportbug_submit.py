@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.9 2004-10-24 18:35:21 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.10 2004-11-08 08:20:00 lawrencc Exp $
 
 import sys
 
@@ -168,6 +168,7 @@ def mime_attach(body, attachments, charset):
     message.preamble = 'This is a multi-part MIME message sent by reportbug.\n\n'
     message.epilogue = ''
     message.attach(bodypart)
+    failed = False
     for attachment in attachments:
         try:
             fp = file(attachment)
@@ -175,6 +176,7 @@ def mime_attach(body, attachments, charset):
         except EnvironmentError, x:
             ewrite("Warning: opening '%s' failed: %s.\n", attachment,
                    x.strerror)
+            failed = True
             continue
         ctype = None
         cset = charset
@@ -226,7 +228,7 @@ def mime_attach(body, attachments, charset):
         part.add_header('Content-Disposition', 'attachment',
                         filename=os.path.basename(attachment))
         message.attach(part)
-    return message
+    return (message, failed)
 
 def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 headers, package='x', charset="us-ascii", mailing=True,
@@ -237,9 +239,18 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 smtpuser=None, smtppasswd=None, paranoid=False):
     '''Send a report.'''
 
+    failed = using_sendmail = False
+    msgname = ''
+    # Disable smtphost if mua is set
+    if mua and smtphost:
+        smtphost = ''
+
     tfprefix = tempfile_prefix(package)
     if attachments and not mua:
-        message = mime_attach(body, attachments, charset)
+        (message, failed) = mime_attach(body, attachments, charset)
+        if failed:
+            ewrite("Error: Message creation failed, not sending\n")
+            mua = mta = smtphost = None
     else:
         message = BetterMIMEText(body, _charset=charset)
 
@@ -269,12 +280,6 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         message['Date'] = email.Utils.formatdate(localtime=True)
     elif mua and not (printonly or template):
         message['X-Reportbug-Version'] = VERSION_NUMBER
-
-    failed = using_sendmail = False
-    msgname = ''
-    # Disable smtphost if mua is set
-    if mua and smtphost:
-        smtphost = ''
 
     addrs = [str(x) for x in (message.get_all('To', []) +
                               message.get_all('Cc', []) +
