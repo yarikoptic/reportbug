@@ -1,3 +1,10 @@
+reportbug (2.59) unstable; urgency=low
+
+  * Replace some substring indexing with .endswith() calls.  This should
+    fix problems with the latest Python release.  (Closes: #249084)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 14 May 2004 18:35:58 -0500
+
 reportbug (2.58) unstable; urgency=low
 
   * I forgot to add the new smtp* options to CONFIG_ARGS.
