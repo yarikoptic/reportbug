@@ -1,2 +1,0 @@
-?package(reportbug):needs=text section=Apps/System\
-  title="reportbug" command="/usr/bin/reportbug" hints="Bug reporting"
