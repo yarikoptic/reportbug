@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.28 2004-03-27 00:27:29 lawrencc Exp $
+# $Id: reportbug,v 1.29 2004-03-29 22:34:56 lawrencc Exp $
 
 import site
 
@@ -1624,21 +1624,28 @@ orphaned for a long period of time are often removed from the archive.\n''')
         message.epilogue = ''
         message.attach(bodypart)
         for attachment in attachments:
-            if not os.path.isfile(attachment):
-                ewrite("Warning: can't find attachment '%s'.\n", attachment)
+            try:
+                fp = file(attachment)
+                fp.close()
+            except EnvironmentError, x:
+                ewrite("Warning: opening '%s' failed: %s.\n", attachment,
+                       x.strerror)
                 continue
             ctype = None
             cset = charset
-            if os.path.exists('/usr/bin/file'):
-                info = commands.getoutput('/usr/bin/file --mime --brief' +
-                                           commands.mkarg(attachment) +
-                                          ' 2>/dev/null')
+            info = commands.getoutput('file --mime --brief' +
+                                       commands.mkarg(attachment) +
+                                      ' 2>/dev/null')
+            if info:
                 match = re.match(r'([^;, ]*)(,[^;]+)?(?:; )?(.*)', info)
                 if match:
                     ctype, junk, extras = match.groups()
                     match = re.search(r'charset=([^,]+|"[^,"]+")', extras)
                     if match:
                         cset = match.group(1)
+                    # If we didn't get a real MIME type, fall back
+                    if '/' not in ctype:
+                        ctype = None
             # If file doesn't work, try to guess based on the extension
             if not ctype:
                 ctype, encoding = mimetypes.guess_type(
@@ -1648,12 +1655,12 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
             maintype, subtype = ctype.split('/', 1)
             if maintype == 'text':
-                fp = file(attachment)
+                fp = file(attachment, 'rU')
                 part = BetterMIMEText(fp.read(), _subtype=subtype, 
                                       _charset=cset)
                 fp.close()
             elif maintype == 'message':
-                fp = file(attachment)
+                fp = file(attachment, 'rb')
                 part = MIMEMessage(email.message_from_file(fp),
                                    _subtype=subtype)
                 fp.close()
