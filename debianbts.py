@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.11 2004-08-04 21:41:22 lawrencc Exp $
+# $Id: debianbts.py,v 1.12 2004-09-13 01:41:48 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -206,8 +206,9 @@ def handle_wnpp(package, bts, ui, online=True, http_proxy=None):
         if available and (not online or checkversions.check_available(
             package, '0', http_proxy=http_proxy)):
             if not ui.yes_no(
-                ('A package called %s already appears to exist; continue?' %
-                 package), 'Ignore this problem and continue.  If you have '
+                ('A package called %s already appears to exist (at least on '
+                 'your system); continue?' % package),
+                'Ignore this problem and continue.  If you have '
                 'already locally created a package with this name, this '
                 'warning message may have been produced in error.',
                 'Exit without filing a report.', default=0):
