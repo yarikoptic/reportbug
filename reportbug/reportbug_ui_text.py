@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.11 2004-09-30 05:13:04 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.12 2004-10-22 11:17:59 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -741,7 +741,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                     'q' : "I'm bored; quit please.",
                     's' : 'Skip remaining problems; file a new '
                     'report immediately.',
-		    'f' : 'Filter bug list using a pattern.',
+		    'f' : 'Filter (search) bug list using a pattern.',
 		    'u' : 'Up one level of filter.',
 		    't' : 'Top of the bug list (remove all filters).'}
                 if skipmsg:
