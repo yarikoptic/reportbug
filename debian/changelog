@@ -1,9 +1,20 @@
-reportbug (2.99.3) experimental; urgency=low
+reportbug (2.99.3) unstable; urgency=low
 
+  * Move back to uploading to unstable, since any updates to sarge would
+    go through testing-proposed-updates.
   * Use from address as envelope sender when using an MTA.
     (Closes: #270333)
+  * Include package name and date in all temporary file names.
+    (Closes: #270583)
+  * Document the removal of the severity-inflation code.
+    (Closes: #271067)
+  * Add quit possibility to all "yes/no" prompts.  (Closes: #271073)
+  * Fix wording of SMTP server information prompt.  (Closes: #270078)
+  * Add example X-Debbugs-No-Ack header to reportbug.conf.
+    (Closes: #271316)
+  * Add X-Debbugs-CC prompting with mode >= Advanced.  (Closes: #271135)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 12 Sep 2004 20:32:38 -0500
 
 reportbug (2.99.2) experimental; urgency=low
 
