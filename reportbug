@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.63 2004-12-07 11:29:21 lawrencc Exp $
+# $Id: reportbug,v 1.64 2004-12-07 11:43:35 lawrencc Exp $
 
 import site
 
@@ -886,6 +886,10 @@ def main():
         package = args[0]
         if package and package.startswith('/'):
             (foundfile, package) = find_package_for(package, notatty)
+    
+    others = debianbts.SYSTEMS[options.bts].get('otherpkgs')
+    if package == 'other' and others:
+        package = get_other_package_name(others)
 
     if not package:
         ewrite("No package specified; stopping.\n")
