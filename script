@@ -28,4 +28,4 @@ if os.path.exists(USERFILE):
             m = passwdre.match(line)
             if m:
                 line = '%s <omitted>' % m.group(1)
-            OUT.write(line)
+            print >> OUT, line
