@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.54 2004-09-19 08:04:46 lawrencc Exp $
+# $Id: reportbug,v 1.55 2004-09-19 08:20:38 lawrencc Exp $
 
 import site
 
@@ -543,7 +543,8 @@ def main():
                     check_available=True, query_src=True, debconf=True,
                     editor='', offline=False, verify=True, check_uid=True,
                     testmode=False, attachments=[], keyid='', body=None,
-                    bodyfile=None, smtptls=False, smtpuser='', smtppasswd='')
+                    bodyfile=None, smtptls=False, smtpuser='', smtppasswd='',
+                    paranoid=False)
 
     if not sys.stdin.isatty():
         defaults.update({ 'dontquery' : True, 'notatty' : True,
@@ -723,6 +724,12 @@ def main():
                       help='don\'t check whether the package is installed')
     parser.add_option('--exit-prompt', action='store_true', dest='exitprompt',
                       help='prompt before exiting')
+    parser.add_option('--paranoid', action='store_true', dest='paranoid',
+                      help='show contents of message before sending')
+    parser.add_option('--no-paranoid', action='store_false', dest='paranoid',
+                      help='don\'t show contents of message before sending '
+                      '(default)')
+    
     (options, args) = parser.parse_args()
 
     if options.configure:
@@ -1608,7 +1615,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         headers, package, charset, mailing, sysinfo, rtype, exinfo,
         options.replyto, options.printonly, options.template,
         options.outfile, options.mta, options.kudos, options.smtptls,
-        smtphost, options.smtpuser, options.smtppasswd)
+        smtphost, options.smtpuser, options.smtppasswd, options.paranoid)
 
     if options.exitprompt:
         ui.get_string('Please press ENTER to exit reportbug: ')

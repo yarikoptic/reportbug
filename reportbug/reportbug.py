@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.17 2004-08-09 00:58:02 lawrencc Exp $
+# $Id: reportbug.py,v 1.18 2004-09-19 08:20:39 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -685,7 +685,8 @@ CONFIG_ARGS = (
     'replyto', 'http_proxy', 'smtphost', 'editor', 'debconf', 'justification',
     'sign', 'nocc', 'nocompress', 'dontquery', 'noconf', 'mirrors', 'keyid',
     'headers', 'interface', 'template', 'mode', 'check_available', 'query_src',
-    'printonly', 'offline', 'check_uid', 'smtptls', 'smtpuser', 'smtppasswd')
+    'printonly', 'offline', 'check_uid', 'smtptls', 'smtpuser', 'smtppasswd',
+    'paranoid')
 
 MUA = {
     'mutt' : 'mutt -H',
@@ -777,6 +778,8 @@ def parse_config_files():
                     args['verify'] = (token == 'verify')
                 elif token in ('check-uid', 'no-check-uid'):
                     args['check_uid'] = (token == 'check-uid')
+                elif token in ('paranoid', 'no-paranoid'):
+                    args['paranoid'] = (token == 'paranoid')
                 else:
                     sys.stderr.write('Unrecognized token: %s\n' % token)
 
