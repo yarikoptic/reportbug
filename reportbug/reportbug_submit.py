@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.2 2004-09-07 00:13:57 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.3 2004-09-13 00:58:54 lawrencc Exp $
 
 import sys
 
@@ -38,8 +38,9 @@ import rfc822
 import smtplib
 import socket
 import debianbts
+import time
 
-from rbtempfile import TempFile, open_write_safe
+from rbtempfile import TempFile, open_write_safe, tempfile_prefix
 
 from reportbug_exceptions import *
 
@@ -121,14 +122,12 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
         pgp_addr = reportbug.get_email_addr(fromaddr)[1]
 
     # Make the unsigned file first
-    (unsigned, file1) = TempFile(
-        prefix=('reportbug-unsigned-%s-%d-' % (package, os.getpid())) )
+    (unsigned, file1) = TempFile(prefix=tempfile_prefix(package, 'unsigned'))
     unsigned.write(body)
     unsigned.close()
 
     # Now make the signed file
-    (signed, file2) = TempFile(
-        prefix=('reportbug-signed-%s-%d-' % (package, os.getpid())))
+    (signed, file2) = TempFile(prefix=tempfile_prefix(package, 'signed'))
     signed.close()
 
     if sign == 'gpg':
@@ -152,7 +151,7 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
             raise NoMessage
         body = signedbody
     except (NoMessage, IOError, OSError):
-        fh, tmpfile2 = TempFile(prefix="reportbug-")
+        fh, tmpfile2 = TempFile(prefix=tempfile_prefix(package))
         fh.write(body)
         fh.close()
         ewrite('gpg/pgp failed; input file in %s\n', tmpfile2)
@@ -238,6 +237,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 smtpuser=None, smtppasswd=None):
     '''Send a report.'''
 
+    tfprefix = tempfile_prefix(package)
     if attachments and not mua:
         message = mime_attach(body, attachments, charset)
     else:
@@ -292,7 +292,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
     if template or printonly:
         pipe = sys.stdout
     elif mua:
-        pipe, filename = TempFile()
+        pipe, filename = TempFile(prefix=tfprefix)
     elif outfile or not os.path.exists(mta):
         msgname = outfile or ('/var/tmp/%s.bug' % package)
         if os.path.exists(msgname):
@@ -304,8 +304,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         try:
             pipe = open_write_safe(msgname, 'w')
         except OSError:
-            fh, newmsgname = TempFile(prefix=('reportbug-%s-%d-' %
-                                              (package, os.getpid())))
+            fh, newmsgname = TempFile(prefix=tfprefix)
             fh.write(message.as_string())
             fh.close()
             ewrite('Writing to %s failed; '
@@ -343,8 +342,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         except (socket.error, smtplib.SMTPException), x:
             failed = True
             ewrite('SMTP send failure: %s\n', x)
-            fh, msgname = TempFile(prefix=('reportbug-%s-%d-' %
-                                           (package, os.getpid())))
+            fh, msgname = TempFile(prefix=tfprefix)
             fh.write(message)
             fh.close()
             ewrite('Wrote bug report to %s\n', msgname)
@@ -355,8 +353,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
 
         if pipe.close() and using_sendmail:
             failed = True
-            fh, msgname = TempFile(prefix=('reportbug-%s-%d-' %
-                                           (package, os.getpid())))
+            fh, msgname = TempFile(prefix=tfprefix)
             fh.write(message)
             fh.close()
             ewrite('Wrote bug report to %s\n', msgname)
