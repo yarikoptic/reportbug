@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.39 2004-07-04 12:41:21 lawrencc Exp $
+# $Id: reportbug,v 1.40 2004-07-04 12:43:38 lawrencc Exp $
 
 import site
 
@@ -1227,7 +1227,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         for extrapackage in reportwith:
             ewrite("Getting status for related package %s...\n", extrapackage)
             extrastatus = reportbug.get_package_status(extrapackage)
-            extradepends = filter(lambda x, p=package: p not in x, extrastatus[2])
+            extradepends = [x for x in extrastatus[2] if package not in x]
             ewrite("Getting dependency information for related package %s...\n", extrapackage)
             depinfo = depinfo + reportbug.get_dependency_info(extrapackage, extradepends)
 
