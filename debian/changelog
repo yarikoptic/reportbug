@@ -1,3 +1,14 @@
+reportbug (2.99.6) unstable; urgency=low
+
+  * Initialize src_name.  (Closes: #276260)
+  * Use from address instead of to address when calling sendmail -f.
+    (Closes: #275925)
+  * Fix package/filename search bug.  (Closes: #275677, #276222)
+  * Show the NEWBIELINE in standard mode.  (Closes: #275695)
+  * Revise SMTP server prompt yet again.  (Closes: #275576)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 14 Oct 2004 21:44:59 -0500
+
 reportbug (2.99.5) unstable; urgency=low
 
   * Use source package name to query BTS when querying on source.
