@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.65 2004-12-07 11:50:27 lawrencc Exp $
+# $Id: reportbug,v 1.66 2004-12-09 01:31:36 lawrencc Exp $
 
 import site
 
@@ -325,7 +325,7 @@ def get_other_package_name(others):
                    default='')
 
 def get_package_name(bts='debian', mode=MODE_EXPERT):
-    others = debianbts.SYSTEMS[bts]['otherpkgs']
+    others = debianbts.SYSTEMS[bts].get('otherpkgs')
     prompt = "Please enter the name of the package in which you have found "\
              "a problem"
     if others:
@@ -756,7 +756,8 @@ def main():
     severity = options.severity
     smtphost = options.smtphost
     subject = options.subject
-    sysinfo = debianbts.SYSTEMS[options.bts or 'debian']
+    bts = options.bts or 'debian'
+    sysinfo = debianbts.SYSTEMS[bts]
     rtype = options.type or sysinfo['type']
     attachments = options.attachments
     pgp_addr = options.keyid
@@ -873,7 +874,7 @@ def main():
     foundfile = None
     package = None
     if not len(args) and not options.searchfor and not notatty:
-        package = get_package_name(options.bts or 'debian', mode)
+        package = get_package_name(bts, mode)
     elif len(args) > 1:
         ewrite("Please report one bug at a time.\n")
         ewrite("[Did you forget to put all switches before the "
@@ -887,7 +888,7 @@ def main():
         if package and package.startswith('/'):
             (foundfile, package) = find_package_for(package, notatty)
     
-    others = debianbts.SYSTEMS[options.bts].get('otherpkgs')
+    others = debianbts.SYSTEMS[bts].get('otherpkgs')
     if package == 'other' and others:
         package = get_other_package_name(others)
 
@@ -1134,7 +1135,7 @@ def main():
                                        'package this report applies to '
                                        '(blank OK)', force_prompt=True)
     elif (check_available and not (options.kudos or notatty or options.offline)
-          and (not options.bts or (options.bts=='debian'))):
+          and bts=='debian'):
         ewrite('Checking for newer versions at packages.debian.org...\n')
         arch = reportbug.get_arch()
         (avail, toonew) = checkversions.check_available(
@@ -1175,7 +1176,7 @@ def main():
     if options.bts:
         bts = options.bts
         ewrite("Will send report to %s (per request).\n",
-               debianbts.SYSTEMS[bts]['name'])
+               debianbts.SYSTEMS[bts].get('name', bts))
     elif origin:
         if origin.lower() == bts:
             ewrite("Package originates from %s.\n", vendor or origin)
@@ -1197,6 +1198,14 @@ def main():
         rtype, submitto = reportinfo
         ewrite("Will use %s protocol talking to %s.\n", rtype, submitto)
         dontquery = True
+    else:
+        lsbr = commands.getoutput('lsb_release -si 2>/dev/null')
+        if lsbr:
+            distro = lsbr.strip().lower()
+            if distro in ('debian', 'ubuntu'):
+                bts = distro
+                ewrite("Will send report to %s (per lsb_release).\n",
+                       debianbts.SYSTEMS[bts].get('name', bts))
 
     if rtype == 'mailto':
         rtype = 'debbugs'
