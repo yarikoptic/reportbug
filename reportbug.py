@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.18 2004-09-19 08:20:39 lawrencc Exp $
+# $Id: reportbug.py,v 1.19 2004-09-30 05:04:00 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -224,8 +224,8 @@ def get_user_id(email='', realname=''):
     return rfc822.dump_address_pair( (realname, email) )
 
 statuscache = {}
-def get_package_status(package):
-    if package in statuscache:
+def get_package_status(package, avail=False):
+    if not avail and package in statuscache:
         return statuscache[package]
     
     versionre = re.compile('Version: ')
@@ -253,8 +253,14 @@ def get_package_status(package):
         x = os.getcwd()
     except OSError:
         os.chdir('/')
-    output = commands.getoutput("COLUMNS=79 dpkg --status '%s' 2>/dev/null" %
-                                package)
+
+    packarg = commands.mkarg(package)
+    if avail:
+        output = commands.getoutput(
+            "COLUMNS=79 dpkg --print-avail %s 2>/dev/null" % packarg)
+    else:
+        output = commands.getoutput(
+            "COLUMNS=79 dpkg --status %s 2>/dev/null" % packarg)
 
     for line in output.split(os.linesep):
         line = line.rstrip()
@@ -317,7 +323,9 @@ def get_package_status(package):
     info = (pkgversion, pkgavail, tuple(depends), tuple(conffiles),
             maintainer, installed, origin, vendor, reportinfo, priority,
             desc, src_name, os.linesep.join(fulldesc), state)
-    statuscache[package] = info
+
+    if not avail:
+        statuscache[package] = info
     return info
 
 dbase = []
