@@ -115,7 +115,7 @@ If the \-f option is also specified, only search the path for the
 specified FILENAME.  Specifying an absolute path with the \-f option
 (i.e. one beginning with a /) overrides this behavior.
 .TP
-.B \-g, \-\-gnupg
+.B \-g, \-\-gnupg, \-\-gpg
 Attach a digital signature to the bug report using
 .B GnuPG
 (the GNU Privacy Guard).
@@ -147,7 +147,7 @@ know is not installed on your system.
 Check if the specified package is installed when filing reports.  (This
 is the default behavior of reportbug.)
 .TP
-.B \-j JUSTIFICATION, \-\-justification
+.B \-j JUSTIFICATION, \-\-justification=JUSTIFICATION
 Bugs in Debian that have "serious", "grave", or "critical" severities
 must meet certain criteria to be classified as such.  This option
 allows you to specify the justification for a release-critical bug,
@@ -159,6 +159,11 @@ than filing a bug report.  (You can also send kudos to
 \fIpackagename\fP@packages.debian.org, for packages in the Debian
 archive; however, this option uses the Maintainer address from the
 control file, so it works with other package sources too.)
+.TP
+.B \-K KEYID, \-\-keyid=KEYID
+Private key to use for PGP/GnuPG signatures.  If not specified, the
+first key in the secret keyring that matches your email address will
+be used.
 .TP
 .B \-\-license
 Show \fBreportbug\fP's copyright and license information on standard
