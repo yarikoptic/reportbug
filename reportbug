@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.53 2004-09-16 04:42:26 lawrencc Exp $
+# $Id: reportbug,v 1.54 2004-09-19 08:04:46 lawrencc Exp $
 
 import site
 
@@ -342,12 +342,22 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
     if others and package and package == 'other':
         package = get_other_package_name(others)
 
+    if mode < MODE_STANDARD:
+        if package == 'reportbug':
+            if not ui.yes_no('Is "reportbug" actually the package you are '
+                             'having problems with',
+                             'Yes, I am actually experiencing a problem with '
+                             'reportbug.',
+                             'No, I really meant to file a bug report on '
+                             'another package.'):
+                return get_package_name(bts, mode)
+
     if mode < MODE_EXPERT:
         if package in ('bugs.debian.org', 'debbugs'):
             if ui.yes_no('Are you reporting a problem with this program '
                          '(reportbug)', 'Yes, this is actually a bug in '
                          'reportbug.', 'No, this is really a problem in the '
-                         'BTS itself.'):
+                         'bug tracking system itself.'):
                 package = 'reportbug'
 
         if package in ('general', 'project', 'debian-general', 'base'):
