@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.21 2004-09-30 05:26:14 lawrencc Exp $
+# $Id: reportbug.py,v 1.22 2004-10-15 02:40:05 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -639,7 +639,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
         if foundfile:
             headers += 'File: %s\n' % foundfile
 
-    if mode < MODE_STANDARD:
+    if mode < MODE_ADVANCED:
         body = NEWBIELINE+'\n\n'+body
     
     report = "\n"
