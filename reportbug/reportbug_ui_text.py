@@ -1,6 +1,6 @@
 # Text user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2001-02 Chris Lawrence
+#   (C) 2001-04 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -17,6 +17,8 @@
 ##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
+#
+# $Id: reportbug_ui_text.py,v 1.5 2004-07-04 12:46:49 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -44,6 +46,7 @@ def ewrite(message, *args):
         return
 
     sys.stderr.write(message % args)
+    sys.stderr.flush()
 
 log_message = ewrite
 
