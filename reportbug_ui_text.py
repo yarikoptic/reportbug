@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.8 2004-09-30 04:55:31 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.9 2004-09-30 05:10:46 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -434,12 +434,14 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
         srcstr = " (source)"
         
     if isinstance(package, StringTypes):
-        ewrite('Querying %s bug tracking system for reports on %s%s...\n',
-               debianbts.SYSTEMS[bts]['name'], package, srcstr)
+        ui.long_message(
+            'Querying %s bug tracking system for reports on %s%s...\n',
+            debianbts.SYSTEMS[bts]['name'], package, srcstr)
     else:
-        ewrite('Querying %s bug tracking system for reports on %s%s...\n',
-               debianbts.SYSTEMS[bts]['name'], ' '.join([str(x) for x in
-                                                         package]), srcstr)
+        ui.long_message(
+            'Querying %s bug tracking system for reports on %s%s...\n',
+            debianbts.SYSTEMS[bts]['name'], ' '.join([str(x) for x in
+                                                      package]), srcstr)
     bugs = []
 
     try:
