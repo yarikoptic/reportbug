@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.3 2004-02-17 22:55:50 lawrencc Exp $
+# $Id: reportbug.py,v 1.4 2004-02-20 07:26:04 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -305,7 +305,6 @@ def get_package_status(package):
             vendor = debianbts.SYSTEMS[origin]['name']
             reportinfo = (debianbts.SYSTEMS[origin]['type'],
                           debianbts.SYSTEMS[origin]['btsroot'])
-            
         else:
             vendor = origin.capitalize()
     else:
@@ -528,7 +527,7 @@ def get_debian_release_info():
                              DISTORDER.index(match.group(2)))
                 found[(pri, dist)] = True
             except ValueError:
-                debinfo += 'Found unknown policy: '+str(match.groups())
+                debinfo += 'Found unknown policy: '+str(match.groups())+'\n'
 
         if found:
             dists = found.keys()
