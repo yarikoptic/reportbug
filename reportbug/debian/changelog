@@ -3,8 +3,18 @@ reportbug (2.43) unstable; urgency=low
   * Don't include the full path in the attachment filename sent in bug
     reports.  Avoids nastiness with certain MUAs (*cough* mutt) that don't
     truncate the path provided by the sender.
+  * Handle exceptions properly in the newt interface.
+    (Closes: #218455, #230000)
+  * Reorder the prompts so packages that no longer exist but are still in
+    the database don't block the ability to search for packages containing
+    particular files.  (Closes: #218041, #218384)
+  * Add extra text to the description of the 'serious' severity that
+    indicates that non-severe policy violations may be normal, minor, or
+    wishlist bugs.  (Closes: #225156)
+  * Allow no-check-uid config file option to work if reportbug is in a mode
+    less than "expert."  (Closes: #222228)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Sat,  7 Feb 2004 00:00:26 -0600
 
 reportbug (2.42) unstable; urgency=low
 
