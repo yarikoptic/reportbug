@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.7 2004-02-12 10:55:39 lawrencc Exp $
+# $Id: reportbug,v 1.8 2004-02-13 23:43:58 lawrencc Exp $
 
 import site
 
@@ -998,13 +998,14 @@ def main():
                 if ui.yes_no(
                     'A package named "%s" does not appear to be installed; do '
                     'you want to search for a similar-looking filename in '
-                    'another package' % package,
+                    'an installed package' % package,
                     'Look for a file with a similar filename.'
                     'Continue filing with this package name.', True):
-                    #ewrite("Package not installed; stopping.\n")
                     pkgavail = False
+                else:
+                    pack = package
 
-            if not packages and not pkgavail:
+            if not packages and not pkgavail and not pack:
                 (tmp, pack) = find_package_for(package, notatty)
                 if pack:
                     if not ui.yes_no(
