@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.1.1.1 2004-02-05 04:29:11 lawrencc Exp $
+# $Id: reportbug.py,v 1.2 2004-02-11 19:11:18 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -526,9 +526,9 @@ def get_debian_release_info():
             try:
                 pri, dist = (int(match.group(1)),
                              DISTORDER.index(match.group(2)))
+                found[(pri, dist)] = True
             except ValueError:
-                pass
-            found[(pri, dist)] = True
+                debinfo += 'Found unknown policy: '+str(match.groups())
 
         if found:
             dists = found.keys()
