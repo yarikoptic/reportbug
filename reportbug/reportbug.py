@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.11 2004-05-29 04:31:42 lawrencc Exp $
+# $Id: reportbug.py,v 1.12 2004-06-22 22:30:15 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -602,17 +602,18 @@ def generate_blank_report(package, pkgversion, severity, justification,
     if pkgversion:
         headers += 'Version: %s\n' % pkgversion
 
-    if severity:
-        headers += 'Severity: %s\n' % severity
+    if not exinfo:
+        if severity:
+            headers += 'Severity: %s\n' % severity
 
-    if justification:
-        headers += 'Justification: %s\n' % justification
+        if justification:
+            headers += 'Justification: %s\n' % justification
 
-    if tags:
-        headers += 'Tags: %s\n' % tags
+        if tags:
+            headers += 'Tags: %s\n' % tags
 
-    if foundfile:
-        headers += 'File: %s\n' % foundfile
+        if foundfile:
+            headers += 'File: %s\n' % foundfile
 
     if mode < MODE_STANDARD:
         body = NEWBIELINE+'\n\n'+body
