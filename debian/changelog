@@ -4,6 +4,9 @@ reportbug (2.99.5) unstable; urgency=low
     (Closes: #273209)
   * Ensure shell parameters are escaped by calling commands.mkarg().
     (Closes: #272897)
+  * Search for "all" architecture in addition to machine architecture at
+    packages.debian.org.  Thanks to Wolfgang Rohdewald for the patch.
+    (Closes: #274189, #271552)
 
  --
 
