@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.32 2004-05-21 10:38:46 lawrencc Exp $
+# $Id: reportbug,v 1.33 2004-05-29 04:31:42 lawrencc Exp $
 
 import site
 
@@ -1068,7 +1068,7 @@ def main():
          fulldesc, state) = status
 
     buginfo = '/usr/share/bug/' + package
-    bugexec = submitas = submitto = presubj = None
+    bugexec = submitas = submitto = presubj = reportwith = None
     if os.path.isfile(buginfo) and os.access(buginfo, os.X_OK):
         bugexec = buginfo
     elif os.path.isdir(buginfo):
@@ -1079,7 +1079,7 @@ def main():
             presubj = buginfo+'/presubj'
 
         if os.path.isfile(buginfo+'/control'):
-            submitas, submitto = reportbug.parse_bug_control_file(buginfo+'/control')
+            submitas, submitto, reportwith = reportbug.parse_bug_control_file(buginfo+'/control')
     elif os.path.isfile('/usr/share/bug/default/'+package) \
          and os.access('/usr/share/bug/default/'+package, os.X_OK):
         bugexec = '/usr/share/bug/default/'+package
@@ -1093,8 +1093,11 @@ def main():
             presubj = buginfo+'/presubj'
 
         if os.path.isfile(buginfo+'/control'):
-            submitas, submitto = reportbug.parse_bug_control_file(buginfo+
+            submitas, submitto, reportwith = reportbug.parse_bug_control_file(buginfo+
                                                                   '/control')
+    if reportwith:
+        # Remove current package from report-with list
+        reportwith = filter(lambda x, p=package: x!=p,reportwith)
 
     if (pkgavail and options.verify and os.path.exists('/usr/bin/debsums')
         and not (notatty or options.kudos) and state == 'installed'):
@@ -1159,14 +1162,15 @@ def main():
     bts = DEFAULT_BTS
     if options.bts:
         bts = options.bts
-        ewrite("Will send report to %s.\n", debianbts.SYSTEMS[bts]['name'])
+        ewrite("Will send report to %s (per request).\n",
+               debianbts.SYSTEMS[bts]['name'])
     elif origin:
         if origin == bts:
-            ewrite("Package originates from %s.\n", vendor)
+            ewrite("Package originates from %s.\n", vendor or origin)
             reportinfo = None
         elif origin in debianbts.SYSTEMS.keys():
             ewrite("Package originates from %s; overriding your system "
-                   "selection.\n", vendor)
+                   "selection.\n", vendor or origin)
             bts = origin
             reportinfo = None
         elif reportinfo:
@@ -1234,7 +1238,9 @@ def main():
         bccaddr = os.environ.get('MAILBCC', fromaddr)
 
     if maintainer:
-        ewrite("Maintainer for %s is '%s'.\n", package, maintainer)
+        lmaintainer = maintainer.decode('UTF-8', 'ignore').encode(charset,
+                                                                  'ignore')
+        ewrite("Maintainer for %s is '%s'.\n", package, lmaintainer)
         if 'qa.debian.org' in maintainer:
             ui.long_message('''\
 This package is currently "orphaned"; if you care a current or prospective
@@ -1255,6 +1261,14 @@ orphaned for a long period of time are often removed from the archive.\n''')
     if depends and not options.kudos:
         ewrite("Getting dependency information for %s...\n", package)
         depinfo = reportbug.get_dependency_info(package, depends)
+
+    if reportwith and not options.kudos:
+        for extrapackage in reportwith:
+            ewrite("Getting status for related package %s...\n", extrapackage)
+            extrastatus = reportbug.get_package_status(extrapackage)
+            extradepends = filter(lambda x, p=package: p not in x, extrastatus[2])
+            ewrite("Getting dependency information for related package %s...\n", extrapackage)
+            depinfo = depinfo + reportbug.get_dependency_info(extrapackage, extradepends)
 
     confinfo = []
     conftext = ''
@@ -1297,9 +1311,12 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
     if (options.debconf and os.path.exists('/usr/bin/debconf-show') and
         not options.kudos and installed):
+        showpkgs = package
+        if reportwith:
+            showpkgs += ' ' + ' '.join(reportwith)
         (status, output) = commands.getstatusoutput(
             'DEBCONF_SYSTEMRC=1 DEBCONF_NOWARNINGS=yes '
-            '/usr/bin/debconf-show %s' % package)
+            '/usr/bin/debconf-show %s' % showpkgs )
         if status:
             conftext += '\n-- debconf-show failed\n'
         elif output:
