@@ -38,6 +38,8 @@ reportbug 3.x (2.99.x) things.
    do that.  Forwarding and merging, which both can be major PITAs,
    will be helpful.  (See #157283)
 
+   ("devscripts" has the bts command.  This is hence a very low priority.)
+
 4. i18n/l10n.
 
    (i18n/l10n with reportbug may not make much sense, since the
@@ -49,7 +51,7 @@ reportbug 3.x (2.99.x) things.
    they should be easier to parse.
 
 6. Alternatively, cajole the BTS maintainers into producing an XML
-   serialization of the BTS data.
+   serialization of the BTS data.  (See #184983)
 
 7. Allow followups from the command line using a specific bug number,
    rather than requiring people to go through the browser.  Coupled
@@ -61,3 +63,6 @@ reportbug 3.x (2.99.x) things.
    somehow to do this?
 
 9. Improve MUA code to allow arbitrary arguments to MUAs; see #271084.
+
+10. Multiple BTS support (again), which probably means "Bugzilla
+    support" for Ubuntu, etc.
