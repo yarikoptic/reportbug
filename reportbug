@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.5 2004-02-09 15:22:08 lawrencc Exp $
+# $Id: reportbug,v 1.6 2004-02-09 15:24:47 lawrencc Exp $
 
 import site
 
@@ -430,7 +430,11 @@ def offer_configuration(options):
         smtphost = ''
     
     if os.path.exists(reportbug.USERFILE):
-        os.rename(reportbug.USERFILE, reportbug.USERFILE+'~')
+        try:
+            os.rename(reportbug.USERFILE, reportbug.USERFILE+'~')
+        except OSError:
+            ewrite('Unable to rename %s as %s~\n', reportbug.USERFILE,
+                   reportbug.USERFILE)
 
     fp = file(reportbug.USERFILE, 'w')
     print >> fp, '# reportbug preferences file'
@@ -1682,7 +1686,8 @@ orphaned for a long period of time are often removed from the archive.\n''')
             try:
                 os.rename(msgname, msgname+'~')
             except OSError:
-                pass
+                ewrite('Unable to rename existing %s as %s~\n',
+                       msgname, msgname)
         try:
             pipe = open_write_safe(msgname, 'w')
         except OSError:
