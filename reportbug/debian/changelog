@@ -1,5 +1,7 @@
 reportbug (2.47) unstable; urgency=medium
 
+  * The "It was Valentine's Day and all I did was hack on reportbug"
+    release.
   * Downgrade python2.3-iconvcodec to a recommendation.
   * Recommend python2.3-cjkcodecs; since non-CJK users don't need the 1 MB
     CJK codec for proper operation, a strict dependency on cjkcodecs is
