@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_newt.py,v 1.2 2004-02-07 05:26:12 lawrencc Exp $
+# $Id: reportbug_ui_newt.py,v 1.3 2004-02-07 05:56:17 lawrencc Exp $
 
 import commands, string, sys, snack, re, debianbts
 from reportbug_exceptions import *
@@ -277,7 +277,11 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
 
     except (IOError, NoNetwork):
         scr.popWindow()
-        newt_msgbox('Unable to connect to %s BTS.\n' % sysinfo['name'],
+        newt_msgbox('Unable to connect to %s BTS.' % sysinfo['name'],
+                    screen=scr, title=title)
+    except NoPackage:
+        #scr.popWindow()
+        newt_msgbox('No record of this package found.',
                     screen=scr, title=title)
 
     if not screen:
