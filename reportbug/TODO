@@ -4,14 +4,11 @@ http://cvs.alioth.debian.org/cgi-bin/cvsweb.cgi/reportbug/
 
 --
 
-Silly TODO list for 2.x:
+Silly TODO list for 3.0 (possibly sarge, depending on RM's mood):
 
 1. Document reportbug.conf properly in a man page.
 
-Silly TODO list (in no particular order):
-
-Since we're approaching sarge freeze time, these are probably all
-reportbug 3.x (2.99.x) things.
+Silly TODO list for 4.0 (sarge+1):
 
 1. Proper GNOME interface.  My current thinking is to hack the
    bug-buddy Glade file to pieces, or do something similar in straight

@@ -8,8 +8,16 @@ reportbug (2.99.5) unstable; urgency=low
     packages.debian.org.  Thanks to Wolfgang Rohdewald for the patch.
     (Closes: #274189, #271552)
   * Document SMTP options in reportbug.conf.  (Closes: #274280)
+  * Don't check packages.debian.org if options.bts is set to something
+    other than "debian".
+  * Incorporate applicable changes in 2.62ubuntu1 to this tree.
+  
+    (Main advantage: --bts=ubuntu works now.  If someone will kindly tell
+    me an easy way to tell a Ubuntu system from a Debian one, I will
+    incorporate code to eliminate the need for the forked package.  Same
+    goes for any other Debian fork, BTW...)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Fri,  1 Oct 2004 03:23:05 -0500
 
 reportbug (2.99.4) unstable; urgency=low
 
