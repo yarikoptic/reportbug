@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.5 2004-05-04 03:26:26 lawrencc Exp $
+# $Id: debianbts.py,v 1.6 2004-05-15 21:56:24 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -37,9 +37,9 @@ SEVERITIES = {
     'critical' : """makes unrelated software on the system (or the
     whole system) break, or causes serious data loss, or introduces a
     security hole on systems where you install the package.""",
-    'grave' : """makes the package in question unusable or mostly so,
+    'grave' : """makes the package in question unusable by most or all users,
     or causes data loss, or introduces a security hole allowing access 
-   to the accounts of users who use the package.""",
+    to the accounts of users who use the package.""",
     'serious' : """is a severe violation of Debian policy (that is,
     the problem is a violation of a 'must' or 'required' directive);
     may or may not affect the usability of the package.  Note that non-severe
