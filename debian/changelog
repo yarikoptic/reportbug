@@ -1,3 +1,11 @@
+reportbug (2.48) unstable; urgency=medium
+
+  * Add --keyid option.  (Closes: #232896)
+  * Improve wording of the "serious" severity.  (Closes: #233300)
+  * Fix crashers related to #232590.  (Closes: #233026, #233299)
+
+ --
+
 reportbug (2.47) unstable; urgency=medium
 
   * The "It was Valentine's Day and all I did was hack on reportbug"
