@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.8 2004-02-13 23:43:58 lawrencc Exp $
+# $Id: reportbug,v 1.9 2004-02-14 21:16:04 lawrencc Exp $
 
 import site
 
@@ -879,8 +879,18 @@ def main():
     fromaddr = reportbug.get_user_id(options.email, options.realname)
     ewrite("Using '%s' as your from address.\n", fromaddr)
 
-    ewrite("Detected character set: %s\n"
-           "Please set your locale if this is incorrect.\n\n", charset)
+
+    try:
+        blah = u'hello'.encode(charset)
+    except LookupError:
+        ui.long_message(
+            'Unable to use specified character set "%s"; you probably need '
+            'either cjkcodecs or iconvcodec installed.\nFalling back to '
+            'ASCII encoding.\n', charset)
+        charset = 'ascii'
+    else:
+        ewrite("Detected character set: %s\n"
+               "Please change your locale if this is incorrect.\n\n", charset)
 
     buginfo = '/usr/share/bug/' + package
     bugexec = submitas = submitto = presubj = None
