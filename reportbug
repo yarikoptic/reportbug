@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.2 2004-02-05 08:35:01 lawrencc Exp $
+# $Id: reportbug,v 1.3 2004-02-05 08:50:51 lawrencc Exp $
 
 import site
 
@@ -1747,9 +1747,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
         if not (exinfo or options.kudos) and type == 'debbugs':
             ewrite(
-"""\nIf you want to submit further information about this bug, please wait to
-receive the bug tracking number via email.  Then send any extra information
-to %s (e.g. %s), where n is the bug number.\n""",
+"""\nIf you want to provide additional information, please wait to
+receive the bug tracking number via email; you may then send any extra
+information to %s (e.g. %s), where n is the bug number.\n""",
             (sysinfo['email'] % 'n'), (sysinfo['email'] % '999999'))
 
     # If we've stored more than one copy of the message, delete the
