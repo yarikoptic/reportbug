@@ -8,7 +8,7 @@ reportbug (2.64) unstable; urgency=low
     (Closes: #259649)
   * Hide the security tag with severities < grave.  (Closes: #258333)
   
-  --
+ -- Chris Lawrence <lawrencc@debian.org>  Wed, 28 Jul 2004 20:28:24 -0400
 
 reportbug (2.63) unstable; urgency=low
 
