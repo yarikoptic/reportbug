@@ -2,7 +2,7 @@
 # debianbts.py - Routines to deal with the debbugs web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2004 Chris Lawrence
+#   (C) 1999-2005 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.15 2004-12-23 07:50:52 lawrencc Exp $
+# $Id: debianbts.py,v 1.16 2005-01-02 20:54:05 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -166,9 +166,10 @@ progenyother = {
     'debian-general' : 'Any non-package-specific bug',
     }
 
-def handle_wnpp(package, bts, ui, online=True, http_proxy=None):
+def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     desc = body = ''
     headers = []
+    pseudos = []
     query = True
     
     tag = ui.menu('What sort of request is this?  (If none of these '
@@ -224,6 +225,7 @@ def handle_wnpp(package, bts, ui, online=True, http_proxy=None):
 
         if tag == 'ITP':
             headers.append('X-Debbugs-CC: debian-devel@lists.debian.org')
+            pseudos.append('Owner: %s' % fromaddr)
             ui.ewrite('Your report will be carbon-copied to debian-devel, '
                       'per Debian policy.\n')
 
@@ -282,7 +284,7 @@ def handle_wnpp(package, bts, ui, online=True, http_proxy=None):
     else:
         subject = '%s: %s' % (tag, package)
 
-    return (subject, severity, headers, body, query)
+    return (subject, severity, headers, pseudos, body, query)
 
 # Supported servers
 # Theoretically support for GNATS and Jitterbug could be added here.

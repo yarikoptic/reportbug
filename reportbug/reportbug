@@ -2,7 +2,7 @@
 # -*- python -*-
 # reportbug - Report a bug in the Debian distribution.
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2004 Chris Lawrence
+#   Copyright (C) 1999-2005 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.68 2004-12-23 07:50:52 lawrencc Exp $
+# $Id: reportbug,v 1.69 2005-01-02 20:54:05 lawrencc Exp $
 
 import site
 
@@ -381,12 +381,12 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
 
     return package
 
-def special_prompts(package, bts, ui):
+def special_prompts(package, bts, ui, fromaddr):
     prompts = debianbts.SYSTEMS[bts].get('specials')
     if prompts:
         pkgprompts = prompts.get(package)
         if pkgprompts:
-            return pkgprompts(package, bts, ui)
+            return pkgprompts(package, bts, ui, fromaddr)
     return
 
 def offer_configuration(options):
@@ -1214,11 +1214,13 @@ def main():
         dontquery = True
 
     special = False
+    pseudos = []
     if not body and not subject and not notatty:
-        res = special_prompts(package, bts, ui)
+        res = special_prompts(package, bts, ui, fromaddr)
         if res:
-            (subject, severity, h, body, query) = res
-            headers = headers + h
+            (subject, severity, h, ph, body, query) = res
+            headers += h
+            pseudos += ph
             if not query:
                 dontquery = True
             special = True
@@ -1552,7 +1554,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         message = reportbug.generate_blank_report(
             submitas or package, pkgversion, severity, justification, depinfo,
             conftext, foundfile, incfiles, bts, exinfo, rtype, klass, subject,
-            tags, body, mode)
+            tags, body, mode, pseudos)
 
     # Substitute server email address
     if submitto and '@' not in sendto:
