@@ -5,9 +5,11 @@ reportbug (2.99.0) experimental; urgency=low
   * Fix redirection problem in handle_bugscript that emerged due to bash
     3.0.  (Closes: #262557)
   * Add support for "RFH" in the WNPP codepath.  (Closes: #262593)
+    Per discussion on debian-devel, a X-Debbugs-CC header will be included
+    to debian-devel for these posts.
   * Use dh_installman in rules file instead of dh_installmanpages.
 
- -- Chris Lawrence <lawrencc@debian.org>  Mon,  2 Aug 2004 17:01:05 -0400
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  2 Aug 2004 17:18:20 -0400
 
 reportbug (2.64) unstable; urgency=low
 
