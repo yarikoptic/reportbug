@@ -4,21 +4,33 @@ http://cvs.alioth.debian.org/cgi-bin/cvsweb.cgi/reportbug/
 
 --
 
+Silly TODO list for 2.x:
+
+1. Document reportbug.conf properly in a man page.
+
 Silly TODO list (in no particular order):
 
-1. Interface abstraction and multiple interfaces.  The menus in
-   reportbug can be handled by a set of UI functions in a Python
-   module.  reportbug_ui_text is there; reportbug_ui_newt is coming,
-   but its menu implementation leaves something to be desired... a new
-   menu may have to be designed from scratch, or we may have to
-   reimplement the nice newt dialogs in slang (boo, hiss).  Robin
-   Putters has done quite a lot of work on a GNOME interface.
+Since we're approaching sarge freeze time, these are probably all
+reportbug 3.x (2.99.x) things.
 
-   I'm not sure UI abstration is actually the way to go any more.
-   More thinking required here.
+1. Proper GNOME interface.  My current thinking is to hack the
+   bug-buddy Glade file to pieces, or do something similar in straight
+   PyGTK, and give up on the whole "UI abstraction" nonsense for now.
 
-2. debconf: probably not; we have per-user configuration, which is
-   better 99.9% of the time.
+   (To give you an idea of the limitations of the GNOME Druid widget,
+   bug-buddy doesn't even use a Druid... instead, it's a giant
+   notebook hack that emulates a Druid in appearance.)
+
+2. Convert the modules to a proper package and stick it in the Python
+   search path (per #157079).  Reform the names.  Rename
+   "reportbug.py" to something sensible.  This probably has to be done
+   before #1 can happen.
+
+   (Not sure of a good approach here.  Maybe we should have a class
+   that carries around all the information for a bug report, and be
+   able to do stuff like "report.get_debconf_settings()" and the like
+   when we go talking to external tools like dpkg, debconf-show,
+   debsums, etc.)
 
 3. BTS management interface for developers.  You should be able to
    view the list of bug reports for a package, construct a list of
@@ -26,29 +38,24 @@ Silly TODO list (in no particular order):
    do that.  Forwarding and merging, which both can be major PITAs,
    will be helpful.  (See #157283)
 
-4. i18n/l10n.  Python includes gettext support; however, the
-   Python-2.x interface is much better so reportbug will be using that
-   when 2.1 makes it in.  (i18n/l10n with reportbug may not make much
-   sense, since the reports have to be in English for most maintainers
-   to understand them... unless we figure out some way to get bug
-   reports translated for maintainers.)
+4. i18n/l10n.
 
-5. Iterators (2.3): Use enumerate instead of range where possible.
+   (i18n/l10n with reportbug may not make much sense, since the
+   reports have to be in English for most maintainers to understand
+   them... unless we figure out some way to get bug reports translated
+   for maintainers.)
 
-6. Convert BTS code to use the mbox-format reports if available, as
+5. Convert BTS code to use the mbox-format reports if available, as
    they should be easier to parse.
 
-7. Convert the modules to a proper package and stick it in the Python
-   search path (per #157079).  Reform the names.  Rename
-   "reportbug.py" to something sensible.
+6. Alternatively, cajole the BTS maintainers into producing an XML
+   serialization of the BTS data.
 
-8. Allow followups from the command line using a specific bug number,
+7. Allow followups from the command line using a specific bug number,
    rather than requiring people to go through the browser.  Coupled
    with --query-only, this should allow me to drop querybts
    completely.  (See #223335)
 
-9. Allow a --body option with a filename; this would prefill the
-   "body" section of the report.  Might be useful for frontends.
-   (See #233210)
-
-10. Document reportbug.conf properly.
+8. Optionally display changelogs for new upstream versions.
+   (See: #241552)  Perhaps it should cooperate with apt-listchanges
+   somehow to do this?
