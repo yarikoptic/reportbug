@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.45 2004-08-09 01:04:49 lawrencc Exp $
+# $Id: reportbug,v 1.46 2004-08-09 01:23:30 lawrencc Exp $
 
 import site
 
@@ -803,6 +803,10 @@ def main():
     sign = options.sign
     if (options.mua or options.printonly) and sign:
         sign = ''
+        if options.mua:
+            ewrite('The signature option is ignored when using an MUA.\n')
+        elif options.printonly:
+            ewrite('The signature option is ignored when producing a template.\n')
 
     uid = os.getuid()
     if uid < MIN_USER_ID:
