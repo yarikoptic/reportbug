@@ -22,9 +22,13 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.69 2005-01-02 20:54:05 lawrencc Exp $
+# $Id: reportbug,v 1.70 2005-01-20 05:03:51 lawrencc Exp $
 
-import site
+# Work around case where Python install might be broken (#290043)
+try:
+    import site
+except ImportError:
+    pass
 
 DEBUGGER = 'lawrencc@debian.org'
 DEFAULT_BTS = 'debian'
@@ -89,7 +93,10 @@ def show_report(text, use_pager=True):
         return
 
     pager = os.environ.get('PAGER', 'sensible-pager')
-    os.popen(pager, 'w').write(text)
+    try:
+        os.popen(pager, 'w').write(text)
+    except IOError:
+        pass
 
 def spawn_editor(message, filename, default_editor=None):
     if not default_editor:
@@ -1358,6 +1365,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
     ewrite('\n')
     prompted = False
+    if not (options.kudos or exinfo) and presubj:
+        ewrite(file(presubj).read()+'\n')
+
     if options.kudos:
         subject = subject or ('Thanks for packaging %s!' % package)
     elif exinfo:
@@ -1369,9 +1379,6 @@ orphaned for a long period of time are often removed from the archive.\n''')
                                 force_prompt=True)
     elif not subject and not notatty:
         prompted = True
-        if presubj:
-            ewrite(file(presubj).read()+'\n')
-
         subject = ui.get_string(
             'Please briefly describe your problem (you can elaborate in '
             'a moment; an empty response will stop reportbug).  This '
