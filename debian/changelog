@@ -1,8 +1,10 @@
 reportbug (3.6) unstable; urgency=low
 
   * Add support for owner tags in WNPP bugs.  (Closes: #288268)
+  * Trap IOError in call to pager.  (Closes: #289331)
+  * Always issue presubj message, even if -s specified.  (Closes: #289516)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Wed, 19 Jan 2005 22:56:02 -0600
 
 reportbug (3.5) unstable; urgency=low
 

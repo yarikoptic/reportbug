@@ -10,7 +10,7 @@ Architecture: all
 Depends: python2.3
 Recommends: python2.3-cjkcodecs | python2.3-iconvcodec
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30)
-Description: Reports bugs in the Debian distribution
+Description: reports bugs in the Debian distribution
  reportbug is a tool designed to make the reporting of bugs in Debian
  and derived distributions relatively painless.  Its features include:
  .
