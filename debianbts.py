@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.8 2004-06-22 22:51:52 lawrencc Exp $
+# $Id: debianbts.py,v 1.9 2004-07-29 00:27:59 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -333,9 +333,12 @@ CLASSES = {
 
 CLASSLIST = ['sw-bug', 'doc-bug', 'change-request']
 
+CRITICAL_TAGS = {
+    'security' : 'This problem is a security vulnerability in Debian.',
+}
+
 TAGS = {
     'patch' : 'You are including a patch to fix this problem.',
-    'security' : 'This problem raises a security issue.',
 ##    'upstream' : 'You believe this problem is not specific to Debian.',
 ##    'potato' : 'This bug only applies to the potato release (Debian 2.2).',
 ##    'woody' : 'This bug only applies to the woody release (Debian 3.0).',
@@ -347,9 +350,10 @@ TAGS = {
 ##    'done' : 'No more tags.',
     }
 
-EXTRA_TAGS = ['potato', 'woody', 'sarge', 'sid', 'upstream']
+EXTRA_TAGS = ['potato', 'woody', 'sarge', 'security', 'sid', 'upstream']
 
-TAGLIST = ['l10n', 'patch', 'security', 'experimental']
+TAGLIST = ['l10n', 'patch', 'experimental']
+CRITICAL_TAGLIST = ['security']
 
 def yn_bool(setting):
     if setting:

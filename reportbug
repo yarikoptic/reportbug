@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.42 2004-07-29 00:19:32 lawrencc Exp $
+# $Id: reportbug,v 1.43 2004-07-29 00:27:59 lawrencc Exp $
 
 import site
 
@@ -1435,9 +1435,17 @@ orphaned for a long period of time are often removed from the archive.\n''')
         not (notatty or options.kudos or exinfo) and package != 'wnpp' and
         mode > MODE_NOVICE):
         # Multiple-choice checkbox
+        if severity in ('grave', 'critical'):
+            tags = debianbts.TAGS.copy()
+            tags.update(debianbts.CRITICAL_TAGS)
+            tagorder = debianbts.TAGLIST + debianbts.CRITICAL_TAGLIST
+        else:
+            tags = debianbts.TAGS
+            tagorder = debianbts.TAGLIST
+
         taglist = ui.select_multiple(
-            'Do any of the following apply to this report?', debianbts.TAGS,
-            'Please select tags: ', order=debianbts.TAGLIST,
+            'Do any of the following apply to this report?', tags,
+            'Please select tags: ', order=tagorder,
             extras=debianbts.EXTRA_TAGS)
 
     patch = ('patch' in taglist)
@@ -1551,10 +1559,12 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
     if sign:
         ewrite('Passing message to %s for signature...\n', sign)
+        oldbody = body
         body = reportbug_submit.sign_message(body, fromaddr, package, pgp_addr,
                                              sign)
         if not body:
-            sys.exit(1)
+            ewrite('Signature failed; sending message unsigned.\n')
+            body = oldbody
 
     if pseudoheaders:
         body = '\n'.join(pseudoheaders)+'\n\n'+body

@@ -2,7 +2,12 @@ reportbug (2.64) unstable; urgency=low
 
   * Fix incorrect detection of some uninstalled binaries as source
     packages.  (Closes: #259001)
-
+  * Fix incorrect attachment/inclusion filenames leading to spawning the
+    editor.  (Closes: #259463)
+  * If signing fails, don't bail out; instead, send the message unsigned.
+    (Closes: #259649)
+  * Hide the security tag with severities < grave.  (Closes: #258333)
+  
   --
 
 reportbug (2.63) unstable; urgency=low
