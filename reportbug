@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.48 2004-09-13 00:47:42 lawrencc Exp $
+# $Id: reportbug,v 1.49 2004-09-13 01:02:24 lawrencc Exp $
 
 import site
 
@@ -36,7 +36,7 @@ import optparse, re, os, pwd, time, locale, commands, checkversions
 import rfc822, smtplib, reportbug, cStringIO, socket, debianbts, checkbuildd
 import gettext, popen2
 
-from rbtempfile import TempFile, open_write_safe
+from rbtempfile import TempFile, tempfile_prefix
 
 from reportbug import MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD
 from reportbug_exceptions import *
@@ -224,7 +224,8 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                             fp = file(attachfile)
                             message += '\n*** %s\n%s' % (attachfile, fp.read())
                             fp.close()
-                            fp, filename2 = TempFile()
+                            fp, filename2 = TempFile(
+                                prefix=tempfile_prefix(package))
                             fp.write(message)
                             fp.close()
                             os.unlink(filename)
@@ -341,6 +342,7 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
     if others and package and package == 'other':
         package = get_other_package_name(others)
 
+    tfprefix = tempfile_prefix(package)
     if mode < MODE_EXPERT:
         if package in ('bugs.debian.org', 'debbugs'):
             if ui.yes_no('Are you reporting a problem with this program '
@@ -1466,7 +1468,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         else:
             handler = '/usr/share/reportbug/handle_bugscript'
 
-        fh, filename = TempFile()
+        fh, filename = TempFile(prefix=tfprefix)
         fh.close()
         system('%s %s %s' % (handler, commands.mkarg(bugexec),
                              commands.mkarg(filename)))
@@ -1524,7 +1526,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
     message = "Subject: %s\n%s" % (subject, message)
 
     if mailing:
-        fh, filename = TempFile()
+        fh, filename = TempFile(prefix=tfprefix)
         fh.write(message)
         fh.close()
         oldmua = mua or options.mua
