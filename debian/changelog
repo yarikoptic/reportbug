@@ -6,7 +6,7 @@ reportbug (2.50) unstable; urgency=low
     (Closes: #236251)
   * Add support for SMTP TLS and authentication.  (Closes: #236335)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Fri,  5 Mar 2004 14:47:35 -0600
 
 reportbug (2.49) unstable; urgency=low
 
