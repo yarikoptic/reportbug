@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.8 2004-10-15 02:32:56 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.9 2004-10-24 18:35:21 lawrencc Exp $
 
 import sys
 
@@ -355,16 +355,21 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             fh.close()
             ewrite('Wrote bug report to %s\n', msgname)
     else:
-        pipe.write(message)
-        if msgname:
-            ewrite("Bug report written as %s\n", msgname)
+        try:
+            pipe.write(message)
+            pipe.flush()
+            if msgname:
+                ewrite("Bug report written as %s\n", msgname)
+        except IOError:
+            failed = True
+            pipe.close()
 
-        if pipe.close() and using_sendmail:
+        if failed or (pipe.close() and using_sendmail):
             failed = True
             fh, msgname = TempFile(prefix=tfprefix)
             fh.write(message)
             fh.close()
-            ewrite('Wrote bug report to %s\n', msgname)
+            ewrite('Original write failed, wrote bug report to %s\n', msgname)
 
     if mua:
         for bit in mua.split():
