@@ -49,5 +49,6 @@ Silly TODO list (in no particular order):
 
 9. Allow a --body option with a filename; this would prefill the
    "body" section of the report.  Might be useful for frontends.
+   (See #233210)
 
 10. Document reportbug.conf properly.
