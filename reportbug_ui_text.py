@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.5 2004-07-04 12:46:49 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.6 2004-09-13 01:27:56 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -184,11 +184,14 @@ def select_options(msg, ok, help, allow_numbers=None, nowrap=False):
 def yes_no(msg, yeshelp, nohelp, default=1, nowrap=False):
     "Return 1 for yes, 0 for no."
     if default:
-        ok = 'Yn'
+        ok = 'Ynq'
     else:
-        ok = 'yN'
+        ok = 'yNq'
         
-    res = select_options(msg, ok, {'y': yeshelp, 'n': nohelp}, nowrap=nowrap)
+    res = select_options(msg, ok, {'y': yeshelp, 'n': nohelp, 'q' : 'Quit.'},
+                         nowrap=nowrap)
+    if res == 'q':
+        raise SystemExit
     return (res == 'y')
 
 def long_message(text, *args):
@@ -196,13 +199,14 @@ def long_message(text, *args):
 
 def get_string(prompt, options=None, title=None, force_prompt=False,
                default='', completer=None):
-    if (len(prompt) < 2*columns/3) and not force_prompt:
+    if prompt and (len(prompt) < 2*columns/3) and not force_prompt:
         if default:
             prompt = '%s [%s]: ' % (prompt, default)
             return our_raw_input(prompt, options, completer) or default
         return our_raw_input(prompt, options, completer)
     else:
-        ewrite(indent_wrap_text(prompt))
+        if prompt:
+            ewrite(indent_wrap_text(prompt))
         if default:
             return our_raw_input('[%s]> ' % default, options, completer) or default
         return our_raw_input('> ', options, completer)
