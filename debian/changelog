@@ -1,3 +1,12 @@
+reportbug (3.3) unstable; urgency=low
+
+  * Correct option name for SMTP passowrd in reportbug.conf.
+    (Closes: #284277)
+  * Omit smtppasswd value from reportbug.conf included in bug reports
+    filed against reportbug.  (Closes: #284391)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  6 Dec 2004 08:16:32 -0600
+
 reportbug (3.2) unstable; urgency=low
 
   * Apply patch from Ian Wienand to improve the failure mode when an
