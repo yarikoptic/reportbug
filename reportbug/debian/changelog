@@ -1,3 +1,10 @@
+reportbug (2.99.3) experimental; urgency=low
+
+  * Use from address as envelope sender when using an MTA.
+    (Closes: #270333)
+
+ --
+
 reportbug (2.99.2) experimental; urgency=low
 
   * Fix problem where a package with no dependencies, if in the

@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.1 2004-06-29 20:31:20 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.2 2004-09-07 00:13:57 lawrencc Exp $
 
 import sys
 
@@ -316,7 +316,10 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             x = os.getcwd()
         except OSError:
             os.chdir('/')
-        pipe = os.popen(mta+' -t -oi -oem', 'w')
+
+        faddr = rfc822.parseaddr(sendto)[1]
+        pipe = os.popen('%s -f %s -t -oi -oem' % (
+            mta, commands.mkarg(faddr)), 'w')
         using_sendmail = True
 
     message = message.as_string()
