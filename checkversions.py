@@ -20,7 +20,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: checkversions.py,v 1.2 2004-03-13 02:37:51 lawrencc Exp $
+# $Id: checkversions.py,v 1.3 2004-09-30 09:20:46 lawrencc Exp $
 #
 # Version ##VERSION##; see changelog for revision history
 
@@ -39,6 +39,7 @@ class PackagesParser(sgmllib.SGMLParser):
         self.versions = {}
         self.savedata = None
         self.row = None
+        arch = r'(?:all|'+re.escape(arch)+')'
         self.arch = arch
         self.dist = None
 
