@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.4 2004-02-20 07:26:04 lawrencc Exp $
+# $Id: reportbug.py,v 1.5 2004-02-20 07:27:22 lawrencc Exp $
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
@@ -513,7 +513,7 @@ def get_changed_config_files(conffiles, nocompress=False):
 DISTORDER = ['stable', 'testing', 'unstable', 'experimental']
 
 def get_debian_release_info():
-    debvers = debinfo = verfile = ''
+    debvers = debinfo = verfile = warn = ''
     dists = []
     output = commands.getoutput('apt-cache policy 2>/dev/null')
     if output:
@@ -527,7 +527,7 @@ def get_debian_release_info():
                              DISTORDER.index(match.group(2)))
                 found[(pri, dist)] = True
             except ValueError:
-                debinfo += 'Found unknown policy: '+str(match.groups())+'\n'
+                warn += 'Found unknown policy: '+str(match.groups())+'\n'
 
         if found:
             dists = found.keys()
@@ -545,6 +545,8 @@ def get_debian_release_info():
         debinfo += '  APT prefers '+debvers+'\n'
     if dists:
         debinfo += '  APT policy: ' + ', '.join([str(x) for x in dists]) + '\n'
+    if warn:
+        debinfo += warn
 
     return debinfo
 
