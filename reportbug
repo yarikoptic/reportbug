@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.56 2004-09-30 05:21:52 lawrencc Exp $
+# $Id: reportbug,v 1.57 2004-10-01 08:22:17 lawrencc Exp $
 
 import site
 
@@ -1122,8 +1122,8 @@ def main():
             pkgversion = ui.get_string('Please enter the version of the '
                                        'package this report applies to '
                                        '(blank OK)', force_prompt=True)
-    elif check_available and not (options.kudos or notatty or
-                                  options.offline):
+    elif (check_available and not (options.kudos or notatty or options.offline)
+          and (not options.bts or (options.bts=='debian'))):
         ewrite('Checking for newer versions at packages.debian.org...\n')
         arch = reportbug.get_arch()
         (avail, toonew) = checkversions.check_available(
