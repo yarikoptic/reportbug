@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.6 2004-02-09 15:24:47 lawrencc Exp $
+# $Id: reportbug,v 1.7 2004-02-12 10:55:39 lawrencc Exp $
 
 import site
 
@@ -1693,7 +1693,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         except OSError:
             fh, newmsgname = TempFile(prefix=('reportbug-%s-%d-' %
                                               (package, os.getpid())))
-            fh.write(message)
+            fh.write(message.as_string())
             fh.close()
             ewrite('Writing to %s failed; '
                    'wrote bug report to %s\n', msgname, newmsgname)
