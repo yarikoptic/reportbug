@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.4 2004-03-08 07:14:08 lawrencc Exp $
+# $Id: debianbts.py,v 1.5 2004-05-04 03:26:26 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -262,9 +262,9 @@ def handle_wnpp(package, bts, ui, online=True, http_proxy=None):
             orphstr = 'intend to orphan'
             if tag == 'RFA':
                 orphstr = 'request an adopter for'
-            body = ('I %s the %s package.\n'
+            body = ('I %s the %s package.\n\n'
                     'The package description is:\n') % (orphstr, package)
-            body = body + fulldesc
+            body = body + fulldesc + '\n'
         
     if desc:
         subject = '%s: %s -- %s' % (tag, package, desc)
