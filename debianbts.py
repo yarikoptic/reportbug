@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.13 2004-09-20 00:40:50 lawrencc Exp $
+# $Id: debianbts.py,v 1.14 2004-10-01 08:12:02 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -321,6 +321,11 @@ SYSTEMS = { 'debian' :
             { 'name' : 'Progeny', 'email' : 'bugs@progeny.com',
               'type' : 'gnats', 'mirrors' : {}, 'cgiroot' : None,
               'query-dpkg' : 1, 'otherpkgs' : progenyother },
+            'ubuntu' :
+            { 'name' : 'Ubuntu',
+              'email' : 'ubuntu-users@lists.ubuntu.com',
+              'type' : 'mailto', 'mirrors' : {}, 'cgiroot' : None,
+              'query-dpkg' : 1, 'otherpkgs' : {} },
             'guug' :
             { 'name' : 'GUUG (German Unix User Group)',
               'email' : '%s@bugs.guug.de',
