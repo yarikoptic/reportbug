@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.41 2004-07-12 18:30:58 lawrencc Exp $
+# $Id: reportbug,v 1.42 2004-07-29 00:19:32 lawrencc Exp $
 
 import site
 
@@ -158,7 +158,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         editor = options.editor
     message = None
     skip_editing = False
-    while 1:
+    while True:
         if not skip_editing:
             (message, changed) = spawn_editor(message or dmessage, filename,
                                               editor)
@@ -210,27 +210,32 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                                'p': 'Print message to stdout.',
                                'm': "Choose a mailer to edit the report."})
         if x in ('a', 'i'):
-            if x == 'i':
-                attachfile = ui.get_filename('Choose a text file to include: ')
-            else:
-                attachfile = ui.get_filename('Choose a file to attach: ')
-            if attachfile:
-                attachfile = os.path.expanduser(attachfile)
-                if os.path.exists(attachfile):
-                    if x == 'i':
-                        fp = file(attachfile)
-                        message += '\n*** %s\n%s' % (attachfile, fp.read())
-                        fp.close()
-                        fp, filename2 = TempFile()
-                        fp.write(message)
-                        fp.close()
-                        os.unlink(filename)
-                        filename = filename2
-                    else:
-                        attachments.append(attachfile)
-                        skip_editing = True
+            invalid = True
+            while invalid:
+                if x == 'i':
+                    attachfile = ui.get_filename('Choose a text file to include: ')
                 else:
-                    ewrite("Can't find %s to include!\n", attachfile)
+                    attachfile = ui.get_filename('Choose a file to attach: ')
+                if attachfile:
+                    attachfile = os.path.expanduser(attachfile)
+                    if os.path.exists(attachfile):
+                        invalid = False
+                        if x == 'i':
+                            fp = file(attachfile)
+                            message += '\n*** %s\n%s' % (attachfile, fp.read())
+                            fp.close()
+                            fp, filename2 = TempFile()
+                            fp.write(message)
+                            fp.close()
+                            os.unlink(filename)
+                            filename = filename2
+                        else:
+                            attachments.append(attachfile)
+                            skip_editing = True
+                    else:
+                        ewrite("Can't find %s to include!\n", attachfile)
+                else:
+                    break
         elif x == 'c':
             ed = ui.get_filename('Choose editor: ', default=options.editor)
             if ed:
