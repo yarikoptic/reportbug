@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.11 2004-12-07 11:32:35 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.12 2005-02-01 18:55:13 lawrencc Exp $
 
 import sys
 
@@ -292,6 +292,12 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         del message['X-Debbugs-Cc']
         addrlist = ', '.join(cclist)
         message['X-Debbugs-Cc'] = rfc2047_encode_address(addrlist, charset, mua)
+
+    # Drop any Bcc headers from the message to be sent
+    try:
+        del message['Bcc']
+    except:
+        pass
 
     message = message.as_string()
     if paranoid and not (template or printonly):
