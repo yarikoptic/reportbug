@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.3 2004-09-13 00:58:54 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.4 2004-09-19 08:00:27 lawrencc Exp $
 
 import sys
 
@@ -317,6 +317,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             os.chdir('/')
 
         faddr = rfc822.parseaddr(sendto)[1]
+        ewrite("Sending message via %s...\n", mta)
         pipe = os.popen('%s -f %s -t -oi -oem' % (
             mta, commands.mkarg(faddr)), 'w')
         using_sendmail = True
@@ -326,7 +327,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         toaddrs = [x[1] for x in alist]
         smtp_message = re.sub(r'(?m)^[.]', '..', message)
 
-        ewrite("Connecting to %s...\n", smtphost)
+        ewrite("Connecting to %s via SMTP...\n", smtphost)
         try:
             conn = smtplib.SMTP(smtphost)
             if smtptls:
@@ -391,7 +392,9 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             ui.long_message(
 """If you want to provide additional information, please wait to
 receive the bug tracking number via email; you may then send any extra
-information to %s (e.g. %s), where n is the bug number.\n""",
+information to %s (e.g. %s), where n is the bug number.  Normally you
+will receive an acknowledgement via email including the bug report number
+within a few minutes.\n""",
             (sysinfo['email'] % 'n'), (sysinfo['email'] % '999999'))
 
     # If we've stored more than one copy of the message, delete the
