@@ -1,0 +1,468 @@
+.\" This file was generated with po4a. Translate the source file.
+.\" 
+.TH reportbug 1   
+.SH NOM
+reportbug \- signale un bogue auprès du serveur de bogues
+.SH SYNOPSIS
+\fBreportbug\fP \fI[options] <paquet | chemin\-absolu>\fP
+.SH DESCRIPTION
+\fBreportbug\fP a été originellement conçu pour signaler les bogues de la 
+distribution Debian\ ; son comportement par défaut est d'envoyer un courriel 
+au système de suivi des bogues Debian (Debian Bug Tracking System) à 
+\fIsubmit@bugs.debian.org\fP comportant les informations sur le bogue que vous 
+avez découvert. Une copie vous est aussi envoyée.
+.PP
+Grâce à l'option \fB\-\-bts\fP, vous pouvez aussi envoyer le rapport de bogue à 
+d'autres serveurs qui utilisent \fBdebbugs\fP, le système de suivi des bogues 
+Debian (Debian Bug Tracking System).
+.PP
+Du point de vue utilisateur, il est presque entièrement compatible avec 
+\fBbug\fP, mais il propose plus de fonctionnalités dans le but de rendre le 
+suivi des bogues le moins pénible possible.
+.PP
+Vous pouvez spécifier soit un nom de paquet, soit un fichier (avec son 
+chemin absolu)\ ; si vous indiquez un nom de fichier, il doit commencer par 
+un \fB/\fP pour être compris. Si vous voulez que reportbug recherche un fichier 
+dans votre chemin de recherche («\ path\ »), consultez l'option \fB\-\-file\fP 
+ci\-dessous.
+.SH OPTIONS
+Ce programme utilise la syntaxe habituelle des commandes GNU, dans laquelle 
+les options longues (sous forme de mots) sont précédées de deux tirets 
+(`\-\-'). Un résumé des options est fourni ci\-dessous.
+.TP
+\fB\-h, \-\-help\fP
+Affiche un résumé des options.
+.TP
+\fB\-v, \-\-version\fP
+Affiche la version de \fBreportbug\fP et s'arrête.
+.TP
+\fB\-a, \-\-af\fP
+Utilise le lecteur de courriel \fBaf\fP pour l'édition et l'envoi du rapport de 
+bogue, plutôt que de lancer un éditeur.
+.TP
+\fB\-A NOM_DE_FICHIER, \-\-attach=NOM_DE_FICHIER\fP
+Joint un fichier au rapport de bogue. Les fichiers textes et les fichiers 
+binaires sont tout deux acceptés. Cette routine va créer une pièce jointe au 
+format MIME qui contiendra le fichier. Dans certains cas (notamment les 
+fichiers textes), il est préférable d'utiliser l'option \-\-include. (Notez 
+bien que le système de suivi des bogues Debian ne supporte les attachements 
+MIME que d'une façon limitée).
+.TP
+\fB\-b, \-\-no\-query\-bts\fP
+Ne vérifie pas auprès du système de suivi des bogues Debian si ce problème a 
+déjà été signalé. Pratique lorsque vous n'êtes pas connecté ou si vous êtes 
+\fBvraiment\fP sûr que c'est un bogue.
+.TP
+\fB\-\-query\-bts\fP
+Vérifie si ce problème a déjà été signalé au système de suivi des bogues 
+Debian (comportement par défaut).
+.TP
+\fB\-B SYSTÈME, \-\-bts=SYSTÈME\fP
+Utilise le serveur de bogues indiqué par \fBSYSTÈME\fP plutôt que celui de 
+Debian (ou le serveur de bogues indiqué dans \fB/etc/reportbug.conf\fP. Vous 
+pouvez vous servir de \fBhelp\fP afin d'obtenir la liste de serveurs supportés.
+.TP
+\fB\-\-body=CORPS\fP
+Utilise le CORPS spécifié en tant que corps du message. Le corps du texte 
+sera ajusté à 70 colonnes, et les entêtes et pieds de page standards de 
+reportbug seront ajoutés de façon appropriée. Les questions concernant 
+l'éditeur et les autres questions «\ spéciales\ » ne seront pas posées.
+.TP
+\fB\-\-body\-file=FICHIER\-MESSAGE\fP
+Le contenu du fichier (supposé) texte FICHIER\-MESSAGE servira de corps de 
+message. Ce fichier doit être bien formé (par exemple, longueur des lignes 
+raisonnable, etc). Les entêtes et pieds de page habituels seront 
+ajoutés. Les questions concernant l'éditeur et toute autre question «\ spéciale\ » ne seront pas posées. (FICHIER\-MESSAGE peut aussi être un tube 
+nommé («\ named pipe\ »)\ ; l'utilisation d'un fichier spécial de 
+périphérique peut conduire à des résultats étonnants).
+.TP
+\fB\-c, \-\-no\-config\-files\fP
+Ne joint pas les fichiers de configuration au rapport de bogue, sans 
+demander confirmation. Le comportement habituel est de vous demander si vous 
+voulez les inclure\ ; dans certains cas, cela pourrait envoyer des 
+informations sensibles via courriel.
+.TP
+\fB\-\-configure\fP
+Relance la procédure de configuration de la première exécution de 
+\fBreportbug\fP, et crée un nouveau fichier .reportbugrc. Tous les réglages 
+déjà définis dans ce fichier seront effacés\ ; cependant, une sauvegarde 
+sera enregistrée dans .reportbugrc~.
+.TP
+\fB\-\-check\-available\fP
+Vérifie la présence de nouvelles versions du paquet sur packages.debian.org 
+(comportement par défaut).
+.TP
+\fB\-\-no\-check\-available\fP
+Pas de vérification de la présence de nouvelles versions du paquet sur 
+packages.debian.org.
+.TP
+\fB\-d, \-\-debug\fP
+N'envoie pas réellement le rapport de bogue chez Debian\ ; l'envoie 
+seulement à vous. Sert en premier lieu à des fins de test pour le 
+responsable du paquet.
+.TP
+\fB\-e ÉDITEUR, \-\-editor=ÉDITEUR\fP
+Définit l'éditeur de textes à utiliser, en outrepassant toutes les variables 
+d'environnement telles que VISUAL ou EDITOR.
+.TP
+\fB\-\-email=ADRESSE\fP
+Définit l'adresse de courriel de l'expéditeur du rapport de bogue (l'adresse 
+qui apparaît dans le champ \fBFrom:\fP). Cette adresse doit correspondre à 
+votre adresse de courriel Internet en tant que telle (sans votre nom complet 
+ou tout autre commentaire). Ce réglage outrepasse les variables 
+d'environnement EMAIL et DEBEMAIL, mais pas REPORTBUGEMAIL.
+.TP
+\fB\-\-exit\-prompt\fP
+Affiche un message avant de quitter. Pratique quand reportbug n'est pas 
+lancé par un vrai terminal («\ transient terminal\ ») (à partir du menu 
+Debian, par exemple).
+.TP
+\fB\-f NOM\-FICHIER, \-\-filename=NOM\-FICHIER\fP
+Crée un rapport de bogue pour le paquet contenant \fINOM\-FICHIER\fP de façon à 
+ce que vous évitiez de chercher le paquet auquel ce fichier appartient. La 
+recherche est d'abord effectuée en utilisant NOM\-FICHIER comme un chemin 
+complet, puis elle est étendue à tous les fichiers du chemin.
+.TP
+\fB\-\-path\fP
+Si l'option \-f est spécifiée conjointement, le fichier NOM\-FICHIE ne sera 
+recherché que dans le chemin donné. Préciser un chemin absolu (commençant 
+par un /) avec l'option \-f outrepassera cette option.
+.TP
+\fB\-g, \-\-gnupg, \-\-gpg\fP
+Joint une signature numérique au rapport de bogue de type \fBGnuPG\fP (GNU 
+Privacy Guard). Cet argument sera ignoré si vous utilisez un client de 
+messagerie (un «\ MUA\ ») pour éditer et envoyer votre rapport de bogue.
+.TP
+\fB\-G, \-\-gnus\fP
+Utilise le lecteur de courriels et de nouvelles GNUS plutôt que l'éditeur 
+pour l'envoi de votre rapport de bogue.
+.TP
+\fB\-H ENTÊTE, \-\-header=ENTÊTE\fP
+Ajoute un en\-tête RFC 2822 personnalisé à votre courriel\ ; pour envoyer une 
+copie conforme de votre rapport de bogue à 
+\fIdebian\-68k@lists.linux\-m68k.org\fP par exemple, vous pouvez indiquer \fI\-H  'X\-Debbugs\-CC: debian\-68k@lists.linux\-m68k.org'\fP.
+.TP
+\fB\-i FICHIER, \-\-include=FICHIER\fP
+Ajoute le fichier indiqué dans le corps du message à éditer. Peut être 
+utilisé autant de fois qu'il y a de fichiers à inclure\ ; format texte 
+uniquement\ ! D'après une suggestion de Michael Alan Dorman dans la liste 
+des bogues de \fBbug\fP. (Voir aussi l'option \-\-attach).
+.TP
+\fB\-I, \-\-no\-check\-installed\fP
+Ne vérifie pas si le paquet est installé avant de remplir le 
+rapport. Pratique en général pour remplir un rapport sur un paquet dont vous 
+savez qu'il n'est pas installé sur votre système.
+.TP
+\fB\-\-check\-installed\fP
+Vérifie si le paquet indiqué est installé lors de la création du rapport de 
+bogue. (Comportement par défaut).
+.TP
+\fB\-j JUSTIFICATION, \-\-justification=JUSTIFICATION\fP
+Dans la Debian, les bogues de niveau «\ serious\ », «\ grave\ », ou «\ critical\ » doivent remplir certains critères afin de justifier d'une telle 
+appellation. Cette option vous permet de préciser cette justification de 
+niveau de bogue critique, plutôt que d'attendre qu'on vous pose la question.
+.TP
+\fB\-k, \-\-kudos\fP
+Envoie un courriel de remerciement à l'adresse du responsable enregistré 
+plutôt que de créer un rapport de bogue. Vous pouvez aussi envoyer des 
+remerciements à \fInom\-du\-paquet\fP@packages.debian.org, pour les paquets de 
+l'archive officielle Debian\ ; dans tous les cas, cette option utilise 
+l'adresse du responsable indiquée dans le fichier de contrôle du 
+paquet. Cela garantit son bon fonctionnement pour des paquets d'autres 
+origines. 
+.TP
+\fB\-K CLÉ\-PRIVÉE, \-\-keyid=CLÉ\-PRIVÉE\fP
+Clé privée à utiliser pour les signatures PGP/GnuPG. Sans cette précision, 
+la première clé de votre trousseau secret qui correspond à votre adresse de 
+courriel sera utilisée.
+.TP
+\fB\-\-license\fP
+Affiche le copyright de \fBreportbug\fP et les informations de licence sur la 
+sortie standard .
+.TP
+\fB\-\-list\-cc=ADRESSE\fP
+Envoie une copie conforme du rapport à la liste indiquée dès qu'un numéro de 
+rapport de bogue a été assigné. Équivalent à l'option \fI\-H 'X\-Debbugs\-CC: 
+ADDRESS'\fP. Cette option ne fonctionnera comme prévu qu'avec des systèmes de 
+type debbugs.
+.TP
+\fB\-m, \-\-maintonly\fP
+N'envoie le rapport de bogue qu'au responsable du paquet\ ; le système de 
+suivi des bogues n'enverra pas de copie à la liste de distribution du 
+rapport de bogue.
+.TP
+\fB\-\-mode=MODE\fP
+Définit le mode de fonctionnement de \fBreportbug\fP. \fBreportbug\fP a 
+actuellement quatre modes de fonctionnement\ : \fBnovice\fP (par défaut), 
+\fBstandard\fP, \fBadvanced\fP, et \fBexpert\fP.
+
+Le mode \fBnovice\fP est conçu pour réduire le nombre de questions portant sur 
+des points que les «\ utilisateurs normaux\ » ne connaissent pas trop, ou 
+dont ils se moquent, reportant le travail d'approfondissement sur les 
+épaules du responsable. Ce mode permet la création de rapport de bogue de 
+niveau «\ normal\ » et «\ wishlist\ » (souhait) et dispense des questions 
+concernant les balises (tags). De plus, la vérification de la présence de 
+versions plus récentes n'est assurée que pour la distribution stable. C'est 
+actuellement le mode par défaut.
+
+Le mode \fBstandard\fP correspond approximativement aux questions posées par 
+les versions de reportbug\ 1.50 et précédentes\ ; cela englobe un nombre de 
+questions relativement important, et cherche à pousser les utilisateurs à ne 
+pas faire de rapport de bogue en double ou farfelus. 
+
+Le mode \fBadvanced\fP ressemble au mode \fBstandard\fP, mais peut offrir des 
+raccourcis pratiques pour les utilisateurs avancés de la Debian, sans être 
+toutefois aussi rigoureux que le mode \fBexpert\fP. (Les seules différences 
+avec le mode \fBstandard\fP sont la connaissance supposée de la part de 
+l'utilisateur de la file d'attente «\ incoming\ », et la possibilité de 
+recenser un bogue contre des paquets en «\ dépendance\ ».)
+
+Le mode \fBexpert\fP est conçu pour réduire le nombre de questions qui servent 
+à limiter les rapports de bogues farfelus ou inutiles, les «\ exagérations de 
+la gravité\ » et le reste. Dans le mode expert, \fBreportbug\fP considère que 
+l'utilisateur est plus que familier avec les règles Debian. Ce qui signifie 
+dans la pratique que le rapporteur n'a pas à se justifier lors d'un choix de 
+sévérité élevée pour son rapport de bogue, et que certains automatismes de 
+nettoyage du message sont inactifs. L'utilisation du mode expert est 
+\fIfortement\fP déconseillée aux personnes qui ne participent pas régulièrement 
+au projet Debian, car cela pourrait leur valoir une prise de bec avec les 
+responsables des paquets en cas de mauvaise utilisation.
+.TP
+\fB\-M, \-\-mutt\fP
+Utilise le lecteur de courriel \fBmutt\fP pour l'édition et l'envoi du rapport 
+de bogue plutôt que d'invoquer un éditeur.
+.TP
+\fB\-\-mta='<MTA>'\fP
+Spécifie un autre serveur de messagerie («\ MTA\ »), à la place de 
+\fB/usr/sbin/sendmail\fP (par défaut). Toute définition de \fBsmtphost\fP 
+outrepassera celui\-ci.
+.TP
+\fB\-\-mua='<MUA> <option>'\fP
+Utilise le client de messagerie («\ MUA\ », Mail User Agent) indiqué pour 
+l'édition et l'envoi du rapport de bogue plutôt que d'invoquer un 
+éditeur. Le paramètre \fBoption\fP doit être utilisé pour préciser à votre 
+lecteur de courriel qu'il doit interpréter le rapport de bogues en tant de 
+message brouillon. Pour en savoir plus sur cette façon de fonctionner, 
+regardez comment les options \fB\-\-mutt, \-\-nmh\fP et \fB\-\-af\fP sont traitées.
+.TP
+\fB\-n, \-\-nmh, \-\-mh\fP
+Utilise la commande \fBcomp\fP (qui fait partie des systèmes de courrier \fBnmh\fP 
+et \fBmh\fP) pour l'édition et l'envoi du rapport de bogues plutôt que 
+d'invoquer un éditeur.
+.TP
+\fB\-o FICHIER, \-\-output=FICHIER\fP
+Redirige le courriel vers le fichier indiqué plutôt que de l'envoyer.
+.TP
+\fB\-O, \-\-offline\fP
+Désactive toutes les requêtes vers l'extérieur. A actuellement le même effet 
+que \fB\-\-no\-check\-available \-\-no\-query\-bts\fP.
+.TP
+\fB\-p, \-\-print\fP
+Écrit le rapport de bogue sur la sortie standard plutôt que de l'envoyer par 
+courriel, afin que vous puissiez le rediriger dans un fichier ou le passer 
+par un tube (pipe) à un autre programme.
+
+Cette option ne fournit qu'un modèle (template) pour le rapport de 
+bogue. Vous devrez remplir la description détaillée.
+.TP
+\fB\-\-pgp\fP
+Joint au rapport de bogue une signature numérique en utilisant \fBPGP\fP 
+(Pretty Good Privacy). Notez bien, cependant, que le projet Debian abandonne 
+l'emploi de PGP au profit de GnuPG. (Ce paramètre sera ignoré si vous 
+utilisez un client de messagerie pour l'édition et l'envoi de votre 
+rapport).
+.TP
+\fB\-\-proxy=SERVEUR\-MANDATAIRE, \-\-http_proxy=SERVEUR\-MANDATAIRE\fP
+Indique le serveur mandataire («\ proxy\ ») à utiliser pour la gestion de la 
+requête au système de suivi des bogues. Ce paramètre n'est utile que 
+derrière un pare\-feu («\ firewall\ »). L'argument SERVEUR\-MANDATAIRE doit 
+être au format valide d'une URL HTTP, et comporter (si nécessaire) un numéro 
+de port\ ; \fBhttp://192.168.1.1:3128/\fP par exemple.
+.TP
+\fB\-q, \-\-quiet\fP
+N'envoie plus les messages de type diagnostic sur la sortie d'erreurs 
+(standard error).
+.TP
+\fB\-Q, \-\-query\-only\fP
+Interroge simplement le BTS, sans soumettre de rapport de bogue. Cette 
+option est ignorée si vous demandez \-\-no\-bts\-query.
+.TP
+\fB\-\-query\-source\fP
+Fait porter l'interrogation sur tous les paquets binaires construits à 
+partir de la même source, et pas seulement sur le paquet binaire indiqué 
+(comportement par défaut depuis reportbug 2.0)
+.TP
+\fB\-\-no\-query\-source\fP
+La requête ne portera que sur le paquet binaire indiqué sur la ligne de 
+commande.
+.TP
+\fB\-\-realname=NOM\fP
+Définit le nom réel (un nom lisible par les gens) à utiliser pour votre 
+rapport.
+.TP
+\fB\-\-report\-quiet\fP
+Enregistre le bogue dans le système de suivi des bogues sans envoyer de 
+rapport au responsable du paquet ni à qui que ce soit. À ne pas utiliser 
+sauf si vous êtes le responsable du paquet en question, ou si vous savez 
+vraiment ce que vous faites.
+.TP
+\fB\-\-reply\-to=ADRESSE, \-\-replyto=ADRESSE\fP
+Définit l'adresse du champ \fBReply\-To\fP de l'entête de votre rapport.
+.TP
+\fB\-s OBJET, \-\-subject=OBJET\fP
+Définit l'objet du rapport de bogue (une rapide présentation du problème, de 
+moins de 60 caractères). Si vous ne spécifiez pas ce paramètre, l'objet du 
+message vous sera demandé.
+.TP
+\fB\-S GRAVITÉ, \-\-severity=GRAVITÉ\fP
+Définit le niveau de gravité, choisi parmi critical, grave, serious, 
+important, normal, minor, et wishlist (critique, grave, sérieux, important, 
+normal, mineur, et souhait).
+.TP
+\fB\-\-smtphost=HÔTE[:PORT]\fP
+Utilise le serveur de messagerie (MTA) de la machine \fBHOST\fP afin d'envoyer 
+votre rapport plutôt que votre programme \fB/usr/sbin/sendmail\fP local. En 
+général, il s'agit du serveur de courrier sortant de votre fournisseur 
+d'accès Internet\ ; vous pouvez aussi indiquer «\ localhost\ » si votre 
+machine dispose d'un serveur de courriel en état de marche. Si vous ne 
+précisez pas le \fBPORT\fP, c'est le port 25, port SMTP standard, qui sera 
+utilisé.
+.TP
+\fB\-\-tls\fP
+En cas d'utilisation de SMTP, emploie Transport Layer Security (TLS) pour 
+sécuriser la connexion au serveur de courrier. Certains serveurs SMTP 
+exigent parfois cette option.
+.TP
+\fB\-\-smtpuser=NOM_UTILISATEUR\fP
+En cas d'utilisation de SMTP, le \fBNOM_UTILISATEUR\fP indiqué servira pour 
+l'authentification. 
+.TP
+\fB\-\-smtppasswd=MOT_DE_PASSE\fP
+En cas d'utilisation de SMTP, le \fBMOT_DE_PASSE\fP indiqué servira à 
+l'authentification. Si le mot de passe n'est pas indiqué sur la ligne de 
+commande ou dans le fichier de configuration, un message sera affiché pour 
+le demander.
+
+L'utilisation de cette option est dangereuse sur les systèmes 
+multi\-utilisateurs. Vous devriez plutôt définir ce réglage dans  .reportbugrc, puis vous assurer que celui\-ci n'est lisible que par votre 
+utilisateur (grâce à chmod 600 $HOME/.reportbugrc, par exemple).
+.TP
+\fB\-t TYPE, \-\-type=TYPE\fP
+Définit le type de rapport à soumettre\ ; accepte actuellement aussi bien 
+gnats que debbugs.
+.TP
+\fB\-T BALISE, \-\-tag=BALISE\fP
+Définit une balise à enregistrer dans le rapport. Plusieurs balises peuvent 
+être spécifiées en utilisant plusieurs arguments \-T ou \-\-tag.
+
+D'un autre côté, vous pouvez indiquer la balise \fBnone\fP pour sauter l'étape 
+des questions sur les balises, sans avoir à en fournir\ ; toutes les balises 
+indiquées sur la ligne de commande seront elles aussi ignorées.
+.TP
+\fB\-\-template\fP
+Affiche un modèle («\ template\ ») de rapport de bogue sur la sortie 
+standard.
+.TP
+\fB\-v, \-\-verify\fP
+Vérifie, grâce à debsums, l'intégrité du paquet (s'il est installé) avant de 
+faire le rapport.
+.TP
+\fB\-V VERSION, \-\-package\-version=VERSION\fP
+Définit la version du paquet sur laquelle le problème a été rencontré. Ce 
+sera probablement très utile si vous êtes en train de signaler un bogue 
+contre un paquet non installable ou installé sur un autre système.
+.TP
+\fB\-x, \-\-no\-cc\fP
+Ne pas envoyer de copie cachée (BCC) du rapport de bogue à son auteur 
+(c.\-à\-d. vous\-même).
+.TP
+\fB\-z, \-\-no\-compress\fP
+Ne pas réduire la taille des fichiers de configuration par la suppression 
+des commentaires et des lignes blanches.
+.SH EXEMPLES
+.TP
+\fBreportbug lynx\-ssl\fP
+Signale un bogue sur le paquet lynx\-ssl.
+.TP
+\fBreportbug \-\-file=ls\fP
+Signale un bogue sur le paquet installé sur votre machine qui contient un 
+programme nommé \fBls\fP présent dans votre chemin de recherche.
+.SH "FICHIERS DE CONFIGURATION"
+Depuis la version 0.22, \fBreportbug\fP utilise un contrôle de la syntaxe des 
+fichiers en une seule passe. Les commandes sont lues dans 
+\fB/etc/reportbug.conf\fP et \fB$HOME/.reportbugrc\fP, les dernières valeurs 
+remplaçant les premières. Les commandes ne sont pas sensibles à la casse, et 
+acceptent actuellement 0 ou 1 paramètre\ ; les arguments qui contiennent des 
+espaces doivent être protégés par des guillemets. Toute ligne commençant par 
+un # est considérée comme un commentaire et sera donc ignorée.
+
+En général, les options correspondant aux options longues (type GNU) de 
+\fBreportbug\fP sont acceptées, sans les préfixer par la séquence \-\-. Consultez 
+le fichier \fB/etc/reportbug.conf\fP fourni par défaut pour toutes les options 
+acceptées.
+.SH "VARIABLES D'ENVIRONNEMENT"
+.TP
+\fBVISUAL\fP
+Éditeur à utiliser pour l'édition du rapport de bogue.
+.TP
+\fBEDITOR\fP
+Éditeur à utiliser pour l'édition du rapport de bogue (outrepassé par 
+VISUAL).
+.TP
+\fBEMAIL, REPORTBUGEMAIL, DEBEMAIL\fP
+Adresse de courriel à indiquer dans le champ From\ ; par défaut, cette 
+adresse est tirée de votre nom d'utilisateur et de /etc/mailname.
+.TP
+\fBDEBFULLNAME, DEBNAME, NAME\fP
+Nom complet qui sera utilisé\ : il est tiré par défaut de /etc/passwd.
+.TP
+\fBREPLYTO\fP
+Adresse à mettre dans le champ «\ Répondre à\ » (Reply\-To) dans le courrier 
+émis.
+.TP
+\fBMAILCC\fP
+Adresse «\ Copie à\ » (CC) à utiliser dans votre courriel. Remarquez que 
+vous pouvez aussi utiliser l'option \fB\-H\fP dans ce but, ainsi que pour Copie 
+Cachée (BCC).
+.TP
+\fBMAILBCC\fP
+Adresse «\ Copie Cachée à\ » (BCC) à utiliser, plutôt que votre adresse de 
+courriel. («\ Copie à\ » et «\ Copie Cachée à\ » sont des options basées sur 
+les suggestions de Herbert Thielen dans la liste de souhaits de \fBbug\fP).
+.TP
+\fBhttp_proxy\fP
+Donne l'adresse du serveur mandataire (proxy) afin de réaliser la requête au 
+BTS. Doit être l'URL \fBhttp\fP valide d'un serveur mandataire, en précisant le 
+numéro de port si nécessaire (n'indiquer qu'un nom de machine, ou omettre le 
+numéro de port s'il est différent de 80, NE FONCTIONNERA PAS).
+.SH NOTES
+Le courrier qui est généré est quelque peu différent de celui fabriqué par 
+\fBbug\fP\ ; le champ \fBArchitecture\fP, en particulier, est nouveau (suite à une 
+suggestion de \fBsam@debian.org\fP dans la liste de souhait de \fBbug\fP).
+
+Le module getopt de Python est plus pointilleux sur l'ordre des arguments de 
+la ligne de commande que le getopt() du GNU\ ; tous les paramètres doivent 
+être écrits avant le nom du paquet.
+
+Il faudrait probablement que \fBreportbug\fP soit compatible avec d'autres 
+systèmes de suivi des bogues, tels que \fBbugzilla\fP (utilisé par les projets 
+GNOME et Mozilla) et \fBjitterbug\fP (utilisé par Samba, AbiSource et FreeCiv), 
+mais il ne l'est pas.
+.SH "VOIR AUSSI"
+querybts(1)
+.SH "À COMPARER À"
+bug(1)
+.SH AUTEUR
+Chris Lawrence <lawrencc@debian.org>.
+.SH TRADUCTION
+Ce document est une traduction, réalisée par Sylvain Cherrier
+<sylvain.cherrier@free.fr> le 15 Nov 2004.
+.PP
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité.
+.PP
+La version anglaise la plus à jour de ce document est toujours
+consultable via la commande\ : LANGUAGE=en man reportbug
+.PP
+N'hésitez pas à signaler à l'auteur ou au traducteur, selon le cas,
+toute erreur dans cette page de manuel.
