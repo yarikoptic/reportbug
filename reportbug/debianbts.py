@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.10 2004-08-01 00:18:49 lawrencc Exp $
+# $Id: debianbts.py,v 1.11 2004-08-04 21:41:22 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -180,7 +180,7 @@ def handle_wnpp(package, bts, ui, online=True, http_proxy=None):
         'RFA' :
         "This is a `Request for Adoption'. Due to lack of time, resources, interest or something similar, the current maintainer is asking for someone else to maintain this package. He/she will maintain it in the meantime, but perhaps not in the best possible way. In short: the package needs a new maintainer.",
         'RFH' :
-        "This is a `Request For Help'. The current maintainer wants to continue to maintain this package, but he/she needs some help to do this, because his/her time is limited or the package is quite big and needs several maintainers."
+        "This is a `Request For Help'. The current maintainer wants to continue to maintain this package, but he/she needs some help to do this, because his/her time is limited or the package is quite big and needs several maintainers.",
         'ITP' :
         "This is an `Intent To Package'. Please submit a package description along with copyright and URL in such a report.",
         'RFP' :
@@ -259,6 +259,11 @@ def handle_wnpp(package, bts, ui, online=True, http_proxy=None):
         if tag == 'O' and info and info[9] in \
                ('required', 'important', 'standard'):
             severity = 'important'
+
+        if tag == 'RFH':
+            headers.append('X-Debbugs-CC: debian-devel@lists.debian.org')
+            ui.ewrite('Your request will be carbon-copied to debian-devel, '
+                      'per Debian policy.\n')
 
         if fulldesc:
             orphstr = 'intend to orphan'
