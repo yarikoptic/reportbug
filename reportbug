@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.12 2004-02-17 22:44:53 lawrencc Exp $
+# $Id: reportbug,v 1.13 2004-02-17 22:46:56 lawrencc Exp $
 
 import site
 
@@ -1003,7 +1003,7 @@ def main():
 
         if not installed and not notatty and not isvirtual and not issource:
             packages = reportbug.packages_providing(package)
-            pack = None
+            tmp = pack = None
             if not packages:
                 if ui.yes_no(
                     'A package named "%s" does not appear to be installed; do '
@@ -1013,8 +1013,8 @@ def main():
                     'Continue filing with this package name.', True):
                     pkgavail = False
                 else:
-                    tmp, pack = None, package
-
+                    pack = package
+                    
             if not packages and not pkgavail and not pack:
                 (tmp, pack) = find_package_for(package, notatty)
                 if pack:
@@ -1032,16 +1032,14 @@ def main():
                 foundfile, package = tmp, pack
                 ewrite("Getting status for %s...\n", package)
                 status = reportbug.get_package_status(package)
-            elif not len(packages):
+            elif not packages:
                 if not ui.yes_no(
                     'This package does not appear to be installed; continue '
                     'with this report', 'Ignore this problem and continue.',
                     'Exit without filing a report.', False):
                     ewrite("Package not installed; stopping.\n")
                     sys.exit(1)
-            elif len(packages) == 1 and packages[0][0] == package:
-                pass
-            else:
+            elif (len(packages) > 1) or (packages[0][0] != package):
                 this_package = [(package, 'Uninstalled/non-existent package')]
                 package = ui.menu('Which of the following installed packages '
                                   'is the bug in?', packages + this_package,
