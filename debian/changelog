@@ -1,3 +1,10 @@
+reportbug (2.58) unstable; urgency=low
+
+  * I forgot to add the new smtp* options to CONFIG_ARGS.
+    (Closes: #244989)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 20 Apr 2004 22:37:35 -0500
+
 reportbug (2.57) unstable; urgency=low
 
   * Document that reportbug's --smtphost option also accepts an optional
