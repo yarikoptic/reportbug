@@ -58,6 +58,9 @@ def indent_wrap_text(text, starttext='', indent=0, linelen=None):
         si = ''
 
     text = ' '.join(text.split())
+    if not text:
+        return starttext+'\n'
+    
     output = textwrap.fill(text, width=linelen, initial_indent=starttext,
                            subsequent_indent=si)
     if output.endswith('\n'):
