@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.67 2004-12-18 04:01:23 lawrencc Exp $
+# $Id: reportbug,v 1.68 2004-12-23 07:50:52 lawrencc Exp $
 
 import site
 
@@ -758,7 +758,7 @@ def main():
     subject = options.subject
     bts = options.bts or 'debian'
     sysinfo = debianbts.SYSTEMS[bts]
-    rtype = options.type or sysinfo['type']
+    rtype = options.type or sysinfo.get('type')
     attachments = options.attachments
     pgp_addr = options.keyid
 
@@ -933,12 +933,13 @@ def main():
     depends = []
     conffiles = []
     reportinfo = None
-    isvirtual = (package in sysinfo['otherpkgs'].keys() and
+    isvirtual = (package in sysinfo.get('otherpkgs', {}).keys() and
                  package not in sysinfo.get('nonvirtual', []))
     issource = installed = usedavail = False
     status = None
     
-    if not pkgversion and options.querydpkg and sysinfo['query-dpkg']:
+    if not pkgversion and options.querydpkg and \
+           sysinfo.get('query-dpkg', True):
         ewrite("Getting status for %s...\n", package)
         status = reportbug.get_package_status(package)
 

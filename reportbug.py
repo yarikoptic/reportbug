@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.23 2004-10-20 12:34:05 lawrencc Exp $
+# $Id: reportbug.py,v 1.24 2004-12-23 07:50:52 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -319,7 +319,7 @@ def get_package_status(package, avail=False):
     elif origin:
         if debianbts.SYSTEMS.has_key(origin):
             vendor = debianbts.SYSTEMS[origin]['name']
-            reportinfo = (debianbts.SYSTEMS[origin]['type'],
+            reportinfo = (debianbts.SYSTEMS[origin].get('type', 'debbugs'),
                           debianbts.SYSTEMS[origin]['btsroot'])
         else:
             vendor = origin.capitalize()
@@ -592,7 +592,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
     un = os.uname()
     utsmachine = un[4]
     debinfo = ''
-    if debianbts.SYSTEMS[system]['query-dpkg']:
+    if debianbts.SYSTEMS[system].get('query-dpkg', True):
         debinfo += get_debian_release_info()
         debarch = get_arch()
         if debarch:

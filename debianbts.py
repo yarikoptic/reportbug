@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.14 2004-10-01 08:12:02 lawrencc Exp $
+# $Id: debianbts.py,v 1.15 2004-12-23 07:50:52 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -286,51 +286,37 @@ def handle_wnpp(package, bts, ui, online=True, http_proxy=None):
 
 # Supported servers
 # Theoretically support for GNATS and Jitterbug could be added here.
-
 SYSTEMS = { 'debian' :
             { 'name' : 'Debian', 'email': '%s@bugs.debian.org',
               'btsroot' : 'http://www.debian.org/Bugs/',
-              'query-dpkg' : 1, 'type' : 'debbugs',
               'otherpkgs' : debother, 'nonvirtual' : ['kernel-image'],
               'specials' : { 'wnpp': handle_wnpp },
               # Dependency packages
               'deppkgs' : ('gcc', 'g++', 'cpp', 'gcj', 'gpc', 'gobjc',
                            'chill', 'gij', 'g77', 'python', 'python-base',
                            'x-window-system-core', 'x-window-system'),
-              'cgiroot' : 'http://bugs.debian.org/cgi-bin/',
-              'mirrors' : {} },
+              'cgiroot' : 'http://bugs.debian.org/cgi-bin/' },
             'kde' :
             { 'name' : 'KDE Project', 'email': '%s@bugs.kde.org',
-              'btsroot': 'http://bugs.kde.org/', 'type' : 'debbugs',
-              'query-dpkg' : 1, 'otherpkgs' : {}, 'cgiroot' : None,
-              'mirrors' : {} },
+              'btsroot': 'http://bugs.kde.org/' },
             'mandrake' :
             { 'name' : 'Linux-Mandrake', 'email': '%s@bugs.linux-mandrake.com',
-              'btsroot': None,
-              'type' : 'debbugs', 'query-dpkg' : 0, 'otherpkgs' : {},
-              'cgiroot' : None, 'mirrors' : {} },
+              'type' : 'mailto', 'query-dpkg' : False },
             'gnome' :
             { 'name' : 'GNOME Project', 'email': '%s@bugs.gnome.org',
-              'type' : 'mailto', 'mirrors' : {}, 'cgiroot' : None,
-              'query-dpkg' : 0, 'otherpkgs' : {} },
+              'type' : 'mailto', 'query-dpkg' : False },
             'ximian' :
             { 'name' : 'Ximian', 'email': '%s@bugs.ximian.com',
-              'type' : 'mailto', 'mirrors' : {}, 'cgiroot' : None,
-              'query-dpkg' : 1, 'otherpkgs' : {} },
+              'type' : 'mailto' },
             'progeny' :
             { 'name' : 'Progeny', 'email' : 'bugs@progeny.com',
-              'type' : 'gnats', 'mirrors' : {}, 'cgiroot' : None,
-              'query-dpkg' : 1, 'otherpkgs' : progenyother },
+              'type' : 'gnats', 'otherpkgs' : progenyother },
             'ubuntu' :
-            { 'name' : 'Ubuntu',
-              'email' : 'ubuntu-users@lists.ubuntu.com',
-              'type' : 'mailto', 'mirrors' : {}, 'cgiroot' : None,
-              'query-dpkg' : 1, 'otherpkgs' : {} },
+            { 'name' : 'Ubuntu', 'email' : 'ubuntu-users@lists.ubuntu.com',
+              'type' : 'mailto' },
             'guug' :
             { 'name' : 'GUUG (German Unix User Group)',
-              'email' : '%s@bugs.guug.de',
-              'type' : 'debbugs', 'mirrors' : {}, 'cgiroot' : None,
-              'query-dpkg' : 0, 'otherpkgs' : {} },
+              'email' : '%s@bugs.guug.de', 'query-dpkg' : False },
             }
 
 SYSTEMS['helixcode'] = SYSTEMS['ximian']
@@ -437,7 +423,7 @@ for origin in glob.glob('/etc/dpkg/origins/*'):
         fp = file(origin)
         system = os.path.basename(origin)
         SYSTEMS[system] = SYSTEMS.get(system, { 'otherpkgs' : {},
-                                                'query-dpkg' : 1,
+                                                'query-dpkg' : True,
                                                 'mirrors' : {},
                                                 'cgiroot' : None } )
         for line in fp:
@@ -639,16 +625,16 @@ def get_cgi_report(number, system='debian', http_proxy='', archived=False,
 
 def get_btsroot(system, mirrors=None):
     if mirrors:
-        alternates = SYSTEMS[system]['mirrors']
+        alternates = SYSTEMS[system].get('mirrors')
         for mirror in mirrors:
             if alternates.has_key(mirror):
                 return alternates[mirror]
-    return SYSTEMS[system]['btsroot']
+    return SYSTEMS[system].get('btsroot', '')
 
 def get_reports(package, system='debian', mirrors=None,
                 http_proxy='', archived=False, source=False):
     if isinstance(package, StringTypes):
-        if SYSTEMS[system]['cgiroot']:
+        if SYSTEMS[system].get('cgiroot'):
             result = get_cgi_reports(package, system, http_proxy, archived,
                                      source)
             if result: return result
@@ -688,7 +674,7 @@ def get_reports(package, system='debian', mirrors=None,
 def get_report(number, system='debian', mirrors=None,
                http_proxy='', archived=False, followups=False):
     number = int(number)
-    if SYSTEMS[system]['cgiroot']:
+    if SYSTEMS[system].get('cgiroot'):
         result = get_cgi_report(number, system, http_proxy, archived,followups)
         if result: return result
         
