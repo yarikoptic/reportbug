@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.9 2004-02-14 21:16:04 lawrencc Exp $
+# $Id: reportbug,v 1.10 2004-02-14 21:40:51 lawrencc Exp $
 
 import site
 
@@ -885,8 +885,8 @@ def main():
     except LookupError:
         ui.long_message(
             'Unable to use specified character set "%s"; you probably need '
-            'either cjkcodecs or iconvcodec installed.\nFalling back to '
-            'ASCII encoding.\n', charset)
+            'either cjkcodecs (for users of Asian locales) or iconvcodec '
+            'installed.\nFalling back to ASCII encoding.\n', charset)
         charset = 'ascii'
     else:
         ewrite("Detected character set: %s\n"
