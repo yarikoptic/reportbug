@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.30 2004-05-21 10:32:37 lawrencc Exp $
+# $Id: reportbug,v 1.31 2004-05-21 10:34:09 lawrencc Exp $
 
 import site
 
@@ -603,8 +603,8 @@ def main():
                       callback_args=('Permitted report classes:',
                                      debianbts.CLASSLIST),
                       help='specify report class for GNATS BTSes')
-    parser.add_option('-d', '--debug', action='store_const', const=DEBUGGER,
-                      dest='sendto', help='send report only to '+DEBUGGER)
+    #parser.add_option('-d', '--debug', action='store_const', const=DEBUGGER,
+    #                  dest='sendto', help='send report only to '+DEBUGGER)
     parser.add_option('--test', action="store_true", default=False,
                       dest="testmode",
                       help="operate in test mode (maintainer use only)")
