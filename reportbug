@@ -22,12 +22,10 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.36 2004-06-22 22:52:43 lawrencc Exp $
+# $Id: reportbug,v 1.37 2004-06-29 19:42:14 lawrencc Exp $
 
 import site
 
-VERSION = "reportbug ##VERSION##"
-COPYRIGHT = VERSION + '\nCopyright (C) 1999-2004 Chris Lawrence <lawrencc@debian.org>'
 DEBUGGER = 'lawrencc@debian.org'
 DEFAULT_BTS = 'debian'
 
@@ -44,6 +42,8 @@ from reportbug import MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD
 from reportbug_exceptions import *
 from optparse import OptionParser, OptionValueError
 import textwrap
+
+from reportbug import VERSION, COPYRIGHT
 
 import email
 from email.MIMEMultipart import MIMEMultipart
