@@ -69,6 +69,20 @@ You can specify
 .B help
 to get a list of supported servers.
 .TP
+.B \-\-body=BODY
+Use the specified BODY as the body of the message.  The body text will be
+wrapped at 70 columns, and the normal reportbug headers and footers
+will be added as appropriate.  The editor prompt and any "special"
+prompting will be bypassed.
+.TP
+.B \-\-body-file=BODYFILE
+The contents of the (assumed to be) text file BODYFILE will be used as
+the message body.  This file is assumed to be properly formatted
+(i.e. reasonable line lengths, etc.).  The usual headers and footers
+will be added, and the editor step and "special" prompts will be
+skipped.  (BODYFILE may also be a named pipe; using a device special
+file may lead to unusual results.)
+.TP
 .B \-c, \-\-no\-config\-files
 Omit configuration files from the bug report without asking.  By
 default, you are asked if you want to include them; in some cases,
@@ -418,11 +432,6 @@ should be a valid
 URL for a proxy server, including any required port number (simply
 specifying a hostname, or omitting a port other than 80, WILL NOT WORK).
 .SH NOTES
-Does not support the
-.B bug
-option of specifying the body of the bug report after the package name
-on the command line.  I consider this a feature; YMMV.
-
 The email that's sent out is somewhat different from that made by
 \fBbug\fP; in particular, the
 .B Architecture
