@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.13 2004-02-17 22:46:56 lawrencc Exp $
+# $Id: reportbug,v 1.14 2004-02-17 22:56:59 lawrencc Exp $
 
 import site
 
@@ -568,7 +568,7 @@ def main():
         'sendto' : 'submit', 'mode' : 'novice', 'mta' : '/usr/sbin/sendmail',
         'check_available' : True, 'query_src' : True, 'debconf' : True,
         'editor' : '', 'offline' : False, 'verify' : True, 'check_uid' : True,
-        'testmode' : False, 'attachments' : [] }
+        'testmode' : False, 'attachments' : [], keyid = '' }
 
     if not sys.stdin.isatty():
         defaults.update({ 'dontquery' : True, 'notatty' : True,
@@ -614,6 +614,8 @@ def main():
                       help='send the report using GNUS')
     parser.add_option('--pgp', action='store_const', dest='sign',
                       const='pgp', help='sign report with PGP')
+    parser.add_option('-K', '--keyid', type="string", dest="keyid",
+                      help="key ID to use for PGP/GnuPG signatures")
     parser.add_option('-H', '--header', action='append', dest='headers',
                       help='add a custom RFC822 header to your report')
     parser.add_option('--license', action='store_true', default=False,
@@ -759,6 +761,7 @@ def main():
     sysinfo = debianbts.SYSTEMS[options.bts or 'debian']
     type = options.type or sysinfo['type']
     attachments = options.attachments
+    pgp_addr = options.keyid
 
     if options.queryonly:
         check_available = False
@@ -1533,7 +1536,8 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
     if sign:
         ewrite('Passing message to %s for signature...\n', sign)
-        pgp_addr = reportbug.get_email_addr(fromaddr)[1]
+        if not pgp_addr:
+            pgp_addr = reportbug.get_email_addr(fromaddr)[1]
 
         # Make the unsigned file first
         (unsigned, file1) = TempFile(
