@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: querybts,v 1.1.1.1 2004-02-05 04:29:11 lawrencc Exp $
+# $Id: querybts,v 1.2 2004-03-15 08:59:39 lawrencc Exp $
 
 import sys, os
 sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
@@ -192,11 +192,11 @@ def main():
                             queryonly=True, title=VERSION, archived=archived,
                             source=source)
     except ui.NoPackage:
-        ui.ewrite('Package appears not to exist in the BTS.\n')
+        ui.long_message('Package appears not to exist in the BTS.\n')
     except ui.NoBugs:
-        ui.ewrite('No bug reports found.\n')
+        ui.long_message('No bug reports found.\n')
     except ui.NoReport:
-        ui.ewrite('Nothing new to report; exiting.\n')
+        ui.long_message('Nothing new to report; exiting.\n')
 
 if __name__ == '__main__':
     try:
