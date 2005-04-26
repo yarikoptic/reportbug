@@ -26,6 +26,9 @@ Description: reports bugs in the Debian distribution
  transport agent, like exim or sendmail; however, you can edit the
  configuration file and send reports using any available mail server.
  .
+ This package also includes the "querybts" script for browsing the
+ Debian bug tracking system.
+ .
  If your system's users use locales with character sets other than
  UTF-8 and ISO-8859-*, one of either python2.3-cjkcodecs or
  python2.3-iconvcodec is required for proper operation.  For Asian
