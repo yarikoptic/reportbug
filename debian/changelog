@@ -1,3 +1,10 @@
+reportbug (3.10) unstable; urgency=low
+
+  * Suppress package-provided information if --no-config-files is
+    specified.  (Closes: #306343)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon, 25 Apr 2005 22:33:24 -0500
+
 reportbug (3.9) unstable; urgency=medium
 
   * Respect Bccs when using MTAs and MUAs; note that broken MUAs may fail
