@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.72 2005-02-15 17:44:16 lawrencc Exp $
+# $Id: reportbug,v 1.73 2005-04-26 03:31:23 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1542,7 +1542,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
         system('%s %s %s' % (handler, commands.mkarg(bugexec),
                              commands.mkarg(filename)))
 
-        addinfo = "\n-- Package-specific info:\n"+file(filename).read()
+        if not options.noconf:
+            addinfo = "\n-- Package-specific info:\n"+file(filename).read()
+        
         os.unlink(filename)
         if addinfo and incfiles:
             incfiles = addinfo + "\n" + incfiles
