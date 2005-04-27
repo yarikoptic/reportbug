@@ -1,3 +1,9 @@
+reportbug (3.11) unstable; urgency=low
+
+  * Fix UnboundLocalError introduced in fix for 306343. (Closes: #306518)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Wed, 27 Apr 2005 01:37:00 -0500
+
 reportbug (3.10) unstable; urgency=low
 
   * Suppress package-provided information if --no-config-files is
