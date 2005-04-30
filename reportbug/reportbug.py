@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.25 2005-01-02 20:54:05 lawrencc Exp $
+# $Id: reportbug.py,v 1.26 2005-04-30 06:19:49 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -130,13 +130,21 @@ def glob_escape(filename):
     filename = re.sub(r'([*?\[\]])', r'\\\1', filename)
     return filename
 
+def search_pipe(searchfile):
+    arg = commands.mkarg(searchfile)
+    if os.path.exists('/usr/bin/dlocate'):
+        pipe = os.popen('COLUMNS=79 dlocate -S %s 2>/dev/null' % arg)
+    else:
+        pipe = os.popen('COLUMNS=79 dpkg --search %s 2>/dev/null' % arg)
+    return pipe
+
 def query_dpkg_for(filename):
     try:
         x = os.getcwd()
     except OSError:
         os.chdir('/')
     searchfilename = glob_escape(filename)
-    pipe = os.popen("COLUMNS=79 dpkg --search %s 2>/dev/null" % commands.mkarg(searchfilename))
+    pipe = search_pipe(searchfilename)
     packages = {}
 
     for line in pipe:
@@ -593,6 +601,8 @@ def generate_blank_report(package, pkgversion, severity, justification,
     un = os.uname()
     utsmachine = un[4]
     debinfo = ''
+    shellpath = realpath('/bin/sh')
+
     if debianbts.SYSTEMS[system].get('query-dpkg', True):
         debinfo += get_debian_release_info()
         debarch = get_arch()
@@ -603,6 +613,9 @@ def generate_blank_report(package, pkgversion, severity, justification,
                 debinfo += 'Architecture: %s (%s)\n' % (debarch, utsmachine)
         else:
             debinfo += 'Architecture: ? (%s)\n' % utsmachine
+
+    if shellpath != '/bin/sh':
+        debinfo += 'Shell:  /bin/sh linked to %s\n' % shellpath
 
     locinfo = []
     langsetting = os.environ.get('LANG', 'C')
