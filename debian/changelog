@@ -1,3 +1,17 @@
+reportbug (3.12) unstable; urgency=low
+
+  * Really install French man page.  (Closes: #297998)
+  * Add Japanese man page, from Ippei Tamura.  (Closes: #306955)
+  * Fix typo in querybts man page.  (Closes: #306370)
+  * Include /bin/sh symlink's target.  (Closes: #296421)
+  * Send presubj messages through the pager.  (Closes: #294697)
+  * Add upgrade-reports pseudo package.  (Closes: #294822)
+  * Add 'q' to the editor prompt.  (Closes: #299425)
+  * Use dlocate if available instead of dpkg --search.  (Closes: #289228)
+  * Nag novice users if they use vi.  (Closes: #299172)
+  
+ --
+
 reportbug (3.11) unstable; urgency=low
 
   * Fix UnboundLocalError introduced in fix for 306343. (Closes: #306518)

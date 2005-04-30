@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.17 2005-02-01 18:58:43 lawrencc Exp $
+# $Id: debianbts.py,v 1.18 2005-04-30 06:19:48 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -158,6 +158,7 @@ debother = {
 #slink-cd -- Slink CD 
 #spam -- Spam (reassign spam to here so we can complain about it)
     'security.debian.org' : 'Problems with the security updates server',
+    'upgrade-reports' : 'Reports of successful and unsucessful upgrades',
     'wnpp' : 'Work-Needing and Prospective Packages list',
     'www.debian.org' : 'Problems with the WWW site (including other *.debian.org sites)'
     }

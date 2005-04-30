@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.12 2004-10-22 11:17:59 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.13 2005-04-30 06:19:49 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -181,8 +181,8 @@ def select_options(msg, ok, help, allow_numbers=None, nowrap=False):
         
     return select_options(msg, ok, help, allow_numbers, nowrap)
 
-def yes_no(msg, yeshelp, nohelp, default=1, nowrap=False):
-    "Return 1 for yes, 0 for no."
+def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False):
+    "Return True for yes, False for no."
     if default:
         ok = 'Ynq'
     else:
