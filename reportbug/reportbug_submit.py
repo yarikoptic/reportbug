@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.13 2005-03-10 19:22:56 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.14 2005-05-10 22:21:24 lawrencc Exp $
 
 import sys
 
@@ -337,7 +337,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             os.chdir('/')
 
         malist = [commands.mkarg(a[1]) for a in alist]
-        jalist = ','.join(malist)
+        jalist = ' '.join(malist)
         
         faddr = rfc822.parseaddr(fromaddr)[1]
         ewrite("Sending message via %s...\n", mta)
