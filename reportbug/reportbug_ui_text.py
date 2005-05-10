@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.13 2005-04-30 06:19:49 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.14 2005-05-10 22:25:10 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -74,7 +74,6 @@ def indent_wrap_text(text, starttext='', indent=0, linelen=None):
 try:
     import readline
     readline.parse_and_bind("tab: complete")
-
     try:
         # minimize the word delimeter list if possible
         readline.set_completer_delims(' ')

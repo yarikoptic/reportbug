@@ -9,8 +9,10 @@ reportbug (3.12) unstable; urgency=low
   * Add 'q' to the editor prompt.  (Closes: #299425)
   * Use dlocate if available instead of dpkg --search.  (Closes: #289228)
   * Nag novice users if they use vi.  (Closes: #299172)
+  * When calling an MTA, separate addresses with spaces rather than
+    commas.  (Closes: #308293, #308543)
   
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 10 May 2005 17:24:01 -0500
 
 reportbug (3.11) unstable; urgency=low
 
