@@ -53,7 +53,7 @@ def decode (page):
             import gzip
             fp = gzip.GzipFile('', 'rb', 9, StringIO(content))
         # remove content-encoding header
-        headers = {}
+        headers = httplib.HTTPMessage(StringIO(""))
         ceheader = re.compile(r"(?i)content-encoding:")
         for h in page.info().keys():
             if not ceheader.match(h):
