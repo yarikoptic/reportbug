@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.75 2005-04-30 06:19:49 lawrencc Exp $
+# $Id: reportbug,v 1.76 2005-05-20 07:14:07 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -268,7 +268,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     options.mua = mailer
                     break
             skip_editing = True
-        elif x == 'n':
+        elif x in ('n', 'q'):
             stopmsg(filename)
             sys.exit(1)
         elif x in ('l', 'p'):
@@ -934,7 +934,7 @@ def main():
     if 'sensible-editor' in edname:
         edname = reportbug.realpath('/usr/bin/editor')
         
-    if edname and 'vi' in edname and mode < MODE_STANDARD:
+    if not notatty and edname and 'vi' in edname and mode < MODE_STANDARD:
         if not ui.yes_no('You appear to be using the "vi" editor, which is '
                          'not suited for new users.  You probably want to '
                          'change this setting by using "update-alternatives '

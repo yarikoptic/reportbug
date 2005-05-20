@@ -1,6 +1,8 @@
 reportbug (3.13) unstable; urgency=low
 
   * Fix redirects in urlutils under Python 2.4.  (Closes: #309671)
+  * Really quit when using 'q' at editor prompt.  (Closes: #299425, again)
+  * Skip vi nag if in template mode.  (Closes: #309717)
 
  --
 
