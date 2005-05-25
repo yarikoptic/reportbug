@@ -2,7 +2,7 @@
 # -*- python -*-
 # querybts - Examine the state of a debbugs server
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2003 Chris Lawrence
+#   (C) 1999-2005 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: querybts,v 1.2 2004-03-15 08:59:39 lawrencc Exp $
+# $Id: querybts,v 1.3 2005-05-25 21:36:48 lawrencc Exp $
 
 import sys, os
 sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
@@ -132,7 +132,7 @@ def main():
     if len(args) == 0:
         print "Please specify a package or one or more bug numbers."
         print "Note: most shells consider # a comment character; however, a"
-        print "leading # is unneeded to specify a bug by number."
+        print "leading # is not needed to specify a bug by number."
         sys.exit(1)
 
     if use_browser:
