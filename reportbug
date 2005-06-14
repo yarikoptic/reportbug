@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.76 2005-05-20 07:14:07 lawrencc Exp $
+# $Id: reportbug,v 1.77 2005-06-14 19:48:36 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -970,7 +970,7 @@ def main():
         ewrite("Getting status for %s...\n", package)
         status = reportbug.get_package_status(package)
 
-        pkgavail, installed = status[1], status[5]
+        pkgavail, installed = status[1], status[6]
         # Packages that only exist to do weird dependency things
         deppkgs = sysinfo.get('deppkgs')
         if pkgavail and deppkgs:
@@ -987,11 +987,11 @@ def main():
                                'actual package "%s".\n', package, depends[0])
                             package = depends[0]
                     else:
-                        opts = [(x, reportbug.get_package_status(x)[10])
+                        opts = [(x, reportbug.get_package_status(x)[11])
                                 for x in depends]
                         if mode >= MODE_ADVANCED:
                             opts += [(package,
-                                      status[10]+' (dependency package)')]
+                                      status[11]+' (dependency package)')]
                             
                         package = ui.menu('%s is a dependency package.  '
                                           'Which of the following '
@@ -1000,7 +1000,7 @@ def main():
                                           'Select one of these packages: ')
                     ewrite("Getting status for %s...\n", package)
                     status = reportbug.get_package_status(package)
-                    pkgavail, installed = status[1], status[5]
+                    pkgavail, installed = status[1], status[6]
 
         if not pkgavail and not isvirtual:
             # Look for a matching source package
@@ -1026,7 +1026,7 @@ def main():
                 if package != src:
                     ewrite("Getting status for %s...\n", package)
                     status = reportbug.get_package_status(package)
-                    pkgavail, installed = status[1], status[5]
+                    pkgavail, installed = status[1], status[6]
                 else:
                     issource = True
             else:
@@ -1096,12 +1096,14 @@ def main():
                 ewrite("Package does not exist; stopping.\n")
                 sys.exit(1)
 
-        (pkgversion, pkgavail, depends, conffiles, maintainer, installed,
-         origin, vendor, reportinfo, priority, desc, src_name,
+        (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
+         installed, origin, vendor, reportinfo, priority, desc, src_name,
          fulldesc, state) = status
 
     buginfo = '/usr/share/bug/' + package
-    bugexec = submitas = submitto = presubj = reportwith = None
+    bugexec = submitas = submitto = presubj = None
+    reportwith = []
+    supplemental = []
     if os.path.isfile(buginfo) and os.access(buginfo, os.X_OK):
         bugexec = buginfo
     elif os.path.isdir(buginfo):
@@ -1112,7 +1114,8 @@ def main():
             presubj = buginfo+'/presubj'
 
         if os.path.isfile(buginfo+'/control'):
-            submitas, submitto, reportwith = reportbug.parse_bug_control_file(buginfo+'/control')
+            submitas, submitto, reportwith, supplemental = \
+                      reportbug.parse_bug_control_file(buginfo+'/control')
     elif os.path.isfile('/usr/share/bug/default/'+package) \
          and os.access('/usr/share/bug/default/'+package, os.X_OK):
         bugexec = '/usr/share/bug/default/'+package
@@ -1126,15 +1129,11 @@ def main():
             presubj = buginfo+'/presubj'
 
         if os.path.isfile(buginfo+'/control'):
-            submitas, submitto, reportwith = reportbug.parse_bug_control_file(
-                buginfo+'/control')
+            submitas, submitto, reportwith, supplemental = \
+                      reportbug.parse_bug_control_file(buginfo+'/control')
 
-    if submitas:
-        if reportwith:
-            if submitas not in reportwith:
-                reportwith = reportwith + (submitas,)
-        else:
-            reportwith = (submitas,)
+    if submitas and (submitas not in reportwith):
+        reportwith += [submitas]
 
     if reportwith:
         # Remove current package from report-with list
@@ -1290,9 +1289,11 @@ def main():
 
     depinfo = ""
     # Grab dependency list, removing version conditions.
-    if depends and not options.kudos:
+    if (depends or recommends) and not options.kudos:
         ewrite("Looking up dependencies of %s...\n", package)
-        depinfo = reportbug.get_dependency_info(package, depends)
+        depinfo = (reportbug.get_dependency_info(package, depends) +
+                   reportbug.get_dependency_info(package, recommends,
+                                                 "recommends"))
 
     if maintainer:
         lmaintainer = maintainer.decode('UTF-8', 'ignore').encode(charset,
@@ -1320,7 +1321,13 @@ orphaned for a long period of time are often removed from the archive.\n''')
             if extrastatus[2]:
                 extradepends = [x for x in extrastatus[2] if package not in x]
                 ewrite("Looking up dependencies of related package %s...\n", extrapackage)
-                depinfo = depinfo + reportbug.get_dependency_info(extrapackage, extradepends)
+                depinfo += reportbug.get_dependency_info(extrapackage, extradepends)
+
+    supplemental = ['reportbug', 'totem-gstreamer']
+    if supplemental and not options.kudos:
+        ewrite("Looking up status of additional packages...\n")
+        depinfo += reportbug.get_dependency_info(
+            package, [[x] for x in supplemental], rel='is related to')
 
     confinfo = []
     conftext = ''

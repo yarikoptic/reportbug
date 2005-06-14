@@ -43,10 +43,10 @@ in the template can put the user in any security risk.
 Package redirection
 ===================
 
- The package maintainer can control to which packages are the bug reports
-submitted to (i.e. the Package: field of the report). This will be mainly
-used to redirect bugs in packages coming from a single source to where the
-maintainer likes to have them.
+ The package maintainer can control to which packages bug reports are
+submitted, by setting the Package: field of the bug report.  This will
+be mainly used to redirect bugs in packages coming from a single
+source to where the maintainer likes to have them.
 
  This is done by having this line in /usr/share/bug/$package/control:
 
@@ -86,6 +86,12 @@ control file.
 
 Package information will be added to the bug report for each extra package
 listed.
+
+You can also request that the status information for other packages
+(that are not dependencies or recommendations) be included with the
+report using the "package-status" header.
+
+ package-status: bar baz
 
 Addendum: Languages other than SH
 =================================
