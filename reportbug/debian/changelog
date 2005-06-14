@@ -1,12 +1,17 @@
 reportbug (3.13) unstable; urgency=low
 
   * Fix redirects in urlutils under Python 2.4.  (Closes: #309671)
-  * Really quit when using 'q' at editor prompt.  (Closes: #299425, again)
+  * Really quit when using 'q' at editor prompt.  (Closes: #299425, #313516)
   * Skip vi nag if in template mode.  (Closes: #309717)
   * Fix grammar in "specify bug by number" message in querybts.
     (Closes: #310723)
+  * Fix crash when bug control file contains both submit-as and
+    report-with lines.  (Closes: #313403)
+  * Include status for recommended packages as well.  (Closes: #310856)
+  * Add support for including status of packages that aren't dependencies.
+    (Closes: #313421)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 14 Jun 2005 14:47:22 -0500
 
 reportbug (3.12) unstable; urgency=low
 

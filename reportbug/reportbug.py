@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.26 2005-04-30 06:19:49 lawrencc Exp $
+# $Id: reportbug.py,v 1.27 2005-06-14 19:48:36 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -246,6 +246,7 @@ def get_package_status(package, avail=False):
     packagere = re.compile('Package: ')
     priorityre = re.compile('Priority: ')
     dependsre = re.compile('(Pre-)?Depends: ')
+    recsre = re.compile('Recommends: ')
     conffilesre = re.compile('Conffiles: ')
     maintre = re.compile('Maintainer: ')
     statusre = re.compile('Status: ')
@@ -260,6 +261,7 @@ def get_package_status(package, avail=False):
     conffiles = []
     fulldesc = []
     depends = []
+    recommends = []
     confmode = False
     state = ''
     
@@ -306,6 +308,12 @@ def get_package_status(package, avail=False):
             thisdepends = [[y.split()[0] for y in x.split('|')]
                            for x in (thisdepends.split(', '))]
             depends.extend(thisdepends)
+        elif recsre.match(line):
+            (crud, thisdepends) = line.split(": ", 1)
+            # Remove versioning crud
+            thisdepends = [[y.split()[0] for y in x.split('|')]
+                           for x in (thisdepends.split(', '))]
+            recommends.extend(thisdepends)
         elif conffilesre.match(line):
             confmode = True
         elif maintre.match(line):
@@ -334,7 +342,8 @@ def get_package_status(package, avail=False):
     else:
         vendor = ''
 
-    info = (pkgversion, pkgavail, tuple(depends), tuple(conffiles),
+    info = (pkgversion, pkgavail, tuple(depends), tuple(recommends),
+            tuple(conffiles),
             maintainer, installed, origin, vendor, reportinfo, priority,
             desc, src_name, os.linesep.join(fulldesc), state)
 
@@ -467,7 +476,8 @@ def get_package_info(packages):
         notfound = [x for x in group if x not in found]
         if len(notfound) == len(group):
             if group not in found:
-                ret.append( (' | '.join(group), 'pn', '', 'Not found.', None) )
+                ret.append( (' | '.join(group), 'pn', '<none>',
+                             '(no description available)', None) )
 
     return ret
 
@@ -480,16 +490,16 @@ def packages_providing(package):
     
     return ret
 
-def get_dependency_info(package, depends):
+def get_dependency_info(package, depends, rel="depends on"):
     if not depends:
-        return ('\n%s has no dependencies.\n' % package)
+        return ('\n%s %s no packages.\n' % (package, rel))
 
     dependencies = []
     for dep in depends:
         for bit in dep:
             dependencies.append( (tuple(dep), bit) )
 
-    depinfo = "\nVersions of packages %s depends on:\n" % package
+    depinfo = "\nVersions of packages %s %s:\n" % (package, rel)
 
     packs = {}
     for info in get_package_info(dependencies):
@@ -821,7 +831,9 @@ def parse_config_files():
     return args
 
 def parse_bug_control_file(filename):
-    submitas = submitto = reportwith = None
+    submitas = submitto = None
+    reportwith = []
+    supplemental = []
     fh = file(filename)
     for line in fh:
         line = line.strip()
@@ -835,9 +847,11 @@ def parse_bug_control_file(filename):
         elif header == 'send-to':
             submitto = data
         elif header == 'report-with':
-            reportwith = data.split(' ')
+            reportwith += data.split(' ')
+        elif header == 'package-status':
+            supplemental += data.split(' ')
 
-    return submitas, submitto, reportwith
+    return submitas, submitto, reportwith, supplemental
 
 def cleanup_msg(dmessage, headers, type):
     pseudoheaders = []
