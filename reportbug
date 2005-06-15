@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.77 2005-06-14 19:48:36 lawrencc Exp $
+# $Id: reportbug,v 1.78 2005-06-15 16:26:13 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1323,7 +1323,6 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 ewrite("Looking up dependencies of related package %s...\n", extrapackage)
                 depinfo += reportbug.get_dependency_info(extrapackage, extradepends)
 
-    supplemental = ['reportbug', 'totem-gstreamer']
     if supplemental and not options.kudos:
         ewrite("Looking up status of additional packages...\n")
         depinfo += reportbug.get_dependency_info(
