@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.78 2005-06-15 16:26:13 lawrencc Exp $
+# $Id: reportbug,v 1.79 2005-06-15 16:34:48 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1287,17 +1287,9 @@ def main():
     else:
         bccaddr = os.environ.get('MAILBCC', fromaddr)
 
-    depinfo = ""
-    # Grab dependency list, removing version conditions.
-    if (depends or recommends) and not options.kudos:
-        ewrite("Looking up dependencies of %s...\n", package)
-        depinfo = (reportbug.get_dependency_info(package, depends) +
-                   reportbug.get_dependency_info(package, recommends,
-                                                 "recommends"))
-
     if maintainer:
-        lmaintainer = maintainer.decode('UTF-8', 'ignore').encode(charset,
-                                                                  'replace')
+        lmaintainer = maintainer.decode('UTF-8', 'ignore').encode(
+            charset, 'replace')
         ewrite("Maintainer for %s is '%s'.\n", package, lmaintainer)
         if 'qa.debian.org' in maintainer:
             ui.long_message('''\
@@ -1314,6 +1306,14 @@ orphaned for a long period of time are often removed from the archive.\n''')
             ewrite('Unable to determine maintainer for %s; exiting.', package)
             sys.exit(1)
 
+    depinfo = ""
+    # Grab dependency list, removing version conditions.
+    if (depends or recommends) and not options.kudos:
+        ewrite("Looking up dependencies of %s...\n", package)
+        depinfo = (reportbug.get_dependency_info(package, depends) +
+                   reportbug.get_dependency_info(package, recommends,
+                                                 "recommends"))
+
     if reportwith and not options.kudos:
         for extrapackage in reportwith:
             ewrite("Getting status for related package %s...\n", extrapackage)
@@ -1329,14 +1329,12 @@ orphaned for a long period of time are often removed from the archive.\n''')
             package, [[x] for x in supplemental], rel='is related to')
 
     confinfo = []
-    conftext = ''
-    remonly = False
     if conffiles and not options.kudos:
         ewrite("Getting changed configuration files...\n")
         confinfo, changed = reportbug.get_changed_config_files(conffiles,
                                                                nocompress)
 
-    if not conffiles:
+    if not confinfo:
         pass
     elif options.noconf and changed:
         for f in changed:
@@ -1360,6 +1358,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
             else:
                 break
 
+    conftext = ''
     if confinfo:
         conftext = '\n-- Configuration Files:\n'
         files = confinfo.keys()
