@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.79 2005-06-15 16:34:48 lawrencc Exp $
+# $Id: reportbug,v 1.80 2005-06-16 21:41:03 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1331,32 +1331,30 @@ orphaned for a long period of time are often removed from the archive.\n''')
     confinfo = []
     if conffiles and not options.kudos:
         ewrite("Getting changed configuration files...\n")
-        confinfo, changed = reportbug.get_changed_config_files(conffiles,
-                                                               nocompress)
+        confinfo, changed = reportbug.get_changed_config_files(
+            conffiles, nocompress)
 
-    if not confinfo:
-        pass
-    elif options.noconf and changed:
-        for f in changed:
-            confinfo[f] = 'changed [not included]'
-    elif changed and not notatty:
-        while 1:
-            x = ui.select_options(
-                "*** WARNING: The following configuration files have been "
-                "modified:\n"+ "\n".join(changed)+
-                "\nSend modified configuration files", 'Ynd',
-                {'y':'Send your modified configuration files.',
-                 'n':"Don't send modified configuration files.",
-                 'd':'Display modified configuration files.'})
-            if x == 'n':
-                for f in changed:
-                    confinfo[f] = 'changed [not included]'
-                break
-            elif x == 'd':
-                PAGER = os.environ.get('PAGER', '/usr/bin/sensible-pager')
-                system(PAGER+' '+' '.join(changed))
-            else:
-                break
+        if options.noconf and changed:
+            for f in changed:
+                confinfo[f] = 'changed [not included]'
+        elif changed and not notatty:
+            while 1:
+                x = ui.select_options(
+                    "*** WARNING: The following configuration files have been "
+                    "modified:\n"+ "\n".join(changed)+
+                    "\nSend modified configuration files", 'Ynd',
+                    {'y':'Send your modified configuration files.',
+                     'n':"Don't send modified configuration files.",
+                     'd':'Display modified configuration files.'})
+                if x == 'n':
+                    for f in changed:
+                        confinfo[f] = 'changed [not included]'
+                    break
+                elif x == 'd':
+                    PAGER = os.environ.get('PAGER', '/usr/bin/sensible-pager')
+                    system(PAGER+' '+' '.join(changed))
+                else:
+                    break
 
     conftext = ''
     if confinfo:
