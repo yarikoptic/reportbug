@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.27 2005-06-14 19:48:36 lawrencc Exp $
+# $Id: reportbug.py,v 1.28 2005-06-16 21:41:04 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -29,6 +29,7 @@ COPYRIGHT = VERSION + '\nCopyright (C) 1999-2004 Chris Lawrence <lawrencc@debian
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
+import pprint
 
 from string import ascii_letters, digits
 
@@ -559,24 +560,23 @@ def get_debian_release_info():
     dists = []
     output = commands.getoutput('apt-cache policy 2>/dev/null')
     if output:
-        mre = re.compile('\s+(\d+)\s+.*$\s+release o=Debian,a=([^,]+),',
-                         re.MULTILINE)
+        mre = re.compile('\s+(\d+)\s+.*$\s+release\s.*o=(Ubuntu|Debian),a=([^,]+),', re.MULTILINE)
         found = {}
         ## XXX: When Python 2.4 rolls around, rewrite this
         for match in mre.finditer(output):
-            try:
-                pri, dist = (int(match.group(1)),
-                             DISTORDER.index(match.group(2)))
-                found[(pri, dist)] = True
-            except ValueError:
-                #warn += 'Found unknown policy: '+str(match.groups())+'\n'
-                pass
+            pword, distname = match.group(1, 3)
+            if distname in DISTORDER:
+                pri, dist = int(pword), DISTORDER.index(distname)
+            else:
+                pri, dist = int(pword), len(DISTORDER)
+
+            found[(pri, dist, distname)] = True
 
         if found:
             dists = found.keys()
             dists.sort()
             dists.reverse()
-            dists = [(x[0], DISTORDER[x[1]]) for x in dists]
+            dists = [(x[0], x[2]) for x in dists]
             debvers = dists[0][1]
 
     if os.path.exists('/etc/debian_version'):
@@ -587,7 +587,10 @@ def get_debian_release_info():
     if debvers:
         debinfo += '  APT prefers '+debvers+'\n'
     if dists:
-        debinfo += '  APT policy: ' + ', '.join([str(x) for x in dists]) + '\n'
+        # Should wrap this eventually...
+        #policystr = pprint.pformat(dists)
+        policystr = ', '.join([str(x) for x in dists])
+        debinfo += '  APT policy: %s\n' % policystr
     if warn:
         debinfo += warn
 
