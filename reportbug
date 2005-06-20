@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.81 2005-06-20 03:26:29 lawrencc Exp $
+# $Id: reportbug,v 1.82 2005-06-20 03:32:23 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -809,13 +809,15 @@ def main():
         severity = 'normal'
         subject = 'testing'
         taglist = []
-    
+
+    interactive = True
     if options.template:
-        check_available = False
+        check_available = interactive = False
         dontquery = quietly = notatty = True
         mua = smtphost = None
         severity = severity or 'wishlist'
         subject = subject or 'none'
+        taglist = taglist or []
 
     if options.outfile or options.printonly:
         mua = smtphost = None
@@ -1389,7 +1391,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
     ewrite('\n')
     prompted = False
-    if not (options.kudos or exinfo) and presubj:
+    if interactive and not (options.kudos or exinfo) and presubj:
         show_report(file(presubj).read()+'\n')
 
     if options.kudos:
@@ -1554,7 +1556,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         tags = ''
 
     # Execute bug script
-    if bugexec and not options.kudos:
+    if interactive and bugexec and not options.kudos:
         if os.path.exists('handle_bugscript'):
             handler = './handle_bugscript'
         else:
