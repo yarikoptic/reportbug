@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.80 2005-06-16 21:41:03 lawrencc Exp $
+# $Id: reportbug,v 1.81 2005-06-20 03:26:29 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -958,6 +958,7 @@ def main():
 
     pkgavail = maintainer = origin = src_name = ''
     depends = []
+    recommends = []
     conffiles = []
     reportinfo = None
     isvirtual = (package in sysinfo.get('otherpkgs', {}).keys() and
