@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.28 2005-06-16 21:41:04 lawrencc Exp $
+# $Id: reportbug.py,v 1.29 2005-06-21 22:09:37 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -63,30 +63,6 @@ for mode in MODELIST:
 del mode
 
 NEWBIELINE = '*** Please type your report below this line ***'
-
-def rfcdatestr(timeval = None):
-    """Cheesy implementation of an RFC 822 date."""
-    if timeval is None:
-        timeval = time.time()
-
-    try:
-        tm = time.localtime(timeval)
-        if tm[8] > 0:
-            hrs, mins = divmod(-time.altzone/60, 60)
-        else:
-            hrs, mins = divmod(-time.timezone/60, 60)
-
-        # Correct for rounding down
-        if mins and hrs < 0:
-            hrs += 1
-
-        current = locale.setlocale(locale.LC_TIME)
-        locale.setlocale(locale.LC_TIME, "C")
-        ret = time.strftime('%a, %d %b %Y %H:%M:%S', tm)
-        locale.setlocale(locale.LC_TIME, current)
-        return ret + (" %+03d%02d" % (hrs, mins))
-    except:
-        return 'Invalid date: '+`timeval`
 
 fhs_directories = ['/', '/usr', '/usr/share', '/var', '/usr/X11R6',
                    '/usr/man', '/usr/doc', '/usr/bin']
