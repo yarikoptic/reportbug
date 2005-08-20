@@ -22,13 +22,26 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.18 2005-04-30 06:19:48 lawrencc Exp $
+# $Id: debianbts.py,v 1.19 2005-08-20 14:38:59 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
 from types import StringTypes
 import sys
 
+import mailbox
+import email
+import email.Errors
+import cStringIO
+
+def msgfactory(fp):
+    try:
+        return email.message_from_file(fp)
+    except email.Errors.MessageParseError:
+        # Don't return None since that will
+        # stop the mailbox iterator
+        return ''
+    
 class Error(Exception):
     pass
 
@@ -256,9 +269,9 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
                 sys.exit(1)
             desc = fulldesc = ''
         else:
-            desc = info[10] or ''
-            package = info[11] or package
-            fulldesc = info[12]
+            desc = info[11] or ''
+            package = info[12] or package
+            fulldesc = info[13]
 
         if tag == 'O' and info and info[9] in \
                ('required', 'important', 'standard'):
@@ -375,7 +388,7 @@ def yn_bool(setting):
 def cgi_report_url(system, number, archived=False, mbox=False):
     root = SYSTEMS[system].get('cgiroot')
     if root:
-        return '%sbugreport.cgi?bug=%d&archive=%s&mbox=%s' % (
+        return '%sbugreport.cgi?bug=%d&archived=%s&mbox=%s' % (
             root, number, archived, yn_bool(mbox))
     return None
 
@@ -392,7 +405,7 @@ def cgi_package_url(system, package, archived=False, source=False,
     repeat = yn_bool(repeatmerged)
     archive = yn_bool(archived)
 
-    return '%spkgreport.cgi?%s=%s&archive=%s&repeatmerged=%s&show_list_header=no&show_list_footer=no' % (root, qtype, package, archive, repeat)
+    return '%spkgreport.cgi?%s=%s&archived=%s&repeatmerged=%s&show_list_header=no&show_list_footer=no' % (root, qtype, package, archive, repeat)
 
 def package_url(system, package, mirrors=None, source=False,
                 repeatmerged=True):
@@ -606,6 +619,54 @@ def parse_html_report(number, url, http_proxy, followups=False, cgi=True):
 
     return (title, output)
 
+# XXX: Need to handle charsets properly
+def parse_mbox_report(number, url, http_proxy, followups=False):
+    page = open_url(url, http_proxy)
+    if not page:
+        return None
+
+    # Make this seekable
+    wholefile = cStringIO.StringIO(page.read())
+
+    mbox = mailbox.UnixMailbox(wholefile, msgfactory)
+    title = ''
+
+    output = []
+    for message in mbox:
+        if not message:
+            pass
+        
+        subject = message.get('Subject')
+        if not title:
+            title = subject
+
+        date = message.get('Date')
+        fromhdr = message.get('From')
+
+        body = entry = ''
+        for part in message.walk():
+            if part.get_content_type() == 'text/plain' and not body:
+                body = part.get_payload(None, True)
+
+        if fromhdr:
+            entry += 'From: %s%s' % (fromhdr, os.linesep)
+
+        if subject and subject != title:
+            entry += 'Subject: %s%s' % (subject, os.linesep)
+
+        if date:
+            entry += 'Date: %s%s' % (date, os.linesep)
+
+        if entry:
+            entry += os.linesep
+
+        entry += body.rstrip('\n') + os.linesep
+
+        output.append(entry)
+
+    title = "#%d: %s" % (number, title)
+    return (title, output)
+
 def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
                     source=False):
     page = open_url(cgi_package_url(system, package, archived, source),
@@ -627,8 +688,9 @@ def get_cgi_report(number, system='debian', http_proxy='', archived=False,
                    followups=False):
     number = int(number)
 
-    url = cgi_report_url(system, number, archived='no')
-    return parse_html_report(number, url, http_proxy, followups, cgi=True)
+    url = cgi_report_url(system, number, archived='no', mbox=True)
+    return parse_mbox_report(number, url, http_proxy, followups)
+    #return parse_html_report(number, url, http_proxy, followups, cgi=True)
 
 def get_btsroot(system, mirrors=None):
     if mirrors:
@@ -689,3 +751,6 @@ def get_report(number, system='debian', mirrors=None,
     if not url: return None
 
     return parse_html_report(number, url, http_proxy, followups, cgi=False)
+
+if __name__ == '__main__':
+    print get_cgi_report(183573)
