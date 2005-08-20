@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.82 2005-06-20 03:32:23 lawrencc Exp $
+# $Id: reportbug,v 1.83 2005-08-20 14:39:46 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1296,7 +1296,7 @@ def main():
         ewrite("Maintainer for %s is '%s'.\n", package, lmaintainer)
         if 'qa.debian.org' in maintainer:
             ui.long_message('''\
-This package is currently "orphaned"; if you care a current or prospective
+This package is currently "orphaned"; if you are a current or prospective
 Debian developer, you might consider adopting it.  Please be aware that your
 report may not be resolved for a while, and that packages that have been
 orphaned for a long period of time are often removed from the archive.\n''')
