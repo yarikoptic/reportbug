@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.83 2005-08-20 14:39:46 lawrencc Exp $
+# $Id: reportbug,v 1.84 2005-08-20 14:43:00 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -468,7 +468,15 @@ def offer_configuration(options):
             ewrite('Unable to rename %s as %s~\n', reportbug.USERFILE,
                    reportbug.USERFILE)
 
-    fd = os.open(reportbug.USERFILE, os.O_WRONLY|os.O_TRUNC|os.O_CREAT, 0600)
+    try:
+        fd = os.open(reportbug.USERFILE, os.O_WRONLY|os.O_TRUNC|os.O_CREAT,
+                     0600)
+    except OSError, x:
+        ui.long_message('Unable to save %s; most likely, you do not have a '
+                        'home directory.  Please fix this before using '
+                        'reportbug again.\n', reportbug.USERFILE)
+        sys.exit(1)
+        
     fp = os.fdopen(fd, 'w')
     print >> fp, '# reportbug preferences file'
     print >> fp, '# Version of reportbug this preferences file was written by'
