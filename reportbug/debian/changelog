@@ -1,3 +1,19 @@
+reportbug (3.15) unstable; urgency=low
+
+  * Initialize recommends, so -V works again.  (Closes: #314715)
+  * Improve wording of part of README.developers.  (Closes: #313418)
+  * Don't execute bug scripts if --template is specified, since they may
+    be interactive.  (Closes: #314695)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 19 Jun 2005 22:32:54 -0500
+
+reportbug (3.14) unstable; urgency=low
+
+  * Fix package-status inclusion.  (Closes: #313421)
+  * Recognize Ubuntu-origin entries in apt-cache policy output.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 16 Jun 2005 16:42:21 -0500
+
 reportbug (3.13) unstable; urgency=low
 
   * Fix redirects in urlutils under Python 2.4.  (Closes: #309671)
