@@ -1,3 +1,21 @@
+reportbug (3.16) unstable; urgency=low
+
+  * The "widows and orphans" release (aka hopefully the last release
+    before I start hacking on reportbug 4).
+  * Use mbox format when accessing the Debian BTS.  This will hopefully
+    avoid breakage due to presentation changes--at least for report pages;
+    summary pages are a different story.  (Closes: #322720 et al.)
+    You will now see relevant mails to the control@b.d.o address too.
+  * Don't store realname/email unless non-default on config run.
+    (Closes: #324341)
+  * Fix typo in orphaned-package message.  (Closes: #324006, #323070)
+  * Fix WNPP reporting for orphaning packages.  (Closes: #323801)
+  * vi nag now includes how to disable it.  (Closes: #322852)
+  * Better handling for the case where $HOME doesn't exist during a
+    config run.  (Closes: #323595)
+  
+ -- Chris Lawrence <lawrencc@debian.org>  Mon, 22 Aug 2005 01:57:31 -0400
+
 reportbug (3.15) unstable; urgency=low
 
   * Initialize recommends, so -V works again.  (Closes: #314715)
