@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.85 2005-08-22 05:49:15 lawrencc Exp $
+# $Id: reportbug,v 1.86 2005-08-22 05:52:06 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -495,8 +495,18 @@ def offer_configuration(options):
     rn = 'realname "%s"'
     em = 'email "%s"'
     email_addy = (from_addr or options.email or def_email)
-    print >> fp, rn % (realname or options.realname or def_realname)
-    print >> fp, em % email_addy
+    email_name = (realname or options.realname or def_realname)
+    
+    if email_name != def_realname:
+        print >> fp, rn % email_name
+    else:
+        print >> fp, '# '+(rn % email_name)
+        
+    if email_addy != def_email:
+        print >> fp, em % email_addy
+    else:
+        print >> fp, '# '+(em % email_addy)
+
     uid = os.getuid()
     if uid < MIN_USER_ID:
         print >> fp, '# Suppress user ID check for this user'
