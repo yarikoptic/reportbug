@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.84 2005-08-20 14:43:00 lawrencc Exp $
+# $Id: reportbug,v 1.85 2005-08-22 05:49:15 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -941,14 +941,18 @@ def main():
                "Please change your locale if this is incorrect.\n\n", charset)
 
     edname = which_editor(options.editor)
-    if 'sensible-editor' in edname:
+    baseedname = os.path.basename(edname)
+    if baseedname == 'sensible-editor':
         edname = reportbug.realpath('/usr/bin/editor')
         
-    if not notatty and edname and 'vi' in edname and mode < MODE_STANDARD:
+    if not notatty and 'vi' in baseedname and mode < MODE_STANDARD:
         if not ui.yes_no('You appear to be using the "vi" editor, which is '
                          'not suited for new users.  You probably want to '
                          'change this setting by using "update-alternatives '
-                         '--config editor" as root.  Do you want to continue?',
+                         '--config editor" as root.  (You can bypass this '
+                         'message in the future by using reportbug in '
+                         '"standard" mode or higher.) '
+                         'Do you want to continue?',
                          'Continue filing this report.',
                          'Stop reportbug to change editors.', False):
             ewrite('Exiting per user request.\n')
