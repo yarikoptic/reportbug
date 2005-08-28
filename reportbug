@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.86 2005-08-22 05:52:06 lawrencc Exp $
+# $Id: reportbug,v 1.87 2005-08-28 02:01:22 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -330,6 +330,12 @@ def find_package_for(filename, notatty=False, pathonly=False):
         ewrite("Using package '%s'.\n", package)
         return (filename, package)
 
+def validate_package_name(package):
+    if not re.match(r'^[a-z0-9][a-z0-9\-\+\.]+$', package):
+        ui.long_message("%s is not a valid package name.", package)
+        package = None
+    return package
+
 def get_other_package_name(others):
     return ui.menu("Please enter the name of the package in which you "
                    "have found a problem, or choose one of these bug "
@@ -352,11 +358,14 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
     if others:
         options += others.keys()
    
-    package = ui.get_string(prompt, options, force_prompt=True)
-    if not package:
-        return
-    if others and package and package == 'other':
-        package = get_other_package_name(others)
+    package = None
+    while package is None:
+        package = ui.get_string(prompt, options, force_prompt=True)
+        if not package:
+            return
+        if others and package and package == 'other':
+            package = get_other_package_name(others)
+        package = validate_package_name(package)
 
     if mode < MODE_STANDARD:
         if package == 'reportbug':
