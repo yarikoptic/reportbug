@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.87 2005-08-28 02:01:22 lawrencc Exp $
+# $Id: reportbug,v 1.88 2005-08-28 02:34:18 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1461,8 +1461,10 @@ orphaned for a long period of time are often removed from the archive.\n''')
             ewrite("Rewriting subject to '%s'\n", subject)
 
     listcc = options.listcc
-    if not listcc and mode > MODE_STANDARD and rtype == 'debbugs' and not options.testmode and not options.template:
+    if not listcc:
         listcc = []
+    
+    if not listcc and mode > MODE_STANDARD and rtype == 'debbugs' and not options.testmode and not options.template:
         ewrite('\n')
         ui.long_message('Enter any additional addresses this report should be sent to; press ENTER after each address.  Press ENTER on a blank line to continue.')
         while 1:
@@ -1472,9 +1474,6 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 break
             listcc.append(cc)
         ewrite('\n')
-
-    if listcc:
-        headers.append('X-Debbugs-CC: '+', '.join(listcc))
 
     if severity and rtype:
         severity = debianbts.convert_severity(severity, rtype)
@@ -1566,7 +1565,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         not (notatty or options.kudos or exinfo) and package != 'wnpp' and
         mode > MODE_NOVICE):
         # Multiple-choice checkbox
-        if severity in ('grave', 'critical'):
+        if severity in ('grave', 'critical', 'serious'):
             tags = debianbts.TAGS.copy()
             tags.update(debianbts.CRITICAL_TAGS)
             tagorder = debianbts.TAGLIST + debianbts.CRITICAL_TAGLIST
@@ -1580,6 +1579,11 @@ orphaned for a long period of time are often removed from the archive.\n''')
             extras=debianbts.EXTRA_TAGS)
 
     patch = ('patch' in taglist)
+
+    if justification and 'security' not in taglist and 'security' in \
+           justification:
+        ewrite('Adding security tag to this report.\n')
+        taglist += ['security']
 
     if taglist:
         tags = ' '.join(taglist)
@@ -1607,6 +1611,13 @@ orphaned for a long period of time are often removed from the archive.\n''')
             incfiles = addinfo + "\n" + incfiles
         elif addinfo:
             incfiles = addinfo
+
+    if bts == 'debian' and 'security' in taglist:
+        ewrite('Will send a CC of this report to the Debian Security Team.\n')
+        listcc += ['Debian Security Team <team@security.debian.org>']
+        
+    if listcc:
+        headers.append('X-Debbugs-CC: '+', '.join(listcc))
 
     # Prepare bug report
     if options.kudos:
