@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.19 2005-08-20 14:38:59 lawrencc Exp $
+# $Id: debianbts.py,v 1.20 2005-08-28 02:36:54 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -504,7 +504,7 @@ class BTSParser(sgmllib.SGMLParser):
 
     def handle_data(self, data):
         if self.savedata is not None:
-            self.savedata = self.savedata + data
+            self.savedata += data
 
     # --- Hooks to save data; shouldn't need to be overridden
 
@@ -520,9 +520,9 @@ class BTSParser(sgmllib.SGMLParser):
     def check_li(self):
         if self.mode == 'summary':
             data = self.save_end()
-            if data:
+            if data and data[0] == '#':
                 self.lidatalist.append(data)
-                self.bugcount = self.bugcount + 1
+                self.bugcount += 1
 
             self.lidata = False
 
@@ -542,7 +542,9 @@ class BTSParser(sgmllib.SGMLParser):
 
     def end_h2(self):
         if self.mode == 'summary':
-            self.hierarchy.append( (self.save_end(), []) )
+            hiertitle = self.save_end()
+            if 'bug' in hiertitle:
+                self.hierarchy.append( (hiertitle, []) )
         self.endh2 = True # We are at the end of a title, flag <pre>
 
     def do_br(self, attrs):
