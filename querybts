@@ -22,10 +22,12 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: querybts,v 1.3 2005-05-25 21:36:48 lawrencc Exp $
+# $Id: querybts,v 1.4 2005-08-28 02:03:55 lawrencc Exp $
 
 import sys, os
 sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
+
+from reportbug_exceptions import *
 
 import reportbug, debianbts, commands, getopt, re, mailcap, urlutils
 
@@ -191,11 +193,11 @@ def main():
         ui.handle_bts_query(package, system, mirrors, http_proxy,
                             queryonly=True, title=VERSION, archived=archived,
                             source=source)
-    except ui.NoPackage:
+    except NoPackage:
         ui.long_message('Package appears not to exist in the BTS.\n')
-    except ui.NoBugs:
+    except NoBugs:
         ui.long_message('No bug reports found.\n')
-    except ui.NoReport:
+    except NoReport:
         ui.long_message('Nothing new to report; exiting.\n')
 
 if __name__ == '__main__':
