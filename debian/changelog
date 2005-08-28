@@ -7,7 +7,7 @@ reportbug (3.17) unstable; urgency=low
     and X-Debbugs-CC security-tagged reports to team@security.debian.org.
     (Closes: #323374)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 27 Aug 2005 22:38:17 -0400
 
 reportbug (3.16) unstable; urgency=low
 
