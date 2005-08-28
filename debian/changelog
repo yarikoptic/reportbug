@@ -1,6 +1,11 @@
 reportbug (3.17) unstable; urgency=low
 
-  * Validate package names.  (Closes: #325356)
+  * Validate package names.  Patch from Brett Smith.  (Closes: #325356)
+  * Update parsing of BTS summary pages to omit "Summary" and "Options"
+    headers.  (Closes: #325024, #324660)
+  * Add security tag to critical/grave reports with security justifications,
+    and X-Debbugs-CC security-tagged reports to team@security.debian.org.
+    (Closes: #323374)
 
  --
 
