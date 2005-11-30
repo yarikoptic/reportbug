@@ -1,3 +1,15 @@
+reportbug (3.18) unstable; urgency=high
+
+  * The "take this job and shove it" release.
+  * Update smtphost setting for bug reporting.  reportbug now generates
+    .reportbugrc files with 'bugs.debian.org' as the smtphost, and noisily
+    overrides any 'master.debian.org' settings it sees.  (Closes: #338900)
+  * s/kernel-image/linux-image/ (Closes: #336871)
+  * Generate a Message-ID for every message sent by reportbug. 
+    (Closes: #341325)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 29 Nov 2005 23:29:24 -0500
+
 reportbug (3.17) unstable; urgency=low
 
   * Validate package names.  Patch from Brett Smith.  (Closes: #325356)

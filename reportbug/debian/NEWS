@@ -1,3 +1,12 @@
+reportbug (3.18) unstable; urgency=high
+
+  * The proper SMTP setting for reporting bugs to Debian without a working
+    local mailer has changed to 'bugs.debian.org'.  reportbug will noisily
+    override any .reportbugrc settings for the old mail relay... however,
+    you would be best advised to update .reportbugrc files accordingly.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 29 Nov 2005 23:19:45 -0500
+
 reportbug (2.47) unstable; urgency=medium
 
   * The dependency relationships between reportbug and Python's locale
