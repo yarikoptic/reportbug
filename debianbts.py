@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.20 2005-08-28 02:36:54 lawrencc Exp $
+# $Id: debianbts.py,v 1.21 2005-11-30 04:28:34 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -159,8 +159,8 @@ debother = {
     'general' : 'General problems (e.g., that many manpages are mode 755)',
     'install' : 'Problems with the sarge installer.',
     'installation' : 'General installation problems not covered otherwise.',
-    'kernel' : '(Obsolete, please use "kernel-image" instead.)',
-    'kernel-image' : 'Problems with the Linux kernel, or the kernel shipped with Debian',
+    'kernel' : '(Obsolete, please use "linux-image" instead.)',
+    'linux-image' : 'Problems with the Linux kernel, or the kernel shipped with Debian',
     'listarchives' :  'Problems with the WWW mailing list archives',
     'lists.debian.org' : 'The mailing lists, debian-*@lists.debian.org.',
     'mirrors' : 'Problems with Debian archive mirrors.',
@@ -305,7 +305,8 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
 SYSTEMS = { 'debian' :
             { 'name' : 'Debian', 'email': '%s@bugs.debian.org',
               'btsroot' : 'http://www.debian.org/Bugs/',
-              'otherpkgs' : debother, 'nonvirtual' : ['kernel-image'],
+              'otherpkgs' : debother,
+              'nonvirtual' : ['linux-image', 'kernel-image'],
               'specials' : { 'wnpp': handle_wnpp },
               # Dependency packages
               'deppkgs' : ('gcc', 'g++', 'cpp', 'gcj', 'gpc', 'gobjc',
