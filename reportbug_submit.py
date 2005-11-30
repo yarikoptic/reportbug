@@ -2,7 +2,7 @@
 #
 # reportbug_submit module - email and GnuPG functions
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2004 Chris Lawrence
+#   Copyright (C) 1999-2005 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.14 2005-05-10 22:21:24 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.15 2005-11-30 04:27:05 lawrencc Exp $
 
 import sys
 
@@ -276,6 +276,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         message['Reply-To'] = rfc2047_encode_address(replyto, charset, mua)
 
     if mailing:
+        message['Message-ID'] = email.Utils.make_msgid('reportbug')
         message['X-Mailer'] = VERSION
         message['Date'] = email.Utils.formatdate(localtime=True)
     elif mua and not (printonly or template):
