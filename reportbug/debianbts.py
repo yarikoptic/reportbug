@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.21 2005-11-30 04:28:34 lawrencc Exp $
+# $Id: debianbts.py,v 1.22 2006-03-16 03:50:19 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -248,6 +248,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
   Upstream Author : Name <somebody@example.org>
 * URL             : http://www.example.org/
 * License         : (GPL, LGPL, BSD, MIT/X, etc.)
+  Programming Lang: (C, C++, C#, Perl, Python, etc.)
   Description     : %s
 
 (Include the long description here.)
