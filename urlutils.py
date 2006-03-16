@@ -2,7 +2,7 @@
 # urlutils.py - Simplified urllib handling
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2005 Chris Lawrence
+#   (C) 1999-2006 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -41,6 +41,7 @@ UA_STR = 'reportbug/##VERSION## (Debian)'
 
 def decode (page):
     "gunzip or deflate a compressed page"
+    print page.info().headers
     encoding = page.info().get("Content-Encoding") 
     if encoding in ('gzip', 'x-gzip', 'deflate'):
         from cStringIO import StringIO
@@ -58,7 +59,13 @@ def decode (page):
         for h in page.info().keys():
             if not ceheader.match(h):
                 headers[h] = page.info()[h]
-        page = urllib.addinfourl(fp, headers, page.geturl())
+        newpage = urllib.addinfourl(fp, headers, page.geturl())
+        # Propagate code, msg through
+        if hasattr(page, 'code'):
+            newpage.code = page.code
+        if hasattr(page, 'msg'):
+            newpage.msg = page.msg
+        return newpage
     return page
 
 class HttpWithGzipHandler (urllib2.HTTPHandler):
