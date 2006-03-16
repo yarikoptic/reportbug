@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.89 2005-11-30 04:27:58 lawrencc Exp $
+# $Id: reportbug,v 1.90 2006-03-16 03:55:27 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1268,7 +1268,7 @@ def main():
         lsbr = commands.getoutput('lsb_release -si 2>/dev/null')
         if lsbr:
             distro = lsbr.strip().lower()
-            if distro in ('debian', 'ubuntu'):
+            if distro in debianbts.SYSTEMS:
                 bts = distro
                 ewrite("Will send report to %s (per lsb_release).\n",
                        debianbts.SYSTEMS[bts].get('name', bts))
