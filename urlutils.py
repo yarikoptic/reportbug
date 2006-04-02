@@ -41,7 +41,7 @@ UA_STR = 'reportbug/##VERSION## (Debian)'
 
 def decode (page):
     "gunzip or deflate a compressed page"
-    print page.info().headers
+    #print page.info().headers
     encoding = page.info().get("Content-Encoding") 
     if encoding in ('gzip', 'x-gzip', 'deflate'):
         from cStringIO import StringIO
@@ -168,3 +168,10 @@ def launch_browser(url):
         cmd = "%s %s" % (CONSOLEBROWSER, commands.mkarg(url))
 
     os.system(cmd)
+
+if __name__ == '__main__':
+    page = open_url('http://packages.debian.org/reportbug')
+    content = page.read()
+    print page.info().headers
+
+    
