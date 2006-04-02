@@ -2,8 +2,10 @@ reportbug (3.19) unstable; urgency=low
 
   * Include --tag=patch example in man page.  (Closes: #355821)
   * Include programming language in WNPP template.  (Closes: #328415)
+  * Fix checkversions.py to actually work; it's been broken for a while,
+    apparently.
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Sun,  2 Apr 2006 01:15:42 -0500
 
 reportbug (3.18) unstable; urgency=high
 

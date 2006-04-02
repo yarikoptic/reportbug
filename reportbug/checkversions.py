@@ -20,7 +20,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: checkversions.py,v 1.3 2004-09-30 09:20:46 lawrencc Exp $
+# $Id: checkversions.py,v 1.4 2006-04-02 06:16:12 lawrencc Exp $
 #
 # Version ##VERSION##; see changelog for revision history
 
@@ -39,8 +39,8 @@ class PackagesParser(sgmllib.SGMLParser):
         self.versions = {}
         self.savedata = None
         self.row = None
-        arch = r'(?:all|'+re.escape(arch)+')'
-        self.arch = arch
+        arch = r'\b(all|'+re.escape(arch)+r')\b'
+        self.arch = re.compile(arch)
         self.dist = None
 
     # --- Formatter interface, taking care of 'savedata' mode;
@@ -75,7 +75,7 @@ class PackagesParser(sgmllib.SGMLParser):
 
     def lineend(self):
         line = self.save_end().strip()
-        if self.arch in line.split(' '):
+        if self.arch.search(line):
             version = line.split(': ', 1)
             self.versions[self.dist] = version[0]
 
@@ -136,9 +136,10 @@ def get_versions_available(package, dists=None, http_proxy=None, arch='i386'):
         return {}
     if not page:
         return {}
-    
+
+    content = page.read()
     parser = PackagesParser(arch)
-    parser.feed(page.read())
+    parser.feed(content)
     parser.close()
     page.close()
 
@@ -201,6 +202,8 @@ def check_available(package, version, dists=None, check_incoming=True,
     return new, False
 
 if __name__=='__main__':
-    print check_available('mozilla-browser', '2:1.5-3', arch='s390')
-    print check_available('reportbug', '2.51', arch='i386')
-    print check_available('dpkg', '1.10.2', arch='sparc')
+    #print check_available('mozilla-browser', '2:1.5-3', arch='s390')
+    print check_available('reportbug', '3.17', arch='i386')
+    print check_available('reportbug', '3.25', arch='i386')
+    print check_available('reportbug', '3.7', arch='i386')
+    #print check_available('dpkg', '1.10.2', arch='sparc')
