@@ -43,7 +43,7 @@ install-stamp: build-stamp
 	#mkdir `pwd`/debian/reportbug/usr/share/reportbug/email
 	#cp -vr /usr/lib/python2.3/email/*.py `pwd`/debian/reportbug/usr/share/reportbug/email
 	# Remove unneeded .py files
-	rm `pwd`/debian/reportbug/usr/share/reportbug/urllib2.py
+	rm -f `pwd`/debian/reportbug/usr/share/reportbug/urllib2.py
 	rm `pwd`/debian/reportbug/usr/share/reportbug/test_hiermatch.py
 
 	chmod 0755 `pwd`/debian/reportbug/usr/bin/*
