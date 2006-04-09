@@ -1,3 +1,13 @@
+reportbug (3.20) unstable; urgency=low
+
+  * Remove the experimental tag.  (Closes: #360662)
+  * Autotagging experimental is thus silly.  (Closes: #229579)
+  * Fix spelling of "overridden" in reportbug(1).  (Closes: #360839)
+  * Fix matching of "i386" to architectures in checkversions.py.
+    (Closes: #361359, #361641)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun,  9 Apr 2006 12:34:44 -0400
+
 reportbug (3.19) unstable; urgency=low
 
   * Include --tag=patch example in man page.  (Closes: #355821)

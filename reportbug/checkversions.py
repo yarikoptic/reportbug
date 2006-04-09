@@ -20,7 +20,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: checkversions.py,v 1.4 2006-04-02 06:16:12 lawrencc Exp $
+# $Id: checkversions.py,v 1.5 2006-04-09 16:36:43 lawrencc Exp $
 #
 # Version ##VERSION##; see changelog for revision history
 
@@ -39,7 +39,7 @@ class PackagesParser(sgmllib.SGMLParser):
         self.versions = {}
         self.savedata = None
         self.row = None
-        arch = r'\b(all|'+re.escape(arch)+r')\b'
+        arch = r'\s(all|'+re.escape(arch)+r')\b'
         self.arch = re.compile(arch)
         self.dist = None
 
@@ -203,7 +203,6 @@ def check_available(package, version, dists=None, check_incoming=True,
 
 if __name__=='__main__':
     #print check_available('mozilla-browser', '2:1.5-3', arch='s390')
-    print check_available('reportbug', '3.17', arch='i386')
-    print check_available('reportbug', '3.25', arch='i386')
-    print check_available('reportbug', '3.7', arch='i386')
+    print check_available('openssh-server', '1:4.2p1-8', arch='i386')
+    print check_available('openssh-server', '1:4.2p1-8', arch='kfreebsd-i386')
     #print check_available('dpkg', '1.10.2', arch='sparc')
