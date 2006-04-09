@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.22 2006-03-16 03:50:19 lawrencc Exp $
+# $Id: debianbts.py,v 1.23 2006-04-09 16:36:43 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -368,15 +368,13 @@ TAGS = {
 ##    'woody' : 'This bug only applies to the woody release (Debian 3.0).',
 ##    'sarge' : 'This bug only applies to the sarge release (Debian 3.1).',
 ##    'sid' : 'This bug only applies to the unstable branch of Debian.',
-    'experimental' : 'This bug only applies to a package in the experimental '
-    'branch of Debian.',
     "l10n" : "This bug reports a localization/internationalization issue.",
 ##    'done' : 'No more tags.',
     }
 
 EXTRA_TAGS = ['potato', 'woody', 'sarge', 'security', 'sid', 'upstream']
 
-TAGLIST = ['l10n', 'patch', 'experimental']
+TAGLIST = ['l10n', 'patch']
 CRITICAL_TAGLIST = ['security']
 
 def yn_bool(setting):
