@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.29 2005-06-21 22:09:37 lawrencc Exp $
+# $Id: reportbug.py,v 1.30 2006-06-05 12:58:06 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -388,6 +388,22 @@ def get_source_package(package):
     packages.sort()
     return packages
 
+def get_source_name(package):
+    """Return source package name for given package or None."""
+    packinfo = get_avail_database()
+    has_source = re.compile(r'^Source: %s$' % re.escape(package), re.MULTILINE).search
+    get_source = re.compile(r'^Source: (?P<pkg>.*)$', re.MULTILINE).search
+    has_package = re.compile(r'^Package: %s$' % re.escape(package), re.MULTILINE).search
+    for p in packinfo:
+        match = has_source(p)
+        if match:
+            return package
+	if has_package(p):
+	    match = get_source(p)
+	    if match:
+	        return match.group('pkg')
+    return None
+
 def get_package_info(packages):
     if not packages:
         return []
@@ -682,7 +698,14 @@ def generate_blank_report(package, pkgversion, severity, justification,
     if not body:
         body = "\n"
 
-    uname_string = '%s %s' % (un[0], un[2])
+    if un[0].startswith('GNU/'):
+        un[0] = un[0][4:]
+
+    if un[0] == 'GNU':
+        # Use uname -v on Hurd
+        uname_string = un[3]
+    else:
+        uname_string = '%s %s' % (un[0], un[2])
 
     return """%s%s%s
 -- System Information:

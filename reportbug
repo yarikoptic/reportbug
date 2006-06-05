@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.90 2006-03-16 03:55:27 lawrencc Exp $
+# $Id: reportbug,v 1.91 2006-06-05 12:58:06 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1025,8 +1025,9 @@ def main():
                                'actual package "%s".\n', package, depends[0])
                             package = depends[0]
                     else:
-                        opts = [(x, reportbug.get_package_status(x)[11])
-                                for x in depends]
+                        opts = [(x,
+                                 (reportbug.get_package_status(x)[11] or
+                                  'not installed')) for x in depends]
                         if mode >= MODE_ADVANCED:
                             opts += [(package,
                                       status[11]+' (dependency package)')]
@@ -1204,8 +1205,10 @@ def main():
           and bts=='debian'):
         ewrite('Checking for newer versions at packages.debian.org...\n')
         arch = reportbug.get_arch()
+        check_more = (mode > MODE_STANDARD)
         (avail, toonew) = checkversions.check_available(
-            package, pkgversion, check_incoming=(mode > MODE_STANDARD),
+            package, pkgversion, check_incoming=check_more,
+	    check_newqueue=check_more,
             http_proxy=options.http_proxy, arch=arch)
         if toonew:
             if not ui.yes_no(
