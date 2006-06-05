@@ -1,3 +1,14 @@
+reportbug (3.21) unstable; urgency=low
+
+  * Parse the NEW queue for new packages; patch from Bastian Kleineidam.
+    (Closes: #370443)
+  * Avoid metapackage bug reporting crash.  (Closes: #345699, #345402)
+  * Retry if SMTP password fails; patch from Adam Porter.
+    (Closes: #318787)
+  * Improve "Kernel" line on kFreeBSD, Hurd.  (Closes: #264042)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  5 Jun 2006 08:57:00 -0400
+
 reportbug (3.20) unstable; urgency=low
 
   * Remove the experimental tag.  (Closes: #360662)

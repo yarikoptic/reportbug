@@ -20,7 +20,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: checkversions.py,v 1.5 2006-04-09 16:36:43 lawrencc Exp $
+# $Id: checkversions.py,v 1.6 2006-06-05 12:58:06 lawrencc Exp $
 #
 # Version ##VERSION##; see changelog for revision history
 
@@ -30,18 +30,14 @@ from reportbug_exceptions import *
 
 PACKAGES_URL = 'http://packages.debian.org/%s'
 INCOMING_URL = 'http://incoming.debian.org/'
+NEWQUEUE_URL = 'http://ftp-master.debian.org/new.html'
 
 # The format is an unordered list
 
-class PackagesParser(sgmllib.SGMLParser):
-    def __init__(self, arch='i386'):
+class BaseParser(sgmllib.SGMLParser):
+    def __init__(self,):
         sgmllib.SGMLParser.__init__(self)
-        self.versions = {}
         self.savedata = None
-        self.row = None
-        arch = r'\s(all|'+re.escape(arch)+r')\b'
-        self.arch = re.compile(arch)
-        self.dist = None
 
     # --- Formatter interface, taking care of 'savedata' mode;
     # shouldn't need to be overridden
@@ -59,6 +55,15 @@ class PackagesParser(sgmllib.SGMLParser):
         self.savedata = None
         if not mode and data is not None: data = ' '.join(data.split())
         return data
+
+class PackagesParser(BaseParser):
+    def __init__(self, arch='i386'):
+        BaseParser.__init__(self)
+        self.versions = {}
+        self.row = None
+        arch = r'\s(all|'+re.escape(arch)+r')\b'
+        self.arch = re.compile(arch)
+        self.dist = None
 
     def start_li(self, attrs):
         if self.row is not None:
@@ -106,6 +111,54 @@ class IncomingParser(sgmllib.SGMLParser):
             if mob:
                 self.found.append(mob.group(1))
 
+class NewQueueParser(BaseParser):
+    def __init__(self, package, arch='i386'):
+        BaseParser.__init__(self)
+        self.package = package
+        self.row = None
+        arch = r'\s(all|'+re.escape(arch)+r')\b'
+        self.arch = re.compile(arch)
+        self.versions = {}
+
+    def start_tr (self, attrs):
+        for name, value in attrs:
+            if name == 'class' and value in ("odd", "even"):
+                self.row = []
+
+    def end_tr (self):
+        if self.row is not None:
+            # row (name, versions, architectures, distribution)
+            dist = "%s (new queue)" % self.row[3]
+            for version in self.row[1].split():
+                self.versions[dist] = version
+            self.row = None
+
+    def start_td (self, attrs):
+        if self.row is None:
+            return
+        self.save_bgn()
+
+    def end_td (self):
+        if self.row is None:
+            return
+        data = self.save_end()
+        l = len(self.row)
+        if l == 0:
+            # package name
+            if self.package == data:
+                # found package name
+                self.row.append(data)
+            else:
+                self.row = None
+        elif l == 2:
+            # architecture
+            if self.arch.search(data):
+                self.row.append(data)
+            else:
+                self.row = None
+        else:
+            self.row.append(data)
+
 def compare_versions(current, upstream):
     """Return 1 if upstream is newer than current, -1 if current is
     newer than upstream, and 0 if the same."""
@@ -150,6 +203,30 @@ def get_versions_available(package, dists=None, http_proxy=None, arch='i386'):
 
     return versions
 
+def get_newqueue_available(package, dists=None, http_proxy=None, arch='i386'):
+    if dists is None:
+        dists = ('unstable (new queue)', )
+    try:
+        page = open_url(NEWQUEUE_URL, http_proxy)
+    except NoNetwork:
+        return {}
+    except urllib2.HTTPError, x:
+        print >> sys.stderr, "Warning:", x
+        return {}
+    if not page:
+        return {}
+    parser = NewQueueParser(package, arch)
+    parser.feed(page.read())
+    parser.close()
+    page.close()
+
+    versions = {}
+    for dist in dists:
+        if dist in parser.versions:
+            versions[dist] = parser.versions[dist]
+
+    return versions
+
 def get_incoming_version(package, http_proxy=None, arch='i386'):
     try:
         page = open_url(INCOMING_URL, http_proxy)
@@ -172,6 +249,7 @@ def get_incoming_version(package, http_proxy=None, arch='i386'):
     return None
 
 def check_available(package, version, dists=None, check_incoming=True,
+                    check_newqueue=True,
                     http_proxy=None, arch='i386'):
     avail = {}
 
@@ -179,8 +257,13 @@ def check_available(package, version, dists=None, check_incoming=True,
         iv = get_incoming_version(package, http_proxy, arch)
         if iv:
             avail['incoming'] = iv
-
     avail.update(get_versions_available(package, dists, http_proxy, arch))
+    if check_newqueue:
+        import reportbug
+        srcpackage = reportbug.get_source_name(package)
+	if srcpackage is None:
+	    srcpackage = package
+        avail.update(get_newqueue_available(srcpackage, dists, http_proxy, arch))
 
     new = {}
     newer = 0
@@ -197,9 +280,8 @@ def check_available(package, version, dists=None, check_incoming=True,
             new[dist] = avail[dist]
         elif comparison < 0:
             newer += 1
-    if newer and newer == len(avail):
-        return new, True
-    return new, False
+    too_new = (newer and newer == len(avail))
+    return new, too_new
 
 if __name__=='__main__':
     #print check_available('mozilla-browser', '2:1.5-3', arch='s390')
