@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.16 2006-06-05 12:58:06 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.17 2006-06-07 16:57:57 lawrencc Exp $
 
 import sys
 
@@ -350,34 +350,37 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         toaddrs = [x[1] for x in alist]
         smtp_message = re.sub(r'(?m)^[.]', '..', message)
 
-		# Modified by AP 2006-03-29
-		while failed != True:
-			ewrite("Connecting to %s via SMTP...\n", smtphost)
-			try:
-				conn = smtplib.SMTP(smtphost)
-				if smtptls:
-					conn.starttls()
-				if smtpuser:
-					if not smtppasswd:
-						smtppasswd = ui.get_password(
-							'Enter SMTP password for %s@%s: ' %
-							(smtpuser, smtphost))
-					conn.login(smtpuser, smtppasswd)
-				conn.sendmail(fromaddr, toaddrs, smtp_message)
-				conn.quit()
-			except (socket.error, smtplib.SMTPException), x:
-				
-				# If wrong password, try again...
-				if smtplib.SMTPResponseException.smtp_code == '535'
-					ewrite('SMTP error: authentication failed.  Try again.')
-					continue
-				
-				failed = True
-				ewrite('SMTP send failure: %s\n', x)
-				fh, msgname = TempFile(prefix=tfprefix)
-				fh.write(message)
-				fh.close()
-				ewrite('Wrote bug report to %s\n', msgname)
+        tryagain = True
+        while tryagain:
+            tryagain = False
+            ewrite("Connecting to %s via SMTP...\n", smtphost)
+            try:
+                conn = smtplib.SMTP(smtphost)
+                if smtptls:
+                    conn.starttls()
+                if smtpuser:
+                    if not smtppasswd:
+                        smtppasswd = ui.get_password(
+                            'Enter SMTP password for %s@%s: ' %
+                            (smtpuser, smtphost))
+                    conn.login(smtpuser, smtppasswd)
+                conn.sendmail(fromaddr, toaddrs, smtp_message)
+                conn.quit()
+            except (socket.error, smtplib.SMTPException), x:
+                # If wrong password, try again...
+                if isinstance(x, smtplib.SMTPAuthenticationError):
+                    ewrite('SMTP error: authentication failed.  Try again.')
+                    tryagain = True
+                    continue
+            
+                failed = True
+                ewrite('SMTP send failure: %s\n', x)
+
+                fh, msgname = TempFile(prefix=tfprefix)
+                fh.write(message)
+                fh.close()
+
+                ewrite('Wrote bug report to %s\n', msgname)
     else:
         try:
             pipe.write(message)
