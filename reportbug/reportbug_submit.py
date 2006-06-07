@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.18 2006-06-07 17:16:14 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.19 2006-06-07 17:16:43 lawrencc Exp $
 
 import sys
 
@@ -369,7 +369,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             except (socket.error, smtplib.SMTPException), x:
                 # If wrong password, try again...
                 if isinstance(x, smtplib.SMTPAuthenticationError):
-                    ewrite('SMTP error: authentication failed.  Try again.')
+                    ewrite('SMTP error: authentication failed.  Try again.\n')
                     tryagain = True
                     smtppasswd = None
                     continue
