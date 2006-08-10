@@ -1,3 +1,23 @@
+reportbug (3.22) unstable; urgency=low
+
+  * Apply patches from Philipp Kern to provide better hooks for the GNOME
+    interface.
+
+ --
+
+reportbug (3.21.2) unstable; urgency=low
+
+  * Fix SMTP retry code not to loop forever.  (Closes: #371095)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Wed,  7 Jun 2006 12:54:04 -0400
+
+reportbug (3.21.1) unstable; urgency=low
+
+  * The "test patches before releasing" release.
+  * Fix SMTP retry code to actually work.  (Closes: #370593)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  5 Jun 2006 20:33:43 -0400
+
 reportbug (3.21) unstable; urgency=low
 
   * Parse the NEW queue for new packages; patch from Bastian Kleineidam.

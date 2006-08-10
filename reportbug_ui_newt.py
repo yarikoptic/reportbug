@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_newt.py,v 1.4 2004-03-15 08:59:39 lawrencc Exp $
+# $Id: reportbug_ui_newt.py,v 1.5 2006-08-10 02:36:14 lawrencc Exp $
 
 import commands, string, sys, snack, re, debianbts
 from reportbug_exceptions import *
@@ -48,6 +48,7 @@ def ewrite(message, *args):
         sys.stderr.write(message)
 
 log_message = ewrite
+display_failure = ewrite
 
 # Utility functions for common newt dialogs
 def newt_screen():
@@ -93,6 +94,8 @@ def long_message(message, *args):
         message = message % tuple(args)
     newt_msgbox(message)
 
+final_message = long_message
+
 def newt_menu(text, height=20, width=60, menuheight=15, menu=None,
          title="", scroll=0, screen=None, startpos=1):
     "Display a menu of choices for the user."
@@ -132,6 +135,9 @@ def select_options(msg, ok, help=None, allow_numbers=0):
     return None
 
 def get_string(prompt, options=None, title=None, force_prompt=0):
+    return None
+
+def get_multiline(prompt, options=None, title=None, force_prompt=0):
     return None
 
 def menu(par, options, prompt, default=None, title=None, any_ok=0, order=None):

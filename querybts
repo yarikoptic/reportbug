@@ -1,4 +1,4 @@
-#!/usr/bin/python2.3
+#!/usr/bin/python
 # -*- python -*-
 # querybts - Examine the state of a debbugs server
 #   Written by Chris Lawrence <lawrencc@debian.org>
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: querybts,v 1.5 2005-08-28 02:36:54 lawrencc Exp $
+# $Id: querybts,v 1.6 2006-08-10 02:36:12 lawrencc Exp $
 
 import sys, os
 sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
