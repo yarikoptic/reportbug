@@ -3,14 +3,16 @@ Section: utils
 Priority: standard
 Maintainer: Chris Lawrence <lawrencc@debian.org>
 Standards-Version: 3.7.2
-Build-Depends: debhelper (>> 4)
-Build-Depends-Indep: python2.3 (>= 2.3-4)
+Build-Depends: debhelper (>= 5.0.37.2), python-central (>= 0.5)
+Build-Depends-Indep: python-dev
+XS-Python-Version: current
 
 Package: reportbug
 Architecture: all
-Depends: python2.3
-Recommends: python2.3-cjkcodecs | python2.3-iconvcodec
+Depends: ${Python:Depends}
+Recommends: python-cjkcodecs | python-iconvcodec
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate
+XB-Python-Version: {$python:Versions}
 Description: reports bugs in the Debian distribution
  reportbug is a tool designed to make the reporting of bugs in Debian
  and derived distributions relatively painless.  Its features include:

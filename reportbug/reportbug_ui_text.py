@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.14 2005-05-10 22:25:10 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.15 2006-08-10 02:36:14 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -49,6 +49,7 @@ def ewrite(message, *args):
     sys.stderr.flush()
 
 log_message = ewrite
+display_failure = ewrite
 
 def indent_wrap_text(text, starttext='', indent=0, linelen=None):
     """Wrapper for textwrap.fill to the existing API."""
@@ -196,6 +197,8 @@ def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False):
 def long_message(text, *args):
     ewrite(indent_wrap_text(text % args))
 
+final_message = long_message
+
 def get_string(prompt, options=None, title=None, force_prompt=False,
                default='', completer=None):
     if prompt and (len(prompt) < 2*columns/3) and not force_prompt:
@@ -209,6 +212,17 @@ def get_string(prompt, options=None, title=None, force_prompt=False,
         if default:
             return our_raw_input('[%s]> ' % default, options, completer) or default
         return our_raw_input('> ', options, completer)
+
+def get_multiline(prompt):
+    ewrite('\n')
+    ewrite(indent_wrap_text(prompt + "  Press ENTER on a blank line to continue."))
+    list = []
+    while 1:
+        entry = get_string('', force_prompt=True).strip()
+        if not entry:
+            break
+        list.append(entry)
+    ewrite('\n')
 
 def get_password(prompt=None):
     return getpass.getpass(prompt)
