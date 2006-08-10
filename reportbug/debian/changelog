@@ -2,8 +2,9 @@ reportbug (3.22) unstable; urgency=low
 
   * Apply patches from Philipp Kern to provide better hooks for the GNOME
     interface.
+  * Update for Python transition.  (Closes: #380934)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Wed,  9 Aug 2006 21:36:43 -0500
 
 reportbug (3.21.2) unstable; urgency=low
 
