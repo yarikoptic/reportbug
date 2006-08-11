@@ -1,8 +1,26 @@
+reportbug (3.23) unstable; urgency=medium
+
+  * Fix reportbug_ui_text.get_multiline().  (Closes: #382486)
+  * Document that handling scripts must use #!/bin/bash to use getkey and
+    yesno--this has always been the case since the days of bug, but never was
+    documented anywhere.  (Closes: #294954)
+  * Document pseudo-packages (and how to see the list recognized by
+    reportbug) in reportbug(1).  (Closes: #379919)
+  * Request a version number if reporting a bug against a source package.
+    (Closes: #330339)
+  * Call ehlo() after starttls(), as the smtplib documentation says we should.
+    (Closes: #322523)
+  * If a smtphost is specified in offer_configuration, ask for smtpuser.
+    (Closes: #295997)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 11 Aug 2006 18:16:50 -0500
+
 reportbug (3.22) unstable; urgency=low
 
   * Apply patches from Philipp Kern to provide better hooks for the GNOME
     interface.
   * Update for Python transition.  (Closes: #380934)
+  * Now works with Python 2.4.  (Closes: #341974)
 
  -- Chris Lawrence <lawrencc@debian.org>  Wed,  9 Aug 2006 21:36:43 -0500
 
