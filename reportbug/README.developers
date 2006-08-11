@@ -26,7 +26,7 @@ information gathering script he likes, and echo all the content to fd 3.
 /usr/share/bug/$package/script is executed.
 
  While the script is executed, the following shell functions are
-available:
+available ONLY IF IT IS RUN UNDER /bin/bash:
 
 	getkey				- asks for a key
 	yesno <prompt> "yep"|"nop"	- ask for a yes/no answer (with i18n)
@@ -100,3 +100,7 @@ The script in /usr/share/bug/reportbug/script is an example of a bug
 handling script written in Python.  You can also write bug handlers in
 many other languages that allow direct access to file descriptors,
 including Perl and C/C++.
+
+Note that the getkey and yesno functions are only available in scripts
+written using /bin/bash as their interpreter; for other shells or
+languages, you will need to write your own input parsing functions.
