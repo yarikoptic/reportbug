@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.15 2006-08-10 02:36:14 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.16 2006-08-11 22:15:17 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno
 from reportbug_exceptions import *
@@ -215,14 +215,15 @@ def get_string(prompt, options=None, title=None, force_prompt=False,
 
 def get_multiline(prompt):
     ewrite('\n')
-    ewrite(indent_wrap_text(prompt + "  Press ENTER on a blank line to continue."))
-    list = []
+    ewrite(indent_wrap_text(prompt + "  Press ENTER on a blank line to continue.\n"))
+    l = []
     while 1:
         entry = get_string('', force_prompt=True).strip()
         if not entry:
             break
-        list.append(entry)
+        l.append(entry)
     ewrite('\n')
+    return l
 
 def get_password(prompt=None):
     return getpass.getpass(prompt)
