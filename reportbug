@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.93 2006-08-11 22:51:33 lawrencc Exp $
+# $Id: reportbug,v 1.94 2006-08-11 23:08:24 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -462,17 +462,27 @@ def offer_configuration(options):
         'No, I need to use an SMTP Host or I don\'t know if I have an MTA.',
         (not options.smtphost))
 
-    smtphost = options.smtphost or ''
     if stupidmode:
+        opts = []
+        if options.smtphost:
+            opts += [options.smtphost]
         smtphost = ui.get_string(
             'Please enter the name of your SMTP host.  Usually it\'s called '
             'something like "mail.example.org" or "smtp.example.org". '
             'Just press ENTER if you don\'t have one or don\'t know.',
-            options=[smtphost], force_prompt=True)
+            options=opts, force_prompt=True)
         if smtphost:
             stupidmode = False
     else:
         smtphost = ''
+
+    if smtphost:
+        smtpuser = ui.get_string(
+            'If you need to use a user name to send email via "%s" on your '
+            'computer, please enter that user name.  Just press ENTER if you '
+            'don\'t need a user name.', force_prompt=True)
+    else:
+        smtpuser = ''
     
     if os.path.exists(reportbug.USERFILE):
         try:
@@ -528,6 +538,13 @@ def offer_configuration(options):
     if smtphost:
         print >> fp, '# Send all outgoing mail via the following host'
         print >> fp, 'smtphost "%s"' % smtphost
+        if smtpuser:
+            print >> fp, 'smtpuser "%s"' % smtpuser
+            print >> fp, '#smtppasswd "my password here"'
+        else:
+            print >> fp, '# If you need to enter a user name and password:'
+            print >> fp, '#smtpuser "my username here"'
+            print >> fp, '#smtppasswd "my password here"'
 
     if stupidmode:
         print >> fp, '# Disable fallback mode by commenting out the following:'
