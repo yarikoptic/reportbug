@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.19 2006-06-07 17:16:43 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.20 2006-08-11 22:58:52 lawrencc Exp $
 
 import sys
 
@@ -358,6 +358,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 conn = smtplib.SMTP(smtphost)
                 if smtptls:
                     conn.starttls()
+                    conn.ehlo()
                 if smtpuser:
                     if not smtppasswd:
                         smtppasswd = ui.get_password(
