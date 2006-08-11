@@ -3,7 +3,7 @@
 reportbug \- reports a bug to a debbugs server
 .SH SYNOPSIS
 .B reportbug
-.I "[options] <package | absolute-pathname>"
+.I "[options] <package | pseudo-package | absolute-pathname>"
 .SH DESCRIPTION
 .B reportbug
 is primarily designed to report bugs in the Debian distribution; by
@@ -21,6 +21,12 @@ You may specify either a package name or an absolute filename; if you
 use a filename, it must begin with a \fB/\fP to be recognized.  If you
 want \fBreportbug\fP to search the system for a filename, see the
 \fB\-\-file\fP option, below.
+.PP
+You can also specify a \fBpseudo-package\fP; these are used in the
+Debian bug tracking system to track issues that are not related to one
+specific package.  Run \fBreportbug\fP without any arguments, then
+enter \fBother\fP at the package prompt, to see a list of the most
+commonly-used pseudo-packages.
 .SH OPTIONS
 The program follows the usual GNU command line syntax, with long
 options starting with two dashes (`\-\-').
