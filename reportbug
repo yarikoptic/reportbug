@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.92 2006-08-10 02:36:14 lawrencc Exp $
+# $Id: reportbug,v 1.93 2006-08-11 22:51:33 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1196,7 +1196,7 @@ def main():
 
     if not pkgversion or usedavail or (not pkgavail and
                                        not options.pkgversion):
-        if not (isvirtual or issource or notatty):
+        if not (isvirtual or notatty):
             pkgversion = ui.get_string('Please enter the version of the '
                                        'package this report applies to '
                                        '(blank OK)', force_prompt=True)
