@@ -1,7 +1,7 @@
 #
 # Reportbug module - common functions for reportbug and greportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2005 Chris Lawrence
+#   Copyright (C) 1999-2006 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -21,11 +21,11 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.30 2006-06-05 12:58:06 lawrencc Exp $
+# $Id: reportbug.py,v 1.31 2006-08-12 00:07:14 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
-COPYRIGHT = VERSION + '\nCopyright (C) 1999-2004 Chris Lawrence <lawrencc@debian.org>'
+COPYRIGHT = VERSION + '\nCopyright (C) 1999-2006 Chris Lawrence <lawrencc@debian.org>'
 
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
