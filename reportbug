@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.95 2006-08-13 15:11:31 lawrencc Exp $
+# $Id: reportbug,v 1.96 2006-08-13 15:16:47 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -361,11 +361,14 @@ def offer_configuration(options):
     
     uis = dict()
     for i in reportbug.AVAILABLE_UIS:
-        if i in reportbug.UIS:
+        if (i in reportbug.UIS) and i != 'newt':
             uis[i] = reportbug.UIS[i]
-    interface = ui.menu(
-        'Please choose the default interface for reportbug.', uis,
-        'Select interface: ', options.interface)
+    if len(uis) > 1:
+        interface = ui.menu(
+            'Please choose the default interface for reportbug.', uis,
+            'Select interface: ', options.interface)
+    else:
+        interface = 'text'
 
     online = ui.yes_no('Will reportbug often have direct '
                        'Internet access?  (You should answer yes to this '
