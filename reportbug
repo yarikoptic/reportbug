@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.94 2006-08-11 23:08:24 lawrencc Exp $
+# $Id: reportbug,v 1.95 2006-08-13 15:11:31 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -78,7 +78,7 @@ def efail(*args):
 
 # Lame message when we store a report as a temp file.
 def stopmsg(filename):
-    ui.long_message(
+    ui.final_message(
         'reportbug stopped; your incomplete report is stored as "%s".\n'
         'This file may be located in a temporary directory; if so, it might '
         'disappear without any further notice.\n', filename)
@@ -91,17 +91,6 @@ def system(cmdline):
         os.chdir('/')
     os.system(cmdline)
 
-def show_report(text, use_pager=True):
-    if not use_pager:
-        ewrite(text)
-        return
-
-    pager = os.environ.get('PAGER', 'sensible-pager')
-    try:
-        os.popen(pager, 'w').write(text)
-    except IOError:
-        pass
-
 def which_editor(default_editor=None):
     if not default_editor:
         editor = (os.environ.get('VISUAL') or os.environ.get('EDITOR') or
@@ -110,72 +99,17 @@ def which_editor(default_editor=None):
         editor = default_editor
     return editor
 
-def spawn_editor(message, filename, default_editor=None):
-    editor = which_editor(default_editor)
-    if not editor:
-        ewrite('No editor found!\n')
-        return (message, 0)
-
-    edname = os.path.basename(editor.split()[0])
-
-    # Move the cursor for lazy buggers like me; add your editor here...
-    ourline = 0
-    for (lineno, line) in enumerate(file(filename)):
-        if line == '\n' and not ourline:
-            ourline = lineno + 2
-        elif line.strip() == reportbug.NEWBIELINE:
-            ourline = lineno + 2
-
-    opts = ''
-    if 'vim' in edname:
-        # Force *vim to edit the file in the foreground, instead of forking
-        opts = '-f '
-
-    if ourline:
-        if edname in ('vi', 'nvi', 'vim', 'elvis', 'gvim', 'kvim'):
-            opts = '-c :%d' % ourline
-        elif (edname in ('elvis-tiny', 'gnuclient', 'ee', 'pico', 'nano') or
-              'emacs' in edname):
-            opts = '+%d' % ourline
-        elif edname in ('jed', 'xjed'):
-            opts = '-g %d' % ourline
-        elif edname == 'kate':
-            opts = '--line %d' % ourline
-
-    if '&' in editor or edname == 'kate':
-        ewrite("Spawning %s in background; please press Enter when done "
-               "editing.\n", edname)
-    else:
-        ewrite("Spawning %s...\n", edname)
-
-    result = system("%s %s '%s'" % (editor, opts, filename))
-
-    if result:
-        ewrite('Warning: possible error exit from %s: %d\n', edname, result)
-
-    if not os.path.exists(filename):
-        ewrite('Bug report file %s removed!', filename)
-        sys.exit(1)
-
-    if '&' in editor: return (None, 1)
-
-    newmessage = file(filename).read()
-
-    if newmessage == message:
-        ewrite('No changes were made in the editor.\n')
-
-    return (newmessage, newmessage != message)
-
 def handle_editing(filename, dmessage, options, sendto, attachments, package,
                    editor=None):
     if not editor:
         editor = options.editor
+    editor = which_editor(editor)
     message = None
     skip_editing = False
     while True:
         if not skip_editing:
-            (message, changed) = spawn_editor(message or dmessage, filename,
-                                              editor)
+            (message, changed) = ui.spawn_editor(message or dmessage, filename,
+                                                 editor)
         skip_editing = False
         if not message:
             x = ''
@@ -425,12 +359,13 @@ def offer_configuration(options):
                    reportbug.MODES, 'Select mode: ', options.mode,
                    order=reportbug.MODELIST)
     
-    if 0: # Disabled since the others don't work
-        interface = ui.menu('Please choose the default '
-                            'interface for reportbug.', reportbug.UIS,
-                            'Select interface: ', options.interface)
-    else:
-        interface = 'text'
+    uis = dict()
+    for i in reportbug.AVAILABLE_UIS:
+        if i in reportbug.UIS:
+            uis[i] = reportbug.UIS[i]
+    interface = ui.menu(
+        'Please choose the default interface for reportbug.', uis,
+        'Select interface: ', options.interface)
 
     online = ui.yes_no('Will reportbug often have direct '
                        'Internet access?  (You should answer yes to this '
@@ -737,7 +672,7 @@ def main():
     parser.add_option('-u', '--interface', '--ui', action='callback',
                       callback=verify_option, type='string', dest='interface',
                       callback_args=('Valid user interfaces',
-                                     reportbug.VALID_UIS),
+                                     reportbug.AVAILABLE_UIS),
                       help='choose which user interface to use')
     parser.add_option('-Q', '--query-only', action='store_true',
                       dest='queryonly', help='only query the BTS')
@@ -812,6 +747,10 @@ def main():
         exec 'import '+iface
         ui = eval(iface)
         reportbug_submit.ui = ui
+        # Add INTERFACE as an environment variable to access it from the
+        # script gathering the special information for reportbug, when
+        # a new bug should be filed against it.
+        os.environ['INTERFACE'] = options.interface
 
 
     if options.configure:
@@ -1444,7 +1383,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
     ewrite('\n')
     prompted = False
     if interactive and not (options.kudos or exinfo) and presubj:
-        show_report(file(presubj).read()+'\n')
+        ui.display_report(file(presubj).read()+'\n')
 
     if options.kudos:
         subject = subject or ('Thanks for packaging %s!' % package)

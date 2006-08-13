@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: querybts,v 1.6 2006-08-10 02:36:12 lawrencc Exp $
+# $Id: querybts,v 1.7 2006-08-13 15:11:31 lawrencc Exp $
 
 import sys, os
 sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
@@ -100,7 +100,7 @@ def main():
         elif option in ('-s', '--source'):
             source = True
         elif option in ('-u', '--ui', '--interface'):
-            if arg in reportbug.VALID_UIS:
+            if arg in reportbug.AVAILABLE_UIS:
                 interface = arg
             elif arg == 'help':
                 print 'Permitted arguments to --ui:\n'\
