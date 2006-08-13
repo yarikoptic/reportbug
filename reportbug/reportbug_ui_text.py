@@ -18,9 +18,9 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.16 2006-08-11 22:15:17 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.17 2006-08-13 15:11:31 lawrencc Exp $
 
-import commands, sys, os, re, math, string, debianbts, errno
+import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
 from urlutils import launch_browser
 from types import StringTypes
@@ -217,6 +217,18 @@ def get_multiline(prompt):
     ewrite('\n')
     ewrite(indent_wrap_text(prompt + "  Press ENTER on a blank line to continue.\n"))
     l = []
+    while 1:
+        entry = get_string('', force_prompt=True).strip()
+        if not entry:
+            break
+        l.append(entry)
+    ewrite('\n')
+    return l
+
+def get_multiline(prompt):
+    ewrite('\n')
+    ewrite(indent_wrap_text(prompt + "  Press ENTER on a blank line to continue."))
+    l = list()
     while 1:
         entry = get_string('', force_prompt=True).strip()
         if not entry:
@@ -850,3 +862,70 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
             lastpage.append('\n')
             scount = scount + 1
     return "FilterEnd"
+
+def display_report(text, use_pager=True):
+    if not use_pager:
+        ewrite(text)
+        return
+
+    pager = os.environ.get('PAGER', 'sensible-pager')
+    try:
+        os.popen(pager, 'w').write(text)
+    except IOError:
+        pass
+
+def spawn_editor(message, filename, editor):
+    if not editor:
+        ewrite('No editor found!\n')
+        return (message, 0)
+
+    edname = os.path.basename(editor.split()[0])
+
+    # Move the cursor for lazy buggers like me; add your editor here...
+    ourline = 0
+    for (lineno, line) in enumerate(file(filename)):
+        if line == '\n' and not ourline:
+            ourline = lineno + 2
+        elif line.strip() == reportbug.NEWBIELINE:
+            ourline = lineno + 2
+
+    opts = ''
+    if 'vim' in edname:
+        # Force *vim to edit the file in the foreground, instead of forking
+        opts = '-f '
+
+    if ourline:
+        if edname in ('vi', 'nvi', 'vim', 'elvis', 'gvim', 'kvim'):
+            opts = '-c :%d' % ourline
+        elif (edname in ('elvis-tiny', 'gnuclient', 'ee', 'pico', 'nano') or
+              'emacs' in edname):
+            opts = '+%d' % ourline
+        elif edname in ('jed', 'xjed'):
+            opts = '-g %d' % ourline
+        elif edname == 'kate':
+            opts = '--line %d' % ourline
+
+    if '&' in editor or edname == 'kate':
+        ewrite("Spawning %s in background; please press Enter when done "
+               "editing.\n", edname)
+    else:
+        ewrite("Spawning %s...\n", edname)
+
+    result = os.system("%s %s '%s'" % (editor, opts, filename))
+
+    if result:
+        ewrite('Warning: possible error exit from %s: %d\n', edname, result)
+
+    if not os.path.exists(filename):
+        ewrite('Bug report file %s removed!', filename)
+        sys.exit(1)
+
+    if '&' in editor: return (None, 1)
+
+    newmessage = file(filename).read()
+
+    if newmessage == message:
+        ewrite('No changes were made in the editor.\n')
+
+    return (newmessage, newmessage != message)
+

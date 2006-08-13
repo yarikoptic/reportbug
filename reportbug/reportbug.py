@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.31 2006-08-12 00:07:14 lawrencc Exp $
+# $Id: reportbug.py,v 1.32 2006-08-13 15:11:31 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -42,11 +42,18 @@ STATUSDB = os.path.join(DPKGLIB, 'status')
 PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
                  'Justification', 'Followup-For', 'Owner')
 
-VALID_UIS = ('newt', 'text', 'gnome')
-#VALID_UIS = ('text', 'gnome')
+VALID_UIS = ['newt', 'text', 'gnome2']
+AVAILABLE_UIS = []
+for ui in VALID_UIS:
+    try:
+        pkg = __import__('reportbug_ui_%s.py' % ui)
+        AVAILABLE_UIS.append(ui)
+    except ImportError:
+        pass
 
-UIS = {'text': 'A text oriented (console) interface',
-       'gnome': 'A graphical (GNOME) interface'}
+UIS = {'text': 'A text-oriented (console) interface',
+       'newt': 'A window-based console interface',
+       'gnome2': 'A graphical (Gnome 2) interface'}
 
 MODES = {'novice': 'Offer simple prompts, bypassing technical questions.',
          'standard': 'Offer more extensive prompts, including asking about '
@@ -794,7 +801,7 @@ def parse_config_files():
                         args['sign'] = ''
                 elif token == 'ui':
                     token = lex.get_token().lower()
-                    if token in VALID_UIS:
+                    if token in AVAILABLE_UIS:
                         args['interface'] = token
                 elif token == 'mode':
                     arg = lex.get_token().lower()
