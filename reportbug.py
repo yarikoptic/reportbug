@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.32 2006-08-13 15:11:31 lawrencc Exp $
+# $Id: reportbug.py,v 1.33 2006-08-13 15:14:08 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -46,7 +46,7 @@ VALID_UIS = ['newt', 'text', 'gnome2']
 AVAILABLE_UIS = []
 for ui in VALID_UIS:
     try:
-        pkg = __import__('reportbug_ui_%s.py' % ui)
+        pkg = __import__('reportbug_ui_%s' % ui)
         AVAILABLE_UIS.append(ui)
     except ImportError:
         pass
