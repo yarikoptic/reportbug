@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.23 2006-04-09 16:36:43 lawrencc Exp $
+# $Id: debianbts.py,v 1.24 2006-08-14 04:59:11 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -148,7 +148,7 @@ def convert_severity(severity, type='debbugs'):
 debother = {
     'base' : 'General bugs in the base system',
 # Actually a real package, but most people don't have boot-floppies installed for good reason
-    'boot-floppy' : '(Obsolete, please use boot-floppies instead.)',
+#    'boot-floppy' : '(Obsolete, please use boot-floppies instead.)',
     'boot-floppies' : 'Bugs in the woody installation subsystem',
     'bugs.debian.org' : 'The bug tracking system, @bugs.debian.org',
     'cdimage.debian.org' : 'CD Image issues',
@@ -159,7 +159,7 @@ debother = {
     'general' : 'General problems (e.g., that many manpages are mode 755)',
     'install' : 'Problems with the sarge installer.',
     'installation' : 'General installation problems not covered otherwise.',
-    'kernel' : '(Obsolete, please use "linux-image" instead.)',
+#    'kernel' : '(Obsolete, please use "linux-image" instead.)',
     'linux-image' : 'Problems with the Linux kernel, or the kernel shipped with Debian',
     'listarchives' :  'Problems with the WWW mailing list archives',
     'lists.debian.org' : 'The mailing lists, debian-*@lists.debian.org.',
