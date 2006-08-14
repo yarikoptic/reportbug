@@ -1,3 +1,10 @@
+reportbug (3.25) unstable; urgency=low
+
+  * Remove superfluous postinst and prerm scripts; python-central takes
+    care of this now.  (Closes: #383024)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon, 14 Aug 2006 16:41:47 -0500
+
 reportbug (3.24) unstable; urgency=low
 
   * Apply updated patch from Phillip Kern to work with the GNOME interface
