@@ -18,12 +18,18 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_urwid.py,v 1.1 2006-08-13 17:24:46 lawrencc Exp $
+# Portions of this file are licensed under the Lesser GNU Public License
+# (LGPL) Version 2.1 or later.  On Debian systems, this license is available
+# in /usr/share/common-licenses/LGPL
+#
+# $Id: reportbug_ui_urwid.py,v 1.2 2006-08-14 06:02:32 lawrencc Exp $
 
 import commands, string, sys, re
 
 import urwid.raw_display
 import urwid
+
+import reportbug
 
 from reportbug_exceptions import *
 from urlutils import launch_browser
@@ -48,34 +54,52 @@ def ewrite(message, *args):
 log_message = ewrite
 display_failure = ewrite
 
+# Widgets ripped mercilessly from urwid examples (dialog.py)
 class buttonpush(Exception):
     pass
 
+class SelectableText(urwid.Edit):
+    def valid_char(self, ch):
+        return False
+
 class dialog(object):
-    def __init__(self, message, body=None, width=None, height=None):
+    def __init__(self, message, body=None, width=None, height=None,
+                 title='', long_message=''):
         self.body = body
         self.ui = iface
+        self.scrollmode=False
         if not body:
-            self.body = body = urwid.Filler(urwid.Divider(), 'top')
+            if long_message:
+                box = SelectableText(edit_text=long_message)
+                box.set_edit_pos(0)
+                self.body = body = urwid.ListBox([box])
+                self.scrollmode=True
+            else:
+                self.body = body = urwid.Filler(urwid.Divider(), 'top')
 
         if not width:
             width = ('relative', 80)
 
         if not height:
-            height = ('relative', 40)
-
+            height = ('relative', 80)
 
         self.frame = urwid.Frame(body, focus_part='footer')
         if message:
             self.frame.header = urwid.Pile([urwid.Text(message),
                                             urwid.Divider()])
+            
         w = self.frame
         # pad area around listbox
         w = urwid.Padding(w, ('fixed left',2), ('fixed right',2))
         w = urwid.Filler(w, ('fixed top',1), ('fixed bottom',1))
         w = urwid.AttrWrap(w, 'body')
+
+        if title:
+            w = urwid.Frame(w)
+            w.header = urwid.Text( ('title', title) )
+        
         # "shadow" effect
-        w = urwid.Columns( [w,('fixed', 2, urwid.AttrWrap( urwid.Filler(urwid.Text(('border',' ')), "top") ,'shadow'))])
+        w = urwid.Columns( [w, ('fixed', 1, urwid.AttrWrap( urwid.Filler(urwid.Text(('border',' ')), "top") ,'shadow'))])
         w = urwid.Frame( w, footer = urwid.AttrWrap(urwid.Text(('border',' ')),'shadow'))
         # outermost border area
         w = urwid.Padding(w, 'center', width )
@@ -83,17 +107,24 @@ class dialog(object):
         w = urwid.AttrWrap( w, 'border' )
         self.view = w
 
-    def add_buttons(self, buttons, default=0):
+    def add_buttons(self, buttons, default=0, vertical=False):
         l = []
         for name, exitcode in buttons:
             b = urwid.Button( name, self.button_press )
             b.exitcode = exitcode
             b = urwid.AttrWrap( b, 'selectable','focus' )
             l.append( b )
-        self.buttons = urwid.GridFlow(l, 10, 3, 1, 'center')
-        self.buttons.set_focus(default or 0)
-        self.frame.footer = urwid.Pile( [ urwid.Divider(), self.buttons ],
-                                        focus_item = 1 )
+
+        if vertical:
+            box = urwid.ListBox(l)
+            box.set_focus(default or 0)
+            self.buttons = urwid.Frame(urwid.AttrWrap(box, 'selectable'))
+            self.frame.footer = urwid.BoxAdapter(self.buttons, min(len(l), 10))
+        else:
+            self.buttons = urwid.GridFlow(l, 10, 3, 1, 'center')
+            self.buttons.set_focus(default or 0)
+            self.frame.footer = urwid.Pile( [ urwid.Divider(), self.buttons ],
+                                            focus_item = 1 )
 
     def button_press(self, button):
         raise buttonpush, button.exitcode
@@ -125,31 +156,90 @@ class dialog(object):
     def on_exit(self, exitcode):
         return exitcode
     
-    def unhandled_key(self, size, key):
-        pass
-
-class textentry(dialog):
-    def __init__(self, text, width=None, height=None, multiline=False):
-        self.edit = urwid.Edit(multiline=multiline)
-        body = urwid.ListBox([self.edit])
-        body = urwid.AttrWrap(body, 'selectable','focustext')
-        dialog.__init__(self, text, body, width, height)
-
-        self.frame.set_focus('body')
-
     def unhandled_key(self, size, k):
-        if k in ('up','page up'):
-            self.frame.set_focus('body')
-        if k in ('down','page down'):
-            self.frame.set_focus('footer')
+        if k in ('tab', 'shift tab'):
+            focus = self.frame.focus_part
+            if focus == 'footer':
+                self.frame.set_focus('body')
+            else:
+                self.frame.set_focus('footer')
+        
+        if k in ('up','page up', 'down', 'page down'):
+            if self.scrollmode:
+                self.frame.set_focus('body')
+                self.body.keypress(size, k)
+            elif k in ('up', 'page up'):
+                self.frame.set_focus('body')
+            else:
+                self.frame.set_focus('footer')
+                
         if k == 'enter':
             # pass enter to the "ok" button
             self.frame.set_focus('footer')
             self.view.keypress( size, k )
 
+class textentry(dialog):
+    def __init__(self, text, width=None, height=None, multiline=False,
+                 title=''):
+        self.edit = urwid.Edit(multiline=multiline)
+        body = urwid.ListBox([self.edit])
+        body = urwid.AttrWrap(body, 'selectable', 'focustext')
+        if not multiline:
+            body = urwid.Pile( [('fixed', 1, body), urwid.Divider()] )
+            body = urwid.Filler(body)
+
+        dialog.__init__(self, text, body, width, height, title)
+
+        self.frame.set_focus('body')
+
     def on_exit(self, exitcode):
         return exitcode, self.edit.get_edit_text()
 
+class listdialog(dialog):
+    def __init__(self, text, widgets, has_default=False, width=None,
+                 height=None, title=''):
+        l = []
+        self.items = []
+        for (w, label) in widgets:
+            self.items.append(w)
+            w = urwid.Columns( [('fixed', 12, w), 
+                                urwid.Text(label)], 2 )
+            w = urwid.AttrWrap(w, 'selectable','focus')
+            l.append(w)
+
+        lb = urwid.ListBox(l)
+        lb = urwid.AttrWrap( lb, "selectable" )
+        dialog.__init__(self, text, height=height, width=width, body=lb,
+                        title=title)
+
+        self.frame.set_focus('body')
+
+    def on_exit(self, exitcode):
+        """Print the tag of the item selected."""
+        if exitcode:
+            return exitcode, None
+
+        for i in self.items:
+            if i.get_state():
+                return exitcode, i.get_label()
+        return exitcode, None
+		
+class checklistdialog(listdialog):
+    def on_exit(self, exitcode):
+        """
+        Mimick dialog(1)'s --checklist exit. 
+        Put each checked item in double quotes with a trailing space.
+        """
+        if exitcode:
+            return exitcode, []
+        
+        l = []
+        for i in self.items:
+            if i.get_state():
+                l.append(i.get_label())
+        return exitcode, l
+
+# Produce a blank screen between dialogs
 class blank_screen(dialog):
     def __init__(self):
         self.ui = iface
@@ -164,15 +254,21 @@ def long_message(message, *args):
     if args:
         message = message % tuple(args)
 
-    box = dialog(message)
+    # Rewrap the message
+    chunks = re.split('\n\n+', message)
+    chunks = [re.sub(r'\s+', ' ', x).strip() for x in chunks]
+    message = '\n\n'.join(chunks).strip()
+
+    box = dialog('', long_message=message, title=reportbug.VERSION)
     box.add_buttons([ ("OK", 0) ])
     box.run()
     blank_screen()
 
 final_message = long_message
+display_report = long_message
 
 def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False):
-    box = dialog(msg)
+    box = dialog(msg, height=('relative', 80), title=reportbug.VERSION)
     if not help:
         help = {}
 
@@ -184,26 +280,36 @@ def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False):
             option = option.lower()
         buttons.append( (help.get(option, option), option) )
 
-    box.add_buttons(buttons, default)
+    box.add_buttons(buttons, default, vertical=True)
     result = box.run()
     blank_screen()
     return result
 
 def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False):
-    box = dialog(msg)
+    box = dialog(msg, title=reportbug.VERSION)
     box.add_buttons([ ('Yes', True), ('No', False) ], default=1-int(default))
     result = box.run()
     blank_screen()
     return result
 
-def get_string(prompt, options=None, title=None, force_prompt=0):
-    box = textentry(prompt)
+def get_string(prompt, options=None, title=None, force_prompt=0, default=None):
+    if title:
+        title = '%s: %s' % (reportbug.VERSION, title)
+    else:
+        title = reportbug.VERSION
+    
+    box = textentry(prompt, title=title)
     box.add_buttons([ ("OK", 0) ])
     code, text = box.run()
     blank_screen()
-    return text
+    return text or default
 
 def get_multiline(prompt, options=None, title=None, force_prompt=0):
+    if title:
+        title = '%s: %s' % (reportbug.VERSION, title)
+    else:
+        title = reportbug.VERSION
+
     box = textentry(prompt, multiline=True)
     box.add_buttons([ ("OK", 0) ])
     code, text = box.run()
@@ -211,8 +317,108 @@ def get_multiline(prompt, options=None, title=None, force_prompt=0):
     l = text.split('\n')
     return l
 
-def menu(par, options, prompt, default=None, title=None, any_ok=0, order=None):
-    return None
+def menu(par, options, prompt, default=None, title=None, any_ok=False,
+         order=None, extras=None, multiple=False, empty_ok=False):
+    selected = {}
+
+    if not extras:
+        extras = []
+    else:
+        extras = list(extras)
+
+    if not default:
+        default = ''
+
+    if title:
+        title = '%s: %s' % (reportbug.VERSION, title)
+    else:
+        title = reportbug.VERSION
+
+    if isinstance(options, dict):
+        options = options.copy()
+        # Convert to a list
+        if order:
+            olist = []
+            for key in order:
+                if options.has_key(key):
+                    olist.append( (key, options[key]) )
+                    del options[key]
+
+            # Append anything out of order
+            options = options.items()
+            options.sort()
+            for option in options:
+                olist.append( option )
+            options = olist
+        else:
+            options = options.items()
+            options.sort()
+
+    opts = []
+    for option, desc in options:
+        if desc:
+            opts.append((option, re.sub(r'\s+', ' ', desc)))
+        else:
+            opts.append((option, desc))
+    options = opts
+
+    if multiple:
+        widgets = [(urwid.CheckBox(option, state=(option == default)),
+                    desc or '') for (option, desc) in options]
+        box = checklistdialog(par, widgets, height=('relative', 80),
+                              title=title)
+        box.add_buttons( [('OK', 0)] )
+        result, chosen = box.run()
+        blank_screen()
+        return chosen
+
+    # Single menu option only
+    def label_button(option, desc):
+        if not desc:
+            return option
+        else:
+            return '%s: %s' % (option, desc)
+    
+    buttons = [(label_button(option, desc), option)
+               for (option, desc) in options]
+
+    buttons += [('Cancel', 'cancelbutton')]
+
+    if any_ok:
+        box = textentry(par, height=('relative', 80), title=title)
+        buttons = [('Use the entry above', '')] + buttons
+    else:
+        box = dialog(par, height=('relative', 80), title=title)
+    focus = 0
+    if default:
+        for i, opt in enumerate(options):
+            if opt[0] == default:
+                focus = i
+                break
+    
+    box.add_buttons(buttons, focus, vertical=True)
+    result = box.run()
+    blank_screen()
+    if any_ok:
+        result, text = result
+        if result == 'cancelbutton':
+            return None
+        
+        if not text:
+            return result or ''
+        return text
+        
+    if result == 'cancelbutton':
+        return None
+    return result
+
+def get_filename(prompt, title=None, force_prompt=False, default=''):
+    return get_string(prompt, title=title, force_prompt=force_prompt,
+                      default=default)
+
+def select_multiple(par, options, prompt, title=None, order=None, extras=None):
+    return menu(par, options, prompt, title=title, order=order, extras=extras,
+                multiple=True, empty_ok=False)
 
 # Things that are very UI dependent go here
 def show_report(number, system, mirrors, http_proxy, screen=None, queryonly=0,
@@ -277,6 +483,8 @@ def show_report(number, system, mirrors, http_proxy, screen=None, queryonly=0,
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=0, screen=None, title="", archived='no',
                      source=0):
+    raise UINotImplemented
+    
     import debianbts
 
     sysinfo = debianbts.SYSTEMS[bts]
@@ -377,6 +585,7 @@ palette = [
     ('selectable','black', 'dark cyan'),
     ('focus','white','dark blue','bold'),
     ('focustext','light gray','dark blue'),
+    ('title', 'dark red', 'light gray'),
     ]
 
 # The interface must be run within a wrapper for urwid
@@ -391,18 +600,37 @@ def test():
     import time
 
     fp = file('/tmp/blah', 'w')
-    
-##     long_message('This is a test.  This is only a test.\nPlease do not adjust your set.')
+
+    long_message('This is a test.  This is only a test.\nPlease do not adjust your set.')
+    long_message(open('/etc/mailcap', 'r').read())
 ##     time.sleep(1)
 ##     output = get_string('Tell me your name, biatch.')
 ##     print >> fp, output
 ##     output = get_multiline('List all of your aliases now.')
 ##     print >> fp, output
-    result = select_options('This is really lame', 'ynM', {
-        'y' : 'You bet', 'n' : 'Never!', 'm' : 'Maybe'})
-    print >> fp, result
-    yn = yes_no('Do you like green eggs and ham?', 'Yes sireee', 'No way!')
-    print >> fp, yn
+##     result = select_options('This is really lame', 'ynM', {
+##         'y' : 'You bet', 'n' : 'Never!', 'm' : 'Maybe'})
+##     print >> fp, result
+##     yn = yes_no('Do you like green eggs and ham?', 'Yes sireee', 'No way!')
+##     print >> fp, yn
+
+    mailers = [(x, '') for x in reportbug.MUA.keys()]
+    mailers.sort()
+    mailer = menu('Choose a mailer for your report', mailers,
+                  'Select mailer: ', default='mutt', empty_ok=True)
+    print >> fp, mailer
+
+    import debianbts
+
+    tags = debianbts.TAGS.copy()
+    tags.update(debianbts.CRITICAL_TAGS)
+    tagorder = debianbts.TAGLIST + debianbts.CRITICAL_TAGLIST
+
+    taglist = select_multiple(
+        'Do any of the following apply to this report?', tags,
+        'Please select tags: ', order=tagorder,
+        extras=debianbts.EXTRA_TAGS)
+    print >> fp, taglist
 
 if __name__ == '__main__':
     run_interface(test)

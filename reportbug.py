@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.33 2006-08-13 15:14:08 lawrencc Exp $
+# $Id: reportbug.py,v 1.34 2006-08-14 06:02:32 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -42,7 +42,7 @@ STATUSDB = os.path.join(DPKGLIB, 'status')
 PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
                  'Justification', 'Followup-For', 'Owner')
 
-VALID_UIS = ['newt', 'text', 'gnome2']
+VALID_UIS = ['newt', 'text', 'gnome2', 'urwid']
 AVAILABLE_UIS = []
 for ui in VALID_UIS:
     try:
@@ -52,7 +52,7 @@ for ui in VALID_UIS:
         pass
 
 UIS = {'text': 'A text-oriented (console) interface',
-       'newt': 'A window-based console interface',
+       'urwid': 'A window-based console interface',
        'gnome2': 'A graphical (Gnome 2) interface'}
 
 MODES = {'novice': 'Offer simple prompts, bypassing technical questions.',
