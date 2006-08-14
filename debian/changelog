@@ -1,3 +1,10 @@
+reportbug (3.24) unstable; urgency=low
+
+  * Apply updated patch from Phillip Kern to work with the GNOME interface
+    (which should appear in experimental soon).
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 13 Aug 2006 10:17:27 -0500
+
 reportbug (3.23) unstable; urgency=medium
 
   * Fix reportbug_ui_text.get_multiline().  (Closes: #382486)
