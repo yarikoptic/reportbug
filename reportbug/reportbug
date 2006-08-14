@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.97 2006-08-14 00:34:10 lawrencc Exp $
+# $Id: reportbug,v 1.98 2006-08-14 06:02:32 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1268,7 +1268,7 @@ class UI(object):
             try:
                 exinfo = ui.handle_bts_query(pkg, bts, self.options.mirrors,
                                              self.options.http_proxy, source=src)
-            except NotImplemented:
+            except UINotImplemented:
                 exinfo = None
             except NoNetwork:
                 sys.exit(1)
@@ -1300,10 +1300,10 @@ class UI(object):
             ewrite("Maintainer for %s is '%s'.\n", package, lmaintainer)
             if 'qa.debian.org' in maintainer:
                 ui.long_message('''\
-    This package is currently "orphaned"; if you are a current or prospective
-    Debian developer, you might consider adopting it.  Please be aware that your
-    report may not be resolved for a while, and that packages that have been
-    orphaned for a long period of time are often removed from the archive.\n''')
+This package is currently "orphaned"; if you are a current or prospective
+Debian developer, you might consider adopting it.  Please be aware that your
+report may not be resolved for a while, and that packages that have been
+orphaned for a long period of time are often removed from the archive.\n''')
                 ui.ewrite('\nFor more details, please see: http://www.debian.org/devel/wnpp/\n')
 
         if self.options.kudos:

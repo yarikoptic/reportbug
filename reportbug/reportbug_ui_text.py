@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.17 2006-08-13 15:11:31 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.18 2006-08-14 06:02:32 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -225,18 +225,6 @@ def get_multiline(prompt):
     ewrite('\n')
     return l
 
-def get_multiline(prompt):
-    ewrite('\n')
-    ewrite(indent_wrap_text(prompt + "  Press ENTER on a blank line to continue."))
-    l = list()
-    while 1:
-        entry = get_string('', force_prompt=True).strip()
-        if not entry:
-            break
-        l.append(entry)
-    ewrite('\n')
-    return l
-
 def get_password(prompt=None):
     return getpass.getpass(prompt)
 
@@ -274,7 +262,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 
     ewrite(indent_wrap_text(par, linelen=columns)+'\n')
 
-    if type(options) == type({}):
+    if isinstance(options, dict):
         options = options.copy()
         # Convert to a list
         if order:
