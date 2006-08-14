@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_exceptions.py,v 1.2 2004-06-29 19:48:28 lawrencc Exp $
+# $Id: reportbug_exceptions.py,v 1.3 2006-08-14 05:01:09 lawrencc Exp $
 
 class reportbug_exception(Exception):
     pass
@@ -39,8 +39,8 @@ class NoReport(reportbug_ui_exception):
     pass
 
 # Code is not implemented
-#class NotImplemented(reportbug_ui_exception):
-#    pass
+class UINotImplemented(reportbug_ui_exception):
+    pass
 
 # Other exceptions
 # No network access
