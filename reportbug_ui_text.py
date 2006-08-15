@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.18 2006-08-14 06:02:32 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19 2006-08-15 20:12:38 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -916,4 +916,3 @@ def spawn_editor(message, filename, editor):
         ewrite('No changes were made in the editor.\n')
 
     return (newmessage, newmessage != message)
-

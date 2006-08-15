@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.2 2006-08-14 06:02:32 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3 2006-08-15 20:12:38 lawrencc Exp $
 
 import commands, string, sys, re
 
@@ -37,12 +37,9 @@ from types import StringTypes
 
 ISATTY = sys.stdin.isatty()
 
+from reportbug_ui_text import spawn_editor
+
 def ewrite(message, *args):
-    # ewrite shouldn't do anything on newt... maybe should log to a file
-    # if specified.
-    if 1:
-        return
-    
     if not ISATTY:
         return
 
@@ -53,6 +50,12 @@ def ewrite(message, *args):
 
 log_message = ewrite
 display_failure = ewrite
+
+# Start a urwid session
+def initialize_urwid_ui():
+    ui = urwid.raw_display.Screen()
+    ui.register_palette(palette)
+    return ui
 
 # Widgets ripped mercilessly from urwid examples (dialog.py)
 class buttonpush(Exception):
@@ -66,7 +69,7 @@ class dialog(object):
     def __init__(self, message, body=None, width=None, height=None,
                  title='', long_message=''):
         self.body = body
-        self.ui = iface
+        
         self.scrollmode=False
         if not body:
             if long_message:
@@ -178,6 +181,23 @@ class dialog(object):
             self.frame.set_focus('footer')
             self.view.keypress( size, k )
 
+    def main(self, ui=None):
+        if ui:
+            self.ui = ui
+        else:
+            self.ui = initialize_urwid_ui()
+        return self.ui.run_wrapper(self.run)
+
+class displaybox(dialog):
+    def show(self, ui=None):
+        if ui:
+            self.ui = ui
+        else:
+            self.ui = initialize_urwid_ui()
+        size = self.ui.get_cols_rows()
+        canvas = self.view.render( size, focus=True )
+        self.ui.draw_screen( size, canvas )
+
 class textentry(dialog):
     def __init__(self, text, width=None, height=None, multiline=False,
                  title=''):
@@ -239,35 +259,57 @@ class checklistdialog(listdialog):
                 l.append(i.get_label())
         return exitcode, l
 
-# Produce a blank screen between dialogs
-class blank_screen(dialog):
-    def __init__(self):
-        self.ui = iface
-        self.ui.set_mouse_tracking()
-        size = self.ui.get_cols_rows()
-        self.view = urwid.Filler(urwid.Divider(), 'top')
-        self.view = urwid.AttrWrap(self.view, 'border')
-        canvas = self.view.render(size)
-        self.ui.draw_screen(size, canvas)
-
-def long_message(message, *args):
+def display_message(message, *args, **kwargs):
     if args:
         message = message % tuple(args)
+
+    if 'title' in kwargs:
+        title = kwargs['title']
+    else:
+        title = ''
+        
+    if 'ui' in kwargs:
+        ui = kwargs['ui']
+    else:
+        ui = None
 
     # Rewrap the message
     chunks = re.split('\n\n+', message)
     chunks = [re.sub(r'\s+', ' ', x).strip() for x in chunks]
     message = '\n\n'.join(chunks).strip()
 
-    box = dialog('', long_message=message, title=reportbug.VERSION)
+    box = displaybox('', long_message=message, title=title or reportbug.VERSION)
+    box.show(ui)
+
+def long_message(message, *args, **kwargs):
+    if args:
+        message = message % tuple(args)
+
+    if 'title' in kwargs:
+        title = kwargs['title']
+    else:
+        title = ''
+        
+    if 'ui' in kwargs:
+        ui = kwargs['ui']
+    else:
+        ui = None
+        
+    # Rewrap the message
+    chunks = re.split('\n\n+', message)
+    chunks = [re.sub(r'\s+', ' ', x).strip() for x in chunks]
+    message = '\n\n'.join(chunks).strip()
+
+    box = dialog('', long_message=message, title=title or reportbug.VERSION,
+                 ui=ui)
     box.add_buttons([ ("OK", 0) ])
-    box.run()
-    blank_screen()
+    box.main(ui)
 
 final_message = long_message
 display_report = long_message
 
-def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False):
+def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
+                   ui=None):
     box = dialog(msg, height=('relative', 80), title=reportbug.VERSION)
     if not help:
         help = {}
@@ -281,18 +323,17 @@ def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False):
         buttons.append( (help.get(option, option), option) )
 
     box.add_buttons(buttons, default, vertical=True)
-    result = box.run()
-    blank_screen()
+    result = box.main(ui)
     return result
 
-def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False):
+def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
     box = dialog(msg, title=reportbug.VERSION)
     box.add_buttons([ ('Yes', True), ('No', False) ], default=1-int(default))
-    result = box.run()
-    blank_screen()
+    result = box.main(ui)
     return result
 
-def get_string(prompt, options=None, title=None, force_prompt=0, default=None):
+def get_string(prompt, options=None, title=None, force_prompt=False,
+               default=None, ui=None):
     if title:
         title = '%s: %s' % (reportbug.VERSION, title)
     else:
@@ -300,11 +341,11 @@ def get_string(prompt, options=None, title=None, force_prompt=0, default=None):
     
     box = textentry(prompt, title=title)
     box.add_buttons([ ("OK", 0) ])
-    code, text = box.run()
-    blank_screen()
+    code, text = box.main(ui)
     return text or default
 
-def get_multiline(prompt, options=None, title=None, force_prompt=0):
+def get_multiline(prompt, options=None, title=None, force_prompt=False,
+                  ui=None):
     if title:
         title = '%s: %s' % (reportbug.VERSION, title)
     else:
@@ -312,13 +353,12 @@ def get_multiline(prompt, options=None, title=None, force_prompt=0):
 
     box = textentry(prompt, multiline=True)
     box.add_buttons([ ("OK", 0) ])
-    code, text = box.run()
-    blank_screen()
+    code, text = box.main(ui)
     l = text.split('\n')
     return l
 
 def menu(par, options, prompt, default=None, title=None, any_ok=False,
-         order=None, extras=None, multiple=False, empty_ok=False):
+         order=None, extras=None, multiple=False, empty_ok=False, ui=None):
     selected = {}
 
     if not extras:
@@ -368,8 +408,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
         box = checklistdialog(par, widgets, height=('relative', 80),
                               title=title)
         box.add_buttons( [('OK', 0)] )
-        result, chosen = box.run()
-        blank_screen()
+        result, chosen = box.main(ui)
         return chosen
 
     # Single menu option only
@@ -388,7 +427,8 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
         box = textentry(par, height=('relative', 80), title=title)
         buttons = [('Use the entry above', '')] + buttons
     else:
-        box = dialog(par, height=('relative', 80), title=title)
+        box = dialog('', long_message=par, height=('relative', 80),
+                     title=title)
     focus = 0
     if default:
         for i, opt in enumerate(options):
@@ -397,8 +437,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
                 break
     
     box.add_buttons(buttons, focus, vertical=True)
-    result = box.run()
-    blank_screen()
+    result = box.main(ui)
     if any_ok:
         result, text = result
         if result == 'cancelbutton':
@@ -412,6 +451,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
         return None
     return result
 
+# A real file dialog would be nice here
 def get_filename(prompt, title=None, force_prompt=False, default=''):
     return get_string(prompt, title=title, force_prompt=force_prompt,
                       default=default)
@@ -421,63 +461,45 @@ def select_multiple(par, options, prompt, title=None, order=None, extras=None):
                 multiple=True, empty_ok=False)
 
 # Things that are very UI dependent go here
-def show_report(number, system, mirrors, http_proxy, screen=None, queryonly=0,
-                title='', archived='no'):
+def show_report(number, system, mirrors,
+                http_proxy, screen=None, queryonly=False, title='',
+                archived='no'):
     import debianbts
 
-    s = screen
-    if not s:
-        s = newt_screen()
+    ui = screen
+    if not ui:
+        ui = initialize_urwid_ui()
 
     sysinfo = debianbts.SYSTEMS[system]
-    newt_infobox('Retrieving report #%d from %s bug tracking system...' % (
-        number, sysinfo['name']), title=title, screen=s)
+    display_message('Retrieving report #%d from %s bug tracking system...', 
+        number, sysinfo['name'], title=title, ui=ui)
 
-    width = columns-8
     info = debianbts.get_report(number, system, mirrors=mirrors,
                                 http_proxy=http_proxy, archived=archived)
     if not info:
-        s.popWindow()
-        newt_msgbox('Bug report #%d not found.' % number,
-                    screen=s, title=title)
-        if not screen:
-            s.finish()
+        long_message('Bug report #%d not found.', number, title=title, ui=ui)
         return
 
-    buttons = ['Ok', 'More details (launch browser)', 'Quit']
+    options = [('ok', 'OK'),
+               ('moreinfo', 'More details (launch browser)'),
+               ('quit', 'Quit')]
     if not queryonly:
-        buttons.append('Submit more information')
+        options.append(('submitmore', 'Submit more information'))
         
-    s.popWindow()
     while 1:
         (bugtitle, bodies) = info
         body = bodies[0]
 
-        lines = string.split(body, '\n')
-        lines = map(lambda x, y=width: x[:y], lines)
-        body = string.join(lines, '\n')
-
-        r = newt_dialog(text=body, title=bugtitle, screen=s, width=width,
-                        buttons=buttons)
+        r = menu(body, prompt='', title=bugtitle, ui=ui, options=options)
+        ui = None
         if not r or (r == 'ok'):
             break
         elif r == 'quit':
-            if not screen:
-                s.finish()
             return -1
-        elif r == 'submit more information':
-            if not screen:
-                s.finish()
+        elif r == 'submitmore':
             return number
 
-        s.suspend()
-        # print chr(27)+'c'
-        # os.system('stty sane; clear')
         launch_browser(debianbts.get_report_url(system, number, archived))
-        s.resume()
-        
-    if not screen:
-        s.finish()
     return
 
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
@@ -588,22 +610,13 @@ palette = [
     ('title', 'dark red', 'light gray'),
     ]
 
-# The interface must be run within a wrapper for urwid
-def run_interface(function):
-    global iface
-    
-    iface = urwid.raw_display.Screen()
-    iface.register_palette(palette)
-    return iface.run_wrapper(function)
-
 def test():
     import time
 
-    fp = file('/tmp/blah', 'w')
+    fp = sys.stdout
 
     long_message('This is a test.  This is only a test.\nPlease do not adjust your set.')
-    long_message(open('/etc/mailcap', 'r').read())
-##     time.sleep(1)
+    time.sleep(1)
 ##     output = get_string('Tell me your name, biatch.')
 ##     print >> fp, output
 ##     output = get_multiline('List all of your aliases now.')
@@ -633,4 +646,4 @@ def test():
     print >> fp, taglist
 
 if __name__ == '__main__':
-    run_interface(test)
+    test()
