@@ -1,3 +1,16 @@
+reportbug (3.99.1) experimental; urgency=low
+
+  * Start experimental fork of reportbug for 4.0 (likely post-etch).
+
+ --
+
+reportbug (3.26) unstable; urgency=medium
+
+  * The "don't be more clever than the patch-writer" release.
+  * Instead of importing uis, search sys.path for them.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Wed, 16 Aug 2006 21:14:39 -0500
+
 reportbug (3.25) unstable; urgency=low
 
   * Remove superfluous postinst and prerm scripts; python-central takes
