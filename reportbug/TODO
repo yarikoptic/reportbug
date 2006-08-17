@@ -12,8 +12,7 @@ Silly TODO list for 4.0 (etch+1), in no particular order:
 
 1. Convert the modules to a proper package and stick it in the Python
    search path (per #157079).  Reform the names.  Rename
-   "reportbug.py" to something sensible.  This probably has to be done
-   before #1 can happen.
+   "reportbug.py" to something sensible.
 
    (Not sure of a good approach here.  Maybe we should have a class
    that carries around all the information for a bug report, and be
