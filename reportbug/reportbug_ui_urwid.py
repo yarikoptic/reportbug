@@ -1,6 +1,6 @@
 # urwid user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2001-06 Chris Lawrence
+#   (C) 2006 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.1 2006-08-18 19:59:14 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.2 2006-08-18 20:01:04 lawrencc Exp $
 
 import commands, string, sys, re
 
