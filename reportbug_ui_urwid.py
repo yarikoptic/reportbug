@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.4 2006-08-18 22:09:55 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.5 2006-08-18 22:49:21 lawrencc Exp $
 
 import commands, string, sys, re
 
@@ -68,6 +68,9 @@ def nullfunc():
 # Widgets ripped mercilessly from urwid examples (dialog.py)
 class buttonpush(Exception):
     pass
+
+def button_press(button):
+    raise buttonpush, button.exitcode
 
 class SelectableText(urwid.Edit):
     def valid_char(self, ch):
@@ -124,7 +127,7 @@ class dialog(object):
             if exitcode == '---':
                 # Separator is just a text label
                 b = urwid.Text(name)
-                b = urwid.AttrWrap( b, 'selectable','focus' )
+                b = urwid.AttrWrap( b, 'scrolllabel' )
             else:
                 b = urwid.Button( name, self.button_press )
                 b.exitcode = exitcode
@@ -153,7 +156,7 @@ class dialog(object):
                 canvas = self.view.render( size, focus=True )
                 self.ui.draw_screen( size, canvas )
                 keys = None
-                while not keys: 
+                while not keys:
                     keys = self.ui.get_input()
                 for k in keys:
                     if urwid.is_mouse_event(k):
@@ -235,8 +238,9 @@ class listdialog(dialog):
         self.items = []
         for (w, label) in widgets:
             self.items.append(w)
-            w = urwid.Columns( [('fixed', 12, w), 
-                                urwid.Text(label)], 2 )
+            if label:
+                w = urwid.Columns( [('fixed', 12, w), 
+                                    urwid.Text(label)], 2 )
             w = urwid.AttrWrap(w, 'selectable','focus')
             l.append(w)
 
@@ -253,10 +257,10 @@ class listdialog(dialog):
             return exitcode, None
 
         for i in self.items:
-            if i.get_state():
+            if hasattr(i, 'get_state') and i.get_state():
                 return exitcode, i.get_label()
         return exitcode, None
-		
+
 class checklistdialog(listdialog):
     def on_exit(self, exitcode):
         """
@@ -321,8 +325,9 @@ final_message = long_message
 display_report = long_message
 
 def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
-                   ui=None):
-    box = dialog(msg, height=('relative', 80), title=reportbug.VERSION)
+                   ui=None, title=None):
+    box = dialog('', long_message=msg, height=('relative', 80),
+                 title=title or reportbug.VERSION)
     if not help:
         help = {}
 
@@ -419,29 +424,41 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
                     desc or '') for (option, desc) in options]
         box = checklistdialog(par, widgets, height=('relative', 80),
                               title=title)
-        box.add_buttons( [('OK', 0)] )
+        box.add_buttons( [('Ok', 0), ('Cancel', -1)] )
         result, chosen = box.main(ui)
+        if result == -1:
+            return None
         return chosen
 
     # Single menu option only
     def label_button(option, desc):
-        if not desc:
-            return option
-        elif not option:
-            return desc
+        return option
+
+    widgets = []
+    rlist = []
+    for option, desc in options:
+        if option == '---':
+            # Separator is just a text label
+            b = urwid.Text(desc)
+            b = urwid.AttrWrap( b, 'scrolllabel' )
+            desc = ''
         else:
-            return '%s: %s' % (option, desc)
+            b = urwid.RadioButton( rlist, label_button(option, desc) )
+            b.exitcode = option
+            b = urwid.AttrWrap( b, 'selectable','focus' )
+        widgets.append((b, desc))
     
-    buttons = [(label_button(option, desc), option) for (option, desc) in options]
-
-    buttons += [('Cancel', 'cancelbutton')]
-
     if any_ok:
-        box = textentry(par, height=('relative', 80), title=title)
-        buttons = [('Use the entry above', '')] + buttons
-    else:
-        box = dialog('', long_message=par, height=('relative', 80),
+        editbox = urwid.Edit(multiline=multiline)
+        e = urwid.ListBox([editbox])
+        e = urwid.AttrWrap(e, 'selectable', 'focustext')
+        e = urwid.Pile( [('fixed', 1, e)] )
+        e = urwid.Filler(body)
+        widgets.append(e)
+
+    box = listdialog(par, widgets, height=('relative', 80),
                      title=title)
+    box.add_buttons( [('Ok', 0), ('Cancel', -1)] )
     focus = 0
     if default:
         for i, opt in enumerate(options):
@@ -449,20 +466,11 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
                 focus = i
                 break
     
-    box.add_buttons(buttons, focus, vertical=True)
-    result = box.main(ui)
-    if any_ok:
-        result, text = result
-        if result == 'cancelbutton':
-            return None
-        
-        if not text:
-            return result or ''
-        return text
-        
-    if result == 'cancelbutton':
+    result, chosen = box.main(ui)
+    if result == -1:
         return None
-    return result
+
+    return chosen
 
 # A real file dialog would be nice here
 def get_filename(prompt, title=None, force_prompt=False, default=''):
@@ -493,23 +501,23 @@ def show_report(number, system, mirrors,
         long_message('Bug report #%d not found.', number, title=title, ui=ui)
         return
 
-    options = [('ok', 'OK'),
-               ('moreinfo', 'More details (launch browser)'),
-               ('quit', 'Quit')]
+    options = dict(o='Ok', d='More details (launch browser)', q='Quit')
+    valid = 'Odq'
     if not queryonly:
-        options.append(('submitmore', 'Submit more information'))
-        
+        options['m'] = 'Submit more information'
+        valid = 'Odmq'
+    
     while 1:
         (bugtitle, bodies) = info
         body = bodies[0]
 
-        r = menu(body, prompt='', title=bugtitle, ui=ui, options=options)
+        r = select_options(body, valid, title=bugtitle, ui=ui, help=options)
         ui = None
-        if not r or (r == 'ok'):
+        if not r or (r == 'o'):
             break
-        elif r == 'quit':
+        elif r == 'q':
             return -1
-        elif r == 'submitmore':
+        elif r == 'm':
             return number
 
         launch_browser(debianbts.get_report_url(system, number, archived))
@@ -606,6 +614,7 @@ palette = [
     ('focus','white','dark blue','bold'),
     ('focustext','light gray','dark blue'),
     ('title', 'dark red', 'light gray'),
+    ('scrolllabel', 'white', 'dark cyan'),
     ]
 
 def test():
