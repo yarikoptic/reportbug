@@ -1,3 +1,11 @@
+reportbug (3.28) unstable; urgency=low
+
+  * Actually search sys.path for available UIs.  (Closes: #383665)
+  * The urwid interface is mostly functional in this release; feel free
+    to test it.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 18 Aug 2006 17:02:08 -0500
+
 reportbug (3.27) unstable; urgency=medium
 
   * Fix string formatting bug in the SMTP username prompt in
