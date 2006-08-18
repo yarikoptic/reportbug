@@ -2,8 +2,10 @@ reportbug (3.27) unstable; urgency=medium
 
   * Fix string formatting bug in the SMTP username prompt in
     offer_configuration().  (Closes: #383583)
+  * Ask the user if the bug still exists in that version to avoid
+    automatically reopening reports.  (Closes: #383503)
 
- -- Chris Lawrence <lawrencc@debian.org>  Fri, 18 Aug 2006 10:53:49 -0500
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 18 Aug 2006 11:04:23 -0500
 
 reportbug (3.26) unstable; urgency=medium
 
