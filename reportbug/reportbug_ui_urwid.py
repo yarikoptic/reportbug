@@ -22,12 +22,16 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.2 2006-08-18 20:01:04 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.3 2006-08-18 22:06:12 lawrencc Exp $
 
 import commands, string, sys, re
 
-import urwid.raw_display
-import urwid
+try:
+    import urwid.raw_display
+    import urwid
+except ImportError:
+    print >> sys.stderr, 'Please install the python-urwid package to use this interface.'
+    sys.exit(1)
 
 import reportbug
 
