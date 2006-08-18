@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35 2006-08-15 19:41:36 lawrencc Exp $
+# $Id: reportbug.py,v 1.36 2006-08-18 22:09:55 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -47,12 +47,12 @@ AVAILABLE_UIS = []
 for ui in VALID_UIS:
     pkgname = 'reportbug_ui_%s.py' % ui
     for d in sys.path:
-        if os.path.exists(pkgname):
+        if os.path.exists(os.path.join(d, pkgname)):
             AVAILABLE_UIS.append(ui)
             break
 
-UIS = {'text': 'A text-oriented (console) interface',
-       'urwid': 'A window-based console interface',
+UIS = {'text': 'A text-oriented console interface',
+       'urwid': 'A menu-based console interface',
        'gnome2': 'A graphical (Gnome 2) interface'}
 
 MODES = {'novice': 'Offer simple prompts, bypassing technical questions.',
