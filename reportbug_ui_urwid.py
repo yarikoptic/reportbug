@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.3 2006-08-18 22:06:12 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.4 2006-08-18 22:13:31 lawrencc Exp $
 
 import commands, string, sys, re
 
@@ -153,7 +153,7 @@ class dialog(object):
                 canvas = self.view.render( size, focus=True )
                 self.ui.draw_screen( size, canvas )
                 keys = None
-                while not keys: 
+                while not keys:
                     keys = self.ui.get_input()
                 for k in keys:
                     if urwid.is_mouse_event(k):
@@ -427,7 +427,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
     def label_button(option, desc):
         if not desc:
             return option
-        elif not option:
+        elif not option or option == '---':
             return desc
         else:
             return '%s: %s' % (option, desc)
