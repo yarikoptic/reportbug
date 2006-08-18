@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.99 2006-08-18 15:56:52 lawrencc Exp $
+# $Id: reportbug,v 1.100 2006-08-18 16:08:33 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1404,9 +1404,17 @@ orphaned for a long period of time are often removed from the archive.\n''')
             if special:
                 body = ''
             prompted = True
-            subject = ui.get_string('Please provide a subject for your response; '
-                                    'no subject will stop reportbug.',
-                                    force_prompt=True)
+            subject = ui.get_string(
+                'Please provide a subject for your response; no subject will '
+                'stop reportbug.', force_prompt=True)
+            # Check to make sure the bug still exists to avoid auto-reopens
+            if pkgversion:
+                if not ui.yes_no('Does this bug still exist in version %s '
+                                 'of this package?' % pkgversion,
+                                 'Yes, it does.',
+                                 'No, it does\'t (or I don\'t know).',
+                                 default=False):
+                    pkgversion = None
         elif not subject and not notatty:
             prompted = True
             subject = ui.get_string(
@@ -1594,9 +1602,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
                     pass
         else:
             message = reportbug.generate_blank_report(
-                submitas or package, pkgversion, severity, justification, depinfo,
-                conftext, foundfile, incfiles, bts, exinfo, rtype, klass, subject,
-                tags, body, mode, pseudos)
+                submitas or package, pkgversion, severity, justification,
+                depinfo, conftext, foundfile, incfiles, bts, exinfo, rtype,
+                klass, subject, tags, body, mode, pseudos)
 
         # Substitute server email address
         if submitto and '@' not in sendto:
