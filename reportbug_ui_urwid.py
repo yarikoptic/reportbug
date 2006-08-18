@@ -1,6 +1,6 @@
 # urwid user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2001-06 Chris Lawrence
+#   (C) 2006 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,12 +22,16 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3 2006-08-15 20:12:38 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.4 2006-08-18 22:09:55 lawrencc Exp $
 
 import commands, string, sys, re
 
-import urwid.raw_display
-import urwid
+try:
+    import urwid.raw_display
+    import urwid
+except ImportError:
+    print >> sys.stderr, 'Please install the python-urwid package to use this interface.'
+    sys.exit(1)
 
 import reportbug
 
@@ -56,6 +60,10 @@ def initialize_urwid_ui():
     ui = urwid.raw_display.Screen()
     ui.register_palette(palette)
     return ui
+
+# Empty function to satisfy ui.run_wrapper()
+def nullfunc():
+    pass
 
 # Widgets ripped mercilessly from urwid examples (dialog.py)
 class buttonpush(Exception):
@@ -113,9 +121,14 @@ class dialog(object):
     def add_buttons(self, buttons, default=0, vertical=False):
         l = []
         for name, exitcode in buttons:
-            b = urwid.Button( name, self.button_press )
-            b.exitcode = exitcode
-            b = urwid.AttrWrap( b, 'selectable','focus' )
+            if exitcode == '---':
+                # Separator is just a text label
+                b = urwid.Text(name)
+                b = urwid.AttrWrap( b, 'selectable','focus' )
+            else:
+                b = urwid.Button( name, self.button_press )
+                b.exitcode = exitcode
+                b = urwid.AttrWrap( b, 'selectable','focus' )
             l.append( b )
 
         if vertical:
@@ -300,8 +313,7 @@ def long_message(message, *args, **kwargs):
     chunks = [re.sub(r'\s+', ' ', x).strip() for x in chunks]
     message = '\n\n'.join(chunks).strip()
 
-    box = dialog('', long_message=message, title=title or reportbug.VERSION,
-                 ui=ui)
+    box = dialog('', long_message=message, title=title or reportbug.VERSION)
     box.add_buttons([ ("OK", 0) ])
     box.main(ui)
 
@@ -415,11 +427,12 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
     def label_button(option, desc):
         if not desc:
             return option
+        elif not option:
+            return desc
         else:
             return '%s: %s' % (option, desc)
     
-    buttons = [(label_button(option, desc), option)
-               for (option, desc) in options]
+    buttons = [(label_button(option, desc), option) for (option, desc) in options]
 
     buttons += [('Cancel', 'cancelbutton')]
 
@@ -505,8 +518,6 @@ def show_report(number, system, mirrors,
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=0, screen=None, title="", archived='no',
                      source=0):
-    raise UINotImplemented
-    
     import debianbts
 
     sysinfo = debianbts.SYSTEMS[bts]
@@ -516,25 +527,22 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                sysinfo['name'])
         return
 
-    scr = screen
-    if not scr:
-        scr = newt_screen()
+    ui = screen
+    if not ui:
+        ui = initialize_urwid_ui()
     
     if isinstance(package, StringTypes):
+        pkgname = package
         if source:
-            newt_infobox('Querying %s bug tracking system for reports on'
-                         ' src:%s\n' % (debianbts.SYSTEMS[bts]['name'],
-                                        package),
-                         screen=scr, title=title)
-        else:
-            newt_infobox('Querying %s bug tracking system for reports on %s\n'%
-                         (debianbts.SYSTEMS[bts]['name'], package),
-                         screen=scr, title=title)
+            pkgname += ' (source)'
+            
+        display_message('Querying %s bug tracking system for reports on %s',
+                        debianbts.SYSTEMS[bts]['name'], pkgname,
+                        ui=ui, title=title)
     else:
-        newt_infobox('Querying %s bug tracking system for reports %s\n' %
-                     (debianbts.SYSTEMS[bts]['name'], ' '.join([str(x) for x in
-                                                                package])),
-                     screen=scr, title=title)
+        display_message('Querying %s bug tracking system for reports %s',
+                        debianbts.SYSTEMS[bts]['name'],
+                        ' '.join([str(x) for x in package]), ui=ui,title=title)
 
     result = None
     try:
@@ -543,61 +551,51 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
             http_proxy=http_proxy, archived=archived, source=source)
 
         if not count:
-            scr.popWindow()
+            ui.run_wrapper(nullfunc)
             if hierarchy == None:
                 raise NoPackage
             else:
                 raise NoBugs
         else:
             if count > 1:
-                sectitle = '%d bug reports found' % (count)
+                sectitle = '%d bug reports found' % (count,)
             else:
-                sectitle = '%d bug report found' % (count)
+                sectitle = '%d bug report found' % (count,)
 
-            list = []
+            buglist = []
             for (t, bugs) in hierarchy:
                 bcount = len(bugs)
-                list.append( ('', t) )
+                buglist.append( ('---', t) )
                 for bug in bugs:
-                    bits = string.split(bug[1:], ':', 1)
+                    bits = bug[1:].split(':', 1)
                     tag, info = bits
-                    info = string.strip(info)
+                    info = info.strip()
                     if not info:
                         info = '(no subject)'
-                    list.append( (tag, info) )
+                    buglist.append( (tag, info) )
 
-            p = 1
-            scr.popWindow()
+            p = buglist[1][0]
+            #scr.popWindow()
             while True:
-                info = newt_menu('Select a bug to read the report:', rows-6,
-                                 columns-10, rows-15, list, sectitle,
-                                 startpos=p, screen=scr)
+                info = menu('Select a bug to read the report:', buglist,
+                            '', ui=ui, title=sectitle, default=p)
+                ui = None
                 if not info:
                     break
                 else:
-                    p = i = 0
-                    for (number, subject) in list:
-                        if number == info: p = i
-			i += 1
-
-                    res = show_report(int(info), bts, mirrors,
-                                      http_proxy, screen=scr,
-                                      queryonly=queryonly, title=title)
+                    p = info
+                    res = show_report(int(p), bts, mirrors, http_proxy,
+                                      queryonly=queryonly)
                     if res:
                         result = res
                         break
 
     except (IOError, NoNetwork):
-        scr.popWindow()
-        newt_msgbox('Unable to connect to %s BTS.' % sysinfo['name'],
-                    screen=scr, title=title)
+        long_message('Unable to connect to %s BTS.', sysinfo['name'], ui=ui,
+                     title=title)
     except NoPackage:
-        #scr.popWindow()
-        newt_msgbox('No record of this package found.',
-                    screen=scr, title=title)
+        long_message('No record of this package found.', ui=ui, title=title)
 
-    if not screen:
-        scr.finish()
     return result
 
 palette = [
