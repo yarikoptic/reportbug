@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19 2006-08-15 20:12:38 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.1 2006-08-20 23:50:39 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -434,7 +434,7 @@ def show_report(number, system, mirrors,
 
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
-                     source=False):
+                     source=False, version=None):
     import debianbts
     
     root = debianbts.SYSTEMS[bts].get('btsroot')
@@ -458,14 +458,15 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     bugs = []
     try:
         (count, title, hierarchy)=debianbts.get_reports(
-            package, bts, mirrors=mirrors,
+            package, bts, mirrors=mirrors, version=version,
             source=source, http_proxy=http_proxy, archived=archived)
         if debianbts.SYSTEMS[bts].has_key('namefmt'):
             package2 = debianbts.SYSTEMS[bts]['namefmt'] % package
             (count2, title2, hierarchy2) = \
                      debianbts.get_reports(package2, bts,
                                            mirrors=mirrors, source=source,
-                                           http_proxy=http_proxy)
+                                           http_proxy=http_proxy,
+                                           version=version)
             count = count+count2
             for entry in hierarchy2:
                 hierarchy.append( (package2+' '+entry[0], entry[1]) )
