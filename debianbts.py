@@ -2,7 +2,7 @@
 # debianbts.py - Routines to deal with the debbugs web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2005 Chris Lawrence
+#   (C) 1999-2006 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24 2006-08-14 04:59:11 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.1 2006-08-20 23:49:13 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -33,6 +33,7 @@ import mailbox
 import email
 import email.Errors
 import cStringIO
+import cgi
 
 def msgfactory(fp):
     try:
@@ -393,19 +394,24 @@ def cgi_report_url(system, number, archived=False, mbox=False):
     return None
 
 def cgi_package_url(system, package, archived=False, source=False,
-                    repeatmerged=True):
+                    repeatmerged=True, version=None):
     root = SYSTEMS[system].get('cgiroot')
     if not root: return None
     
-    package = urllib.quote_plus(package.lower())
-    qtype = "pkg"
+    #package = urllib.quote_plus(package.lower())
     if source:
-        qtype = "src"
-        
-    repeat = yn_bool(repeatmerged)
-    archive = yn_bool(archived)
+        query = {'src' : package.lower()}
+    else:
+        query = {'pkg' : package.lower()}
 
-    return '%spkgreport.cgi?%s=%s&archived=%s&repeatmerged=%s&show_list_header=no&show_list_footer=no' % (root, qtype, package, archive, repeat)
+    query += { 'repeatmerged': yn_bool(repeatmerged),
+               'archived': yn_bool(archived) }
+
+    if version:
+        query['version'] = str(version)
+    
+    qstr = urllib.urlencode(query)
+    return '%spkgreport.cgi?%s' % (root, qstr)
 
 def package_url(system, package, mirrors=None, source=False,
                 repeatmerged=True):
@@ -670,9 +676,9 @@ def parse_mbox_report(number, url, http_proxy, followups=False):
     return (title, output)
 
 def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
-                    source=False):
-    page = open_url(cgi_package_url(system, package, archived, source),
-                    http_proxy)
+                    source=False, version=None):
+    page = open_url(cgi_package_url(system, package, archived, source,
+                                    version), http_proxy)
     if not page:
         return (0, None, None)
 
@@ -702,12 +708,12 @@ def get_btsroot(system, mirrors=None):
                 return alternates[mirror]
     return SYSTEMS[system].get('btsroot', '')
 
-def get_reports(package, system='debian', mirrors=None,
+def get_reports(package, system='debian', mirrors=None, version=None,
                 http_proxy='', archived=False, source=False):
     if isinstance(package, StringTypes):
         if SYSTEMS[system].get('cgiroot'):
             result = get_cgi_reports(package, system, http_proxy, archived,
-                                     source)
+                                     source, version=version)
             if result: return result
 
         url = package_url(system, package, mirrors, source)
