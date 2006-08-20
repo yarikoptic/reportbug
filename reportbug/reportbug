@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.2 2006-08-18 16:05:01 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.3 2006-08-20 23:50:19 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1267,7 +1267,10 @@ class UI(object):
                     pkg = src_name
             try:
                 exinfo = ui.handle_bts_query(pkg, bts, self.options.mirrors,
-                                             self.options.http_proxy, source=src)
+                                             self.options.http_proxy,
+                                             source=src,
+                                             queryonly=self.options.queryonly,
+                                             version=pkgversion)
             except UINotImplemented:
                 exinfo = None
             except NoNetwork:
@@ -1283,10 +1286,14 @@ class UI(object):
             except NoBugs:
                 ewrite('No bug reports found.\n')
             except NoReport:
-                ewrite('Nothing new to report; exiting.\n')
+                if self.options.queryonly:
+                    ewrite('Exiting at user request.\n')
+                else:
+                    ewrite('Nothing new to report; exiting.\n')
                 return
 
-            if self.options.queryonly: return
+            if self.options.queryonly:
+                return
 
         ccaddr = os.environ.get('MAILCC')
         if self.options.nocc:
