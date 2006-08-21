@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.1 2006-08-20 23:49:13 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.2 2006-08-21 01:40:13 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -404,13 +404,14 @@ def cgi_package_url(system, package, archived=False, source=False,
     else:
         query = {'pkg' : package.lower()}
 
-    query += { 'repeatmerged': yn_bool(repeatmerged),
-               'archived': yn_bool(archived) }
+    query['repeatmerged'] = yn_bool(repeatmerged)
+    query['archived'] = yn_bool(archived)
 
     if version:
         query['version'] = str(version)
     
     qstr = urllib.urlencode(query)
+    #print qstr
     return '%spkgreport.cgi?%s' % (root, qstr)
 
 def package_url(system, package, mirrors=None, source=False,
@@ -499,6 +500,8 @@ class BTSParser(sgmllib.SGMLParser):
         self.mode = mode
         self.cgi = cgi
         self.followups = followups
+        self.inbuglist = self.intrailerinfo = False
+        self.bugtitle = None
         if followups:
             self.preblock = []
         else:
@@ -519,18 +522,10 @@ class BTSParser(sgmllib.SGMLParser):
 
     def save_end(self, mode=False):
         data = self.savedata
+        if not mode and data:
+            data = ' '.join(data.split())
         self.savedata = None
-        if not mode: data = ' '.join(data.split())
         return data
-
-    def check_li(self):
-        if self.mode == 'summary':
-            data = self.save_end()
-            if data and data[0] == '#':
-                self.lidatalist.append(data)
-                self.bugcount += 1
-
-            self.lidata = False
 
     def start_h1(self, attrs):
         self.save_bgn()
@@ -553,14 +548,49 @@ class BTSParser(sgmllib.SGMLParser):
                 self.hierarchy.append( (hiertitle, []) )
         self.endh2 = True # We are at the end of a title, flag <pre>
 
-    def do_br(self, attrs):
-        if self.lidata and self.mode == 'summary': self.check_li()
+    def start_ul(self, attrs):
+        if self.mode == 'summary':
+            for k, v in attrs:
+                if k == 'class' and v == 'bugs':
+                    self.inbuglist = True
 
+    def end_ul(self):
+        if self.inbuglist:
+            self.check_li()
+        
+        self.inbuglist = False
+
+    def do_br(self, attrs):
         if self.mode == 'title':
             self.savedata = ""
-        
-    def do_li(self, attrs):
+        elif self.mode == 'summary' and self.inbuglist and not self.intrailerinfo:
+            self.bugtitle = self.save_end()
+            self.intrailerinfo = True
+            self.save_bgn()
+
+    def check_li(self):
         if self.mode == 'summary':
+            if not self.intrailerinfo:
+                self.bugtitle = self.save_end()
+                trailinfo = ''
+            else:
+                trailinfo = self.save_end()
+
+            match = re.search(r'fixed:\s+([\w.+~-]+(\s+[\w.+~:-]+)?)', trailinfo)
+            if match:
+                bugid, title = re.split(r':\s+', self.bugtitle, 1)
+                buginfo = '%s [FIXED %s]: %s' % (bugid, match.group(1),
+                                                    title)
+            else:
+                buginfo = self.bugtitle
+            
+            self.lidatalist.append(buginfo)
+            self.bugcount += 1
+
+            self.lidata = self.intrailerinfo = False
+
+    def do_li(self, attrs):
+        if self.mode == 'summary' and self.inbuglist:
             if self.lidata: self.check_li()
 
             self.lidata = True
@@ -672,13 +702,16 @@ def parse_mbox_report(number, url, http_proxy, followups=False):
 
         output.append(entry)
 
+    if not output:
+        return None
+
     title = "#%d: %s" % (number, title)
     return (title, output)
 
 def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
                     source=False, version=None):
     page = open_url(cgi_package_url(system, package, archived, source,
-                                    version), http_proxy)
+                                    version=version), http_proxy)
     if not page:
         return (0, None, None)
 
@@ -752,7 +785,8 @@ def get_report(number, system='debian', mirrors=None,
                http_proxy='', archived=False, followups=False):
     number = int(number)
     if SYSTEMS[system].get('cgiroot'):
-        result = get_cgi_report(number, system, http_proxy, archived,followups)
+        result = get_cgi_report(number, system, http_proxy, archived,
+                                followups)
         if result: return result
         
     url = report_url(system, number, mirrors)
@@ -761,4 +795,4 @@ def get_report(number, system='debian', mirrors=None,
     return parse_html_report(number, url, http_proxy, followups, cgi=False)
 
 if __name__ == '__main__':
-    print get_cgi_report(183573)
+    print get_cgi_report(2)
