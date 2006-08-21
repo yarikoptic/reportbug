@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.5 2006-08-18 22:46:37 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.6 2006-08-21 01:47:56 lawrencc Exp $
 
 import commands, string, sys, re
 
@@ -59,6 +59,8 @@ display_failure = ewrite
 def initialize_urwid_ui():
     ui = urwid.raw_display.Screen()
     ui.register_palette(palette)
+    # Improve responsiveness of UI
+    ui.set_input_timeouts(max_wait=0.1)
     return ui
 
 # Empty function to satisfy ui.run_wrapper()
@@ -140,7 +142,7 @@ class dialog(object):
             self.buttons = urwid.Frame(urwid.AttrWrap(box, 'selectable'))
             self.frame.footer = urwid.BoxAdapter(self.buttons, min(len(l), 10))
         else:
-            self.buttons = urwid.GridFlow(l, 10, 3, 1, 'center')
+            self.buttons = urwid.GridFlow(l, 12, 3, 1, 'center')
             self.buttons.set_focus(default or 0)
             self.frame.footer = urwid.Pile( [ urwid.Divider(), self.buttons ],
                                             focus_item = 1 )
@@ -344,7 +346,7 @@ def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
     return result
 
 def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
-    box = dialog(msg, title=reportbug.VERSION)
+    box = dialog('', long_message=msg, title=reportbug.VERSION)
     box.add_buttons([ ('Yes', True), ('No', False) ], default=1-int(default))
     result = box.main(ui)
     return result
@@ -375,7 +377,8 @@ def get_multiline(prompt, options=None, title=None, force_prompt=False,
     return l
 
 def menu(par, options, prompt, default=None, title=None, any_ok=False,
-         order=None, extras=None, multiple=False, empty_ok=False, ui=None):
+         order=None, extras=None, multiple=False, empty_ok=False, ui=None,
+         oklabel='Ok', cancellabel='Cancel', quitlabel=None):
     selected = {}
 
     if not extras:
@@ -424,10 +427,14 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
                     desc or '') for (option, desc) in options]
         box = checklistdialog(par, widgets, height=('relative', 80),
                               title=title)
-        box.add_buttons( [('Ok', 0), ('Cancel', -1)] )
+        if quitlabel:
+            box.add_buttons( [(oklabel, 0), (cancellabel, -1),
+                              (quitlabel, -2)] )
+        else:
+            box.add_buttons( [(oklabel, 0), (cancellabel, -1)] )
         result, chosen = box.main(ui)
-        if result == -1:
-            return None
+        if result < 0:
+            return result
         return chosen
 
     # Single menu option only
@@ -458,7 +465,10 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 
     box = listdialog(par, widgets, height=('relative', 80),
                      title=title)
-    box.add_buttons( [('Ok', 0), ('Cancel', -1)] )
+    if quitlabel:
+        box.add_buttons( [(oklabel, 0), (cancellabel, -1), (quitlabel, -2)] )
+    else:
+        box.add_buttons( [(oklabel, 0), (cancellabel, -1)] )
     focus = 0
     if default:
         for i, opt in enumerate(options):
@@ -467,8 +477,8 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
                 break
     
     result, chosen = box.main(ui)
-    if result == -1:
-        return None
+    if result < 0:
+        return result
 
     return chosen
 
@@ -524,8 +534,8 @@ def show_report(number, system, mirrors,
     return
 
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
-                     queryonly=0, screen=None, title="", archived='no',
-                     source=0):
+                     queryonly=False, screen=None, title="", archived='no',
+                     source=False, version=None):
     import debianbts
 
     sysinfo = debianbts.SYSTEMS[bts]
@@ -555,7 +565,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     result = None
     try:
         (count, sectitle, hierarchy) = debianbts.get_reports(
-            package, bts, mirrors=mirrors,
+            package, bts, mirrors=mirrors, version=version,
             http_proxy=http_proxy, archived=archived, source=source)
 
         if not count:
@@ -584,11 +594,25 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
 
             p = buglist[1][0]
             #scr.popWindow()
+            if queryonly:
+                cancellabel = 'Exit'
+                quitlabel = None
+            else:
+                cancellabel = 'Continue'
+                quitlabel='Quit'
+                
             while True:
                 info = menu('Select a bug to read the report:', buglist,
-                            '', ui=ui, title=sectitle, default=p)
+                            '', ui=ui, title=sectitle, default=p,
+                            oklabel='Get info',
+                            cancellabel=cancellabel,
+                            quitlabel=quitlabel)
                 ui = None
-                if not info:
+                if info < 0:
+                    if info == -1:
+                        result = None
+                    else:
+                        result = info
                     break
                 else:
                     p = info
@@ -599,10 +623,16 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                         break
 
     except (IOError, NoNetwork):
-        long_message('Unable to connect to %s BTS.', sysinfo['name'], ui=ui,
+        ui.run_wrapper(nullfunc)
+        long_message('Unable to connect to %s BTS.', sysinfo['name'],
                      title=title)
     except NoPackage:
-        long_message('No record of this package found.', ui=ui, title=title)
+        ui.run_wrapper(nullfunc)
+        long_message('No record of this package found.', title=title)
+        raise NoPackage
+
+    if result and result < 0:
+        raise NoReport
 
     return result
 

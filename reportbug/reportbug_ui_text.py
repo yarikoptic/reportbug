@@ -1,6 +1,6 @@
 # Text user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2001-04 Chris Lawrence
+#   (C) 2001-06 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19.2.1 2006-08-20 23:50:39 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.2 2006-08-21 01:47:56 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -471,7 +471,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
             for entry in hierarchy2:
                 hierarchy.append( (package2+' '+entry[0], entry[1]) )
 
-        exp = re.compile(r'\#(\d+):')
+        exp = re.compile(r'#(\d+)[ :]')
         for entry in hierarchy or []:
             for bug in entry[1]:
                 match = exp.match(bug)
@@ -663,7 +663,7 @@ def proc_hierarchy(hierarchy):
 
     # Copy & paste from handle_bts_query()
     bugs = []
-    exp = re.compile(r'\#(\d+):')
+    exp = re.compile(r'\#(\d+)[ :]')
     for entry in hierarchy or []:
 	for bug in entry[1]:
 	    match = exp.match(bug)
@@ -691,6 +691,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
 	return "FilterEnd"
         
     count, bugs = proc_hierarchy(hierarchy)
+    exp = re.compile(r'\#(\d+):')
     
     if not count:
 	our_raw_input('No match found, press ENTER to continue.')
