@@ -1,3 +1,11 @@
+reportbug (3.29) unstable; urgency=low
+
+  * Send the version header in BTS queries.
+  * Note version in which closed bugs were fixed in the bug listing.
+  * Handle bug reports that don't exist (like #2).  (Closes: #376245)
+
+ --
+
 reportbug (3.28) unstable; urgency=low
 
   * Actually search sys.path for available UIs.  (Closes: #383665)
