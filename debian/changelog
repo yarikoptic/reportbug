@@ -1,10 +1,13 @@
 reportbug (3.29) unstable; urgency=low
 
   * Send the version header in BTS queries.
-  * Note version in which closed bugs were fixed in the bug listing.
+  * Include version in which closed bugs were fixed in the bug listing.
   * Handle bug reports that don't exist (like #2).  (Closes: #376245)
   * Fix ewrite() failure when % in message but no arguments.
     (Closes: #384167)
+  * Improvements to character set handling: available and status
+    information are assumed to be in UTF-8; avoid crashes with weird
+    characters in realname.  (Closes: #337276)
 
  --
 

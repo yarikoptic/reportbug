@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.1 2006-08-18 22:07:58 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.2 2006-08-22 16:50:16 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -185,7 +185,7 @@ def get_email_addr(addr):
 def get_email(email='', realname=''):
     return get_email_addr(get_user_id(email, realname))
 
-def get_user_id(email='', realname=''):
+def get_user_id(email='', realname='', charset='utf-8'):
     uid = os.getuid()
     info = pwd.getpwuid(uid)
     email = (os.environ.get('REPORTBUGEMAIL', email) or
@@ -215,6 +215,9 @@ def get_user_id(email='', realname=''):
 
     if not realname:
         return email
+
+    # Decode the realname from the charset
+    realname = realname.decode(charset, 'replace')
     
     if re.match(r'[\w\s]+$', realname):
         return '%s <%s>' % (realname, email)
@@ -261,6 +264,9 @@ def get_package_status(package, avail=False):
     else:
         output = commands.getoutput(
             "COLUMNS=79 dpkg --status %s 2>/dev/null" % packarg)
+
+    # dpkg output is in UTF-8 format
+    output = output.decode('utf-8')
 
     for line in output.split(os.linesep):
         line = line.rstrip()
@@ -354,16 +360,17 @@ def get_avail_database():
     global avail
 
     if not avail:
-        avail = commands.getoutput('apt-cache dumpavail 2>/dev/null').split('\n\n')
+        avail = commands.getoutput('apt-cache dumpavail 2>/dev/null')
         if not avail:
             if os.path.exists(AVAILDB):
-                avail = file(AVAILDB).read().split('\n\n')
+                avail = file(AVAILDB).read()
 
     if not avail:
         print >> sys.stderr, 'Unable to open', AVAILDB
         sys.exit(1)
 
-    return avail
+    # output is in UTF-8 format
+    return avail.decode('utf-8', 'replace').split('\n\n')
 
 def get_source_package(package):
     """Return any binary packages provided by a source package."""

@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19.2.4 2006-08-22 16:28:56 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.5 2006-08-22 16:50:17 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -869,7 +869,7 @@ def display_report(text, use_pager=True):
     except IOError:
         pass
 
-def spawn_editor(message, filename, editor):
+def spawn_editor(message, filename, editor, charset='utf-8'):
     if not editor:
         ewrite('No editor found!\n')
         return (message, 0)
@@ -917,7 +917,7 @@ def spawn_editor(message, filename, editor):
 
     if '&' in editor: return (None, 1)
 
-    newmessage = file(filename).read()
+    newmessage = file(filename).read().decode(charset, 'replace')
 
     if newmessage == message:
         ewrite('No changes were made in the editor.\n')
