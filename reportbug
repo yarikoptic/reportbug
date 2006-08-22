@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.4 2006-08-22 16:50:16 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.5 2006-08-22 17:03:00 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1221,7 +1221,7 @@ class UI(object):
                 ewrite("Package originates from %s; overriding your system "
                        "selection.\n", vendor or origin)
                 bts = origin.lower()
-                reportinfo = None
+                sysinfo = debianbts.SYSTEMS[bts]
             elif reportinfo:
                 ewrite("Unknown origin %s; will send to %s.\n", origin,
                        reportinfo[1])
