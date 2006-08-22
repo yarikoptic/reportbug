@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.6 2006-08-21 01:47:56 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.7 2006-08-22 16:02:01 lawrencc Exp $
 
 import commands, string, sys, re
 
@@ -41,16 +41,7 @@ from types import StringTypes
 
 ISATTY = sys.stdin.isatty()
 
-from reportbug_ui_text import spawn_editor
-
-def ewrite(message, *args):
-    if not ISATTY:
-        return
-
-    if args:
-        sys.stderr.write(message % args)
-    else:
-        sys.stderr.write(message)
+from reportbug_ui_text import spawn_editor, ewrite
 
 log_message = ewrite
 display_failure = ewrite

@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19.2.2 2006-08-21 01:47:56 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.3 2006-08-22 16:02:01 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -45,7 +45,10 @@ def ewrite(message, *args):
     if not ISATTY:
         return
 
-    sys.stderr.write(message % args)
+    if args:
+        sys.stderr.write(message % args)
+    else:
+        sys.stderr.write(message)
     sys.stderr.flush()
 
 log_message = ewrite
@@ -195,7 +198,10 @@ def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False):
     return (res == 'y')
 
 def long_message(text, *args):
-    ewrite(indent_wrap_text(text % args))
+    if args:
+        ewrite(indent_wrap_text(text % args))
+    else:
+        ewrite(indent_wrap_text(text))
 
 final_message = long_message
 

@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_newt.py,v 1.5 2006-08-10 02:36:14 lawrencc Exp $
+# $Id: reportbug_ui_newt.py,v 1.5.2.1 2006-08-22 16:02:01 lawrencc Exp $
 
 import commands, string, sys, snack, re, debianbts
 from reportbug_exceptions import *
@@ -36,16 +36,7 @@ except:
 def ewrite(message, *args):
     # ewrite shouldn't do anything on newt... maybe should log to a file
     # if specified.
-    if 1:
-        return
-    
-    if not ISATTY:
-        return
-
-    if args:
-        sys.stderr.write(message % args)
-    else:
-        sys.stderr.write(message)
+    pass
 
 log_message = ewrite
 display_failure = ewrite
