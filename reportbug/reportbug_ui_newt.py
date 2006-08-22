@@ -18,12 +18,11 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_newt.py,v 1.5.2.1 2006-08-22 16:02:01 lawrencc Exp $
+# $Id: reportbug_ui_newt.py,v 1.5.2.2 2006-08-22 16:28:56 lawrencc Exp $
 
 import commands, string, sys, snack, re, debianbts
 from reportbug_exceptions import *
 from urlutils import launch_browser
-from types import StringTypes
 
 ISATTY = sys.stdin.isatty()
 
@@ -210,7 +209,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     if not scr:
         scr = newt_screen()
     
-    if isinstance(package, StringTypes):
+    if isinstance(package, basestring):
         if source:
             newt_infobox('Querying %s bug tracking system for reports on'
                          ' src:%s\n' % (debianbts.SYSTEMS[bts]['name'],
