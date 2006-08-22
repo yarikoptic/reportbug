@@ -18,12 +18,11 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19.2.3 2006-08-22 16:02:01 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.4 2006-08-22 16:28:56 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
 from urlutils import launch_browser
-from types import StringTypes
 import dircache
 import glob
 import getpass
@@ -453,7 +452,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     if source:
         srcstr = " (source)"
         
-    if isinstance(package, StringTypes):
+    if isinstance(package, basestring):
         long_message('Querying %s BTS for reports on %s%s...\n',
                      debianbts.SYSTEMS[bts]['name'], package, srcstr)
     else:

@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.8 2006-08-22 16:18:00 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.9 2006-08-22 16:28:56 lawrencc Exp $
 
 import commands, string, sys, re
 
@@ -37,7 +37,6 @@ import reportbug
 
 from reportbug_exceptions import *
 from urlutils import launch_browser
-from types import StringTypes
 
 ISATTY = sys.stdin.isatty()
 
@@ -540,7 +539,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     if not ui:
         ui = initialize_urwid_ui()
     
-    if isinstance(package, StringTypes):
+    if isinstance(package, basestring):
         pkgname = package
         if source:
             pkgname += ' (source)'
