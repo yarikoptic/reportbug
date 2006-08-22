@@ -22,11 +22,10 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.2 2006-08-21 01:40:13 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.3 2006-08-22 16:50:16 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
-from types import StringTypes
 import sys
 
 import mailbox
@@ -743,7 +742,7 @@ def get_btsroot(system, mirrors=None):
 
 def get_reports(package, system='debian', mirrors=None, version=None,
                 http_proxy='', archived=False, source=False):
-    if isinstance(package, StringTypes):
+    if isinstance(package, basestring):
         if SYSTEMS[system].get('cgiroot'):
             result = get_cgi_reports(package, system, http_proxy, archived,
                                      source, version=version)
