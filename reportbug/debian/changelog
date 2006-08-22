@@ -8,8 +8,10 @@ reportbug (3.29) unstable; urgency=low
   * Improvements to character set handling: available and status
     information are assumed to be in UTF-8; avoid crashes with weird
     characters in realname.  (Closes: #337276)
+  * If an Origin header is detected, ensure that the proper system
+    information is looked up for filing the bug report.  (Closes: #341618)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 22 Aug 2006 13:45:04 -0500
 
 reportbug (3.28) unstable; urgency=low
 
