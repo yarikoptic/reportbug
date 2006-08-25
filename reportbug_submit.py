@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.20 2006-08-11 22:58:52 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.21 2006-08-25 01:33:40 lawrencc Exp $
 
 import sys
 
@@ -255,7 +255,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         message = BetterMIMEText(body, _charset=charset)
 
     # Standard headers
-    message['From'] = rfc2047_encode_address(fromaddr, charset, mua)
+    message['From'] = rfc2047_encode_address(fromaddr, 'utf-8', mua)
     message['To'] = rfc2047_encode_address(sendto, charset, mua)
 
     for (header, value) in headers:

@@ -1,7 +1,7 @@
 reportbug (3.99.1) experimental; urgency=low
 
   * Start experimental fork of reportbug for 4.0 (likely post-etch).
-  * Incorporate changes from reportbug 3.27-3.28.
+  * Incorporate changes from reportbug 3.27-3.29.1.
 
  --
 

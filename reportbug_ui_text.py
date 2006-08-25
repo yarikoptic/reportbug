@@ -1,6 +1,6 @@
 # Text user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2001-04 Chris Lawrence
+#   (C) 2001-06 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -18,12 +18,11 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19 2006-08-15 20:12:38 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.20 2006-08-25 01:33:40 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
 from urlutils import launch_browser
-from types import StringTypes
 import dircache
 import glob
 import getpass
@@ -45,7 +44,10 @@ def ewrite(message, *args):
     if not ISATTY:
         return
 
-    sys.stderr.write(message % args)
+    if args:
+        sys.stderr.write(message % args)
+    else:
+        sys.stderr.write(message)
     sys.stderr.flush()
 
 log_message = ewrite
@@ -195,7 +197,10 @@ def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False):
     return (res == 'y')
 
 def long_message(text, *args):
-    ewrite(indent_wrap_text(text % args))
+    if args:
+        ewrite(indent_wrap_text(text % args))
+    else:
+        ewrite(indent_wrap_text(text))
 
 final_message = long_message
 
@@ -434,7 +439,7 @@ def show_report(number, system, mirrors,
 
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
-                     source=False):
+                     source=False, version=None):
     import debianbts
     
     root = debianbts.SYSTEMS[bts].get('btsroot')
@@ -447,7 +452,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     if source:
         srcstr = " (source)"
         
-    if isinstance(package, StringTypes):
+    if isinstance(package, basestring):
         long_message('Querying %s BTS for reports on %s%s...\n',
                      debianbts.SYSTEMS[bts]['name'], package, srcstr)
     else:
@@ -458,19 +463,20 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     bugs = []
     try:
         (count, title, hierarchy)=debianbts.get_reports(
-            package, bts, mirrors=mirrors,
+            package, bts, mirrors=mirrors, version=version,
             source=source, http_proxy=http_proxy, archived=archived)
         if debianbts.SYSTEMS[bts].has_key('namefmt'):
             package2 = debianbts.SYSTEMS[bts]['namefmt'] % package
             (count2, title2, hierarchy2) = \
                      debianbts.get_reports(package2, bts,
                                            mirrors=mirrors, source=source,
-                                           http_proxy=http_proxy)
+                                           http_proxy=http_proxy,
+                                           version=version)
             count = count+count2
             for entry in hierarchy2:
                 hierarchy.append( (package2+' '+entry[0], entry[1]) )
 
-        exp = re.compile(r'\#(\d+):')
+        exp = re.compile(r'#(\d+)[ :]')
         for entry in hierarchy or []:
             for bug in entry[1]:
                 match = exp.match(bug)
@@ -662,7 +668,7 @@ def proc_hierarchy(hierarchy):
 
     # Copy & paste from handle_bts_query()
     bugs = []
-    exp = re.compile(r'\#(\d+):')
+    exp = re.compile(r'\#(\d+)[ :]')
     for entry in hierarchy or []:
 	for bug in entry[1]:
 	    match = exp.match(bug)
@@ -690,6 +696,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
 	return "FilterEnd"
         
     count, bugs = proc_hierarchy(hierarchy)
+    exp = re.compile(r'\#(\d+):')
     
     if not count:
 	our_raw_input('No match found, press ENTER to continue.')
@@ -862,7 +869,7 @@ def display_report(text, use_pager=True):
     except IOError:
         pass
 
-def spawn_editor(message, filename, editor):
+def spawn_editor(message, filename, editor, charset='utf-8'):
     if not editor:
         ewrite('No editor found!\n')
         return (message, 0)
@@ -910,7 +917,7 @@ def spawn_editor(message, filename, editor):
 
     if '&' in editor: return (None, 1)
 
-    newmessage = file(filename).read()
+    newmessage = file(filename).read().decode(charset, 'replace')
 
     if newmessage == message:
         ewrite('No changes were made in the editor.\n')
