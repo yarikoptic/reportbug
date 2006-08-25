@@ -18,12 +18,11 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_newt.py,v 1.5 2006-08-10 02:36:14 lawrencc Exp $
+# $Id: reportbug_ui_newt.py,v 1.6 2006-08-25 01:33:40 lawrencc Exp $
 
 import commands, string, sys, snack, re, debianbts
 from reportbug_exceptions import *
 from urlutils import launch_browser
-from types import StringTypes
 
 ISATTY = sys.stdin.isatty()
 
@@ -36,16 +35,7 @@ except:
 def ewrite(message, *args):
     # ewrite shouldn't do anything on newt... maybe should log to a file
     # if specified.
-    if 1:
-        return
-    
-    if not ISATTY:
-        return
-
-    if args:
-        sys.stderr.write(message % args)
-    else:
-        sys.stderr.write(message)
+    pass
 
 log_message = ewrite
 display_failure = ewrite
@@ -219,7 +209,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     if not scr:
         scr = newt_screen()
     
-    if isinstance(package, StringTypes):
+    if isinstance(package, basestring):
         if source:
             newt_infobox('Querying %s bug tracking system for reports on'
                          ' src:%s\n' % (debianbts.SYSTEMS[bts]['name'],

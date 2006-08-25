@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.100 2006-08-18 16:08:33 lawrencc Exp $
+# $Id: reportbug,v 1.101 2006-08-25 01:33:40 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -100,7 +100,7 @@ def which_editor(default_editor=None):
     return editor
 
 def handle_editing(filename, dmessage, options, sendto, attachments, package,
-                   editor=None):
+                   editor=None, charset='utf-8'):
     if not editor:
         editor = options.editor
     editor = which_editor(editor)
@@ -109,7 +109,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
     while True:
         if not skip_editing:
             (message, changed) = ui.spawn_editor(message or dmessage, filename,
-                                                 editor)
+                                                 editor, charset)
         skip_editing = False
         if not message:
             x = ''
@@ -919,11 +919,6 @@ class UI(object):
         if self.options.interface == 'text':
             ewrite('*** Welcome to reportbug.  Use ? for help at prompts. ***\n')
 
-        fromaddr = reportbug.get_user_id(self.options.email, self.options.realname)
-        ewrite("Using '%s' as your from address.\n", fromaddr)
-        if self.options.debugmode:
-            sendto = fromaddr
-
         try:
             blah = u'hello'.encode(charset)
         except LookupError:
@@ -935,6 +930,12 @@ class UI(object):
         else:
             ewrite("Detected character set: %s\n"
                    "Please change your locale if this is incorrect.\n\n", charset)
+
+        fromaddr = reportbug.get_user_id(self.options.email, self.options.realname, charset)
+        ewrite("Using '%s' as your from address.\n", fromaddr.encode(charset, 'replace'))
+        fromaddr = fromaddr.encode('utf-8')
+        if self.options.debugmode:
+            sendto = fromaddr
 
         edname = which_editor(self.options.editor)
         baseedname = os.path.basename(edname)
@@ -1107,6 +1108,7 @@ class UI(object):
             (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
              installed, origin, vendor, reportinfo, priority, desc, src_name,
              fulldesc, state) = status
+            maintainer = maintainer.encode(charset, 'replace')
 
         buginfo = '/usr/share/bug/' + package
         bugexec = submitas = submitto = presubj = None
@@ -1220,7 +1222,7 @@ class UI(object):
                 ewrite("Package originates from %s; overriding your system "
                        "selection.\n", vendor or origin)
                 bts = origin.lower()
-                reportinfo = None
+                sysinfo = debianbts.SYSTEMS[bts]
             elif reportinfo:
                 ewrite("Unknown origin %s; will send to %s.\n", origin,
                        reportinfo[1])
@@ -1267,7 +1269,10 @@ class UI(object):
                     pkg = src_name
             try:
                 exinfo = ui.handle_bts_query(pkg, bts, self.options.mirrors,
-                                             self.options.http_proxy, source=src)
+                                             self.options.http_proxy,
+                                             source=src,
+                                             queryonly=self.options.queryonly,
+                                             version=pkgversion)
             except UINotImplemented:
                 exinfo = None
             except NoNetwork:
@@ -1283,10 +1288,14 @@ class UI(object):
             except NoBugs:
                 ewrite('No bug reports found.\n')
             except NoReport:
-                ewrite('Nothing new to report; exiting.\n')
+                if self.options.queryonly:
+                    ewrite('Exiting at user request.\n')
+                else:
+                    ewrite('Nothing new to report; exiting.\n')
                 return
 
-            if self.options.queryonly: return
+            if self.options.queryonly:
+                return
 
         ccaddr = os.environ.get('MAILCC')
         if self.options.nocc:
@@ -1295,9 +1304,7 @@ class UI(object):
             bccaddr = os.environ.get('MAILBCC', fromaddr)
 
         if maintainer:
-            lmaintainer = maintainer.decode('UTF-8', 'ignore').encode(
-                charset, 'replace')
-            ewrite("Maintainer for %s is '%s'.\n", package, lmaintainer)
+            ewrite("Maintainer for %s is '%s'.\n", package, maintainer)
             if 'qa.debian.org' in maintainer:
                 ui.long_message('''\
 This package is currently "orphaned"; if you are a current or prospective
@@ -1576,7 +1583,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
             addinfo = None
             if not self.options.noconf:
-                addinfo = "\n-- Package-specific info:\n"+file(filename).read()
+                addinfo = "\n-- Package-specific info:\n"+file(filename).read().decode('utf-8')
 
             os.unlink(filename)
             if addinfo and incfiles:
@@ -1638,12 +1645,13 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
         if mailing:
             fh, filename = TempFile(prefix=tfprefix)
-            fh.write(message)
+            fh.write(message.encode(charset, 'replace'))
             fh.close()
             oldmua = mua or self.options.mua
             if not self.options.body and not self.options.bodyfile:
-                message = handle_editing(filename, message, self.options, sendto,
-                                         attachments, package)
+                message = handle_editing(filename, message, self.options,
+                                         sendto, attachments, package,
+                                         charset=charset)
             if not oldmua and self.options.mua:
                 mua = self.options.mua
             if mua:
