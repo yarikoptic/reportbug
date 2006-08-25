@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.2 2006-08-22 16:50:16 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.3 2006-08-25 01:18:06 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -266,7 +266,7 @@ def get_package_status(package, avail=False):
             "COLUMNS=79 dpkg --status %s 2>/dev/null" % packarg)
 
     # dpkg output is in UTF-8 format
-    output = output.decode('utf-8')
+    output = output.decode('utf-8', 'replace')
 
     for line in output.split(os.linesep):
         line = line.rstrip()

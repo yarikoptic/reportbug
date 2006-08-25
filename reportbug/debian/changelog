@@ -1,3 +1,10 @@
+reportbug (3.29.1) unstable; urgency=low
+
+  * Fix crashes when maintainer name is UTF-8 encoded.
+    (Closes: #384423, #384547)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 24 Aug 2006 20:17:42 -0500
+
 reportbug (3.29) unstable; urgency=low
 
   * Send the version header in BTS queries.

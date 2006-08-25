@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.6 2006-08-24 20:34:42 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.7 2006-08-25 01:18:06 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1108,6 +1108,7 @@ class UI(object):
             (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
              installed, origin, vendor, reportinfo, priority, desc, src_name,
              fulldesc, state) = status
+            maintainer = maintainer.encode(charset, 'replace')
 
         buginfo = '/usr/share/bug/' + package
         bugexec = submitas = submitto = presubj = None
@@ -1303,11 +1304,7 @@ class UI(object):
             bccaddr = os.environ.get('MAILBCC', fromaddr)
 
         if maintainer:
-            lmaintainer = maintainer
-            if isinstance(maintainer, str):
-                lmaintainer = lmaintainer.decode('UTF-8', 'ignore')
-            lmaintainer = lmaintainer.encode(charset, 'replace')
-            ewrite("Maintainer for %s is '%s'.\n", package, lmaintainer)
+            ewrite("Maintainer for %s is '%s'.\n", package, maintainer)
             if 'qa.debian.org' in maintainer:
                 ui.long_message('''\
 This package is currently "orphaned"; if you are a current or prospective
