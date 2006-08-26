@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.7 2006-08-25 01:18:06 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.8 2006-08-26 01:55:42 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -729,22 +729,30 @@ def main():
     # Load the interface, *before* the configuration step.
     sys.argv = sys.argv[:1] + list(args)
     if options.interface:
-        if options.interface in ('gnome', 'newt'):
+        interface = options.interface
+        if interface in ('gnome', 'newt'):
             ui.long_message("The %s interface is not supported.  Unless you "
                             "are debugging reportbug, please do not use it.  "
                             "If you are debugging reportbug, please DO NOT "
                             "file bugs more serious than 'normal' that "
                             "indicate problems with this interface.\n",
-                            options.interface)
+                            interface)
                             
-        iface = 'reportbug_ui_'+options.interface
-        exec 'import '+iface
-        ui = eval(iface)
+        iface = 'reportbug_ui_'+interface
+        try:
+            exec 'import '+iface
+            ui = eval(iface)
+        except UINotImportable, msg:
+            ui.long_message('*** Unable to import %s interface: %s '
+                            'Falling back to text interface.\n',
+                            interface, msg)
+            ewrite('\n')
+
         reportbug_submit.ui = ui
         # Add INTERFACE as an environment variable to access it from the
         # script gathering the special information for reportbug, when
         # a new bug should be filed against it.
-        os.environ['INTERFACE'] = options.interface
+        os.environ['INTERFACE'] = interface
 
     iface = UI(options, args)
     if not hasattr(ui, 'run_interface'):
