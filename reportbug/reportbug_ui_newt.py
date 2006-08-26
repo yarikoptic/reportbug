@@ -1,6 +1,6 @@
 # Newt user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2001-04 Chris Lawrence
+#   (C) 2001-06 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -18,11 +18,16 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_newt.py,v 1.5.2.2 2006-08-22 16:28:56 lawrencc Exp $
+# $Id: reportbug_ui_newt.py,v 1.5.2.3 2006-08-26 01:57:09 lawrencc Exp $
 
-import commands, string, sys, snack, re, debianbts
+import commands, string, sys, re, debianbts
 from reportbug_exceptions import *
 from urlutils import launch_browser
+
+try:
+    import snack
+except ImportError:
+    raise UINotImportable, 'Please install the python-newt package to use this interface.'
 
 ISATTY = sys.stdin.isatty()
 
