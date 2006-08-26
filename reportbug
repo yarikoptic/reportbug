@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.9 2006-08-26 16:35:55 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.10 2006-08-26 16:36:45 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1326,7 +1326,8 @@ orphaned for a long period of time are often removed from the archive.\n''')
             if maintainer:
                 sendto = maintainer
             else:
-                ewrite('Unable to determine maintainer for %s; exiting.', package)
+                ewrite('Unable to determine maintainer for %s; exiting.\n',
+                       package)
                 sys.exit(1)
 
         depinfo = ""
