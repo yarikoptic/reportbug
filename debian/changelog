@@ -1,3 +1,9 @@
+reportbug (3.29.3) unstable; urgency=low
+
+  * Fix crash when the maintainer field is unavailable.  (Closes: #384778)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 26 Aug 2006 11:37:17 -0500
+
 reportbug (3.29.2) unstable; urgency=medium
 
   * Fallback gracefully when the selected UI can't be imported.
