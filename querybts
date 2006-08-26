@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: querybts,v 1.7.2.1 2006-08-18 22:07:58 lawrencc Exp $
+# $Id: querybts,v 1.7.2.2 2006-08-26 02:00:27 lawrencc Exp $
 
 import sys, os
 sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
@@ -166,8 +166,15 @@ def main():
     if interface:
         global ui, ui_mode
         iface = 'reportbug_ui_'+interface
-        ui = __import__(iface)
-        ui_mode = interface
+        try:
+            exec 'import '+iface
+            ui = eval(iface)
+            ui_mode = interface
+        except UINotImportable, msg:
+            ui.long_message('*** Unable to import %s interface: %s '
+                            'Falling back to %s interface.\n',
+                            interface, msg, ui_mode)
+            ewrite('\n')
 
     reportre = re.compile(r'^#?(\d+)$')
     try:
