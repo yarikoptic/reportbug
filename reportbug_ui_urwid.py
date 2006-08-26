@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.10 2006-08-26 01:57:09 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.11 2006-08-26 02:03:27 lawrencc Exp $
 
 import commands, string, sys, re
 from reportbug_exceptions import *
@@ -574,10 +574,14 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                 bcount = len(bugs)
                 buglist.append( ('---', t) )
                 for bug in bugs:
-                    bits = bug[1:].split('[: ]', 1)
-                    tag, info = bits
-                    info = info.strip()
-                    if not info:
+                    bits = re.split(r'[: ]', bug[1:], 1)
+                    if len(bits) > 1:
+                        tag, info = bits
+                        info = info.strip()
+                        if not info:
+                            info = '(no subject)'
+                    else:
+                        tag = bug[1:]
                         info = '(no subject)'
                     buglist.append( (tag, info) )
 
