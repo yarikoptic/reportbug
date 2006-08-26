@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.8 2006-08-26 01:55:42 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.9 2006-08-26 16:35:55 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1116,7 +1116,8 @@ class UI(object):
             (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
              installed, origin, vendor, reportinfo, priority, desc, src_name,
              fulldesc, state) = status
-            maintainer = maintainer.encode(charset, 'replace')
+            if maintainer:
+                maintainer = maintainer.encode(charset, 'replace')
 
         buginfo = '/usr/share/bug/' + package
         bugexec = submitas = submitto = presubj = None
