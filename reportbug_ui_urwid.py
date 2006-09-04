@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.11 2006-08-26 02:03:27 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.12 2006-09-04 00:14:16 lawrencc Exp $
 
 import commands, string, sys, re
 from reportbug_exceptions import *
@@ -224,13 +224,13 @@ class textentry(dialog):
 
 class listdialog(dialog):
     def __init__(self, text, widgets, has_default=False, width=None,
-                 height=None, title=''):
+                 height=None, title='', buttonwidth=12):
         l = []
         self.items = []
         for (w, label) in widgets:
             self.items.append(w)
             if label:
-                w = urwid.Columns( [('fixed', 12, w), 
+                w = urwid.Columns( [('fixed', buttonwidth, w), 
                                     urwid.Text(label)], 2 )
             w = urwid.AttrWrap(w, 'selectable','focus')
             l.append(w)
@@ -444,16 +444,16 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
             b = urwid.AttrWrap( b, 'selectable','focus' )
         widgets.append((b, desc))
     
-    if any_ok:
-        editbox = urwid.Edit(multiline=multiline)
-        e = urwid.ListBox([editbox])
-        e = urwid.AttrWrap(e, 'selectable', 'focustext')
-        e = urwid.Pile( [('fixed', 1, e)] )
-        e = urwid.Filler(body)
-        widgets.append(e)
+##     if any_ok:
+##         editbox = urwid.Edit(multiline=False)
+##         e = urwid.ListBox([editbox])
+##         e = urwid.AttrWrap(e, 'selectable', 'focustext')
+##         e = urwid.Pile( [('fixed', 1, e)] )
+##         e = urwid.Filler(e)
+##         widgets.append((e, None))
 
     box = listdialog(par, widgets, height=('relative', 80),
-                     title=title)
+                     title=title, buttonwidth=30)
     if quitlabel:
         box.add_buttons( [(oklabel, 0), (cancellabel, -1), (quitlabel, -2)] )
     else:
