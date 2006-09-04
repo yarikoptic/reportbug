@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.10 2006-08-26 16:36:45 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.11 2006-09-04 00:21:14 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -275,10 +275,14 @@ def validate_package_name(package):
     return package
 
 def get_other_package_name(others):
-    return ui.menu("Please enter the name of the package in which you "
-                   "have found a problem, or choose one of these bug "
-                   "categories:", others, "Enter a package: ", any_ok=True,
-                   default='')
+    result = ui.menu("Please enter the name of the package in which you "
+                     "have found a problem, or choose one of these bug "
+                     "categories:", others, "Enter a package: ", any_ok=True,
+                     default='')
+    if isinstance(result, basestring):
+        return result
+    else:
+        return None
 
 def get_package_name(bts='debian', mode=MODE_EXPERT):
     others = debianbts.SYSTEMS[bts].get('otherpkgs')
@@ -303,6 +307,8 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
             return
         if others and package and package == 'other':
             package = get_other_package_name(others)
+        if not package:
+            return
         package = validate_package_name(package)
 
     if mode < MODE_STANDARD:
@@ -349,6 +355,11 @@ def special_prompts(package, bts, ui, fromaddr):
     return
 
 def offer_configuration(options):
+    charset = locale.nl_langinfo(locale.CODESET)
+    # It would be nice if there were some canonical character set conversion
+    if charset.lower() == 'ansi_x3.4-1968':
+        charset = 'us-ascii'
+
     if not options.configure:
         ui.long_message('Welcome to reportbug!  Since it looks like this is '
                         'the first time you have used reportbug, we are '
@@ -382,10 +393,17 @@ def offer_configuration(options):
                        default=(not options.offline))
 
     def_realname, def_email = reportbug.get_email()
+
+    if options.realname:
+        realname = options.realname.encode(charset, 'replace')
+    else:
+        realname = def_realname.encode(charset, 'replace')
+    
     realname = ui.get_string('What real name should be used for sending bug '
-                             'reports? [%s]' %
-                             (options.realname or def_realname),
+                             'reports? [%s]' % realname,
                              options=[def_realname], force_prompt=True)
+    realname = realname.decode(charset, 'replace')
+    
     from_addr = ui.get_string('Which of your email addresses should be used '
                               'when sending bug reports? [%s]' %
                               (options.email or def_email),options=[def_email],
@@ -440,6 +458,7 @@ def offer_configuration(options):
         
     fp = os.fdopen(fd, 'w')
     print >> fp, '# reportbug preferences file'
+    print >> fp, '# character encoding: %s' % charset
     print >> fp, '# Version of reportbug this preferences file was written by'
     print >> fp, 'reportbug_version "##VERSION##"'
     print >> fp, '# default operating mode: one of:',
@@ -459,9 +478,9 @@ def offer_configuration(options):
     email_name = (realname or options.realname or def_realname)
     
     if email_name != def_realname:
-        print >> fp, rn % email_name
+        print >> fp, rn % email_name.encode(charset, 'replace')
     else:
-        print >> fp, '# '+(rn % email_name)
+        print >> fp, '# '+(rn % email_name.encode(charset, 'replace')
         
     if email_addy != def_email:
         print >> fp, em % email_addy
