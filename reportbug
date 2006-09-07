@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.11 2006-09-04 00:21:14 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.12 2006-09-07 23:04:26 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -122,7 +122,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     stopmsg(filename)
                     sys.exit(1)
 
-            message = file(filename).read()
+            message = file(filename).read().decode(charset, 'replace')
             changed = True
 
         prompt = 'Submit this report on %s (e to edit)' % package
@@ -213,9 +213,9 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             skip_editing = True
             if x == 'l':
                 pager = os.environ.get('PAGER', 'sensible-pager')
-                os.popen(pager, 'w').write(message)
+                os.popen(pager, 'w').write(message.encode(charset, 'replace'))
             else:
-                sys.stdout.write(message)
+                sys.stdout.write(message.encode(charset, 'replace'))
         elif x == 'y':
             if message == dmessage:
                 x = ui.select_options(
