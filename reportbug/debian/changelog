@@ -4,6 +4,8 @@ reportbug (3.29.4) unstable; urgency=low
     (Closes: #385810)
   * Handle non-ASCII encodings better in offer_configuration().
     (Closes: #385597)
+  * Also handle them better when dealing with the editor.
+    (Closes: #386463)
 
  -- Chris Lawrence <lawrencc@debian.org>  Sun,  3 Sep 2006 19:21:48 -0500
 
