@@ -1,3 +1,9 @@
+reportbug (3.29.5) unstable; urgency=low
+
+  * Fix missing parenthesis in offer_configuration.  (Closes: #386737)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 10 Sep 2006 13:53:12 -0500
+
 reportbug (3.29.4) unstable; urgency=low
 
   * Fixup handling of "any_ok" dialogs in urwid interface.
