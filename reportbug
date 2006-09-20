@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.101 2006-08-25 01:33:40 lawrencc Exp $
+# $Id: reportbug,v 1.102 2006-09-20 19:01:58 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -723,6 +723,8 @@ def main():
     parser.add_option('--no-paranoid', action='store_false', dest='paranoid',
                       help='don\'t show contents of message before sending '
                       '(default)')
+    #parser.add_option('--batch', action='store_true', dest='batchmode',
+    #                  help='bypass all prompts')
     
     (options, args) = parser.parse_args()
 
@@ -942,16 +944,16 @@ class UI(object):
         if baseedname == 'sensible-editor':
             edname = reportbug.realpath('/usr/bin/editor')
 
-        if not notatty and 'vi' in baseedname and mode < MODE_STANDARD:
-            if not ui.yes_no('You appear to be using the "vi" editor, which is '
-                             'not suited for new users.  You probably want to '
-                             'change this setting by using "update-alternatives '
-                             '--config editor" as root.  (You can bypass this '
-                             'message in the future by using reportbug in '
-                             '"standard" mode or higher.) '
-                             'Do you want to continue?',
-                             'Continue filing this report.',
-                             'Stop reportbug to change editors.', False):
+        if not notatty and 'vi' in baseedname and mode < MODE_STANDARD and \
+               'EDITOR' not in os.environ:
+            if not ui.yes_no(
+                'You appear to be using the "vi" editor, which is not suited '
+                'for new users.  You probably want to change this setting by '
+                'using "update-alternatives --config editor" as root.  (You '
+                'can bypass this message in the future by using reportbug in '
+                '"standard" mode or higher.)  Do you want to continue?',
+                'Continue filing this report.',
+                'Stop reportbug to change editors.', False):
                 ewrite('Exiting per user request.\n')
                 sys.exit(1)
 
