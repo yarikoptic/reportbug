@@ -1,3 +1,17 @@
+reportbug (3.30) unstable; urgency=low
+
+  * Put bugs that are fixed in subsequent releases at the top of the bug
+    browser; this should hopefully reduce the incidence of duplicate
+    reports.
+  * Don't allow tab-expansion of the realname in offer_configuration(); this
+    should resolve the encoding issues that some people have been bumping
+    into.
+  * When some recipients are refused, inform the user and dump the report
+    in a temporary file.  (Closes: #387691)
+  * Bypass vi nag when $EDITOR is set.  (Closes: #388437)
+
+ --
+
 reportbug (3.29.5) unstable; urgency=low
 
   * Fix missing parenthesis in offer_configuration.  (Closes: #386737)
