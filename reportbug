@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.13 2006-09-10 19:10:12 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.14 2006-09-20 19:03:52 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -400,13 +400,12 @@ def offer_configuration(options):
         realname = def_realname.encode(charset, 'replace')
     
     realname = ui.get_string('What real name should be used for sending bug '
-                             'reports? [%s]' % realname,
-                             options=[def_realname], force_prompt=True)
+                             'reports? [%s]' % realname, force_prompt=True)
     realname = realname.decode(charset, 'replace')
     
     from_addr = ui.get_string('Which of your email addresses should be used '
                               'when sending bug reports? [%s]' %
-                              (options.email or def_email),options=[def_email],
+                              (options.email or def_email),
                               force_prompt=True)
 
     stupidmode = not ui.yes_no(
@@ -969,7 +968,8 @@ class UI(object):
         if baseedname == 'sensible-editor':
             edname = reportbug.realpath('/usr/bin/editor')
 
-        if not notatty and 'vi' in baseedname and mode < MODE_STANDARD:
+        if not notatty and 'vi' in baseedname and mode < MODE_STANDARD and \
+               'EDITOR' not in os.environ:
             if not ui.yes_no('You appear to be using the "vi" editor, which is '
                              'not suited for new users.  You probably want to '
                              'change this setting by using "update-alternatives '
