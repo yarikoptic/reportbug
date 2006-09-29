@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.5 2006-09-29 02:25:21 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.6 2006-09-29 02:29:52 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -577,12 +577,16 @@ class BTSParser(sgmllib.SGMLParser):
 
             match = re.search(r'fixed:\s+([\w.+~-]+(\s+[\w.+~:-]+)?)', trailinfo)
             if match:
-                bits = re.split(r':\s+', self.bugtitle, 1)
+                title = self.bugtitle
+                bits = re.split(r':\s+', title, 1)
                 if len(bits) > 1:
                     buginfo = '%s [FIXED %s]: %s' % (
                         bits[0], match.group(1), bits[1])
                 else:
-                    buginfo = '%s [FIXED %s]' % (self.bugtitle, match.group(1))
+                    if title.endswith(':'):
+                        title = title[:-1]
+                    
+                    buginfo = '%s [FIXED %s]' % (title, match.group(1))
             else:
                 buginfo = self.bugtitle
             
