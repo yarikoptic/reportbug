@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.3 2006-08-22 16:50:16 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.4 2006-09-29 02:21:04 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -577,9 +577,12 @@ class BTSParser(sgmllib.SGMLParser):
 
             match = re.search(r'fixed:\s+([\w.+~-]+(\s+[\w.+~:-]+)?)', trailinfo)
             if match:
-                bugid, title = re.split(r':\s+', self.bugtitle, 1)
-                buginfo = '%s [FIXED %s]: %s' % (bugid, match.group(1),
-                                                    title)
+                bits = re.split(r':\s+', self.bugtitle, 1)
+                if len(bits) > 1:
+                    buginfo = '%s [FIXED %s]: %s' % (
+                        bits[0], match.group(1), bits[1])
+                else:
+                    buginfo = '%s [FIXED %s]' % (bugid, match.group(1))
             else:
                 buginfo = self.bugtitle
             
@@ -619,6 +622,39 @@ class BTSParser(sgmllib.SGMLParser):
                 self.preblock.append(stuff)
         elif not (self.preblock and self.cgi):
             self.preblock = self.save_end(1)
+
+    def reorganize(self):
+        if not self.hierarchy:
+            return
+
+        newhierarchy = []
+        fixed = []
+        fixedfinder = re.compile(r'\[FIXED ([^\]]+)\]')
+        resolvedfinder = re.compile(r'Resolved')
+
+        for (title, buglist) in self.hierarchy:
+            if 'Resolved' in title:
+                newhierarchy.append( (title, buglist) )
+                continue
+            
+            bugs = []
+            for bug in buglist:
+                if fixedfinder.search(bug):
+                    fixed.append(bug)
+                else:
+                    bugs.append(bug)
+                    
+            if bugs:
+                title = ' '.join(title.split()[:-2])
+                if len(bugs) != 1:
+                    title += ' (%d bugs)' % len(bugs)
+                else:
+                    title += ' (1 bug)'
+                
+                newhierarchy.append( (title, bugs) )
+
+        if fixed:
+            self.hierarchy = [('Bugs fixed in subsequent releases (%d bugs)' % len(fixed), fixed)] + newhierarchy
 
 def parse_html_report(number, url, http_proxy, followups=False, cgi=True):
     page = open_url(url, http_proxy)
@@ -721,6 +757,9 @@ def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
     parser = BTSParser(cgi=True)
     parser.feed(content)
     parser.close()
+
+    # Reorganize hierarchy to put recently-fixed bugs at top
+    parser.reorganize()
 
     return parser.bugcount, parser.title, parser.hierarchy
 
