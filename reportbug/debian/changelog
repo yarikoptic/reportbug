@@ -2,15 +2,19 @@ reportbug (3.30) unstable; urgency=low
 
   * Put bugs that are fixed in subsequent releases at the top of the bug
     browser; this should hopefully reduce the incidence of duplicate
-    reports.
+    reports.  (Note that some bugs that are closed may appear at the top
+    due to known problems in debbugs.)
   * Don't allow tab-expansion of the realname in offer_configuration(); this
     should resolve the encoding issues that some people have been bumping
     into.
   * When some recipients are refused, inform the user and dump the report
     in a temporary file.  (Closes: #387691)
   * Bypass vi nag when $EDITOR is set.  (Closes: #388437)
-
- --
+  * Add an extra EHLO when doing STARTTLS, since (contrary to the smtplib
+    documentation) smtplib seems to need it.  (Closes: #3226523)
+  * Fix crash when bugtitle lacks a colon.  (Closes: #389259)
+  
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 28 Sep 2006 21:16:38 -0500
 
 reportbug (3.29.5) unstable; urgency=low
 
