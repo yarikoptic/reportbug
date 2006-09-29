@@ -170,8 +170,6 @@ def launch_browser(url):
     os.system(cmd)
 
 if __name__ == '__main__':
-    page = open_url('http://packages.debian.org/reportbug')
+    page = open_url('http://bugs.debian.org/reportbug')
     content = page.read()
     print page.info().headers
-
-    
