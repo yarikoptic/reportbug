@@ -2,7 +2,7 @@
 # checkversions.py - Find if the installed version of a package is the latest
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2002-04 Chris Lawrence
+#   (C) 2002-06 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -20,11 +20,14 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: checkversions.py,v 1.6 2006-06-05 12:58:06 lawrencc Exp $
+# $Id: checkversions.py,v 1.6.2.1 2006-09-29 02:21:57 lawrencc Exp $
 #
 # Version ##VERSION##; see changelog for revision history
 
-import sgmllib, os, re, sys, urllib2
+import sgmllib
+#import HTMLParser
+
+import os, re, sys, urllib2
 from urlutils import open_url
 from reportbug_exceptions import *
 
@@ -35,7 +38,7 @@ NEWQUEUE_URL = 'http://ftp-master.debian.org/new.html'
 # The format is an unordered list
 
 class BaseParser(sgmllib.SGMLParser):
-    def __init__(self,):
+    def __init__(self):
         sgmllib.SGMLParser.__init__(self)
         self.savedata = None
 
@@ -190,11 +193,15 @@ def get_versions_available(package, dists=None, http_proxy=None, arch='i386'):
     if not page:
         return {}
 
-    content = page.read()
     parser = PackagesParser(arch)
-    parser.feed(content)
+    for line in page.readlines():
+        parser.feed(line)
     parser.close()
     page.close()
+##     content = page.read()
+##     parser.feed(content)
+##     parser.close()
+##     page.close()
 
     versions = {}
     for dist in dists:
