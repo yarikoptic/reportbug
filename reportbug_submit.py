@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.20.2.1 2006-08-22 16:50:17 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.20.2.2 2006-09-29 02:15:15 lawrencc Exp $
 
 import sys
 
@@ -351,11 +351,13 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         smtp_message = re.sub(r'(?m)^[.]', '..', message)
 
         tryagain = True
+        refused = None
         while tryagain:
             tryagain = False
             ewrite("Connecting to %s via SMTP...\n", smtphost)
             try:
                 conn = smtplib.SMTP(smtphost)
+                conn.ehlo()
                 if smtptls:
                     conn.starttls()
                     conn.ehlo()
@@ -365,7 +367,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                             'Enter SMTP password for %s@%s: ' %
                             (smtpuser, smtphost))
                     conn.login(smtpuser, smtppasswd)
-                conn.sendmail(fromaddr, toaddrs, smtp_message)
+                refused = conn.sendmail(fromaddr, toaddrs, smtp_message)
                 conn.quit()
             except (socket.error, smtplib.SMTPException), x:
                 # If wrong password, try again...
@@ -383,6 +385,16 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 fh.close()
 
                 ewrite('Wrote bug report to %s\n', msgname)
+        # Handle when some recipients are refused.
+        if refused:
+            for (addr, err) in refused.iteritems():
+                ewrite('Unable to send report to %s: %d %s\n', addr, err[0],
+                       err[1])
+            fh, msgname = TempFile(prefix=tfprefix)
+            fh.write(message)
+            fh.close()
+
+            ewrite('Wrote bug report to %s\n', msgname)
     else:
         try:
             pipe.write(message)
