@@ -2,7 +2,7 @@
 #
 # reportbug_submit module - email and GnuPG functions
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2005 Chris Lawrence
+#   Copyright (C) 1999-2006 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.20.2.2 2006-09-29 02:15:15 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.20.2.3 2006-10-11 19:59:43 lawrencc Exp $
 
 import sys
 
@@ -357,10 +357,14 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             ewrite("Connecting to %s via SMTP...\n", smtphost)
             try:
                 conn = smtplib.SMTP(smtphost)
-                conn.ehlo()
+                response = conn.ehlo()
+                if not (200 <= response[0] <= 299):
+                    conn.helo()
                 if smtptls:
                     conn.starttls()
                     conn.ehlo()
+                    if not (200 <= response[0] <= 299):
+                        conn.helo()
                 if smtpuser:
                     if not smtppasswd:
                         smtppasswd = ui.get_password(
