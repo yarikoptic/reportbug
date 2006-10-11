@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.20.2.3 2006-10-11 19:59:43 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.20.2.4 2006-10-11 20:02:14 lawrencc Exp $
 
 import sys
 
@@ -362,7 +362,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                     conn.helo()
                 if smtptls:
                     conn.starttls()
-                    conn.ehlo()
+                    response = conn.ehlo()
                     if not (200 <= response[0] <= 299):
                         conn.helo()
                 if smtpuser:

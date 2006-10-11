@@ -13,6 +13,7 @@ build-stamp:
 
 	# Add here commands to compile the package.
 	echo 'No make needed.'
+	po4a po4a/po4a.cfg
 
 	touch build-stamp
 
@@ -23,6 +24,7 @@ clean:
 
 	# Add here commands to clean up after the build process.
 	rm -rf `find . -name '*~' -o -name '.#*' -o -name '*.orig' -o -name '*.rej' -o -name '*.py[co]'` test sed-script
+	po4a --rm-translations po4a/po4a.cfg
 
 	dh_clean
 
@@ -68,7 +70,7 @@ binary-arch: build install
 #	dh_installemacsen
 #	dh_installinit
 	dh_installcron
-	dh_installman querybts.1 reportbug.1 reportbug.fr.1 reportbug.ja.1
+	dh_installman querybts.1 reportbug.1 reportbug.fr.1 querybts.fr.1 reportbug.ja.1
 #	dh_undocumented
 	dh_installchangelogs 
 	dh_link

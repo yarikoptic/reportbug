@@ -3,7 +3,7 @@ Section: utils
 Priority: standard
 Maintainer: Chris Lawrence <lawrencc@debian.org>
 Standards-Version: 3.7.2
-Build-Depends: debhelper (>= 5.0.37.2), python-central (>= 0.5)
+Build-Depends: debhelper (>= 5.0.37.2), python-central (>= 0.5), po4a (>= 0.23)
 Build-Depends-Indep: python-dev
 XS-Python-Version: current
 
