@@ -1,3 +1,10 @@
+reportbug (3.31) unstable; urgency=low
+
+  * Change default for get_string() in the urwid interface to ''.
+    (Closes: #392608)
+
+ --
+
 reportbug (3.30) unstable; urgency=low
 
   * Put bugs that are fixed in subsequent releases at the top of the bug
