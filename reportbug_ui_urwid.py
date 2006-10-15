@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.12 2006-09-04 00:14:16 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.13 2006-10-15 08:39:27 lawrencc Exp $
 
 import commands, string, sys, re
 from reportbug_exceptions import *
@@ -341,7 +341,7 @@ def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
     return result
 
 def get_string(prompt, options=None, title=None, force_prompt=False,
-               default=None, ui=None):
+               default='', ui=None):
     if title:
         title = '%s: %s' % (reportbug.VERSION, title)
     else:
