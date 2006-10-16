@@ -1,11 +1,15 @@
 Common issues with reportbug:
 
 EXIM IS CONFIGURED FOR LOCAL DELIVERY: In Debian 3.2 (etch) and later,
-   exim4 is configured by default to only deliver email to addresses on
-   your system.  You can either:
+   exim4 is configured by default to only deliver email to addresses
+   on your system.  YOUR BUG REPORTS WILL NOT ARRIVE AT THE BUG
+   TRACKING SYSTEM UNLESS YOU FOLLOW ONE OF THE FOLLOWING STEPS, either:
 
-   - Reconfigure exim (using 'dpkg-reconfigure -plow exim4').
-   - Configure reportbug to deliver mail to bugs.debian.org directly.
+   - Reconfigure exim (using 'dpkg-reconfigure -plow exim4') to send
+     mail to the Internet directly or via a smarthost.
+
+   - Configure reportbug to deliver mail to your ISP's smarthost or
+     bugs.debian.org directly (using 'reportbug --configure').
 
 EMAIL ADDRESS SETTING: See the manual page reportbug(1) for how to set
    your email address (i.e. the address that appears in the "From:"
