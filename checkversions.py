@@ -20,7 +20,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: checkversions.py,v 1.6.2.1 2006-09-29 02:21:57 lawrencc Exp $
+# $Id: checkversions.py,v 1.6.2.2 2006-10-16 17:14:03 lawrencc Exp $
 #
 # Version ##VERSION##; see changelog for revision history
 
@@ -194,10 +194,15 @@ def get_versions_available(package, dists=None, http_proxy=None, arch='i386'):
         return {}
 
     parser = PackagesParser(arch)
-    for line in page.readlines():
+    for line in page:
         parser.feed(line)
     parser.close()
+    try:
+        page.fp._sock.recv = None
+    except:
+        pass
     page.close()
+
 ##     content = page.read()
 ##     parser.feed(content)
 ##     parser.close()
@@ -207,6 +212,8 @@ def get_versions_available(package, dists=None, http_proxy=None, arch='i386'):
     for dist in dists:
         if dist in parser.versions:
             versions[dist] = parser.versions[dist]
+    del parser
+    del page
 
     return versions
 
@@ -223,15 +230,25 @@ def get_newqueue_available(package, dists=None, http_proxy=None, arch='i386'):
     if not page:
         return {}
     parser = NewQueueParser(package, arch)
-    parser.feed(page.read())
+    for line in page:
+        parser.feed(line)
     parser.close()
+    try:
+        page.fp._sock.recv = None
+    except:
+        pass
     page.close()
+
+    print repr(page)
 
     versions = {}
     for dist in dists:
         if dist in parser.versions:
             versions[dist] = parser.versions[dist]
 
+    del parser
+    del page
+    print 'HERE', gc.garbage
     return versions
 
 def get_incoming_version(package, http_proxy=None, arch='i386'):
@@ -246,15 +263,25 @@ def get_incoming_version(package, http_proxy=None, arch='i386'):
         return None
     
     parser = IncomingParser(package, arch)
-    parser.feed(page.read())
+    for line in page:
+        parser.feed(line)
     parser.close()
+    try:
+        page.fp._sock.recv = None
+    except:
+        pass
     page.close()
 
     if parser.found:
-        return reduce(later_version, parser.found, '0')
-    
+        found = parser.found
+        del parser
+        return reduce(later_version, found, '0')
+
+    del page
+    del parser
     return None
 
+import gc
 def check_available(package, version, dists=None, check_incoming=True,
                     check_newqueue=True,
                     http_proxy=None, arch='i386'):
@@ -264,13 +291,16 @@ def check_available(package, version, dists=None, check_incoming=True,
         iv = get_incoming_version(package, http_proxy, arch)
         if iv:
             avail['incoming'] = iv
-    avail.update(get_versions_available(package, dists, http_proxy, arch))
+    stuff = get_versions_available(package, dists, http_proxy, arch)
+    avail.update(stuff)
     if check_newqueue:
         import reportbug
         srcpackage = reportbug.get_source_name(package)
 	if srcpackage is None:
 	    srcpackage = package
-        avail.update(get_newqueue_available(srcpackage, dists, http_proxy, arch))
+        stuff = get_newqueue_available(srcpackage, dists, http_proxy, arch)
+        avail.update(stuff)
+        print gc.garbage, stuff
 
     new = {}
     newer = 0
@@ -291,7 +321,14 @@ def check_available(package, version, dists=None, check_incoming=True,
     return new, too_new
 
 if __name__=='__main__':
-    #print check_available('mozilla-browser', '2:1.5-3', arch='s390')
-    print check_available('openssh-server', '1:4.2p1-8', arch='i386')
-    print check_available('openssh-server', '1:4.2p1-8', arch='kfreebsd-i386')
+    import time
+    import gc
+
+    gc.set_debug(gc.DEBUG_LEAK)
+    print get_newqueue_available('reportbug')
+    print gc.garbage
+    print check_available('reportbug', '3.7', arch='s390')
+    #print check_available('openssh-server', '1:4.2p1-8', arch='i386')
+    #print check_available('openssh-server', '1:4.2p1-8', arch='kfreebsd-i386')
+    time.sleep(1000)
     #print check_available('dpkg', '1.10.2', arch='sparc')
