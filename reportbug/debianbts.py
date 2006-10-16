@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.6 2006-09-29 02:29:52 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.7 2006-10-16 17:14:03 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -665,10 +665,16 @@ def parse_html_report(number, url, http_proxy, followups=False, cgi=True):
     if not page:
         return None
 
-    content = page.read()
     parser = BTSParser(cgi=cgi, followups=followups)
-    parser.feed(content)
+    for line in page:
+        parser.feed(line)
     parser.close()
+
+    try:
+        page.fp._sock.recv = None
+    except:
+        pass
+    page.close()
 
     items = parser.preblock
     title = "#%d: %s" % (number, parser.title)
@@ -704,6 +710,12 @@ def parse_mbox_report(number, url, http_proxy, followups=False):
 
     # Make this seekable
     wholefile = cStringIO.StringIO(page.read())
+
+    try:
+        page.fp._sock.recv = None
+    except:
+        pass
+    page.close()
 
     mbox = mailbox.UnixMailbox(wholefile, msgfactory)
     title = ''
@@ -754,18 +766,27 @@ def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
     if not page:
         return (0, None, None)
 
-    content = page.read()
-    if 'Maintainer' not in content:
-        return (0, None, None)
+    #content = page.read()
+    #if 'Maintainer' not in content:
+    #    return (0, None, None)
     
     parser = BTSParser(cgi=True)
-    parser.feed(content)
+    for line in page:
+        parser.feed(line)
     parser.close()
+    try:
+        page.fp._sock.recv = None
+    except:
+        pass
+    page.close()
 
     # Reorganize hierarchy to put recently-fixed bugs at top
     parser.reorganize()
 
-    return parser.bugcount, parser.title, parser.hierarchy
+    data = (parser.bugcount, parser.title, parser.hierarchy)
+    del parser
+
+    return data
 
 def get_cgi_report(number, system='debian', http_proxy='', archived=False,
                    followups=False):
@@ -796,13 +817,19 @@ def get_reports(package, system='debian', mirrors=None, version=None,
         if not page:
             return (0, None, None)
 
-        content = page.read()
-        if 'Maintainer' not in content:
-            return (0, None, None)
+        #content = page.read()
+        #if 'Maintainer' not in content:
+        #    return (0, None, None)
 
         parser = BTSParser()
-        parser.feed(content)
+        for line in page:
+            parser.feed(line)
         parser.close()
+        try:
+            page.fp._sock.recv = None
+        except:
+            pass
+        page.close()
 
         return parser.bugcount, parser.title, parser.hierarchy
 
@@ -836,5 +863,13 @@ def get_report(number, system='debian', mirrors=None,
 
     return parse_html_report(number, url, http_proxy, followups, cgi=False)
 
+class NullParser(sgmllib.SGMLParser):
+    def __init__(self):
+        sgmllib.SGMLParser.__init__(self)
+
 if __name__ == '__main__':
-    print get_cgi_report(2)
+    import pprint
+
+    data = get_cgi_reports('reportbug')
+    pprint.pprint(data)
+    time.sleep(1000)
