@@ -20,7 +20,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: checkversions.py,v 1.6.2.2 2006-10-16 17:14:03 lawrencc Exp $
+# $Id: checkversions.py,v 1.6.2.3 2006-10-16 18:52:41 lawrencc Exp $
 #
 # Version ##VERSION##; see changelog for revision history
 
@@ -239,7 +239,7 @@ def get_newqueue_available(package, dists=None, http_proxy=None, arch='i386'):
         pass
     page.close()
 
-    print repr(page)
+    #print repr(page)
 
     versions = {}
     for dist in dists:
@@ -248,7 +248,7 @@ def get_newqueue_available(package, dists=None, http_proxy=None, arch='i386'):
 
     del parser
     del page
-    print 'HERE', gc.garbage
+    #print 'HERE', gc.garbage
     return versions
 
 def get_incoming_version(package, http_proxy=None, arch='i386'):
@@ -300,7 +300,7 @@ def check_available(package, version, dists=None, check_incoming=True,
 	    srcpackage = package
         stuff = get_newqueue_available(srcpackage, dists, http_proxy, arch)
         avail.update(stuff)
-        print gc.garbage, stuff
+        #print gc.garbage, stuff
 
     new = {}
     newer = 0
