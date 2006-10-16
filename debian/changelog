@@ -1,5 +1,7 @@
 reportbug (3.31) unstable; urgency=low
 
+  * Add po4a support for translating man pages.  (Closes: #392458)
+  * More ehlo/helo madness.
   * Change default for get_string() in the urwid interface to ''.
     (Closes: #392608)
 
