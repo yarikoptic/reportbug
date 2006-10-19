@@ -6,6 +6,8 @@ reportbug (3.31) unstable; urgency=low
     (Closes: #392608)
   * Add BIG CAPS WARNINGS to the reportbug presubj about the new default
     behavior of exim4.  (Closes: #392609)
+  * Warn user that email addresses may be harvested by spambots in
+    offer_configuration().
 
  --
 
