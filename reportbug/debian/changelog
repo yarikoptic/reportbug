@@ -4,6 +4,8 @@ reportbug (3.31) unstable; urgency=low
   * More ehlo/helo madness.
   * Change default for get_string() in the urwid interface to ''.
     (Closes: #392608)
+  * Add BIG CAPS WARNINGS to the reportbug presubj about the new default
+    behavior of exim4.  (Closes: #392609)
 
  --
 

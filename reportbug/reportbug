@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.14 2006-09-20 19:03:52 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.15 2006-10-19 21:10:31 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -410,7 +410,7 @@ def offer_configuration(options):
 
     stupidmode = not ui.yes_no(
         'Do you have a "mail transport agent" (MTA) like Exim, Postfix or '
-        'SSMTP configured on this computer?',
+        'SSMTP configured on this computer to send mail to the Internet?',
         'Yes, I can run /usr/sbin/sendmail without horrible things happening. '
         'If you can send email from this machine without setting an SMTP Host '
         'in your mailer, you should choose this answer.',
@@ -1418,11 +1418,11 @@ orphaned for a long period of time are often removed from the archive.\n''')
             if status:
                 conftext += '\n-- debconf-show failed\n'
             elif output:
-                if (notatty or
-                    ui.yes_no("*** The following debconf settings were detected:\n"
-                              +output+"\nInclude these settings in your report",
-                              'Send your debconf settings.',
-                              "Don't send your debconf settings.", nowrap=True)):
+                if (notatty or ui.yes_no(
+                    "*** The following debconf settings were detected:\n"
+                    +output+"\nInclude these settings in your report",
+                    'Send your debconf settings.',
+                    "Don't send your debconf settings.", nowrap=True)):
                     conftext += '\n-- debconf information:\n%s\n' % output
                 else:
                     conftext += '\n-- debconf information excluded\n'
