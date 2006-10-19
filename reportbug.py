@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.3 2006-08-25 01:18:06 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.4 2006-10-19 21:10:31 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -114,21 +114,22 @@ def glob_escape(filename):
     filename = re.sub(r'([*?\[\]])', r'\\\1', filename)
     return filename
 
-def search_pipe(searchfile):
+def search_pipe(searchfile, use_dlocate=True):
     arg = commands.mkarg(searchfile)
-    if os.path.exists('/usr/bin/dlocate'):
+    if use_dlocate and os.path.exists('/usr/bin/dlocate'):
         pipe = os.popen('COLUMNS=79 dlocate -S %s 2>/dev/null' % arg)
     else:
+        use_dlocate = False
         pipe = os.popen('COLUMNS=79 dpkg --search %s 2>/dev/null' % arg)
-    return pipe
+    return (pipe, use_dlocate)
 
-def query_dpkg_for(filename):
+def query_dpkg_for(filename, use_dlocate=True):
     try:
         x = os.getcwd()
     except OSError:
         os.chdir('/')
     searchfilename = glob_escape(filename)
-    pipe = search_pipe(searchfilename)
+    (pipe, dlocate_used) = search_pipe(searchfilename)
     packages = {}
 
     for line in pipe:
@@ -145,6 +146,10 @@ def query_dpkg_for(filename):
             else:
                 packages[package] = [path]
     pipe.close()
+    # Try again without dlocate if no packages found
+    if not packages and dlocate_used:
+        return query_dpkg_for(filename, use_dlocate=False)
+    
     return filename, packages
 
 def find_package_for(filename, pathonly=False):
