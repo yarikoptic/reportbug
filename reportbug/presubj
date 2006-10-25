@@ -1,6 +1,6 @@
 Common issues with reportbug:
 
-EXIM IS CONFIGURED FOR LOCAL DELIVERY: In Debian 3.2 (etch) and later,
+EXIM IS CONFIGURED FOR LOCAL DELIVERY: In Debian 4.0 (etch) and later,
    exim4 is configured by default to only deliver email to addresses
    on your system.  YOUR BUG REPORTS WILL NOT ARRIVE AT THE BUG
    TRACKING SYSTEM UNLESS YOU FOLLOW ONE OF THE FOLLOWING STEPS, either:
