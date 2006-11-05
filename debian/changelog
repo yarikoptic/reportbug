@@ -12,8 +12,9 @@ reportbug (3.31) unstable; urgency=low
     (Closes: #397204)
   * Don't crash if package-specific info is non-UTF-8.
     (Closes: #393657, #397206)
+  * Suggest python-urwid.  (Closes: #394579)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Sun,  5 Nov 2006 17:31:45 -0600
 
 reportbug (3.30) unstable; urgency=low
 

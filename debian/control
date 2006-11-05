@@ -11,7 +11,7 @@ Package: reportbug
 Architecture: all
 Depends: ${python:Depends}
 Recommends: python-cjkcodecs | python-iconvcodec
-Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate
+Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid
 XB-Python-Version: ${python:Versions}
 Description: reports bugs in the Debian distribution
  reportbug is a tool designed to make the reporting of bugs in Debian
