@@ -8,6 +8,10 @@ reportbug (3.31) unstable; urgency=low
     behavior of exim4.  (Closes: #392609)
   * Warn user that email addresses may be harvested by spambots in
     offer_configuration().
+  * Remove bogus documentation that '-v' == '--version' in reportbug(1).
+    (Closes: #397204)
+  * Don't crash if package-specific info is non-UTF-8.
+    (Closes: #393657, #397206)
 
  --
 
