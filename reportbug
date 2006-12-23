@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.18 2006-11-05 23:30:34 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.19 2006-12-23 06:44:43 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -794,6 +794,9 @@ class UI(object):
         if charset.lower() == 'ansi_x3.4-1968':
             charset = 'us-ascii'
 
+        # Allow the UI to know what charset we're using
+        ui.charset = charset
+
         if self.options.configure:
             offer_configuration(self.options)
             sys.exit(0)
@@ -1450,7 +1453,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 if not ui.yes_no('Does this bug still exist in version %s '
                                  'of this package?' % pkgversion,
                                  'Yes, it does.',
-                                 'No, it does\'t (or I don\'t know).',
+                                 'No, it doesn\'t (or I don\'t know).',
                                  default=False):
                     pkgversion = None
         elif not subject and not notatty:
@@ -1631,11 +1634,11 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
         # Prepare bug report
         if self.options.kudos:
-            message = '\n\n'
+            message = u'\n\n'
             if not mua:
                 SIGFILE = os.path.join(HOMEDIR, '.signature')
                 try:
-                    message = "\n\n-- \n"+file(SIGFILE).read()
+                    message = u"\n\n-- \n"+file(SIGFILE).read().decode('utf-8', 'replace')
                 except IOError:
                     pass
         else:
@@ -1672,7 +1675,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                                                ' Bug Tracking System', sendto))
 
         mailing = not (mua or self.options.printonly or self.options.template)
-        message = "Subject: %s\n%s" % (subject, message)
+        message = u"Subject: %s\n%s" % (subject, message)
 
         if mailing:
             fh, filename = TempFile(prefix=tfprefix)
