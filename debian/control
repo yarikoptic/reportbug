@@ -10,7 +10,6 @@ XS-Python-Version: current, >= 2.4
 Package: reportbug
 Architecture: all
 Depends: ${python:Depends}
-Recommends: python-cjkcodecs | python-iconvcodec
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid
 XB-Python-Version: ${python:Versions}
 Description: reports bugs in the Debian distribution
@@ -31,9 +30,3 @@ Description: reports bugs in the Debian distribution
  .
  This package also includes the "querybts" script for browsing the
  Debian bug tracking system.
- .
- If your system's users use locales with character sets other than
- UTF-8 and ISO-8859-*, one of either python2.3-cjkcodecs or
- python2.3-iconvcodec is required for proper operation.  For Asian
- locales, the use of python2.3-cjkcodecs is preferred over the more
- limited python2.3-iconvcodec.
