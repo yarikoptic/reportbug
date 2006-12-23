@@ -4,10 +4,13 @@ reportbug (3.32) unstable; urgency=low
     (Closes: #401870)
   * Encode unicode strings before output in text interface's ewrite()
     function.  (Closes: #404165)
-  * More unicode fixups.  (Closes: #397357)
+  * More unicode fixups.  (Closes: #397357, #403385)
   * Fix typo in help message.  (Closes: #397983)
+  * Bail out immediately if no subject specified in a followup.
+    (Closes: #403668)
+  * Update French man page.  (Closes: #400276)
   
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 23 Dec 2006 00:44:51 -0600
 
 reportbug (3.31) unstable; urgency=low
 

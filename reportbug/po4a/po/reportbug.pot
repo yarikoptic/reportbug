@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-10-11 21:33+0200\n"
+"POT-Creation-Date: 2006-12-23  0:54-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,9 +109,9 @@ msgid "Show summary of options."
 msgstr ""
 
 # type: TP
-#: reportbug.1:37 querybts.1:20
+#: reportbug.1:37
 #, no-wrap
-msgid "B<-v, --version>"
+msgid "B<--version>"
 msgstr ""
 
 # type: Plain text
@@ -1226,6 +1226,12 @@ msgid ""
 "B<querybts> is designed to provide a convenient and easy-to-use interface to "
 "the Debbugs bug tracking system, as used by Debian and several other "
 "projects.  You can specify a package name or one or more report numbers."
+msgstr ""
+
+# type: TP
+#: querybts.1:20
+#, no-wrap
+msgid "B<-v, --version>"
 msgstr ""
 
 # type: Plain text
