@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19.2.5 2006-08-22 16:50:17 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.6 2006-12-23 06:27:50 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -33,6 +33,7 @@ except:
     from optik import textwrap
 
 ISATTY = sys.stdin.isatty()
+charset = 'us-ascii'
 
 try:
     r, c = commands.getoutput('stty size').split()
@@ -45,9 +46,12 @@ def ewrite(message, *args):
         return
 
     if args:
-        sys.stderr.write(message % args)
-    else:
-        sys.stderr.write(message)
+        message = message % args
+
+    if isinstance(message, unicode):
+        message = message.encode(charset, 'replace')
+
+    sys.stderr.write(message)
     sys.stderr.flush()
 
 log_message = ewrite
@@ -892,7 +896,7 @@ def spawn_editor(message, filename, editor, charset='utf-8'):
     if ourline:
         if edname in ('vi', 'nvi', 'vim', 'elvis', 'gvim', 'kvim'):
             opts = '-c :%d' % ourline
-        elif (edname in ('elvis-tiny', 'gnuclient', 'ee', 'pico', 'nano') or
+        elif (edname in ('elvis-tiny', 'gnuclient', 'ee', 'pico', 'nano', 'zile') or
               'emacs' in edname):
             opts = '+%d' % ourline
         elif edname in ('jed', 'xjed'):
