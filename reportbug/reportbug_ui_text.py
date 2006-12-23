@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19.2.6 2006-12-23 06:27:50 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.7 2006-12-23 06:44:43 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -213,14 +213,22 @@ def get_string(prompt, options=None, title=None, force_prompt=False,
     if prompt and (len(prompt) < 2*columns/3) and not force_prompt:
         if default:
             prompt = '%s [%s]: ' % (prompt, default)
-            return our_raw_input(prompt, options, completer) or default
-        return our_raw_input(prompt, options, completer)
+            response = our_raw_input(prompt, options, completer) or default
+        else:
+            response = our_raw_input(prompt, options, completer)
     else:
         if prompt:
             ewrite(indent_wrap_text(prompt))
         if default:
-            return our_raw_input('[%s]> ' % default, options, completer) or default
-        return our_raw_input('> ', options, completer)
+            response = our_raw_input('[%s]> ' % default, options, completer) or default
+        else:
+            response = our_raw_input('> ', options, completer)
+
+    # Translate the response into a Unicode string
+    if response is not None:
+        response = unicode(response, charset, 'replace')
+
+    return response
 
 def get_multiline(prompt):
     ewrite('\n')

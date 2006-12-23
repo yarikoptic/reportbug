@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.4 2006-10-19 21:10:31 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.5 2006-12-23 06:44:43 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -726,7 +726,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
     else:
         uname_string = '%s %s' % (un[0], un[2])
 
-    return """%s%s%s
+    return u"""%s%s%s
 -- System Information:
 %sKernel: %s
 Locale: %s
