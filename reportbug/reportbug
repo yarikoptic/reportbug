@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.20 2006-12-23 06:55:54 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.21 2007-01-14 20:45:12 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -999,7 +999,7 @@ class UI(object):
                     sys.exit(1)
             incfiles += '\n'
 
-        pkgavail = maintainer = origin = src_name = ''
+        pkgavail = maintainer = origin = src_name = state = ''
         depends = []
         recommends = []
         conffiles = []
@@ -1205,7 +1205,7 @@ class UI(object):
                                            'package this report applies to '
                                            '(blank OK)', force_prompt=True)
         elif (check_available and not (self.options.kudos or notatty or self.options.offline)
-              and bts=='debian'):
+              and state == 'installed' and bts == 'debian'):
             ewrite('Checking for newer versions at packages.debian.org...\n')
             arch = reportbug.get_arch()
             check_more = (mode > MODE_STANDARD)
