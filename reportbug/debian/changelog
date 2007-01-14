@@ -1,3 +1,14 @@
+reportbug (3.33) unstable; urgency=low
+
+  * Fix French translation of man page.  (Closes: #404900)
+  * Use text interface password input in urwid interface.
+    (Closes: #398420)
+  * Disable mouse reporting in urwid interface.  (Closes: #390465, #394477)
+  * Don't check available version for configured but not installed packages.
+    (Closes: #406150)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 14 Jan 2007 14:48:28 -0600
+
 reportbug (3.32) unstable; urgency=low
 
   * Remove recommendations of python-{cjkcodecs,iconvcodec}.
