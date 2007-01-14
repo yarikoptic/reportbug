@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.13 2006-10-15 08:39:27 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.14 2007-01-14 20:39:03 lawrencc Exp $
 
 import commands, string, sys, re
 from reportbug_exceptions import *
@@ -39,7 +39,7 @@ from urlutils import launch_browser
 
 ISATTY = sys.stdin.isatty()
 
-from reportbug_ui_text import spawn_editor, ewrite
+from reportbug_ui_text import spawn_editor, ewrite, get_password
 
 log_message = ewrite
 display_failure = ewrite
