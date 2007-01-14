@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.21 2007-01-14 20:45:12 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.22 2007-01-14 20:56:02 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -987,12 +987,12 @@ class UI(object):
                 ewrite('Exiting per user request.\n')
                 sys.exit(1)
 
-        incfiles = ""
+        incfiles = u""
         if self.options.include:
             for f in self.options.include:
                 if os.path.exists(f):
                     fp = file(f)
-                    incfiles = '%s\n*** %s\n%s' % (incfiles, f, fp.read())
+                    incfiles = u'%s\n*** %s\n%s' % (incfiles, f, fp.read().decode('utf-8', 'replace'))
                     fp.close()
                 else:
                     ewrite("Can't find %s to include!\n", f)
@@ -1617,11 +1617,11 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
             addinfo = None
             if not self.options.noconf:
-                addinfo = "\n-- Package-specific info:\n"+file(filename).read().decode('utf-8', 'replace')
+                addinfo = u"\n-- Package-specific info:\n"+file(filename).read().decode('utf-8', 'replace')
 
             os.unlink(filename)
             if addinfo and incfiles:
-                incfiles = addinfo + "\n" + incfiles
+                incfiles = addinfo + u"\n" + incfiles
             elif addinfo:
                 incfiles = addinfo
 
