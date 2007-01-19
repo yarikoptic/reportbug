@@ -1,3 +1,9 @@
+reportbug (3.34) unstable; urgency=low
+
+  * Fix check for nonexistent/bogus package names.  (Closes: #407587)
+
+ --
+
 reportbug (3.33) unstable; urgency=low
 
   * Fix French translation of man page.  (Closes: #404900)
