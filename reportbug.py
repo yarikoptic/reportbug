@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.6 2007-01-19 20:26:39 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.7 2007-01-19 20:29:01 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -497,11 +497,10 @@ def packages_providing(package):
     aret = get_package_info([((package,), package)])
     ret = []
     for pkg in aret:
-        if pkg[1] == 'pn' and pkg[0] == package:
-            continue
-
         ret.append( (pkg[0], pkg[3]) )
-        if not pkg[2]: return []
+
+    if len(ret) == 1 and ret[0][1] == '(no description available)':
+        return []
     
     return ret
 
