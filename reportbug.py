@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.8 2007-01-21 01:04:50 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.9 2007-01-21 01:18:50 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -383,15 +383,18 @@ def get_source_package(package):
     packages = []
     packob = re.compile(r'^Package: (?P<pkg>.*)$', re.MULTILINE)
     descob = re.compile(r'^Description: (?P<desc>.*)$', re.MULTILINE)
+    hassource = re.compile(r'^Source: .*$', re.MULTILINE)
     if package == 'libc':
-        searchob = re.compile(r'^(Package|Source): g?libc[\d.]*$',
-                              re.MULTILINE)
+        searchob1 = re.compile(r'^Source: g?libc[\d.]*$', re.MULTILINE)
+        searchob2 = re.compile(r'^Package: g?libc[\d.]*$', re.MULTILINE)
     else:
-        searchob = re.compile(r'^(Package|Source): '+re.escape(package)+r'$',
-                              re.MULTILINE)
+        searchob1 = re.compile(r'^Source: '+re.escape(package)+r'$',
+                               re.MULTILINE)
+        searchob2 = re.compile(r'^Package: '+re.escape(package)+r'$',
+                               re.MULTILINE)
     
     for p in packinfo:
-        match = searchob.search(p)
+        match = searchob1.search(p)
         if match:
             packname = packdesc = ''
             namematch, descmatch = packob.search(p), descob.search(p)
@@ -403,6 +406,23 @@ def get_source_package(package):
             
             if packname:
                 packages.append( (packname, packdesc) )
+
+        if hassource.search(p):
+            continue
+        
+        match = searchob2.search(p)
+        if match:
+            packname = packdesc = ''
+            namematch, descmatch = packob.search(p), descob.search(p)
+
+            if namematch:
+                packname = namematch.group('pkg')
+            if descmatch:
+                packdesc = descmatch.group('desc')
+            
+            if packname:
+                packages.append( (packname, packdesc) )
+
 
     packages.sort()
     return packages
