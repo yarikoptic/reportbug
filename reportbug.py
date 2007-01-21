@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.9 2007-01-21 01:18:50 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.10 2007-01-21 01:19:30 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -406,8 +406,7 @@ def get_source_package(package):
             
             if packname:
                 packages.append( (packname, packdesc) )
-
-        if hassource.search(p):
+        elif hassource.search(p):
             continue
         
         match = searchob2.search(p)
