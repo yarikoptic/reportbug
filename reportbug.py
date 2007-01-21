@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.7 2007-01-19 20:29:01 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.8 2007-01-21 01:04:50 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -423,7 +423,7 @@ def get_source_name(package):
 	        return match.group('pkg')
     return None
 
-def get_package_info(packages):
+def get_package_info(packages, skip_notfound=False):
     if not packages:
         return []
     
@@ -484,6 +484,9 @@ def get_package_info(packages):
                 if provides not in found:
                     found[provides] = True
 
+    if skip_notfound:
+        return ret
+
     for group in groups:
         notfound = [x for x in group if x not in found]
         if len(notfound) == len(group):
@@ -494,14 +497,11 @@ def get_package_info(packages):
     return ret
 
 def packages_providing(package):
-    aret = get_package_info([((package,), package)])
+    aret = get_package_info([((package,), package)], skip_notfound=True)
     ret = []
     for pkg in aret:
         ret.append( (pkg[0], pkg[3]) )
 
-    if len(ret) == 1 and ret[0][1] == '(no description available)':
-        return []
-    
     return ret
 
 def get_dependency_info(package, depends, rel="depends on"):
