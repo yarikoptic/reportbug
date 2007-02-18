@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.10 2007-01-21 01:19:30 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.11 2007-02-18 16:24:08 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -96,16 +96,16 @@ pathdirs = ['/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/X11R6/bin',
             '/usr/games']
 
 def search_path_for(filename):
-    dir, file = os.path.split(filename)
-    if dir: return realpath(filename)
+    d, f = os.path.split(filename)
+    if d: return realpath(filename)
     
     path = os.environ.get("PATH", os.defpath).split('/')
-    for dir in pathdirs:
-        if not dir in path:
-            path.append(dir)
+    for d in pathdirs:
+        if not d in path:
+            path.append(d)
     
-    for dir in path:
-        fullname = os.path.join(dir, filename)
+    for d in path:
+        fullname = os.path.join(d, f)
         if os.path.exists(fullname):
             return realpath(fullname)
     return None
@@ -353,7 +353,9 @@ def get_dpkg_database():
 
     if not dbase:
         if os.path.exists(STATUSDB):
-            dbase = file(STATUSDB).read().split('\n\n')
+            fp = open(STATUSDB)
+            dbase = avail_list(fp)
+            fp.close()
 
     if not dbase:
         print >> sys.stderr, 'Unable to open', STATUSDB
@@ -361,21 +363,47 @@ def get_dpkg_database():
 
     return dbase
 
+def avail_list(fp):
+    chunk = ''
+    blankline = False
+    dbase = []
+
+    for line in fp:
+        line = line.rstrip()
+        if not line:
+            if blankline:
+                dbase.append(chunk)
+                chunk = ''
+                blankline = False
+            else:
+                blankline = True
+        line = line.decode('utf-8', 'replace')
+        chunk += line + u'\n'
+
+    if chunk:
+        dbase.append(chunk)
+    
+    return dbase
+
 def get_avail_database():
     global avail
 
     if not avail:
-        avail = commands.getoutput('apt-cache dumpavail 2>/dev/null')
+        fp = os.popen('apt-cache dumpavail 2>/dev/null')
+        avail = avail_list(fp)
+        fp.close()
+
         if not avail:
             if os.path.exists(AVAILDB):
-                avail = file(AVAILDB).read()
+                fp = open(AVAILDB)
+                avail = avail_list(fp)
+                fp.close()
 
     if not avail:
         print >> sys.stderr, 'Unable to open', AVAILDB
         sys.exit(1)
 
-    # output is in UTF-8 format
-    return avail.decode('utf-8', 'replace').split('\n\n')
+    return avail
 
 def get_source_package(package):
     """Return any binary packages provided by a source package."""
