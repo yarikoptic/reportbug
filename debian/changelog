@@ -1,8 +1,22 @@
 reportbug (3.34) unstable; urgency=low
 
+  * The "why can't I make Python assume the user is sane and using UTF-8
+    instead of 7-bit ASCII" release?
   * Fix check for nonexistent/bogus package names.  (Closes: #407587)
+  * Avoid crash with Unicode maintainer names.  (Closes: #409445)
+  * Avoid crash with Unicode crap in debconf output.  (Closes: #386659)
+  * Fiddle with more Unicode crap in hopes of avoiding crashes.
+    (Closes: #407133)
+  * Use fancy iterator to avoid caching apt-cache dumpavail and the status
+    database.  Downside: more disk thrashing.  Upside: less memory used.
+    (Closes: #404249)
+  * Urwid UI patches: fix wide buttons and add question marks to yes/no
+    prompts.  Thanks to Rafael Laboissiere.  (Closes: #415339, #415340)
+  * Kudos go to packages.debian.org directly if smtphost is set to
+    bugs.debian.org; we also send all kudos to package@p.d.o.
+    (Closes: #412766)
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Mon, 19 Mar 2007 17:14:06 -0500
 
 reportbug (3.33) unstable; urgency=low
 

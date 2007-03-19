@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.11 2007-02-18 16:24:08 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.12 2007-03-19 22:14:38 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -30,6 +30,7 @@ COPYRIGHT = VERSION + '\nCopyright (C) 1999-2006 Chris Lawrence <lawrencc@debian
 import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
 import socket
 import pprint
+import subprocess
 
 from string import ascii_letters, digits
 
@@ -346,64 +347,45 @@ def get_package_status(package, avail=False):
         statuscache[package] = info
     return info
 
-dbase = []
-avail = []
+#dbase = []
+#avail = []
+
+# Object that essentially chunkifies the output of apt-cache dumpavail
+class AvailDB(object):
+    def __init__(self, popenob):
+        self.fp = popenob.stdout
+        self.popenob = popenob
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.popenob.returncode:
+            raise StopIteration
+        
+        chunk = u''
+        for line in self.fp:
+            if line == '\n':
+                return chunk
+            chunk += line.decode('utf-8', 'replace')
+
+        #if chunk:
+        #    return chunk
+
+        self.fp.close()
+        raise StopIteration
+
 def get_dpkg_database():
-    global dbase
+    if os.path.exists(STATUSDB):
+        fp = subprocess.Popen(('cat', STATUSDB), stdout=subprocess.PIPE)
+        return AvailDB(fp)
 
-    if not dbase:
-        if os.path.exists(STATUSDB):
-            fp = open(STATUSDB)
-            dbase = avail_list(fp)
-            fp.close()
-
-    if not dbase:
-        print >> sys.stderr, 'Unable to open', STATUSDB
-        sys.exit(1)
-
-    return dbase
-
-def avail_list(fp):
-    chunk = ''
-    blankline = False
-    dbase = []
-
-    for line in fp:
-        line = line.rstrip()
-        if not line:
-            if blankline:
-                dbase.append(chunk)
-                chunk = ''
-                blankline = False
-            else:
-                blankline = True
-        line = line.decode('utf-8', 'replace')
-        chunk += line + u'\n'
-
-    if chunk:
-        dbase.append(chunk)
-    
-    return dbase
+    print >> sys.stderr, 'Unable to open', STATUSDB
+    sys.exit(1)
 
 def get_avail_database():
-    global avail
-
-    if not avail:
-        fp = os.popen('apt-cache dumpavail 2>/dev/null')
-        avail = avail_list(fp)
-        fp.close()
-
-        if not avail:
-            if os.path.exists(AVAILDB):
-                fp = open(AVAILDB)
-                avail = avail_list(fp)
-                fp.close()
-
-    if not avail:
-        print >> sys.stderr, 'Unable to open', AVAILDB
-        sys.exit(1)
-
-    return avail
+    fp = subprocess.Popen(('apt-cache', 'dumpavail'), stdout=subprocess.PIPE)
+    return AvailDB(fp)
 
 def get_source_package(package):
     """Return any binary packages provided by a source package."""
@@ -849,7 +831,8 @@ def parse_config_files():
                 elif token in ('email', 'realname', 'replyto', 'http_proxy',
                                'smtphost', 'editor', 'mua', 'mta', 'smtpuser',
                                'smtppasswd', 'justification', 'keyid'):
-                    args[token] = lex.get_token()
+                    bit = lex.get_token()
+                    args[token] = bit.encode('utf-8', 'replace')
                 elif token in ('no-smtptls', 'smtptls'):
                     args['smtptls'] = (token == 'smtptls')
                 elif token == 'sign':

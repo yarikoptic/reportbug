@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.20.2.4 2006-10-11 20:02:14 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.20.2.5 2007-03-19 22:14:38 lawrencc Exp $
 
 import sys
 
@@ -244,6 +244,11 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
     # Disable smtphost if mua is set
     if mua and smtphost:
         smtphost = ''
+
+    # No, I'm not going to do a full MX lookup on every address... get a
+    # real MTA!
+    if kudos and smtphost == 'bugs.debian.org':
+        smtphost = 'packages.debian.org'
 
     tfprefix = tempfile_prefix(package)
     if attachments and not mua:

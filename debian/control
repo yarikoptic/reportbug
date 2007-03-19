@@ -9,7 +9,7 @@ XS-Python-Version: current, >= 2.4
 
 Package: reportbug
 Architecture: all
-Depends: ${python:Depends}
+Depends: ${python:Depends}, apt
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid
 XB-Python-Version: ${python:Versions}
 Description: reports bugs in the Debian distribution

@@ -2,7 +2,7 @@
 # -*- python -*-
 # reportbug - Report a bug in the Debian distribution.
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2006 Chris Lawrence
+#   Copyright (C) 1999-2007 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.23 2007-03-19 21:16:45 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.24 2007-03-19 22:14:38 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -359,6 +359,7 @@ def offer_configuration(options):
     # It would be nice if there were some canonical character set conversion
     if charset.lower() == 'ansi_x3.4-1968':
         charset = 'us-ascii'
+    ui.charset = charset
 
     if not options.configure:
         ui.long_message('Welcome to reportbug!  Since it looks like this is '
@@ -394,10 +395,13 @@ def offer_configuration(options):
 
     def_realname, def_email = reportbug.get_email()
 
-    if options.realname:
-        realname = options.realname.encode(charset, 'replace')
-    else:
-        realname = def_realname.encode(charset, 'replace')
+    try:
+        if options.realname:
+            realname = options.realname.encode(charset, 'replace')
+        else:
+            realname = def_realname.encode(charset, 'replace')
+    except UnicodeDecodeError:
+        realname = ''
     
     realname = ui.get_string('What real name should be used for sending bug '
                              'reports? [%s]' % realname, force_prompt=True)
@@ -1140,8 +1144,6 @@ class UI(object):
             (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
              installed, origin, vendor, reportinfo, priority, desc, src_name,
              fulldesc, state) = status
-            if maintainer:
-                maintainer = maintainer.encode(charset, 'replace')
 
         buginfo = '/usr/share/bug/' + package
         bugexec = submitas = submitto = presubj = None
@@ -1337,7 +1339,8 @@ class UI(object):
             bccaddr = os.environ.get('MAILBCC', fromaddr)
 
         if maintainer:
-            ewrite("Maintainer for %s is '%s'.\n", package, maintainer)
+            mstr = u"Maintainer for %s is '%s'.\n" % (package, maintainer)
+            ewrite(mstr.encode(charset, 'replace'))
             if 'qa.debian.org' in maintainer:
                 ui.long_message('''\
 This package is currently "orphaned"; if you are a current or prospective
@@ -1347,12 +1350,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 ui.ewrite('\nFor more details, please see: http://www.debian.org/devel/wnpp/\n')
 
         if self.options.kudos:
-            if maintainer:
-                sendto = maintainer
-            else:
-                ewrite('Unable to determine maintainer for %s; exiting.\n',
-                       package)
-                sys.exit(1)
+            sendto = '%s@packages.debian.org' % package
 
         depinfo = ""
         # Grab dependency list, removing version conditions.
@@ -1404,13 +1402,13 @@ orphaned for a long period of time are often removed from the archive.\n''')
                     else:
                         break
 
-        conftext = ''
+        conftext = u''
         if confinfo:
-            conftext = '\n-- Configuration Files:\n'
+            conftext = u'\n-- Configuration Files:\n'
             files = confinfo.keys()
             files.sort()
             for f in files:
-                conftext = conftext + '%s %s\n' % (f, confinfo[f])
+                conftext = conftext + u'%s %s\n' % (f, confinfo[f])
 
         if (self.options.debconf and os.path.exists('/usr/bin/debconf-show') and
             not self.options.kudos and installed):
@@ -1423,16 +1421,18 @@ orphaned for a long period of time are often removed from the archive.\n''')
             if status:
                 conftext += '\n-- debconf-show failed\n'
             elif output:
+                output = output.decode('utf-8', 'replace')
+                outstr = output.encode(charset, 'replace')
                 if (notatty or ui.yes_no(
                     "*** The following debconf settings were detected:\n"
-                    +output+"\nInclude these settings in your report",
+                    +outstr+"\nInclude these settings in your report",
                     'Send your debconf settings.',
                     "Don't send your debconf settings.", nowrap=True)):
-                    conftext += '\n-- debconf information:\n%s\n' % output
+                    conftext += u'\n-- debconf information:\n%s\n' % output
                 else:
-                    conftext += '\n-- debconf information excluded\n'
+                    conftext += u'\n-- debconf information excluded\n'
             else:
-                conftext += '\n-- no debconf information\n'
+                conftext += u'\n-- no debconf information\n'
 
         ewrite('\n')
         prompted = False
