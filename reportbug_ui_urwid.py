@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.15 2007-01-14 20:39:58 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.16 2007-03-19 23:03:36 lawrencc Exp $
 
 import commands, string, sys, re
 from reportbug_exceptions import *
@@ -335,7 +335,7 @@ def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
     return result
 
 def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
-    box = dialog('', long_message=msg, title=reportbug.VERSION)
+    box = dialog('', long_message=msg+"?", title=reportbug.VERSION)
     box.add_buttons([ ('Yes', True), ('No', False) ], default=1-int(default))
     result = box.main(ui)
     return result
@@ -453,7 +453,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 ##         widgets.append((e, None))
 
     box = listdialog(par, widgets, height=('relative', 80),
-                     title=title, buttonwidth=30)
+                     title=title, buttonwidth=12)
     if quitlabel:
         box.add_buttons( [(oklabel, 0), (cancellabel, -1), (quitlabel, -2)] )
     else:
