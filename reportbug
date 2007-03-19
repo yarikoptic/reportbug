@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.22 2007-01-14 20:56:02 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.23 2007-03-19 21:16:45 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1076,7 +1076,7 @@ class UI(object):
                 else:
                     ewrite('No matching source or binary packages.\n')
 
-            if not installed and not notatty and not isvirtual and not issource:
+            if (not installed and not isvirtual and not issource) and not notatty:
                 packages = reportbug.packages_providing(package)
                 tmp = pack = None
                 if not packages:
