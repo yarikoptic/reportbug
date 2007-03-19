@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.102 2006-09-20 19:01:58 lawrencc Exp $
+# $Id: reportbug,v 1.103 2007-03-19 21:09:21 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1372,13 +1372,13 @@ orphaned for a long period of time are often removed from the archive.\n''')
                     else:
                         break
 
-        conftext = ''
+        conftext = u''
         if confinfo:
-            conftext = '\n-- Configuration Files:\n'
+            conftext = u'\n-- Configuration Files:\n'
             files = confinfo.keys()
             files.sort()
             for f in files:
-                conftext = conftext + '%s %s\n' % (f, confinfo[f])
+                conftext = conftext + u'%s %s\n' % (f, confinfo[f])
 
         if (self.options.debconf and os.path.exists('/usr/bin/debconf-show') and
             not self.options.kudos and installed):
@@ -1389,18 +1389,19 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 'DEBCONF_SYSTEMRC=1 DEBCONF_NOWARNINGS=yes '
                 '/usr/bin/debconf-show %s' % showpkgs )
             if status:
-                conftext += '\n-- debconf-show failed\n'
+                conftext += u'\n-- debconf-show failed\n'
             elif output:
+                output = output.decode('utf-8', 'replace')
                 if (notatty or
                     ui.yes_no("*** The following debconf settings were detected:\n"
                               +output+"\nInclude these settings in your report",
                               'Send your debconf settings.',
                               "Don't send your debconf settings.", nowrap=True)):
-                    conftext += '\n-- debconf information:\n%s\n' % output
+                    conftext += u'\n-- debconf information:\n%s\n' % output
                 else:
-                    conftext += '\n-- debconf information excluded\n'
+                    conftext += u'\n-- debconf information excluded\n'
             else:
-                conftext += '\n-- no debconf information\n'
+                conftext += u'\n-- no debconf information\n'
 
         ewrite('\n')
         prompted = False
