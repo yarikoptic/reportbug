@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.12 2007-03-19 22:14:38 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.13 2007-03-28 16:21:43 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -832,7 +832,7 @@ def parse_config_files():
                                'smtphost', 'editor', 'mua', 'mta', 'smtpuser',
                                'smtppasswd', 'justification', 'keyid'):
                     bit = lex.get_token()
-                    args[token] = bit.encode('utf-8', 'replace')
+                    args[token] = bit.decode('utf-8', 'replace')
                 elif token in ('no-smtptls', 'smtptls'):
                     args['smtptls'] = (token == 'smtptls')
                 elif token == 'sign':
