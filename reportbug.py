@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.13 2007-03-28 16:21:43 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.14 2007-04-01 02:32:08 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -222,8 +222,10 @@ def get_user_id(email='', realname='', charset='utf-8'):
     if not realname:
         return email
 
-    # Decode the realname from the charset
-    realname = realname.decode(charset, 'replace')
+    # Decode the realname from the charset -
+    # but only if it is not already in Unicode
+    if isinstance(realname, str):
+        realname = realname.decode(charset, 'replace')
     
     if re.match(r'[\w\s]+$', realname):
         return '%s <%s>' % (realname, email)

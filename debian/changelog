@@ -1,3 +1,10 @@
+reportbug (3.34.2) unstable; urgency=high
+
+  * Test if the realname is a str or unicode before trying to decode it.
+    (Closes: #416883)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 31 Mar 2007 21:25:05 -0500
+
 reportbug (3.34.1) unstable; urgency=high
 
   * Decode non-ASCII characters in .reportbugrc rather than trying to
