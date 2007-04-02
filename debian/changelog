@@ -1,3 +1,9 @@
+reportbug (3.35) unstable; urgency=low
+
+  * Include # of cores for SMP kernels in system information section.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  2 Apr 2007 11:14:49 -0500
+
 reportbug (3.34.2) unstable; urgency=high
 
   * Test if the realname is a str or unicode before trying to decode it.

@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.14 2007-04-01 02:32:08 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.15 2007-04-02 16:15:09 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -624,7 +624,9 @@ def get_debian_release_info():
             debvers = dists[0][1]
 
     if os.path.exists('/etc/debian_version'):
-        verfile = file('/etc/debian_version').readline().strip()
+        fob = open('/etc/debian_version')
+        verfile = fob.readline().strip()
+        fob.close()
 
     if verfile:
         debinfo += 'Debian Release: '+verfile+'\n'
@@ -750,14 +752,21 @@ def generate_blank_report(package, pkgversion, severity, justification,
     if not body:
         body = "\n"
 
-    if un[0].startswith('GNU/'):
-        un[0] = un[0][4:]
-
     if un[0] == 'GNU':
         # Use uname -v on Hurd
         uname_string = un[3]
     else:
-        uname_string = '%s %s' % (un[0], un[2])
+        kern = un[0]
+        if kern.startswith('GNU/'):
+            kern = kern[4:]
+
+        uname_string = '%s %s' % (kern, un[2])
+        
+        if 'SMP' in un[3]:
+            cores = get_cpu_cores()
+            uname_string += ' (SMP kernel, %d core[s])' % cores
+        elif 'PREEMPT' in un[3]:
+            uname_string += ' (preemptable kernel)'
 
     return u"""%s%s%s
 -- System Information:
@@ -765,6 +774,19 @@ def generate_blank_report(package, pkgversion, severity, justification,
 Locale: %s
 %s%s""" % (report, body, incfiles, debinfo, uname_string, locinfo,
            depinfo, confinfo)
+
+def get_cpu_cores():
+    cpucount = 0
+    try:
+        fob = open('/proc/cpuinfo')
+        for line in fob:
+            if line.startwsith('processor'):
+                cpucount += 1
+        fob.close()
+
+        return min(cpucount, 1)
+    except:
+        return 1
 
 class our_lex(shlex.shlex):
     def get_token(self):
