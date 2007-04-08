@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.17 2007-04-08 03:09:05 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.18 2007-04-08 03:22:21 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -681,20 +681,6 @@ def generate_blank_report(package, pkgversion, severity, justification,
     debinfo = ''
     shellpath = realpath('/bin/sh')
 
-    if debianbts.SYSTEMS[system].get('query-dpkg', True):
-        debinfo += get_debian_release_info()
-        debarch = get_arch()
-        if debarch:
-            if utsmachine == debarch:
-                debinfo += 'Architecture: %s\n' % (debarch)
-            else:
-                debinfo += 'Architecture: %s (%s)\n' % (debarch, utsmachine)
-        else:
-            debinfo += 'Architecture: ? (%s)\n' % utsmachine
-
-    if shellpath != '/bin/sh':
-        debinfo += 'Shell:  /bin/sh linked to %s\n' % shellpath
-
     locinfo = []
     langsetting = os.environ.get('LANG', 'C')
     allsetting = os.environ.get('LC_ALL', '')
@@ -771,6 +757,18 @@ def generate_blank_report(package, pkgversion, severity, justification,
     if not body:
         body = "\n"
 
+    if debianbts.SYSTEMS[system].get('query-dpkg', True):
+        debinfo += get_debian_release_info()
+        debarch = get_arch()
+        if debarch:
+            if utsmachine == debarch:
+                debinfo += 'Architecture: %s\n' % (debarch)
+            else:
+                debinfo += 'Architecture: %s (%s)\n' % (debarch, utsmachine)
+        else:
+            debinfo += 'Architecture: ? (%s)\n' % utsmachine
+        debinfo += '\n'
+
     if un[0] == 'GNU':
         # Use uname -v on Hurd
         uname_string = un[3]
@@ -795,12 +793,17 @@ def generate_blank_report(package, pkgversion, severity, justification,
             if kinfo:
                 uname_string = '%s (%s)' % (uname_string, '; '.join(kinfo))
 
+    if uname_string:
+        debinfo += u'Kernel: %s\n' % uname_string
+
+    if locinfo:
+        debinfo += u'Locale: %s\n' % locinfo
+    if shellpath != '/bin/sh':
+        debinfo += u'Shell: /bin/sh linked to %s\n' % shellpath
+
     return u"""%s%s%s
 -- System Information:
-%sKernel: %s
-Locale: %s
-%s%s""" % (report, body, incfiles, debinfo, uname_string, locinfo,
-           depinfo, confinfo)
+%s%s%s""" % (report, body, incfiles, debinfo, depinfo, confinfo)
 
 def get_cpu_cores():
     cpucount = 0
