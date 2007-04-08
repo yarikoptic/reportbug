@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.16 2007-04-08 02:55:01 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.17 2007-04-08 03:09:05 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -780,12 +780,20 @@ def generate_blank_report(package, pkgversion, severity, justification,
             kern = kern[4:]
 
         uname_string = '%s %s' % (kern, un[2])
-        
-        if 'SMP' in un[3]:
-            cores = get_cpu_cores()
-            uname_string += ' (SMP kernel, %d core[s])' % cores
-        elif 'PREEMPT' in un[3]:
-            uname_string += ' (preemptable kernel)'
+        if kern == 'Linux':
+            kinfo = []
+
+            if 'SMP' in un[3]:
+                cores = get_cpu_cores()
+                if cores > 1:
+                    kinfo += ['SMP w/%d CPU cores' % cores]
+                else:
+                    kinfo += ['SMP w/1 CPU core']
+            if 'PREEMPT' in un[3]:
+                kinfo += ['PREEMPT']
+
+            if kinfo:
+                uname_string = '%s (%s)' % (uname_string, '; '.join(kinfo))
 
     return u"""%s%s%s
 -- System Information:
