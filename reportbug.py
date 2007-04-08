@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.15 2007-04-02 16:15:09 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.16 2007-04-08 02:55:01 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -354,40 +354,59 @@ def get_package_status(package, avail=False):
 
 # Object that essentially chunkifies the output of apt-cache dumpavail
 class AvailDB(object):
-    def __init__(self, popenob):
-        self.fp = popenob.stdout
+    def __init__(self, fp=None, popenob=None):
         self.popenob = popenob
+        if fp:
+            self.fp = fp
+        elif popenob:
+            self.fp = popenob.stdout
 
     def __iter__(self):
         return self
 
     def next(self):
-        if self.popenob.returncode:
-            raise StopIteration
-        
         chunk = u''
-        for line in self.fp:
+        while True:
+            if self.popenob:
+                if self.popenob.returncode:
+                    break
+
+            line = self.fp.readline()
+            if not line:
+                break
+                
             if line == '\n':
                 return chunk
             chunk += line.decode('utf-8', 'replace')
 
-        #if chunk:
-        #    return chunk
+        if chunk:
+            return chunk
 
-        self.fp.close()
         raise StopIteration
+
+    def __del__(self):
+        #print >> sys.stderr, 'availdb cleanup', repr(self.popenob), repr(self.fp)
+        if self.fp:
+            self.fp.close()
+        if self.popenob:
+            try:
+                self.popenob.wait()
+            except:
+                pass
 
 def get_dpkg_database():
     if os.path.exists(STATUSDB):
-        fp = subprocess.Popen(('cat', STATUSDB), stdout=subprocess.PIPE)
-        return AvailDB(fp)
+        fp = open(STATUSDB)
+        if fp:
+            return AvailDB(fp=fp)
 
     print >> sys.stderr, 'Unable to open', STATUSDB
     sys.exit(1)
 
 def get_avail_database():
-    fp = subprocess.Popen(('apt-cache', 'dumpavail'), stdout=subprocess.PIPE)
-    return AvailDB(fp)
+    #print >> sys.stderr, 'Searching available database'
+    subp = subprocess.Popen(('apt-cache', 'dumpavail'), stdout=subprocess.PIPE)
+    return AvailDB(popenob=subp)
 
 def get_source_package(package):
     """Return any binary packages provided by a source package."""
@@ -777,16 +796,14 @@ Locale: %s
 
 def get_cpu_cores():
     cpucount = 0
-    try:
-        fob = open('/proc/cpuinfo')
-        for line in fob:
-            if line.startwsith('processor'):
-                cpucount += 1
-        fob.close()
+    fob = open('/proc/cpuinfo')
+    for line in fob:
+        if line.startswith('processor'):
+            cpucount += 1
+            #print repr(line), cpucount
+    fob.close()
 
-        return min(cpucount, 1)
-    except:
-        return 1
+    return max(cpucount, 1)
 
 class our_lex(shlex.shlex):
     def get_token(self):

@@ -1,6 +1,8 @@
 reportbug (3.35) unstable; urgency=low
 
   * Include # of cores for SMP kernels in system information section.
+    (Closes: #417383)
+  * More dumpavail cleanups.  (Closes: #418209)
 
  -- Chris Lawrence <lawrencc@debian.org>  Mon,  2 Apr 2007 11:14:49 -0500
 
