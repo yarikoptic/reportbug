@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.16 2007-03-19 23:03:36 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.17 2007-04-11 03:50:14 lawrencc Exp $
 
 import commands, string, sys, re
 from reportbug_exceptions import *
@@ -368,8 +368,6 @@ def get_multiline(prompt, options=None, title=None, force_prompt=False,
 def menu(par, options, prompt, default=None, title=None, any_ok=False,
          order=None, extras=None, multiple=False, empty_ok=False, ui=None,
          oklabel='Ok', cancellabel='Cancel', quitlabel=None):
-    selected = {}
-
     if not extras:
         extras = []
     else:
@@ -423,7 +421,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
             box.add_buttons( [(oklabel, 0), (cancellabel, -1)] )
         result, chosen = box.main(ui)
         if result < 0:
-            return result
+            return []
         return chosen
 
     # Single menu option only
