@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.17 2007-04-11 03:50:14 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.18 2007-04-11 03:53:50 lawrencc Exp $
 
 import commands, string, sys, re
 from reportbug_exceptions import *
@@ -498,11 +498,9 @@ def show_report(number, system, mirrors,
         long_message('Bug report #%d not found.', number, title=title, ui=ui)
         return
 
-    options = dict(o='Ok', d='More details (launch browser)', q='Quit')
-    valid = 'Odq'
-    if not queryonly:
-        options['m'] = 'Submit more information'
-        valid = 'Odmq'
+    options = dict(o='Ok', d='More details (launch browser)',
+                   m='Submit more information', q='Quit')
+    valid = 'Odmq'
     
     while 1:
         (bugtitle, bodies) = info

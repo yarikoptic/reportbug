@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19.2.7 2006-12-23 06:44:43 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.8 2007-04-11 03:53:50 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -412,10 +412,7 @@ def show_report(number, system, mirrors,
                     raise
         skip_pager = False
 
-        if queryonly:
-            options = 'Orbq'
-        else:
-            options = 'xOrbq'
+        options = 'xOrbq'
             
         if (current_message+1) < len(messages):
             options = 'N'+options.lower()

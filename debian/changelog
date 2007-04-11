@@ -1,3 +1,11 @@
+reportbug (3.36) unstable; urgency=low
+
+  * Fix urwid select_multiple() call to return an empty list when cancel
+    is selected.  (Closes: #418411)
+  
+
+ --
+
 reportbug (3.35) unstable; urgency=low
 
   * Include # of cores for SMP kernels in system information section.
