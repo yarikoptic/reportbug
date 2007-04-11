@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.24 2007-03-19 22:14:38 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.25 2007-04-11 03:46:56 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1329,7 +1329,7 @@ class UI(object):
                     ewrite('Nothing new to report; exiting.\n')
                 return
 
-            if self.options.queryonly:
+            if self.options.queryonly and not exinfo:
                 return
 
         ccaddr = os.environ.get('MAILCC')
