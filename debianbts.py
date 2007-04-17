@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.9 2007-04-17 20:12:08 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.10 2007-04-17 20:17:34 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -149,7 +149,7 @@ debother = {
     'base' : 'General bugs in the base system',
 # Actually a real package, but most people don't have boot-floppies installed for good reason
 #    'boot-floppy' : '(Obsolete, please use boot-floppies instead.)',
-    'boot-floppies' : 'Bugs in the woody installation subsystem',
+#    'boot-floppies' : 'Bugs in the woody installation subsystem',
     'bugs.debian.org' : 'The bug tracking system, @bugs.debian.org',
     'cdimage.debian.org' : 'CD Image issues',
     'cdrom' : 'Problems with installation from CD-ROMs',
@@ -157,20 +157,21 @@ debother = {
     'debian-policy' : 'Proposed changes in the Debian policy documentation',
     'ftp.debian.org' : 'Problems with the FTP site',
     'general' : 'General problems (e.g., that many manpages are mode 755)',
-    'install' : 'Problems with the sarge installer.',
-    'installation' : 'General installation problems not covered otherwise.',
+#    'install' : 'Problems with the sarge installer.',
+#    'installation' : 'General installation problems not covered otherwise.',
 #    'kernel' : '(Obsolete, please use "linux-image" instead.)',
+    'installation-reports' : 'Problems with installing Debian',
     'linux-image' : 'Problems with the Linux kernel, or the kernel shipped with Debian',
     'listarchives' :  'Problems with the WWW mailing list archives',
     'lists.debian.org' : 'The mailing lists, debian-*@lists.debian.org.',
     'mirrors' : 'Problems with Debian archive mirrors.',
-    'nonus.debian.org' : 'Problems with the non-US FTP site',
     'press' : 'Press release issues',
-    'project' : 'Problems related to Project administration',
+    'project' : 'Problems related to project administration',
     'qa.debian.org' : 'Problems related to the quality assurance group',
 #slink-cd -- Slink CD 
 #spam -- Spam (reassign spam to here so we can complain about it)
     'security.debian.org' : 'Problems with the security updates server',
+    'tech-ctte' : 'Issues to be referred to the technical committee',
     'upgrade-reports' : 'Reports of successful and unsucessful upgrades',
     'wnpp' : 'Work-Needing and Prospective Packages list',
     'www.debian.org' : 'Problems with the WWW site (including other *.debian.org sites)'
