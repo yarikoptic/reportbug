@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.10 2007-04-17 20:17:34 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.11 2007-04-17 20:26:54 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -170,6 +170,7 @@ debother = {
     'qa.debian.org' : 'Problems related to the quality assurance group',
 #slink-cd -- Slink CD 
 #spam -- Spam (reassign spam to here so we can complain about it)
+    'release-notes' : 'Problems with the release notes',
     'security.debian.org' : 'Problems with the security updates server',
     'tech-ctte' : 'Issues to be referred to the technical committee',
     'upgrade-reports' : 'Reports of successful and unsucessful upgrades',
