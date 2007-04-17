@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.27 2007-04-17 20:21:41 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.28 2007-04-17 20:22:57 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1125,6 +1125,7 @@ class UI(object):
                         efail("Package not installed; stopping.\n")
                 elif (len(packages) > 1) or (packages[0][0] != package):
                     this_package = [(package, 'Uninstalled/non-existent package')]
+                    packages.sort()
                     package = ui.menu('Which of the following installed packages '
                                       'is the bug in?', packages + this_package,
                                       'Select one of these packages: ',
