@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.25 2007-04-11 03:46:56 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.26 2007-04-17 20:05:41 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -34,7 +34,7 @@ DEBUGGER = 'lawrencc@debian.org'
 DEFAULT_BTS = 'debian'
 
 import sys, os
-sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
+sys.path = ['/usr/share/reportbug'] + sys.path
 
 import optparse, re, os, pwd, time, locale, commands, checkversions
 import rfc822, smtplib, reportbug, cStringIO, socket, debianbts, checkbuildd
