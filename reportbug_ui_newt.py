@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_newt.py,v 1.5.2.3 2006-08-26 01:57:09 lawrencc Exp $
+# $Id: reportbug_ui_newt.py,v 1.5.2.4 2007-04-17 19:42:56 lawrencc Exp $
 
 import commands, string, sys, re, debianbts
 from reportbug_exceptions import *
@@ -273,6 +273,9 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                     for (number, subject) in list:
                         if number == info: p = i
 			i += 1
+
+                    if ' ' in info:
+                        info, blah = info.split(' ', 1)
 
                     res = show_report(int(info), bts, mirrors,
                                       http_proxy, screen=scr,
