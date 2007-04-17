@@ -22,7 +22,7 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.3.2.18 2007-04-11 03:53:50 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.19 2007-04-17 20:02:41 lawrencc Exp $
 
 import commands, string, sys, re
 from reportbug_exceptions import *
@@ -203,7 +203,9 @@ class displaybox(dialog):
             self.ui = initialize_urwid_ui()
         size = self.ui.get_cols_rows()
         canvas = self.view.render( size, focus=True )
+        self.ui.start()
         self.ui.draw_screen( size, canvas )
+        self.ui.stop()
 
 class textentry(dialog):
     def __init__(self, text, width=None, height=None, multiline=False,
