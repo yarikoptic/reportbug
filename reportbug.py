@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.18 2007-04-08 03:22:21 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.19 2007-04-18 00:05:39 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -386,13 +386,17 @@ class AvailDB(object):
 
     def __del__(self):
         #print >> sys.stderr, 'availdb cleanup', repr(self.popenob), repr(self.fp)
+        if self.popenob:
+            # Clear the pipe before shutting it down
+            while True:
+                if self.popenob.returncode:
+                    break
+                stuff = self.fp.read(65536)
+                if not stuff:
+                    break
+            self.popenob.wait()
         if self.fp:
             self.fp.close()
-        if self.popenob:
-            try:
-                self.popenob.wait()
-            except:
-                pass
 
 def get_dpkg_database():
     if os.path.exists(STATUSDB):
@@ -678,7 +682,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
                           pseudos=None):
     un = os.uname()
     utsmachine = un[4]
-    debinfo = ''
+    debinfo = u''
     shellpath = realpath('/bin/sh')
 
     locinfo = []
@@ -702,28 +706,28 @@ def generate_blank_report(package, pkgversion, severity, justification,
         package = debianbts.SYSTEMS[system]['namefmt'] % package
 
     if pseudos:
-        headers = '\n'.join(pseudos)+'\n'
+        headers = u'\n'.join(pseudos)+u'\n'
     else:
-        headers = ''
+        headers = u''
     
     if pkgversion:
-        headers += 'Version: %s\n' % pkgversion
+        headers += u'Version: %s\n' % pkgversion
 
     if not exinfo:
         if severity:
-            headers += 'Severity: %s\n' % severity
+            headers += u'Severity: %s\n' % severity
 
         if justification:
-            headers += 'Justification: %s\n' % justification
+            headers += u'Justification: %s\n' % justification
 
         if tags:
-            headers += 'Tags: %s\n' % tags
+            headers += u'Tags: %s\n' % tags
 
         if foundfile:
-            headers += 'File: %s\n' % foundfile
+            headers += u'File: %s\n' % foundfile
 
     if mode < MODE_ADVANCED:
-        body = NEWBIELINE+'\n\n'+body
+        body = NEWBIELINE+u'\n\n'+body
     
     report = "\n"
     if not exinfo:
@@ -755,19 +759,19 @@ def generate_blank_report(package, pkgversion, severity, justification,
             exinfo, package, headers)
 
     if not body:
-        body = "\n"
+        body = u"\n"
 
     if debianbts.SYSTEMS[system].get('query-dpkg', True):
         debinfo += get_debian_release_info()
         debarch = get_arch()
         if debarch:
             if utsmachine == debarch:
-                debinfo += 'Architecture: %s\n' % (debarch)
+                debinfo += u'Architecture: %s\n' % (debarch)
             else:
-                debinfo += 'Architecture: %s (%s)\n' % (debarch, utsmachine)
+                debinfo += u'Architecture: %s (%s)\n' % (debarch, utsmachine)
         else:
-            debinfo += 'Architecture: ? (%s)\n' % utsmachine
-        debinfo += '\n'
+            debinfo += u'Architecture: ? (%s)\n' % utsmachine
+        debinfo += u'\n'
 
     if un[0] == 'GNU':
         # Use uname -v on Hurd

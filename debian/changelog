@@ -2,9 +2,23 @@ reportbug (3.36) unstable; urgency=low
 
   * Fix urwid select_multiple() call to return an empty list when cancel
     is selected.  (Closes: #418411)
-  
+  * Allow submitting additional information in queryonly mode.
+    (Closes: #265014)
+  * Clear the pipe from apt-cache dumpavail before shutting it down.
+    (Closes: #418209)
+  * Don't crash when in newt UI and browsing bugs that are fixed.
+    (Closes: #419275)
+  * Update display_message() for Urwid 0.9.8; conflict with previous
+    versions which will no longer work.  (Closes: #419469)
+  * Remove os.curdir from sys.path.  (Closes: #419466)
+  * Unicode cleanups with wnpp Owner: header handling.  (Closes: #407122)
+  * Update the pseudo-packages list.  (Closes: #418759).  Note that reportbug
+    uses 'linux-image' instead of 'kernel' since the former will resolve using
+    virtual packages to the user's installed kernel (or a choice thereof),
+    providing more accurate reports than simply falling into the 'kernel'
+    bucket.
 
- --
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 17 Apr 2007 15:19:16 -0500
 
 reportbug (3.35) unstable; urgency=low
 
