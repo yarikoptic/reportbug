@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.11 2007-04-17 20:26:54 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.12 2007-04-19 20:33:09 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -241,7 +241,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
 
         if tag == 'ITP':
             headers.append('X-Debbugs-CC: debian-devel@lists.debian.org')
-            pseudos.append(u'Owner: %s' % fromaddr.decode('utf-8', 'replace')
+            pseudos.append(u'Owner: %s' % fromaddr.decode('utf-8', 'replace'))
             ui.ewrite('Your report will be carbon-copied to debian-devel, '
                       'per Debian policy.\n')
 
