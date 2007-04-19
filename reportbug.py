@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.19 2007-04-18 00:05:39 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.20 2007-04-19 21:21:31 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -228,9 +228,12 @@ def get_user_id(email='', realname='', charset='utf-8'):
         realname = realname.decode(charset, 'replace')
     
     if re.match(r'[\w\s]+$', realname):
-        return '%s <%s>' % (realname, email)
+        return u'%s <%s>' % (realname, email)
 
-    return rfc822.dump_address_pair( (realname, email) )
+    addr = rfc822.dump_address_pair( (realname, email) )
+    if isinstance(addr, str):
+        addr = addr.decode('utf-8', 'replace')
+    return addr
 
 statuscache = {}
 def get_package_status(package, avail=False):

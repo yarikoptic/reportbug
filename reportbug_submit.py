@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.20.2.5 2007-03-19 22:14:38 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.20.2.6 2007-04-19 21:21:31 lawrencc Exp $
 
 import sys
 
@@ -104,6 +104,7 @@ def rfc2047_encode_address(addr, charset, mua=None):
 
 def rfc2047_encode_header(header, charset, mua=None):
     if mua: return header
+    #print repr(header), repr(charset)
 
     return encode_if_needed(header, charset)
 
@@ -158,12 +159,12 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
         body = None
     return body
 
-def mime_attach(body, attachments, charset):
+def mime_attach(body, attachments, charset, body_charset=None):
     import mimetypes
     mimetypes.init()
 
     message = MIMEMultipart('mixed')
-    bodypart = BetterMIMEText(body, _charset=charset)
+    bodypart = BetterMIMEText(body, _charset=(body_charset or charset))
     bodypart.add_header('Content-Disposition', 'inline')
     message.preamble = 'This is a multi-part MIME message sent by reportbug.\n\n'
     message.epilogue = ''
@@ -250,14 +251,21 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
     if kudos and smtphost == 'bugs.debian.org':
         smtphost = 'packages.debian.org'
 
+    body_charset = charset
+    if isinstance(body, unicode):
+        # Since the body is Unicode, utf-8 seems like a sensible body encoding
+        # to choose pretty much all the time.
+        body = body.encode('utf-8', 'replace')
+        body_charset = 'utf-8'
+
     tfprefix = tempfile_prefix(package)
     if attachments and not mua:
-        (message, failed) = mime_attach(body, attachments, charset)
+        (message, failed) = mime_attach(body, attachments, charset, body_charset)
         if failed:
             ewrite("Error: Message creation failed, not sending\n")
             mua = mta = smtphost = None
     else:
-        message = BetterMIMEText(body, _charset=charset)
+        message = BetterMIMEText(body, _charset=body_charset)
 
     # Standard headers
     message['From'] = rfc2047_encode_address(fromaddr, 'utf-8', mua)

@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.28 2007-04-17 20:22:57 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.29 2007-04-19 21:21:31 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1619,7 +1619,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
             addinfo = None
             if not self.options.noconf:
-                addinfo = u"\n-- Package-specific info:\n"+file(filename).read().decode('utf-8', 'replace')
+                fp = open(filename)
+                addinfo = u"\n-- Package-specific info:\n"+fp.read().decode('utf-8', 'replace')
+                fp.close()
 
             os.unlink(filename)
             if addinfo and incfiles:

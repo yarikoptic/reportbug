@@ -1,3 +1,9 @@
+reportbug (3.37) unstable; urgency=low
+
+  * More Unicode cleanups (Closes: #420038)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 19 Apr 2007 13:21:39 -0500
+
 reportbug (3.36) unstable; urgency=low
 
   * Fix urwid select_multiple() call to return an empty list when cancel
