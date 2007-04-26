@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.21 2007-04-26 03:46:04 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.22 2007-04-26 03:48:31 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -426,7 +426,7 @@ def available_package_description(package):
             return m.group(1)
     return None
 
-def quick_get_source_name(package):
+def get_source_name(package):
     packages = []
 
     data = commands.getoutput('apt-cache showsrc'+commands.mkarg(package))
@@ -438,7 +438,7 @@ def quick_get_source_name(package):
             return m.group(1)
     return None
         
-def quick_get_source_package(package):
+def get_source_package(package):
     packages = []
     retlist = []
 
@@ -459,79 +459,6 @@ def quick_get_source_package(package):
 
     retlist.sort()
     return retlist
-
-def get_source_package(package):
-    """Return any binary packages provided by a source package."""
-    result = quick_get_source_package(package)
-    if result:
-        return result
-
-    packinfo = get_avail_database()
-    packages = []
-    packob = re.compile(r'^Package: (?P<pkg>.*)$', re.MULTILINE)
-    descob = re.compile(r'^Description: (?P<desc>.*)$', re.MULTILINE)
-    hassource = re.compile(r'^Source: .*$', re.MULTILINE)
-    if package == 'libc':
-        searchob1 = re.compile(r'^Source: g?libc[\d.]*$', re.MULTILINE)
-        searchob2 = re.compile(r'^Package: g?libc[\d.]*$', re.MULTILINE)
-    else:
-        searchob1 = re.compile(r'^Source: '+re.escape(package)+r'$',
-                               re.MULTILINE)
-        searchob2 = re.compile(r'^Package: '+re.escape(package)+r'$',
-                               re.MULTILINE)
-    
-    for p in packinfo:
-        match = searchob1.search(p)
-        if match:
-            packname = packdesc = ''
-            namematch, descmatch = packob.search(p), descob.search(p)
-
-            if namematch:
-                packname = namematch.group('pkg')
-            if descmatch:
-                packdesc = descmatch.group('desc')
-            
-            if packname:
-                packages.append( (packname, packdesc) )
-        elif hassource.search(p):
-            continue
-        
-        match = searchob2.search(p)
-        if match:
-            packname = packdesc = ''
-            namematch, descmatch = packob.search(p), descob.search(p)
-
-            if namematch:
-                packname = namematch.group('pkg')
-            if descmatch:
-                packdesc = descmatch.group('desc')
-            
-            if packname:
-                packages.append( (packname, packdesc) )
-
-
-    packages.sort()
-    return packages
-
-def get_source_name(package):
-    """Return source package name for given package or None."""
-    packname = quick_get_source_name(package)
-    if packname:
-        return packname
-    
-    packinfo = get_avail_database()
-    has_source = re.compile(r'^Source: %s$' % re.escape(package), re.MULTILINE).search
-    get_source = re.compile(r'^Source: (?P<pkg>.*)$', re.MULTILINE).search
-    has_package = re.compile(r'^Package: %s$' % re.escape(package), re.MULTILINE).search
-    for p in packinfo:
-        match = has_source(p)
-        if match:
-            return package
-	if has_package(p):
-	    match = get_source(p)
-	    if match:
-	        return match.group('pkg')
-    return None
 
 def get_package_info(packages, skip_notfound=False):
     if not packages:
