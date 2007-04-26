@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.20 2007-04-19 21:21:31 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.21 2007-04-26 03:46:04 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -33,6 +33,7 @@ import pprint
 import subprocess
 
 from string import ascii_letters, digits
+from rbtempfile import TempFile, tempfile_prefix
 
 # Paths for dpkg
 DPKGLIB = '/var/lib/dpkg'
@@ -415,8 +416,56 @@ def get_avail_database():
     subp = subprocess.Popen(('apt-cache', 'dumpavail'), stdout=subprocess.PIPE)
     return AvailDB(popenob=subp)
 
+def available_package_description(package):
+    data = commands.getoutput('apt-cache show'+commands.mkarg(package))
+    data = data.decode('utf-8', 'replace')
+    descre = re.compile(r'^Description: (.*)$')
+    for line in data.split('\n'):
+        m = descre.match(line)
+        if m:
+            return m.group(1)
+    return None
+
+def quick_get_source_name(package):
+    packages = []
+
+    data = commands.getoutput('apt-cache showsrc'+commands.mkarg(package))
+    data = data.decode('utf-8', 'replace')
+    packre = re.compile(r'^Package: (.*)$')
+    for line in data.split('\n'):
+        m = packre.match(line)
+        if m:
+            return m.group(1)
+    return None
+        
+def quick_get_source_package(package):
+    packages = []
+    retlist = []
+
+    data = commands.getoutput('apt-cache showsrc'+commands.mkarg(package))
+    data = data.decode('utf-8', 'replace')
+    binre = re.compile(r'^Binary: (.*)$')
+    for line in data.split('\n'):
+        m = binre.match(line)
+        if m:
+            packs = m.group(1)
+            packlist = re.split(r',\s*', packs)
+            packages += packlist
+    
+    for p in packages:
+        desc = available_package_description(p)
+        if desc:
+            retlist += [(p, desc)]
+
+    retlist.sort()
+    return retlist
+
 def get_source_package(package):
     """Return any binary packages provided by a source package."""
+    result = quick_get_source_package(package)
+    if result:
+        return result
+
     packinfo = get_avail_database()
     packages = []
     packob = re.compile(r'^Package: (?P<pkg>.*)$', re.MULTILINE)
@@ -466,6 +515,10 @@ def get_source_package(package):
 
 def get_source_name(package):
     """Return source package name for given package or None."""
+    packname = quick_get_source_name(package)
+    if packname:
+        return packname
+    
     packinfo = get_avail_database()
     has_source = re.compile(r'^Source: %s$' % re.escape(package), re.MULTILINE).search
     get_source = re.compile(r'^Source: (?P<pkg>.*)$', re.MULTILINE).search
