@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.29 2007-04-19 21:21:31 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.30 2007-04-30 15:52:32 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -405,7 +405,8 @@ def offer_configuration(options):
     
     realname = ui.get_string('What real name should be used for sending bug '
                              'reports? [%s]' % realname, force_prompt=True)
-    realname = realname.decode(charset, 'replace')
+    if isinstance(realname, str):
+        realname = realname.decode(charset, 'replace')
     
     from_addr = ui.get_string(
         'Which of your email addresses should be used when sending bug '
