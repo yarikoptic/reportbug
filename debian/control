@@ -11,7 +11,7 @@ Package: reportbug
 Architecture: all
 Depends: ${python:Depends}, apt
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid
-Conflicts: python-urwid (<< 0.9.8-1)
+Conflicts: python-urwid (<< 0.9.8-1), python-central (= 0.5.13)
 XB-Python-Version: ${python:Versions}
 Description: reports bugs in the Debian distribution
  reportbug is a tool designed to make the reporting of bugs in Debian
