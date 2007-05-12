@@ -1,3 +1,12 @@
+reportbug (3.38) unstable; urgency=low
+
+  * Use apt-cache showsrc and apt-cache show to eliminate churns of the
+    available database.  (Closes: #414487)
+  * Another Unicode cleanup in offer_configuration().  (Closes: #421613)
+  * Conflict with broken version of python-central.  (Closes: #418166)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 11 May 2007 21:00:36 -0500
+
 reportbug (3.37) unstable; urgency=low
 
   * More Unicode cleanups (Closes: #420038)
