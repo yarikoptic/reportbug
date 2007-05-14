@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.30 2007-04-30 15:52:32 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.31 2007-05-14 03:45:09 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -1077,7 +1077,7 @@ class UI(object):
                         ewrite("Getting status for %s...\n", package)
                         status = reportbug.get_package_status(package)
                         pkgavail, installed = status[1], status[6]
-                    else:
+                    elif len(packages) > 1:
                         issource = True
                 else:
                     ewrite('No matching source or binary packages.\n')
