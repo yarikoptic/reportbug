@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.22 2007-04-26 03:48:31 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.23 2007-08-16 22:40:37 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -441,6 +441,7 @@ def get_source_name(package):
 def get_source_package(package):
     packages = []
     retlist = []
+    found = {}
 
     data = commands.getoutput('apt-cache showsrc'+commands.mkarg(package))
     data = data.decode('utf-8', 'replace')
@@ -454,8 +455,9 @@ def get_source_package(package):
     
     for p in packages:
         desc = available_package_description(p)
-        if desc:
+        if desc and (p not in found):
             retlist += [(p, desc)]
+            found[p] = desc
 
     retlist.sort()
     return retlist

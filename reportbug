@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.31 2007-05-14 03:45:09 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.32 2007-08-16 22:40:37 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -558,6 +558,11 @@ def main():
     except locale.Error, x:
         print >> sys.stderr, '*** Warning:', x
     
+    charset = locale.nl_langinfo(locale.CODESET)
+    # It would be nice if there were some canonical character set conversion
+    if charset.lower() == 'ansi_x3.4-1968':
+        charset = 'us-ascii'
+
     defaults = dict(sendto="submit", mode="novice", mta="/usr/sbin/sendmail",
                     check_available=True, query_src=True, debconf=True,
                     editor='', offline=False, verify=True, check_uid=True,
@@ -576,6 +581,8 @@ def main():
     args = reportbug.parse_config_files()
     for option, arg in args.items():
         if option in reportbug.CONFIG_ARGS:
+            if isinstance(arg, unicode):
+                arg = arg.encode(charset, 'replace')
             defaults[option] = arg
         else:
             sys.stderr.write('Warning: untranslated token "%s"\n' % option)
