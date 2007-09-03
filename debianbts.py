@@ -2,7 +2,7 @@
 # debianbts.py - Routines to deal with the debbugs web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2006 Chris Lawrence
+#   (C) 1999-2007 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.12 2007-04-19 20:33:09 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.13 2007-09-03 20:05:59 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -33,6 +33,8 @@ import email
 import email.Errors
 import cStringIO
 import cgi
+
+from 
 
 def msgfactory(fp):
     try:
@@ -322,15 +324,6 @@ SYSTEMS = { 'debian' :
             'mandrake' :
             { 'name' : 'Linux-Mandrake', 'email': '%s@bugs.linux-mandrake.com',
               'type' : 'mailto', 'query-dpkg' : False },
-            'gnome' :
-            { 'name' : 'GNOME Project', 'email': '%s@bugs.gnome.org',
-              'type' : 'mailto', 'query-dpkg' : False },
-            'ximian' :
-            { 'name' : 'Ximian', 'email': '%s@bugs.ximian.com',
-              'type' : 'mailto' },
-            'progeny' :
-            { 'name' : 'Progeny', 'email' : 'bugs@progeny.com',
-              'type' : 'gnats', 'otherpkgs' : progenyother },
             'ubuntu' :
             { 'name' : 'Ubuntu', 'email' : 'ubuntu-users@lists.ubuntu.com',
               'type' : 'mailto' },
