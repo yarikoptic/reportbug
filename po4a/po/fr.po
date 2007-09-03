@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: reportbug.fr\n"
-"POT-Creation-Date: 2006-11-06  3:45-0600\n"
+"POT-Creation-Date: 2007-08-16 17:41-0500\n"
 "PO-Revision-Date: 2006-11-22 18:36+0100\n"
 "Last-Translator: Sylvain Cherrier <sylvain.cherrier@free.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -1312,10 +1312,11 @@ msgstr ""
 
 # type: Plain text
 #: reportbug.1:436
+#, fuzzy
 msgid ""
 "Generally, options corresponding to the GNU long options for B<reportbug> "
-"are supported, without leading -- sequences.  See the default B</etc/"
-"reportbug.conf> for all acceptable options."
+"are supported, without leading -- sequences.  See B<reportbug.conf(5)> for "
+"all acceptable options."
 msgstr ""
 "En général, les options correspondant aux options longues (type GNU) de "
 "B<reportbug> sont acceptées, sans les préfixer par la séquence --. Consultez "
@@ -1478,21 +1479,23 @@ msgid "SEE ALSO"
 msgstr "VOIR AUSSI"
 
 # type: Plain text
-#: reportbug.1:484
+#: reportbug.1:486
+#, fuzzy
 msgid ""
-"http://www.debian.org/Bugs/Developer#tags for available tags, querybts(1)"
+"reportbug.conf(5), I<http://www.debian.org/Bugs/Developer#tags> for "
+"available tags, querybts(1)"
 msgstr ""
 "http://www.debian.org/Bugs/Developer#tags à lire pour connaître les balises "
 "disponibles, querybts(1)"
 
 # type: SH
-#: reportbug.1:484 querybts.1:96
+#: reportbug.1:486 querybts.1:96
 #, no-wrap
 msgid "AUTHOR"
 msgstr "AUTEUR"
 
 # type: Plain text
-#: reportbug.1:486 querybts.1:97
+#: reportbug.1:488 querybts.1:97
 msgid "Chris Lawrence E<lt>lawrencc@debian.orgE<gt>."
 msgstr "Chris Lawrence E<lt>lawrencc@debian.orgE<gt>."
 
@@ -1682,7 +1685,11 @@ msgid "You must have the python-newt package installed to run this program."
 msgstr ""
 "Vous devez avoir installé le paquet python-newt pour exécuter ce programme."
 
-# type: TH
+# type: Plain text
 #: querybts.1:96
-msgid "reportbug(1)"
-msgstr "reportbug(1)"
+msgid "reportbug(1), reportbug.conf(5)"
+msgstr ""
+
+# type: TH
+#~ msgid "reportbug(1)"
+#~ msgstr "reportbug(1)"

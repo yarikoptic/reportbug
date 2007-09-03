@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-12-23  0:54-0600\n"
+"POT-Creation-Date: 2007-08-16 17:41-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1052,8 +1052,8 @@ msgstr ""
 #: reportbug.1:436
 msgid ""
 "Generally, options corresponding to the GNU long options for B<reportbug> "
-"are supported, without leading -- sequences.  See the default "
-"B</etc/reportbug.conf> for all acceptable options."
+"are supported, without leading -- sequences.  See B<reportbug.conf(5)> for "
+"all acceptable options."
 msgstr ""
 
 # type: SH
@@ -1189,18 +1189,20 @@ msgid "SEE ALSO"
 msgstr ""
 
 # type: Plain text
-#: reportbug.1:484
-msgid "http://www.debian.org/Bugs/Developer#tags for available tags, querybts(1)"
+#: reportbug.1:486
+msgid ""
+"reportbug.conf(5), I<http://www.debian.org/Bugs/Developer#tags> for "
+"available tags, querybts(1)"
 msgstr ""
 
 # type: SH
-#: reportbug.1:484 querybts.1:96
+#: reportbug.1:486 querybts.1:96
 #, no-wrap
 msgid "AUTHOR"
 msgstr ""
 
 # type: Plain text
-#: reportbug.1:486 querybts.1:97
+#: reportbug.1:488 querybts.1:97
 msgid "Chris Lawrence E<lt>lawrencc@debian.orgE<gt>."
 msgstr ""
 
@@ -1349,5 +1351,5 @@ msgstr ""
 
 # type: Plain text
 #: querybts.1:96
-msgid "reportbug(1)"
+msgid "reportbug(1), reportbug.conf(5)"
 msgstr ""
