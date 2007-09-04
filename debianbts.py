@@ -1,4 +1,3 @@
-#
 # debianbts.py - Routines to deal with the debbugs web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
@@ -22,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.13 2007-09-03 20:05:59 lawrencc Exp $
+# $Id: debianbts.py,v 1.24.2.14 2007-09-04 04:08:44 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
 from urlutils import open_url
@@ -34,7 +33,7 @@ import email.Errors
 import cStringIO
 import cgi
 
-from 
+from btsutils.debbugs import debbugs
 
 def msgfactory(fp):
     try:
@@ -335,8 +334,6 @@ SYSTEMS = { 'debian' :
               'btsroot' : 'http://bugs.grml.org/',
               'cgiroot' : 'http://bugs.grml.org/cgi-bin/' },
             }
-
-SYSTEMS['helixcode'] = SYSTEMS['ximian']
 
 CLASSES = {
     'sw-bug' : 'The problem is a bug in the software or code.  For'
@@ -802,6 +799,10 @@ def get_btsroot(system, mirrors=None):
 def get_reports(package, system='debian', mirrors=None, version=None,
                 http_proxy='', archived=False, source=False):
     if isinstance(package, basestring):
+        if system == 'debian':
+            result = debbugs_query(package, source=False)
+            if result: return result
+        
         if SYSTEMS[system].get('cgiroot'):
             result = get_cgi_reports(package, system, http_proxy, archived,
                                      source, version=version)
@@ -847,7 +848,15 @@ def get_reports(package, system='debian', mirrors=None, version=None,
 
 def get_report(number, system='debian', mirrors=None,
                http_proxy='', archived=False, followups=False):
-    number = int(number)
+    try:
+        number = int(number)
+    except ValueError:
+        return None
+        
+    if system == 'debian':
+        result = debbugs_get(number, source=False)
+        if result: return result
+
     if SYSTEMS[system].get('cgiroot'):
         result = get_cgi_report(number, system, http_proxy, archived,
                                 followups)
@@ -862,9 +871,44 @@ class NullParser(sgmllib.SGMLParser):
     def __init__(self):
         sgmllib.SGMLParser.__init__(self)
 
+## Tools for using the python-btsutils package
+## Still needs version support to be useful, alas...
+def debbugs_query(querystr, source=False):
+    if 1:
+        return None
+    
+    bts = debbugs()
+    if source:
+        q = 'src:'+querystr
+    else:
+        q = 'pkg:'+querystr
+
+    try:
+        bugs = bts.query(q)
+    except:
+        return None
+
+    print bugs
+    # Transform to format used elsewhere in reportbug
+    
+    return bugstruct
+
+def debbugs_get(number):
+    bts = debbugs()
+    try:
+        bug = bts.get(number)
+    except:
+        return get_cgi_report(number)
+    #print bug
+    cgirep = get_cgi_report(number)
+
+    return (cgirep[0], [str(bug)]+cgirep[1])
+
 if __name__ == '__main__':
     import pprint
 
-    data = get_cgi_reports('reportbug')
+    #data = get_reports('reportbug')
+    #data = debbugs_get(400000)
+    data = debbugs_query('reportbug')
     pprint.pprint(data)
     time.sleep(1000)
