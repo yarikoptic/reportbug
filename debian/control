@@ -9,7 +9,7 @@ XS-Python-Version: current, >= 2.4
 
 Package: reportbug
 Architecture: all
-Depends: ${python:Depends}, apt, python-btsutils
+Depends: ${python:Depends}, apt
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid
 Conflicts: python-urwid (<< 0.9.8-1), python-central (= 0.5.13)
 XB-Python-Version: ${python:Versions}

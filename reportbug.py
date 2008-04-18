@@ -21,7 +21,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug.py,v 1.35.2.23 2007-08-16 22:40:37 lawrencc Exp $
+# $Id: reportbug.py,v 1.35.2.24 2008-04-18 05:38:28 lawrencc Exp $
 
 VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
@@ -42,7 +42,7 @@ STATUSDB = os.path.join(DPKGLIB, 'status')
 
 # Headers other than these become email headers for debbugs servers
 PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
-                 'Justification', 'Followup-For', 'Owner')
+                 'Justification', 'Followup-For', 'Owner', 'User', 'Usertags')
 
 VALID_UIS = ['newt', 'text', 'gnome2', 'urwid']
 AVAILABLE_UIS = []

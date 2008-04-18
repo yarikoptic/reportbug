@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.19.2.8 2007-04-11 03:53:50 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.9 2008-04-18 05:38:28 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -505,8 +505,9 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
         return browse_bugs(hierarchy, count, bugs, bts, queryonly,
                            mirrors, http_proxy, screen, title)
 
-    except IOError:
-        res = select_options('Unable to connect to BTS; continue', 'yN',
+    except (IOError, NoNetwork):
+        ewrite('Unable to connect to %s BTS; ', debianbts.SYSTEMS[bts]['name'])
+        res = select_options('continue', 'yN',
                              {'y': 'Keep going.',
                               'n': 'Abort.'})
         if res == 'n':

@@ -1,3 +1,19 @@
+reportbug (3.39-0.1) unstable; urgency=low
+
+  * Non-maintainer upload
+  * Add templates for ftp.debian.org removal (RM) requests (Closes: #459333)
+  * Add a -P option to allow setting pseudo-headers, useful for setting
+    usertags.  Thanks Lucas Nussbaum <lucas@lucas-nussbaum.net> for the patch
+    (Closes: #445144)
+  * Raise an error and indicate to the user in case of any network errors
+    (Closes: #302103)
+  * CC: secure-testing-team@lists.alioth.debian.org when a security issue is
+    reported (Closes: #448874)
+  * Indicate that in mode > standard incoming and NEW are also checked with
+    --check-available (Closes: #450523, #447380)
+
+ -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Sat, 22 Mar 2008 15:33:23 +0530
+
 reportbug (3.39) unstable; urgency=low
 
   * Add man page for reportbug.conf, thanks to Y Giridhar Appaji Nag.

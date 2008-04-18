@@ -22,7 +22,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE."""
 #
 # Version ##VERSION##; see changelog for revision history
-# $Id: reportbug,v 1.98.2.32 2007-08-16 22:40:37 lawrencc Exp $
+# $Id: reportbug,v 1.98.2.33 2008-04-18 05:38:27 lawrencc Exp $
 
 # Work around case where Python install might be broken (#290043)
 try:
@@ -344,6 +344,14 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
                 False):
                 return get_package_name(bts, mode)
 
+        if package == 'ftp.debian.org':
+            if not ui.yes_no(
+                'Are you sure you want to file a bug on ftp.debian.org?',
+                'Yes, I am a developer or know what I\'m doing.',
+                'No, I am not a developer and I don\'t know what ftp.debian.org is.',
+                False):
+                return get_package_name(bts, mode)
+
     return package
 
 def special_prompts(package, bts, ui, fromaddr):
@@ -620,6 +628,8 @@ def main():
                       help="key ID to use for PGP/GnuPG signatures")
     parser.add_option('-H', '--header', action='append', dest='headers',
                       help='add a custom RFC822 header to your report')
+    parser.add_option('-P', '--pseudo-header', action='append', dest='pseudos',
+                      help='add a custom pseudo-header to your report')
     parser.add_option('--license', action='store_true', default=False,
                       help='show copyright and license information')
     parser.add_option('-m', '--maintonly', action='store_const',
@@ -823,6 +833,7 @@ class UI(object):
         check_available = self.options.check_available
         dontquery = self.options.dontquery
         headers = self.options.headers or []
+        pseudos = self.options.pseudos or []
         mua = self.options.mua
         pkgversion = self.options.pkgversion
         quietly = self.options.quietly
@@ -1218,9 +1229,13 @@ class UI(object):
                                            '(blank OK)', force_prompt=True)
         elif (check_available and not (self.options.kudos or notatty or self.options.offline)
               and state == 'installed' and bts == 'debian'):
-            ewrite('Checking for newer versions at packages.debian.org...\n')
             arch = reportbug.get_arch()
             check_more = (mode > MODE_STANDARD)
+            if check_more:
+                ewrite('Checking for newer versions at packages.debian.org,'+
+                  ' incoming.debian.org and http://ftp-master.debian.org/new.html\n')
+            else:
+                ewrite('Checking for newer versions at packages.debian.org...\n')
             (avail, toonew) = checkversions.check_available(
                 package, pkgversion, check_incoming=check_more,
                 check_newqueue=check_more,
@@ -1294,7 +1309,6 @@ class UI(object):
             dontquery = True
 
         special = False
-        pseudos = []
         if not body and not subject and not notatty:
             res = special_prompts(package, bts, ui, fromaddr)
             if res:
@@ -1638,8 +1652,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 incfiles = addinfo
 
         if bts == 'debian' and 'security' in taglist:
-            ewrite('Will send a CC of this report to the Debian Security Team.\n')
+            ewrite('Will send a CC of this report to the Debian Security and Testing Security Team.\n')
             listcc += ['Debian Security Team <team@security.debian.org>']
+            listcc += ['Debian Testing Security Team <secure-testing-team@lists.alioth.debian.org>']
 
         if listcc:
             headers.append('X-Debbugs-CC: '+', '.join(listcc))

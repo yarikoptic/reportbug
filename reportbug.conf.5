@@ -18,9 +18,9 @@
 .\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 .\" SOFTWARE.
 .\" 
-.\" $Id: reportbug.conf.5,v 1.1.2.1 2007-08-16 22:41:06 lawrencc Exp $
+.\" $Id: reportbug.conf.5,v 1.1.2.2 2008-04-18 05:38:28 lawrencc Exp $
 .\" 
-.TH REPORTBUG.CONF 5 "Aug 2007" "reportbug 3.38"
+.TH REPORTBUG.CONF 5 "Dec 2007" "reportbug 3.39"
 .SH NAME
 .B reportbug.conf
 - The configuration file for reportbug
@@ -67,6 +67,12 @@ for a list of currently supported BTSes
 .TP
 .B cc (\fIboolean\fP)
 Whether the reporter should be Cc:ed on the bug report
+.TP
+.B check-available (\fIboolean\fP)
+Whether \fBpackages.debian.org\fP should be queried for newer releases
+of the package.  In \fBadvanced\fP and \fBexpert\fP mode,
+\fBincoming.debian.org\fP and
+\fBhttp://ftp-master.debian.org/new.html\fP are also checked.
 .TP
 .B compress (\fIboolean\fP)
 Whether modified configuration files included in the bug report should
@@ -247,4 +253,4 @@ reportbug was written by Chris Lawrence <lawrencc@debian.org>
 This manual page was written by Y Giridhar Appaji Nag
 <giridhar@appaji.net> for the Debian project, but may be used by others.
 .PP
-Last modified: 2007-08-13 by Y Giridhar Appaji Nag
+Last modified: 2007-12-20 by Y Giridhar Appaji Nag

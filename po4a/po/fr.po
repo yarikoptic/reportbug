@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: reportbug.fr\n"
-"POT-Creation-Date: 2007-08-16 17:41-0500\n"
+"POT-Creation-Date: 2008-04-03 23:45+0200\n"
 "PO-Revision-Date: 2006-11-22 18:36+0100\n"
 "Last-Translator: Sylvain Cherrier <sylvain.cherrier@free.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -118,8 +118,8 @@ msgid ""
 "starting with two dashes (`--').  A summary of options are included below."
 msgstr ""
 "Ce programme utilise la syntaxe habituelle des commandes GNU, dans laquelle "
-"les options longues (sous forme de mots) sont précédées de deux tirets («\\ "
-"--\\ »). Un résumé des options est fourni ci-dessous."
+"les options longues (sous forme de mots) sont précédées de deux tirets («\\ --"
+"\\ »). Un résumé des options est fourni ci-dessous."
 
 # type: TP
 #: reportbug.1:34 querybts.1:17
@@ -317,34 +317,34 @@ msgid "B<--check-available>"
 msgstr "B<--check-available>"
 
 # type: Plain text
-#: reportbug.1:101
+#: reportbug.1:104
 msgid ""
-"Check for newer releases of the package at packages.debian.org (default)."
+"Check for newer releases of the package at packages.debian.org (default).  "
+"In B<advanced> and B<expert> mode, check B<incoming.debian.org> and B<http://"
+"ftp-master.debian.org/new.html>."
 msgstr ""
-"Vérifier la présence de nouvelles versions du paquet sur packages.debian.org "
-"(comportement par défaut)."
 
 # type: TP
-#: reportbug.1:101
+#: reportbug.1:104
 #, no-wrap
 msgid "B<--no-check-available>"
 msgstr "B<--no-check-available>"
 
 # type: Plain text
-#: reportbug.1:104
+#: reportbug.1:107
 msgid "Do not check for newer releases of the package at packages.debian.org."
 msgstr ""
 "Pas de vérification de la présence de nouvelles versions du paquet sur "
 "packages.debian.org."
 
 # type: TP
-#: reportbug.1:104
+#: reportbug.1:107
 #, no-wrap
 msgid "B<-d, --debug>"
 msgstr "B<-d, --debug>"
 
 # type: Plain text
-#: reportbug.1:108
+#: reportbug.1:111
 msgid ""
 "Don't send a real bug report to Debian; send it to yourself instead.  This "
 "is primarily used for testing by the maintainer."
@@ -354,13 +354,13 @@ msgstr ""
 "responsable du paquet."
 
 # type: TP
-#: reportbug.1:108
+#: reportbug.1:111
 #, no-wrap
 msgid "B<-e EDITOR, --editor=EDITOR>"
 msgstr "B<-e ÉDITEUR, --editor=ÉDITEUR>"
 
 # type: Plain text
-#: reportbug.1:112
+#: reportbug.1:115
 msgid ""
 "Specify the editor to use, overriding any EDITOR or VISUAL environment "
 "variable setting."
@@ -369,13 +369,13 @@ msgstr ""
 "d'environnement telles que VISUAL ou EDITOR."
 
 # type: TP
-#: reportbug.1:112
+#: reportbug.1:115
 #, no-wrap
 msgid "B<--email=ADDRESS>"
 msgstr "B<--email=ADRESSE>"
 
 # type: Plain text
-#: reportbug.1:119
+#: reportbug.1:122
 msgid ""
 "Set the email address your report should appear to be sent from (i.e. the "
 "address that appears in the B<From:> header).  This should be the actual "
@@ -390,13 +390,13 @@ msgstr ""
 "d'environnement EMAIL et DEBEMAIL, mais pas REPORTBUGEMAIL."
 
 # type: TP
-#: reportbug.1:119
+#: reportbug.1:122
 #, no-wrap
 msgid "B<--exit-prompt>"
 msgstr "B<--exit-prompt>"
 
 # type: Plain text
-#: reportbug.1:123
+#: reportbug.1:126
 msgid ""
 "Display a prompt before exiting; this is useful if reportbug is run in a "
 "transient terminal (i.e. from its Debian menu entry)."
@@ -406,13 +406,13 @@ msgstr ""
 "Debian, par exemple)."
 
 # type: TP
-#: reportbug.1:123
+#: reportbug.1:126
 #, no-wrap
 msgid "B<-f FILENAME, --filename=FILENAME>"
 msgstr "B<-f NOM-FICHIER, --filename=NOM-FICHIER>"
 
 # type: Plain text
-#: reportbug.1:130
+#: reportbug.1:133
 msgid ""
 "Report a bug in the package containing I<FILENAME> so you don't have to "
 "figure out what package the file belongs to.  The path will be searched for "
@@ -425,13 +425,13 @@ msgstr ""
 "elle est étendue à tous les fichiers du chemin."
 
 # type: TP
-#: reportbug.1:130
+#: reportbug.1:133
 #, no-wrap
 msgid "B<--path>"
 msgstr "B<--path>"
 
 # type: Plain text
-#: reportbug.1:135
+#: reportbug.1:138
 msgid ""
 "If the -f option is also specified, only search the path for the specified "
 "FILENAME.  Specifying an absolute path with the -f option (i.e. one "
@@ -442,13 +442,13 @@ msgstr ""
 "un /) avec l'option -f outrepassera cette option."
 
 # type: TP
-#: reportbug.1:135
+#: reportbug.1:138
 #, no-wrap
 msgid "B<-g, --gnupg, --gpg>"
 msgstr "B<-g, --gnupg, --gpg>"
 
 # type: Plain text
-#: reportbug.1:141
+#: reportbug.1:144
 msgid ""
 "Attach a digital signature to the bug report using B<GnuPG> (the GNU Privacy "
 "Guard).  (This argument will be ignored if you are using an MUA to edit and "
@@ -459,13 +459,13 @@ msgstr ""
 "messagerie (un «\\ MUA\\ ») pour éditer et envoyer votre rapport de bogue."
 
 # type: TP
-#: reportbug.1:141
+#: reportbug.1:144
 #, no-wrap
 msgid "B<-G, --gnus>"
 msgstr "B<-G, --gnus>"
 
 # type: Plain text
-#: reportbug.1:145
+#: reportbug.1:148
 msgid ""
 "Use the GNUS mail and news reader to send your report, rather than using the "
 "editor."
@@ -474,13 +474,13 @@ msgstr ""
 "pour l'envoi de votre rapport de bogue."
 
 # type: TP
-#: reportbug.1:145
+#: reportbug.1:148
 #, no-wrap
 msgid "B<-H HEADER, --header=HEADER>"
 msgstr "B<-H ENTÊTE, --header=ENTÊTE>"
 
 # type: Plain text
-#: reportbug.1:152
+#: reportbug.1:155
 msgid ""
 "Add a custom RFC 2822 header to your email; for example, to send a carbon "
 "copy of the report to I<debian-68k@lists.linux-m68k.org> you could use I<-H "
@@ -492,13 +492,13 @@ msgstr ""
 "linux-m68k.org'>."
 
 # type: TP
-#: reportbug.1:152
+#: reportbug.1:155
 #, no-wrap
 msgid "B<-i FILE, --include=FILE>"
 msgstr "B<-i FICHIER, --include=FICHIER>"
 
 # type: Plain text
-#: reportbug.1:159
+#: reportbug.1:162
 msgid ""
 "Include the specified file as part of the body of the message to be edited.  "
 "Can be used multiple times to add multiple files; text-only please! From a "
@@ -511,13 +511,13 @@ msgstr ""
 "des bogues de B<bug>. (Voir aussi l'option --attach)."
 
 # type: TP
-#: reportbug.1:159
+#: reportbug.1:162
 #, no-wrap
 msgid "B<-I, --no-check-installed>"
 msgstr "B<-I, --no-check-installed>"
 
 # type: Plain text
-#: reportbug.1:164
+#: reportbug.1:167
 msgid ""
 "Do not check whether the package is installed before filing a report.  This "
 "is generally only useful when filing a report on a package you know is not "
@@ -528,13 +528,13 @@ msgstr ""
 "qu'il n'est pas installé sur votre système."
 
 # type: TP
-#: reportbug.1:164
+#: reportbug.1:167
 #, no-wrap
 msgid "B<--check-installed>"
 msgstr "B<--check-installed>"
 
 # type: Plain text
-#: reportbug.1:168
+#: reportbug.1:171
 msgid ""
 "Check if the specified package is installed when filing reports.  (This is "
 "the default behavior of reportbug.)"
@@ -543,13 +543,13 @@ msgstr ""
 "bogue. (Comportement par défaut)."
 
 # type: TP
-#: reportbug.1:168
+#: reportbug.1:171
 #, no-wrap
 msgid "B<-j JUSTIFICATION, --justification=JUSTIFICATION>"
 msgstr "B<-j JUSTIFICATION, --justification=JUSTIFICATION>"
 
 # type: Plain text
-#: reportbug.1:174
+#: reportbug.1:177
 msgid ""
 "Bugs in Debian that have \"serious\", \"grave\", or \"critical\" severities "
 "must meet certain criteria to be classified as such.  This option allows you "
@@ -562,13 +562,13 @@ msgstr ""
 "critique du bogue, plutôt que d'attendre qu'on vous pose la question."
 
 # type: TP
-#: reportbug.1:174
+#: reportbug.1:177
 #, no-wrap
 msgid "B<-k, --kudos>"
 msgstr "B<-k, --kudos>"
 
 # type: Plain text
-#: reportbug.1:181
+#: reportbug.1:184
 msgid ""
 "Send appreciative email to the recorded maintainer address, rather than "
 "filing a bug report.  (You can also send kudos to I<packagename>@packages."
@@ -584,13 +584,13 @@ msgstr ""
 "Cela garantit son bon fonctionnement pour des paquets d'autres origines. "
 
 # type: TP
-#: reportbug.1:181
+#: reportbug.1:184
 #, no-wrap
 msgid "B<-K KEYID, --keyid=KEYID>"
 msgstr "B<-K CLÉ-PRIVÉE, --keyid=CLÉ-PRIVÉE>"
 
 # type: Plain text
-#: reportbug.1:186
+#: reportbug.1:189
 msgid ""
 "Private key to use for PGP/GnuPG signatures.  If not specified, the first "
 "key in the secret keyring that matches your email address will be used."
@@ -600,13 +600,13 @@ msgstr ""
 "adresse de courriel qui sera utilisée."
 
 # type: TP
-#: reportbug.1:186
+#: reportbug.1:189
 #, no-wrap
 msgid "B<--license>"
 msgstr "B<--license>"
 
 # type: Plain text
-#: reportbug.1:190
+#: reportbug.1:193
 msgid ""
 "Show B<reportbug>'s copyright and license information on standard output."
 msgstr ""
@@ -614,13 +614,13 @@ msgstr ""
 "sortie standard."
 
 # type: TP
-#: reportbug.1:190
+#: reportbug.1:193
 #, no-wrap
 msgid "B<--list-cc=ADDRESS>"
 msgstr "B<--list-cc=ADRESSE>"
 
 # type: Plain text
-#: reportbug.1:196
+#: reportbug.1:199
 msgid ""
 "Send a carbon copy of the report to the specified list after a report number "
 "is assigned; this is the equivalent to the option I<-H 'X-Debbugs-CC: "
@@ -632,13 +632,13 @@ msgstr ""
 "type debbugs."
 
 # type: TP
-#: reportbug.1:196
+#: reportbug.1:199
 #, no-wrap
 msgid "B<-m, --maintonly>"
 msgstr "B<-m, --maintonly>"
 
 # type: Plain text
-#: reportbug.1:200
+#: reportbug.1:203
 msgid ""
 "Only send the bug to the package maintainer; the bug tracking system will "
 "not send a copy to the bug report distribution lists."
@@ -648,13 +648,13 @@ msgstr ""
 "rapport de bogue."
 
 # type: TP
-#: reportbug.1:200
+#: reportbug.1:203
 #, no-wrap
 msgid "B<--mode=MODE>"
 msgstr "B<--mode=MODE>"
 
 # type: Plain text
-#: reportbug.1:206
+#: reportbug.1:209
 msgid ""
 "Set the operating mode for B<reportbug>.  B<reportbug> currently has four "
 "operating modes: B<novice> (the default), B<standard>, B<advanced>, and "
@@ -665,7 +665,7 @@ msgstr ""
 "B<standard>, B<advanced>, et B<expert>."
 
 # type: Plain text
-#: reportbug.1:213
+#: reportbug.1:216
 msgid ""
 "B<novice> mode is designed to minimize prompting about things that "
 "\"ordinary users\" would be unlikely to know or care about, shifting the "
@@ -680,7 +680,7 @@ msgstr ""
 "C'est actuellement le mode par défaut."
 
 # type: Plain text
-#: reportbug.1:219
+#: reportbug.1:222
 msgid ""
 "B<standard> mode is more-or-less equivalent to the prompting that was "
 "provided by reportbug 1.50 and earlier; it includes a relatively large "
@@ -693,7 +693,7 @@ msgstr ""
 "à ne pas faire de rapport de bogue en double ou farfelus. "
 
 # type: Plain text
-#: reportbug.1:228
+#: reportbug.1:231
 msgid ""
 "B<advanced> mode is like B<standard> mode, but may include shortcuts "
 "suitable for more advanced users of Debian, without being as close to the "
@@ -713,7 +713,7 @@ msgstr ""
 "d'aide pour l'insertion du texte du rapport de bogue dans l'éditeur)"
 
 # type: Plain text
-#: reportbug.1:241
+#: reportbug.1:244
 msgid ""
 "B<expert> mode is designed to minimize prompts that are designed to "
 "discourage frivolous or unnecessary bug reports, \"severity inflation,\" and "
@@ -737,13 +737,13 @@ msgstr ""
 "bec avec les responsables des paquets en cas de mauvaise utilisation."
 
 # type: TP
-#: reportbug.1:241
+#: reportbug.1:244
 #, no-wrap
 msgid "B<-M, --mutt>"
 msgstr "B<-M, --mutt>"
 
 # type: Plain text
-#: reportbug.1:246
+#: reportbug.1:249
 msgid ""
 "Instead of spawning an editor to revise the bug report, use the B<mutt> mail "
 "reader to edit and send it."
@@ -752,13 +752,13 @@ msgstr ""
 "de bogue plutôt que d'invoquer un éditeur."
 
 # type: TP
-#: reportbug.1:246
+#: reportbug.1:249
 #, no-wrap
 msgid "B<--mta='E<lt>MTAE<gt>'>"
 msgstr "B<--mta='E<lt>MTAE<gt>'>"
 
 # type: Plain text
-#: reportbug.1:253
+#: reportbug.1:256
 msgid ""
 "Specify an alternate MTA, instead of B</usr/sbin/sendmail> (the default).  "
 "Any B<smtphost> setting will override this one."
@@ -768,13 +768,13 @@ msgstr ""
 "celui-ci."
 
 # type: TP
-#: reportbug.1:253
+#: reportbug.1:256
 #, no-wrap
 msgid "B<--mua='E<lt>MUAE<gt> E<lt>optionE<gt>'>"
 msgstr "B<--mua='E<lt>MUAE<gt> E<lt>optionE<gt>'>"
 
 # type: Plain text
-#: reportbug.1:264
+#: reportbug.1:267
 msgid ""
 "Instead of spawning an editor to revise the bug report, use the specified "
 "MUA (mail user agent) to edit and send it.  The B<option> should be used to "
@@ -790,13 +790,13 @@ msgstr ""
 "comment les options B<--mutt, --nmh> et B<--af> sont traitées."
 
 # type: TP
-#: reportbug.1:264
+#: reportbug.1:267
 #, no-wrap
 msgid "B<-n, --nmh, --mh>"
 msgstr "B<-n, --nmh, --mh>"
 
 # type: Plain text
-#: reportbug.1:273
+#: reportbug.1:276
 msgid ""
 "Instead of spawning an editor to revise the bug report, use the B<comp> "
 "command (part of the B<nmh> and B<mh> mail systems) to edit and send it."
@@ -806,24 +806,24 @@ msgstr ""
 "d'invoquer un éditeur."
 
 # type: TP
-#: reportbug.1:273
+#: reportbug.1:276
 #, no-wrap
 msgid "B<-o FILE, --output=FILE>"
 msgstr "B<-o FICHIER, --output=FICHIER>"
 
 # type: Plain text
-#: reportbug.1:276
+#: reportbug.1:279
 msgid "Instead of sending an email, redirect it to the specified filename."
 msgstr "Rediriger le courriel vers le fichier indiqué plutôt que de l'envoyer."
 
 # type: TP
-#: reportbug.1:276
+#: reportbug.1:279
 #, no-wrap
 msgid "B<-O, --offline>"
 msgstr "B<-O, --offline>"
 
 # type: Plain text
-#: reportbug.1:280
+#: reportbug.1:283
 msgid ""
 "Disable all external queries.  Currently has the same effect as B<--no-check-"
 "available --no-query-bts>."
@@ -832,13 +832,13 @@ msgstr ""
 "effet que B<--no-check-available --no-query-bts>."
 
 # type: TP
-#: reportbug.1:280
+#: reportbug.1:283
 #, no-wrap
 msgid "B<-p, --print>"
 msgstr "B<-p, --print>"
 
 # type: Plain text
-#: reportbug.1:284
+#: reportbug.1:287
 msgid ""
 "Instead of sending an email, print the bug report to standard output, so you "
 "can redirect it to a file or pipe it to another program."
@@ -848,7 +848,7 @@ msgstr ""
 "un tube (pipe) à un autre programme."
 
 # type: Plain text
-#: reportbug.1:287
+#: reportbug.1:290
 msgid ""
 "This option only outputs a template for a bug report; you will need to fill "
 "in the long description."
@@ -857,13 +857,13 @@ msgstr ""
 "Vous devrez remplir la description détaillée."
 
 # type: TP
-#: reportbug.1:287
+#: reportbug.1:290
 #, no-wrap
 msgid "B<--paranoid>"
 msgstr "B<--paranoid>"
 
 # type: Plain text
-#: reportbug.1:291
+#: reportbug.1:294
 msgid ""
 "Show the contents of the message before it is sent, including all headers.  "
 "Automatically disabled if in template mode."
@@ -872,13 +872,13 @@ msgstr ""
 "Cette option est automatiquement désactivée dans le mode template (modèle)."
 
 # type: TP
-#: reportbug.1:291
+#: reportbug.1:294
 #, no-wrap
 msgid "B<--no-paranoid>"
 msgstr "B<--no-paranoid>"
 
 # type: Plain text
-#: reportbug.1:294
+#: reportbug.1:297
 msgid ""
 "Don't show the full contents of the message before it is sent (default)."
 msgstr ""
@@ -886,13 +886,13 @@ msgstr ""
 "défaut)."
 
 # type: TP
-#: reportbug.1:294
+#: reportbug.1:297
 #, no-wrap
 msgid "B<--pgp>"
 msgstr "B<--pgp>"
 
 # type: Plain text
-#: reportbug.1:301
+#: reportbug.1:304
 msgid ""
 "Attach a digital signature to the bug report using B<PGP> (Pretty Good "
 "Privacy).  Please note, however, that the Debian project is phasing out the "
@@ -905,13 +905,13 @@ msgstr ""
 "utilisez un client de messagerie pour l'édition et l'envoi de votre rapport)."
 
 # type: TP
-#: reportbug.1:301 querybts.1:42
+#: reportbug.1:304 querybts.1:42
 #, no-wrap
 msgid "B<--proxy=PROXY, --http_proxy=PROXY>"
 msgstr "B<--proxy=SERVEUR-MANDATAIRE, --http_proxy=SERVEUR-MANDATAIRE>"
 
 # type: Plain text
-#: reportbug.1:308
+#: reportbug.1:311
 msgid ""
 "Specify the WWW proxy server to use to handle the query of the bug tracking "
 "system.  You should only need this parameter if you are behind a firewall.  "
@@ -925,26 +925,40 @@ msgstr ""
 "de port\\ ; B<http://192.168.1.1:3128/> par exemple."
 
 # type: TP
-#: reportbug.1:308
+#: reportbug.1:311
+#, fuzzy, no-wrap
+msgid "B<-P PSEUDO-HEADER, --pseudo-header=PSEUDO-HEADER>"
+msgstr "B<-H ENTÊTE, --header=ENTÊTE>"
+
+# type: Plain text
+#: reportbug.1:319
+msgid ""
+"Add a custom pseudo-header to your email; for example, to add the I<mytag> "
+"usertag for the user I<humberto@example.com> to the bug, you could use I<-P "
+"'User: humberto@example.com' -P 'Usertags: mytag'>"
+msgstr ""
+
+# type: TP
+#: reportbug.1:319
 #, no-wrap
 msgid "B<-q, --quiet>"
 msgstr "B<-q, --quiet>"
 
 # type: Plain text
-#: reportbug.1:311
+#: reportbug.1:322
 msgid "Suppress diagnostic messages to standard error."
 msgstr ""
 "Ne plus envoyer les messages de type diagnostic sur la sortie d'erreurs "
 "(standard error)."
 
 # type: TP
-#: reportbug.1:311
+#: reportbug.1:322
 #, no-wrap
 msgid "B<-Q, --query-only>"
 msgstr "B<-Q, --query-only>"
 
 # type: Plain text
-#: reportbug.1:315
+#: reportbug.1:326
 msgid ""
 "Do not submit a bug report; just query the BTS.  Option ignored if you "
 "specify --no-bts-query."
@@ -953,13 +967,13 @@ msgstr ""
 "option est ignorée si vous demandez --no-bts-query."
 
 # type: TP
-#: reportbug.1:315
+#: reportbug.1:326
 #, no-wrap
 msgid "B<--query-source>"
 msgstr "B<--query-source>"
 
 # type: Plain text
-#: reportbug.1:319
+#: reportbug.1:330
 msgid ""
 "Query on all binary packages built by the same source, not just the binary "
 "package specified.  (Default behavior as of reportbug 2.0)"
@@ -969,39 +983,39 @@ msgstr ""
 "(comportement par défaut depuis reportbug 2.0)"
 
 # type: TP
-#: reportbug.1:319
+#: reportbug.1:330
 #, no-wrap
 msgid "B<--no-query-source>"
 msgstr "B<--no-query-source>"
 
 # type: Plain text
-#: reportbug.1:322
+#: reportbug.1:333
 msgid "Only query on the binary package specified on the command line."
 msgstr ""
 "La requête ne portera que sur le paquet binaire indiqué sur la ligne de "
 "commande."
 
 # type: TP
-#: reportbug.1:322
+#: reportbug.1:333
 #, no-wrap
 msgid "B<--realname=NAME>"
 msgstr "B<--realname=NOM>"
 
 # type: Plain text
-#: reportbug.1:325
+#: reportbug.1:336
 msgid "Set the real name (human-readable name) to use for your report."
 msgstr ""
 "Définir le nom réel (un nom lisible par les gens) à utiliser pour votre "
 "rapport."
 
 # type: TP
-#: reportbug.1:325
+#: reportbug.1:336
 #, no-wrap
 msgid "B<--report-quiet>"
 msgstr "B<--report-quiet>"
 
 # type: Plain text
-#: reportbug.1:331
+#: reportbug.1:342
 msgid ""
 "Register the bug in the bug tracking system, but don't send a report to the "
 "package maintainer or anyone else.  Don't do this unless you're the "
@@ -1013,24 +1027,24 @@ msgstr ""
 "vraiment ce que vous faites."
 
 # type: TP
-#: reportbug.1:331
+#: reportbug.1:342
 #, no-wrap
 msgid "B<--reply-to=ADDRESS, --replyto=ADDRESS>"
 msgstr "B<--reply-to=ADRESSE, --replyto=ADRESSE>"
 
 # type: Plain text
-#: reportbug.1:336
+#: reportbug.1:347
 msgid "Set the B<Reply-To> address header in your report."
 msgstr "Définir l'adresse du champ B<Reply-To> de l'entête de votre rapport."
 
 # type: TP
-#: reportbug.1:336
+#: reportbug.1:347
 #, no-wrap
 msgid "B<-s SUBJECT, --subject=SUBJECT>"
 msgstr "B<-s OBJET, --subject=OBJET>"
 
 # type: Plain text
-#: reportbug.1:341
+#: reportbug.1:352
 msgid ""
 "Set the subject of the bug report (i.e. a brief explanation of the problem, "
 "less than 60 characters).  If you do not specify this switch, you will be "
@@ -1041,13 +1055,13 @@ msgstr ""
 "message vous sera demandé."
 
 # type: TP
-#: reportbug.1:341
+#: reportbug.1:352
 #, no-wrap
 msgid "B<-S SEVERITY, --severity=SEVERITY>"
 msgstr "B<-S GRAVITÉ, --severity=GRAVITÉ>"
 
 # type: Plain text
-#: reportbug.1:345
+#: reportbug.1:356
 msgid ""
 "Specify a severity level, from critical, grave, serious, important, normal, "
 "minor, and wishlist."
@@ -1057,13 +1071,13 @@ msgstr ""
 "normal, mineur, et souhait)."
 
 # type: TP
-#: reportbug.1:345
+#: reportbug.1:356
 #, no-wrap
 msgid "B<--smtphost=HOST[:PORT]>"
 msgstr "B<--smtphost=HÔTE[:PORT]>"
 
 # type: Plain text
-#: reportbug.1:356
+#: reportbug.1:367
 msgid ""
 "Use the mail transport agent (MTA) at B<HOST> to send your report, instead "
 "of your local B</usr/sbin/sendmail> program.  This should generally be your "
@@ -1080,13 +1094,13 @@ msgstr ""
 "utilisé."
 
 # type: TP
-#: reportbug.1:356
+#: reportbug.1:367
 #, no-wrap
 msgid "B<--tls>"
 msgstr "B<--tls>"
 
 # type: Plain text
-#: reportbug.1:361
+#: reportbug.1:372
 msgid ""
 "If using SMTP, use Transport Layer Security (TLS) encryption to secure the "
 "connection to the mail server.  Some SMTP servers may require this option."
@@ -1096,26 +1110,26 @@ msgstr ""
 "exigent parfois cette option."
 
 # type: TP
-#: reportbug.1:361
+#: reportbug.1:372
 #, no-wrap
 msgid "B<--smtpuser=USERNAME>"
 msgstr "B<--smtpuser=NOM_UTILISATEUR>"
 
 # type: Plain text
-#: reportbug.1:366
+#: reportbug.1:377
 msgid "If using SMTP, use the specified B<USERNAME> for authentication."
 msgstr ""
 "En cas d'utilisation de SMTP, se servir du B<NOM_UTILISATEUR> indiqué pour "
 "l'authentification. "
 
 # type: TP
-#: reportbug.1:366
+#: reportbug.1:377
 #, no-wrap
 msgid "B<--smtppasswd=PASSWORD>"
 msgstr "B<--smtppasswd=MOT_DE_PASSE>"
 
 # type: Plain text
-#: reportbug.1:373
+#: reportbug.1:384
 msgid ""
 "If using SMTP, use the specified B<PASSWORD> for authentication.  If the "
 "password isn't specified on the command line or in the configuration file, a "
@@ -1127,7 +1141,7 @@ msgstr ""
 "le demander."
 
 # type: Plain text
-#: reportbug.1:377
+#: reportbug.1:388
 msgid ""
 "Use of this option is insecure on multiuser systems.  Instead, you should "
 "set this option in .reportbugrc and ensure it is only readable by your user "
@@ -1139,13 +1153,13 @@ msgstr ""
 "chmod 600 $HOME/.reportbugrc, par exemple)."
 
 # type: TP
-#: reportbug.1:377
+#: reportbug.1:388
 #, no-wrap
 msgid "B<-t TYPE, --type=TYPE>"
 msgstr "B<-t TYPE, --type=TYPE>"
 
 # type: Plain text
-#: reportbug.1:381
+#: reportbug.1:392
 msgid ""
 "Specify the type of report to be submitted; currently accepts either gnats "
 "or debbugs."
@@ -1154,13 +1168,13 @@ msgstr ""
 "gnats que debbugs."
 
 # type: TP
-#: reportbug.1:381
+#: reportbug.1:392
 #, no-wrap
 msgid "B<-T TAG, --tag=TAG>"
 msgstr "B<-T BALISE, --tag=BALISE>"
 
 # type: Plain text
-#: reportbug.1:386
+#: reportbug.1:397
 msgid ""
 "Specify a tag to be filed on this report, for example B<--tag=patch>.  "
 "Multiple tags can be specified using multiple -T or --tag arguments."
@@ -1170,7 +1184,7 @@ msgstr ""
 "paramètres -T ou --tag."
 
 # type: Plain text
-#: reportbug.1:391
+#: reportbug.1:402
 msgid ""
 "Alternatively, you can specify the 'tag' B<none> to bypass the tags prompt "
 "without specifying any tags; this will also ignore any tags specified on the "
@@ -1181,26 +1195,26 @@ msgstr ""
 "balises indiquées sur la ligne de commande seront elles aussi ignorées."
 
 # type: TP
-#: reportbug.1:391
+#: reportbug.1:402
 #, no-wrap
 msgid "B<--template>"
 msgstr "B<--template>"
 
 # type: Plain text
-#: reportbug.1:394
+#: reportbug.1:405
 msgid "Output a template report to standard output."
 msgstr ""
 "Afficher un modèle («\\ template\\ ») de rapport de bogue sur la sortie "
 "standard."
 
 # type: TP
-#: reportbug.1:394
+#: reportbug.1:405
 #, no-wrap
 msgid "B<-v, --verify>"
 msgstr "B<-v, --verify>"
 
 # type: Plain text
-#: reportbug.1:398
+#: reportbug.1:409
 msgid ""
 "Verify the integrity of the package (if installed) using debsums before "
 "reporting."
@@ -1209,13 +1223,13 @@ msgstr ""
 "de faire le rapport."
 
 # type: TP
-#: reportbug.1:398
+#: reportbug.1:409
 #, no-wrap
 msgid "B<-V VERSION, --package-version=VERSION>"
 msgstr "B<-V VERSION, --package-version=VERSION>"
 
 # type: Plain text
-#: reportbug.1:403
+#: reportbug.1:414
 msgid ""
 "Specify the version of the package the problem was found in.  This is "
 "probably most useful if you are reporting a bug in a package that is not "
@@ -1226,13 +1240,13 @@ msgstr ""
 "un paquet non installable ou installé sur un autre système."
 
 # type: TP
-#: reportbug.1:403
+#: reportbug.1:414
 #, no-wrap
 msgid "B<-x, --no-cc>"
 msgstr "B<-x, --no-cc>"
 
 # type: Plain text
-#: reportbug.1:407
+#: reportbug.1:418
 msgid ""
 "Don't send a blind carbon copy (BCC) of the bug report to the submitter (i."
 "e. yourself)."
@@ -1241,13 +1255,13 @@ msgstr ""
 "d. vous-même)."
 
 # type: TP
-#: reportbug.1:407
+#: reportbug.1:418
 #, no-wrap
 msgid "B<-z, --no-compress>"
 msgstr "B<-z, --no-compress>"
 
 # type: Plain text
-#: reportbug.1:411
+#: reportbug.1:422
 msgid ""
 "Don't compress configuration files by removing comments and blank lines."
 msgstr ""
@@ -1255,30 +1269,30 @@ msgstr ""
 "des commentaires et des lignes blanches."
 
 # type: SH
-#: reportbug.1:411
+#: reportbug.1:422
 #, no-wrap
 msgid "EXAMPLES"
 msgstr "EXEMPLES"
 
 # type: TP
-#: reportbug.1:412
+#: reportbug.1:423
 #, no-wrap
 msgid "B<reportbug lynx-ssl>"
 msgstr "B<reportbug lynx-ssl>"
 
 # type: Plain text
-#: reportbug.1:415
+#: reportbug.1:426
 msgid "Report a bug in the lynx-ssl package."
 msgstr "Signaler un bogue sur le paquet lynx-ssl."
 
 # type: TP
-#: reportbug.1:415
+#: reportbug.1:426
 #, no-wrap
 msgid "B<reportbug --path --file=ls>"
 msgstr "B<reportbug --path --file=ls>"
 
 # type: Plain text
-#: reportbug.1:419
+#: reportbug.1:430
 msgid ""
 "Report a bug in the installed package that includes a program in your path "
 "called B<ls>."
@@ -1287,13 +1301,13 @@ msgstr ""
 "programme nommé B<ls> présent dans votre chemin de recherche."
 
 # type: SH
-#: reportbug.1:419 querybts.1:56
+#: reportbug.1:430 querybts.1:56
 #, no-wrap
 msgid "CONFIGURATION FILES"
 msgstr "FICHIERS DE CONFIGURATION"
 
 # type: Plain text
-#: reportbug.1:430
+#: reportbug.1:441
 msgid ""
 "From version 0.22 on, B<reportbug> has supported a simple run control file "
 "syntax.  Commands are read from B</etc/reportbug.conf> and B<$HOME/."
@@ -1311,7 +1325,7 @@ msgstr ""
 "est considérée comme un commentaire et sera donc ignorée."
 
 # type: Plain text
-#: reportbug.1:436
+#: reportbug.1:447
 #, fuzzy
 msgid ""
 "Generally, options corresponding to the GNU long options for B<reportbug> "
@@ -1324,43 +1338,43 @@ msgstr ""
 "acceptées."
 
 # type: SH
-#: reportbug.1:436 querybts.1:74
+#: reportbug.1:447 querybts.1:74
 #, no-wrap
 msgid "ENVIRONMENT"
 msgstr "VARIABLES D'ENVIRONNEMENT"
 
 # type: TP
-#: reportbug.1:437
+#: reportbug.1:448
 #, no-wrap
 msgid "B<VISUAL>"
 msgstr "B<VISUAL>"
 
 # type: Plain text
-#: reportbug.1:440
+#: reportbug.1:451
 msgid "Editor to use for editing your bug report."
 msgstr "Éditeur à utiliser pour l'édition du rapport de bogue."
 
 # type: TP
-#: reportbug.1:440
+#: reportbug.1:451
 #, no-wrap
 msgid "B<EDITOR>"
 msgstr "B<EDITOR>"
 
 # type: Plain text
-#: reportbug.1:443
+#: reportbug.1:454
 msgid "Editor to use for editing the bug report (overridden by VISUAL)."
 msgstr ""
 "Éditeur à utiliser pour l'édition du rapport de bogue (outrepassé par "
 "VISUAL)."
 
 # type: TP
-#: reportbug.1:443
+#: reportbug.1:454
 #, no-wrap
 msgid "B<EMAIL, REPORTBUGEMAIL, DEBEMAIL>"
 msgstr "B<EMAIL, REPORTBUGEMAIL, DEBEMAIL>"
 
 # type: Plain text
-#: reportbug.1:447
+#: reportbug.1:458
 msgid ""
 "Email address to use as your from address; default is taken from your user "
 "name and /etc/mailname."
@@ -1369,37 +1383,37 @@ msgstr ""
 "adresse est tirée de votre nom d'utilisateur et de /etc/mailname."
 
 # type: TP
-#: reportbug.1:447
+#: reportbug.1:458
 #, no-wrap
 msgid "B<DEBFULLNAME, DEBNAME, NAME>"
 msgstr "B<DEBFULLNAME, DEBNAME, NAME>"
 
 # type: Plain text
-#: reportbug.1:450
+#: reportbug.1:461
 msgid "Real name to use; default is taken from /etc/passwd."
 msgstr "Nom complet à utiliser\\ : il est tiré par défaut de /etc/passwd."
 
 # type: TP
-#: reportbug.1:450
+#: reportbug.1:461
 #, no-wrap
 msgid "B<REPLYTO>"
 msgstr "B<REPLYTO>"
 
 # type: Plain text
-#: reportbug.1:453
+#: reportbug.1:464
 msgid "Address for Reply-To header in outgoing mail."
 msgstr ""
-"Adresse à mettre dans le champ «\\ Répondre à\\ » (Reply-To) dans le "
-"courrier émis."
+"Adresse à mettre dans le champ «\\ Répondre à\\ » (Reply-To) dans le courrier "
+"émis."
 
 # type: TP
-#: reportbug.1:453
+#: reportbug.1:464
 #, no-wrap
 msgid "B<MAILCC>"
 msgstr "B<MAILCC>"
 
 # type: Plain text
-#: reportbug.1:458
+#: reportbug.1:469
 msgid ""
 "Use the specified CC address on your email.  Note you can also use the B<-H> "
 "option for this (and for Bcc's too)."
@@ -1409,13 +1423,13 @@ msgstr ""
 "Cachée (BCC)."
 
 # type: TP
-#: reportbug.1:458
+#: reportbug.1:469
 #, no-wrap
 msgid "B<MAILBCC>"
 msgstr "B<MAILBCC>"
 
 # type: Plain text
-#: reportbug.1:464
+#: reportbug.1:475
 msgid ""
 "Use the specified BCC address, instead of your email address.  (CC and BCC "
 "based on suggestions from Herbert Thielen in the B<bug> wishlist)."
@@ -1425,13 +1439,13 @@ msgstr ""
 "sur les suggestions de Herbert Thielen dans la liste de souhaits de B<bug>)."
 
 # type: TP
-#: reportbug.1:464 querybts.1:81
+#: reportbug.1:475 querybts.1:81
 #, no-wrap
 msgid "B<http_proxy>"
 msgstr "B<http_proxy>"
 
 # type: Plain text
-#: reportbug.1:471 querybts.1:88
+#: reportbug.1:482 querybts.1:88
 msgid ""
 "Provides the address of a proxy server to handle the BTS query.  This should "
 "be a valid B<http> URL for a proxy server, including any required port "
@@ -1444,13 +1458,13 @@ msgstr ""
 "le numéro de port s'il est différent de 80 NE FONCTIONNERA PAS)."
 
 # type: SH
-#: reportbug.1:471 querybts.1:88
+#: reportbug.1:482 querybts.1:88
 #, no-wrap
 msgid "NOTES"
 msgstr "NOTES"
 
 # type: Plain text
-#: reportbug.1:475 querybts.1:92
+#: reportbug.1:486 querybts.1:92
 msgid ""
 "Python's getopt module is pickier than GNU getopt() about the order of "
 "command line arguments; all switches must be specified before the package "
@@ -1461,7 +1475,7 @@ msgstr ""
 "doivent être écrits avant le nom du paquet."
 
 # type: Plain text
-#: reportbug.1:482
+#: reportbug.1:493
 msgid ""
 "B<reportbug> should probably be compatible with other bug tracking systems, "
 "like B<bugzilla> (used by the GNOME and Mozilla projects) and B<jitterbug> "
@@ -1473,13 +1487,13 @@ msgstr ""
 "mais il ne l'est pas."
 
 # type: SH
-#: reportbug.1:482 querybts.1:94
+#: reportbug.1:493 querybts.1:94
 #, no-wrap
 msgid "SEE ALSO"
 msgstr "VOIR AUSSI"
 
 # type: Plain text
-#: reportbug.1:486
+#: reportbug.1:497
 #, fuzzy
 msgid ""
 "reportbug.conf(5), I<http://www.debian.org/Bugs/Developer#tags> for "
@@ -1489,13 +1503,13 @@ msgstr ""
 "disponibles, querybts(1)"
 
 # type: SH
-#: reportbug.1:486 querybts.1:96
+#: reportbug.1:497 querybts.1:96
 #, no-wrap
 msgid "AUTHOR"
 msgstr "AUTEUR"
 
 # type: Plain text
-#: reportbug.1:488 querybts.1:97
+#: reportbug.1:499 querybts.1:97
 msgid "Chris Lawrence E<lt>lawrencc@debian.orgE<gt>."
 msgstr "Chris Lawrence E<lt>lawrencc@debian.orgE<gt>."
 
@@ -1689,6 +1703,13 @@ msgstr ""
 #: querybts.1:96
 msgid "reportbug(1), reportbug.conf(5)"
 msgstr ""
+
+# type: Plain text
+#~ msgid ""
+#~ "Check for newer releases of the package at packages.debian.org (default)."
+#~ msgstr ""
+#~ "Vérifier la présence de nouvelles versions du paquet sur packages.debian."
+#~ "org (comportement par défaut)."
 
 # type: TH
 #~ msgid "reportbug(1)"
