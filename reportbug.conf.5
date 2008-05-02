@@ -1,0 +1,256 @@
+.\" 
+.\" reportbug.conf manual page Written by Y Giridhar Appaji Nag 
+.\" Copyright (c) 2007 Y Giridhar Appaji Nag <giridhar@appaji.net>
+.\" 
+.\" This manual page is distributable under the following license:
+.\" 
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appears in all copies and that
+.\" both that copyright notice and this permission notice appear in
+.\" supporting documentation.
+.\" 
+.\" I DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL I
+.\" BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
+.\" DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+.\" SOFTWARE.
+.\" 
+.\" $Id: reportbug.conf.5,v 1.1.2.2 2008-04-18 05:38:28 lawrencc Exp $
+.\" 
+.TH REPORTBUG.CONF 5 "Dec 2007" "reportbug 3.39"
+.SH NAME
+.B reportbug.conf
+- The configuration file for reportbug
+.SH SYNOPSIS
+.B /etc/reportbug.conf
+- The configuration file for reportbug, a program designed to report bugs in the
+Debian distribution
+.hw config
+.SH DESCRIPTION
+This manual page describes the layout of the
+.B reportbug(1)
+configuration file and the available configuration options.  The default
+location of the file is
+.B /etc/reportbug.conf
+and the options may be overriding in
+.B $HOME/.reportbugrc
+-- which follows the same format as
+.B reportbug.conf
+.SH "FILE FORMAT"
+Configuration options can be specified in the form
+
+\fIoption-name\fP \fIoption-value\fP
+
+True/false (boolean) options can be specified as
+
+\fIboolean-option\fP
+
+Usually, \fIno-option\fP will disable
+\fIoption\fP if \fIoption\fP is boolean.
+
+Options can be specified in any order.
+.SH OPTIONS
+The summary of possible options (in alphabetical order) is as follows:
+.TP
+.B af
+Use the
+.B af
+mailer
+.TP
+.B bts
+The bug tracking system to use, see
+.B reportbug --bts help
+for a list of currently supported BTSes
+.TP
+.B cc (\fIboolean\fP)
+Whether the reporter should be Cc:ed on the bug report
+.TP
+.B check-available (\fIboolean\fP)
+Whether \fBpackages.debian.org\fP should be queried for newer releases
+of the package.  In \fBadvanced\fP and \fBexpert\fP mode,
+\fBincoming.debian.org\fP and
+\fBhttp://ftp-master.debian.org/new.html\fP are also checked.
+.TP
+.B compress (\fIboolean\fP)
+Whether modified configuration files included in the bug report should
+be stripped down
+.TP
+.B config-files (\fIboolean\fP)
+Whether modified configuration files should be included with the bug
+report
+.TP
+.B editor
+The editor to use to edit the bug report
+
+\fIeditor "emacs -nw"\fP
+
+.TP
+.B email
+Default "From:" address of the bug email (override with environment
+variables, see
+.B reportbug(1))
+
+\fIemail "humberto@example.com"\fP
+
+.TP
+.B header
+Additional headers to add to the bug email.  Like:
+
+\fIheader "X-Debbugs-CC: debian-qa@lists.debian.org"\fP
+.br
+\fIheader "X-Silly-Header: I haven't edited my /etc/reportbug.conf"\fP
+.br
+\fIheader "X-Debbugs-No-Ack: please" # to suppress acknowledgments\fP
+
+.TP
+.B http_proxy
+Default HTTP proxy used to query the BTS (override with environment
+variables, see
+.B reportbug(1))
+
+\fIhttp_proxy http://proxy.example.com:3128/\fP
+
+.TP
+.B maintonly
+See the
+.B --maintonly
+entry in
+.B reportbug(1)
+.TP
+.B mh
+Use the
+.B mh
+mailer
+.TP
+.B mode [\fInovice\fP|\fIstandard\fP|\fIadvanced\fP|\fIexpert\fP]
+The default operating mode for
+.B reportbug(1)
+.TP
+.B mta
+The path to the MTA used.  Any any SMTP server on Debian should be OK
+with the default
+
+\fImta /usr/sbin/sendmail\fP
+
+.TP
+.B mua
+The mailer to use (the default is empty, to use an internal mailer).
+Takes an argument like that to
+.B --mua
+in
+.B reportbug(1)
+
+\fImua 'mutt -H'\fP
+
+.TP
+.B mutt
+Use the
+.B mutt
+mailer
+.TP
+.B nmh
+Use the
+.B nmh
+mailer
+.TP
+.B no-check-uid (\fIboolean\fP)
+Disables checking whether the UIDs are outside admin range (\fIroot\fP
+is still checked)
+.TP
+.B no-debconf (\fIboolean\fP)
+Disables adding the
+.B debconf-show
+output to the bug report
+.TP
+.B no-query-source (\fIboolean\fP)
+Disables querying the source packages for bugs
+.TP
+.B offline
+Disables all external queries
+.TP
+.B query-bts (\fIboolean\fP)
+Whether the BTS should be queried for existing bug reports
+.TP
+.B quiet
+See the
+.B --report-quiet
+entry in
+.B reportbug(1)
+.TP
+.B realname
+The default real-name in the "From:" address of the bug email
+(override with environment variables.  See
+.B reportbug(1))
+
+\fIrealname "Humberto Flores III"\fP
+
+.TP
+.B replyto
+The default "Reply-To:" in the bug email (override with environment
+variables.  See
+.B reportbug(1))
+
+\fIreplyto "Humberto Flores <humflores@example.org>"\fP
+
+.TP
+.B severity [\fIcritical\fP|\fIgrave\fP|\fIserious\fP|\fIimportant\fP|\fIdoes-not-build\fP|\fInormal\fP|\fIminor\fP|\fIwishlist\fP]
+The default severity level of the bug reported.  Setting this in the
+configuration file will disable prompting while running
+.B reportbug
+.TP
+.B sign [\fIgpg\fP|\fIpgp\fP]
+Program used to digitally sign bug reports automatically
+.TP
+.B smtphost
+Use an MTA different from /usr/sbin/sendmail.  A port number other than
+25 can also be specified
+
+\fIsmtphost mail.example.com:2525\fP
+
+Use \fIsmtphost localhost\fP to enable the internal MTA
+
+.TP
+.B smtppasswd
+The password to use for SMTP
+
+\fIsmtppasswd f10r35\fP
+
+.TP
+.B smtpuser
+The username to use for SMTP
+
+\fIsmtpuser hflores\fP
+
+.TP
+.B smtptls
+Enables TLS encryption
+.TP
+.B submit
+Use \fIsubmit\fP as the bug submission address
+.TP
+.B template
+Use the template mode, bypasses all prompts and the output it sent to
+stdout
+.TP
+.B ui [\fItext\fP|\fInewt\fP]
+The user interface that
+.B querybts(1)
+and
+.B reportbug(1)
+should use
+.TP
+.B verify
+Enables automatic verification of package installation before reporting
+using debsums, if available
+.SH "SEE ALSO"
+reportbug(1), querybts(1)
+.SH AUTHOR
+reportbug was written by Chris Lawrence <lawrencc@debian.org>
+.PP
+This manual page was written by Y Giridhar Appaji Nag
+<giridhar@appaji.net> for the Debian project, but may be used by others.
+.PP
+Last modified: 2007-12-20 by Y Giridhar Appaji Nag
