@@ -18,7 +18,7 @@
 ##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 ##  SOFTWARE.
 #
-# $Id: reportbug_ui_text.py,v 1.20 2006-08-25 01:33:40 lawrencc Exp $
+# $Id: reportbug_ui_text.py,v 1.19.2.9 2008-04-18 05:38:28 lawrencc Exp $
 
 import commands, sys, os, re, math, string, debianbts, errno, reportbug
 from reportbug_exceptions import *
@@ -33,6 +33,7 @@ except:
     from optik import textwrap
 
 ISATTY = sys.stdin.isatty()
+charset = 'us-ascii'
 
 try:
     r, c = commands.getoutput('stty size').split()
@@ -45,9 +46,12 @@ def ewrite(message, *args):
         return
 
     if args:
-        sys.stderr.write(message % args)
-    else:
-        sys.stderr.write(message)
+        message = message % args
+
+    if isinstance(message, unicode):
+        message = message.encode(charset, 'replace')
+
+    sys.stderr.write(message)
     sys.stderr.flush()
 
 log_message = ewrite
@@ -209,14 +213,22 @@ def get_string(prompt, options=None, title=None, force_prompt=False,
     if prompt and (len(prompt) < 2*columns/3) and not force_prompt:
         if default:
             prompt = '%s [%s]: ' % (prompt, default)
-            return our_raw_input(prompt, options, completer) or default
-        return our_raw_input(prompt, options, completer)
+            response = our_raw_input(prompt, options, completer) or default
+        else:
+            response = our_raw_input(prompt, options, completer)
     else:
         if prompt:
             ewrite(indent_wrap_text(prompt))
         if default:
-            return our_raw_input('[%s]> ' % default, options, completer) or default
-        return our_raw_input('> ', options, completer)
+            response = our_raw_input('[%s]> ' % default, options, completer) or default
+        else:
+            response = our_raw_input('> ', options, completer)
+
+    # Translate the response into a Unicode string
+    if response is not None:
+        response = unicode(response, charset, 'replace')
+
+    return response
 
 def get_multiline(prompt):
     ewrite('\n')
@@ -400,10 +412,7 @@ def show_report(number, system, mirrors,
                     raise
         skip_pager = False
 
-        if queryonly:
-            options = 'Orbq'
-        else:
-            options = 'xOrbq'
+        options = 'xOrbq'
             
         if (current_message+1) < len(messages):
             options = 'N'+options.lower()
@@ -496,8 +505,9 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
         return browse_bugs(hierarchy, count, bugs, bts, queryonly,
                            mirrors, http_proxy, screen, title)
 
-    except IOError:
-        res = select_options('Unable to connect to BTS; continue', 'yN',
+    except (IOError, NoNetwork):
+        ewrite('Unable to connect to %s BTS; ', debianbts.SYSTEMS[bts]['name'])
+        res = select_options('continue', 'yN',
                              {'y': 'Keep going.',
                               'n': 'Abort.'})
         if res == 'n':
@@ -892,7 +902,7 @@ def spawn_editor(message, filename, editor, charset='utf-8'):
     if ourline:
         if edname in ('vi', 'nvi', 'vim', 'elvis', 'gvim', 'kvim'):
             opts = '-c :%d' % ourline
-        elif (edname in ('elvis-tiny', 'gnuclient', 'ee', 'pico', 'nano') or
+        elif (edname in ('elvis-tiny', 'gnuclient', 'ee', 'pico', 'nano', 'zile') or
               'emacs' in edname):
             opts = '+%d' % ourline
         elif edname in ('jed', 'xjed'):

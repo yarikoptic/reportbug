@@ -2,7 +2,7 @@
 #
 # reportbug_submit module - email and GnuPG functions
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2005 Chris Lawrence
+#   Copyright (C) 1999-2006 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,7 +22,7 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: reportbug_submit.py,v 1.21 2006-08-25 01:33:40 lawrencc Exp $
+# $Id: reportbug_submit.py,v 1.20.2.6 2007-04-19 21:21:31 lawrencc Exp $
 
 import sys
 
@@ -104,6 +104,7 @@ def rfc2047_encode_address(addr, charset, mua=None):
 
 def rfc2047_encode_header(header, charset, mua=None):
     if mua: return header
+    #print repr(header), repr(charset)
 
     return encode_if_needed(header, charset)
 
@@ -158,12 +159,12 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
         body = None
     return body
 
-def mime_attach(body, attachments, charset):
+def mime_attach(body, attachments, charset, body_charset=None):
     import mimetypes
     mimetypes.init()
 
     message = MIMEMultipart('mixed')
-    bodypart = BetterMIMEText(body, _charset=charset)
+    bodypart = BetterMIMEText(body, _charset=(body_charset or charset))
     bodypart.add_header('Content-Disposition', 'inline')
     message.preamble = 'This is a multi-part MIME message sent by reportbug.\n\n'
     message.epilogue = ''
@@ -245,14 +246,26 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
     if mua and smtphost:
         smtphost = ''
 
+    # No, I'm not going to do a full MX lookup on every address... get a
+    # real MTA!
+    if kudos and smtphost == 'bugs.debian.org':
+        smtphost = 'packages.debian.org'
+
+    body_charset = charset
+    if isinstance(body, unicode):
+        # Since the body is Unicode, utf-8 seems like a sensible body encoding
+        # to choose pretty much all the time.
+        body = body.encode('utf-8', 'replace')
+        body_charset = 'utf-8'
+
     tfprefix = tempfile_prefix(package)
     if attachments and not mua:
-        (message, failed) = mime_attach(body, attachments, charset)
+        (message, failed) = mime_attach(body, attachments, charset, body_charset)
         if failed:
             ewrite("Error: Message creation failed, not sending\n")
             mua = mta = smtphost = None
     else:
-        message = BetterMIMEText(body, _charset=charset)
+        message = BetterMIMEText(body, _charset=body_charset)
 
     # Standard headers
     message['From'] = rfc2047_encode_address(fromaddr, 'utf-8', mua)
@@ -351,21 +364,27 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         smtp_message = re.sub(r'(?m)^[.]', '..', message)
 
         tryagain = True
+        refused = None
         while tryagain:
             tryagain = False
             ewrite("Connecting to %s via SMTP...\n", smtphost)
             try:
                 conn = smtplib.SMTP(smtphost)
+                response = conn.ehlo()
+                if not (200 <= response[0] <= 299):
+                    conn.helo()
                 if smtptls:
                     conn.starttls()
-                    conn.ehlo()
+                    response = conn.ehlo()
+                    if not (200 <= response[0] <= 299):
+                        conn.helo()
                 if smtpuser:
                     if not smtppasswd:
                         smtppasswd = ui.get_password(
                             'Enter SMTP password for %s@%s: ' %
                             (smtpuser, smtphost))
                     conn.login(smtpuser, smtppasswd)
-                conn.sendmail(fromaddr, toaddrs, smtp_message)
+                refused = conn.sendmail(fromaddr, toaddrs, smtp_message)
                 conn.quit()
             except (socket.error, smtplib.SMTPException), x:
                 # If wrong password, try again...
@@ -383,6 +402,16 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 fh.close()
 
                 ewrite('Wrote bug report to %s\n', msgname)
+        # Handle when some recipients are refused.
+        if refused:
+            for (addr, err) in refused.iteritems():
+                ewrite('Unable to send report to %s: %d %s\n', addr, err[0],
+                       err[1])
+            fh, msgname = TempFile(prefix=tfprefix)
+            fh.write(message)
+            fh.close()
+
+            ewrite('Wrote bug report to %s\n', msgname)
     else:
         try:
             pipe.write(message)

@@ -1,8 +1,7 @@
-#
 # debianbts.py - Routines to deal with the debbugs web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2006 Chris Lawrence
+#   (C) 1999-2007 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -22,10 +21,9 @@
 #
 # Version ##VERSION##; see changelog for revision history
 #
-# $Id: debianbts.py,v 1.24.2.15 2008-04-18 05:38:27 lawrencc Exp $
+# $Id: debianbts.py,v 1.1.2.1 2007-09-04 04:17:13 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
-from reportbug_exceptions import *
 from urlutils import open_url
 import sys
 
@@ -34,6 +32,8 @@ import email
 import email.Errors
 import cStringIO
 import cgi
+
+from btsutils.debbugs import debbugs
 
 def msgfactory(fp):
     try:
@@ -156,7 +156,7 @@ debother = {
     'cdrom' : 'Problems with installation from CD-ROMs',
 # dpkg-iwj -- The dpkg branch maintained by Ian Jackson
     'debian-policy' : 'Proposed changes in the Debian policy documentation',
-    'ftp.debian.org' : 'Problems with the FTP site and Package removal requests',
+    'ftp.debian.org' : 'Problems with the FTP site',
     'general' : 'General problems (e.g., that many manpages are mode 755)',
 #    'install' : 'Problems with the sarge installer.',
 #    'installation' : 'General installation problems not covered otherwise.',
@@ -182,125 +182,6 @@ debother = {
 progenyother = {
     'debian-general' : 'Any non-package-specific bug',
     }
-
-def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
-    body = reason = archs = ''
-    suite = 'unstable'
-    headers = []
-    pseudos = []
-    query = True
-    
-    tag = ui.menu('What sort of request is this?  (If none of these '
-                  'things mean anything to you, or you are trying to report '
-                  'a bug in an existing package, please press Enter to '
-                  'exit reportbug.)', {
-        'ROM' :
-        "Package removal - Request Of Maintainer.",
-        'RoQA' :
-        "Package removal - Requested by the QA team.",
-        'ROP' :
-        "Package removal - Request of Porter.",
-        'ROSRM' :
-        "Package removal - Request of Stable Release Manager.",
-        'NBS' :
-        "Package removal - Not Built [by] Source.",
-        'NPOASR' :
-        "Package removal - Never Part Of A Stable Release.",
-        'NVIU' :
-        "Package removal - Newer Version In Unstable.",
-        'ANAIS' :
-        "Package removal - Architecture Not Allowed In Source.",
-        'ICE' :
-        "Package removal - Internal Compiler Error.",
-        '[cruft-report]' :
-        "Package removal - detected by the cruft finder script.",
-        'other' :
-        "Not a package removal request, report other problems.",
-        }, 'Choose the request type: ', empty_ok=True)
-    if not tag:
-        ui.long_message('To report a bug in a package, use the name of the package, not ftp.debian.org.\n')
-        raise SystemExit
-
-    severity = 'normal'
-    if tag == 'other':
-        return
-    else:
-        prompt = 'Please enter the name of the package: '
-        package = ui.get_string(prompt)
-        if not package:
-            ui.ewrite('You seem to want to report a generic bug, not request a removal\n')
-            return
-
-        ui.ewrite('Checking status database...\n')
-        info = reportbug.get_package_status(package)
-        available = info[1]
-
-        query = False
-        if not available:
-            info = reportbug.get_source_package(package)
-            if info:
-                info = reportbug.get_package_status(info[0][0])
-
-        if not info:
-            cont = ui.select_options(
-                "This package doesn't appear to exist; continue?",
-                'yN', {'y': 'Ignore this problem and continue.',
-                       'n': 'Exit without filing a report.' })
-            if cont == 'n':
-                sys.exit(1)
-        else:
-            package = info[12] or package
-
-        suite = ui.menu('Is the removal to be done in a suite other than'
-                        ' "unstable"?  Please press Enter for "unstable"', {
-            'oldstable' : "Old stable.",
-            'oldstable-proposed-updates' : "Old stable proposed updates.",
-            'stable' : "Stable.",
-            'stable-proposed-updates' : "Stable proposed updates.",
-            'testing' : "Testing",
-	    'testing-proposed-updates' : "Testing proposed updates",
-            'experimental' : "Experimental.",
-        }, 'Choose the suite: ', empty_ok=True)
-        if not suite:
-            suite = 'unstable'
-
-        if suite not in ('testing', 'unstable', 'experimental'):
-            headers.append('X-Debbugs-CC: debian-release@lists.debian.org')
-            ui.ewrite('Your report will be carbon-copied to debian-release.\n')
-
-        why = 'Please enter the reason for removal: '
-        reason = ui.get_string(why)
-        if not reason: return
-
-        partial = ui.select_options(
-            "Is this removal request for specific architectures?",
-            'yN', {'y': 'This is a partial (specific architectures) removal.',
-                   'n': 'This removal is for all architectures.' })
-        if partial == 'y':
-            prompt = 'Please enter the arch list separated by a space: '
-            archs = ui.get_string(prompt)
-            if not archs:
-                ui.long_message('Partial removal requests must have a list of architectures.\n')
-                raise SystemExit
-
-    if archs:
-        if suite != 'unstable':
-            subject = 'RM: %s/%s [%s] -- %s; %s' % (package, suite, archs, tag, reason)
-        else:
-            subject = 'RM: %s [%s] -- %s; %s' % (package, archs, tag, reason)
-    else:
-        if suite != 'unstable':
-            subject = 'RM: %s/%s -- %s; %s' % (package, suite, tag, reason)
-        else:
-            subject = 'RM: %s -- %s; %s' % (package, tag, reason)
-
-    if suite == 'testing':
-        ui.ewrite('Please use the following subject and send a mail to '
-                  'debian-release@lists.debian.org to request removal.\n')
-        ui.ewrite(subject)
-        sys.exit(1)
-
-    return (subject, severity, headers, pseudos, body, query)
 
 def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     desc = body = ''
@@ -430,9 +311,7 @@ SYSTEMS = { 'debian' :
               'btsroot' : 'http://www.debian.org/Bugs/',
               'otherpkgs' : debother,
               'nonvirtual' : ['linux-image', 'kernel-image'],
-              'specials' :
-                { 'wnpp': handle_wnpp,
-                  'ftp.debian.org': handle_debian_ftp },
+              'specials' : { 'wnpp': handle_wnpp },
               # Dependency packages
               'deppkgs' : ('gcc', 'g++', 'cpp', 'gcj', 'gpc', 'gobjc',
                            'chill', 'gij', 'g77', 'python', 'python-base',
@@ -444,15 +323,6 @@ SYSTEMS = { 'debian' :
             'mandrake' :
             { 'name' : 'Linux-Mandrake', 'email': '%s@bugs.linux-mandrake.com',
               'type' : 'mailto', 'query-dpkg' : False },
-            'gnome' :
-            { 'name' : 'GNOME Project', 'email': '%s@bugs.gnome.org',
-              'type' : 'mailto', 'query-dpkg' : False },
-            'ximian' :
-            { 'name' : 'Ximian', 'email': '%s@bugs.ximian.com',
-              'type' : 'mailto' },
-            'progeny' :
-            { 'name' : 'Progeny', 'email' : 'bugs@progeny.com',
-              'type' : 'gnats', 'otherpkgs' : progenyother },
             'ubuntu' :
             { 'name' : 'Ubuntu', 'email' : 'ubuntu-users@lists.ubuntu.com',
               'type' : 'mailto' },
@@ -464,8 +334,6 @@ SYSTEMS = { 'debian' :
               'btsroot' : 'http://bugs.grml.org/',
               'cgiroot' : 'http://bugs.grml.org/cgi-bin/' },
             }
-
-SYSTEMS['helixcode'] = SYSTEMS['ximian']
 
 CLASSES = {
     'sw-bug' : 'The problem is a bug in the software or code.  For'
@@ -885,12 +753,8 @@ def parse_mbox_report(number, url, http_proxy, followups=False):
 
 def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
                     source=False, version=None):
-    try:
-        page = open_url(cgi_package_url(system, package, archived, source,
+    page = open_url(cgi_package_url(system, package, archived, source,
                                     version=version), http_proxy)
-    except:
-        raise NoNetwork
-
     if not page:
         return (0, None, None)
 
@@ -935,19 +799,17 @@ def get_btsroot(system, mirrors=None):
 def get_reports(package, system='debian', mirrors=None, version=None,
                 http_proxy='', archived=False, source=False):
     if isinstance(package, basestring):
+        if system == 'debian':
+            result = debbugs_query(package, source=False)
+            if result: return result
+        
         if SYSTEMS[system].get('cgiroot'):
-            try:
-                result = get_cgi_reports(package, system, http_proxy, archived,
+            result = get_cgi_reports(package, system, http_proxy, archived,
                                      source, version=version)
-            except:
-                raise NoNetwork
             if result: return result
 
         url = package_url(system, package, mirrors, source)
-        try:
-            page = open_url(url, http_proxy)
-        except:
-            raise NoNetwork
+        page = open_url(url, http_proxy)
         if not page:
             return (0, None, None)
 
@@ -986,7 +848,15 @@ def get_reports(package, system='debian', mirrors=None, version=None,
 
 def get_report(number, system='debian', mirrors=None,
                http_proxy='', archived=False, followups=False):
-    number = int(number)
+    try:
+        number = int(number)
+    except ValueError:
+        return None
+        
+    if system == 'debian':
+        result = debbugs_get(number, source=False)
+        if result: return result
+
     if SYSTEMS[system].get('cgiroot'):
         result = get_cgi_report(number, system, http_proxy, archived,
                                 followups)
@@ -1001,9 +871,44 @@ class NullParser(sgmllib.SGMLParser):
     def __init__(self):
         sgmllib.SGMLParser.__init__(self)
 
+## Tools for using the python-btsutils package
+## Still needs version support to be useful, alas...
+def debbugs_query(querystr, source=False):
+    if 1:
+        return None
+    
+    bts = debbugs()
+    if source:
+        q = 'src:'+querystr
+    else:
+        q = 'pkg:'+querystr
+
+    try:
+        bugs = bts.query(q)
+    except:
+        return None
+
+    print bugs
+    # Transform to format used elsewhere in reportbug
+    
+    return bugstruct
+
+def debbugs_get(number):
+    bts = debbugs()
+    try:
+        bug = bts.get(number)
+    except:
+        return get_cgi_report(number)
+    #print bug
+    cgirep = get_cgi_report(number)
+
+    return (cgirep[0], [str(bug)]+cgirep[1])
+
 if __name__ == '__main__':
     import pprint
 
-    data = get_cgi_reports('reportbug')
+    #data = get_reports('reportbug')
+    #data = debbugs_get(400000)
+    data = debbugs_query('reportbug')
     pprint.pprint(data)
     time.sleep(1000)

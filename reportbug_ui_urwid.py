@@ -22,25 +22,24 @@
 # (LGPL) Version 2.1 or later.  On Debian systems, this license is available
 # in /usr/share/common-licenses/LGPL
 #
-# $Id: reportbug_ui_urwid.py,v 1.6 2006-08-25 01:33:40 lawrencc Exp $
+# $Id: reportbug_ui_urwid.py,v 1.3.2.19 2007-04-17 20:02:41 lawrencc Exp $
 
 import commands, string, sys, re
+from reportbug_exceptions import *
 
 try:
     import urwid.raw_display
     import urwid
 except ImportError:
-    print >> sys.stderr, 'Please install the python-urwid package to use this interface.'
-    sys.exit(1)
+    raise UINotImportable, 'Please install the python-urwid package to use this interface.'
 
 import reportbug
 
-from reportbug_exceptions import *
 from urlutils import launch_browser
 
 ISATTY = sys.stdin.isatty()
 
-from reportbug_ui_text import spawn_editor, ewrite
+from reportbug_ui_text import spawn_editor, ewrite, get_password
 
 log_message = ewrite
 display_failure = ewrite
@@ -141,7 +140,7 @@ class dialog(object):
         raise buttonpush, button.exitcode
 
     def run(self):
-        self.ui.set_mouse_tracking()
+        #self.ui.set_mouse_tracking()
         size = self.ui.get_cols_rows()
         try:
             while True:
@@ -204,7 +203,9 @@ class displaybox(dialog):
             self.ui = initialize_urwid_ui()
         size = self.ui.get_cols_rows()
         canvas = self.view.render( size, focus=True )
+        self.ui.start()
         self.ui.draw_screen( size, canvas )
+        self.ui.stop()
 
 class textentry(dialog):
     def __init__(self, text, width=None, height=None, multiline=False,
@@ -225,13 +226,13 @@ class textentry(dialog):
 
 class listdialog(dialog):
     def __init__(self, text, widgets, has_default=False, width=None,
-                 height=None, title=''):
+                 height=None, title='', buttonwidth=12):
         l = []
         self.items = []
         for (w, label) in widgets:
             self.items.append(w)
             if label:
-                w = urwid.Columns( [('fixed', 12, w), 
+                w = urwid.Columns( [('fixed', buttonwidth, w), 
                                     urwid.Text(label)], 2 )
             w = urwid.AttrWrap(w, 'selectable','focus')
             l.append(w)
@@ -336,13 +337,13 @@ def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
     return result
 
 def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
-    box = dialog('', long_message=msg, title=reportbug.VERSION)
+    box = dialog('', long_message=msg+"?", title=reportbug.VERSION)
     box.add_buttons([ ('Yes', True), ('No', False) ], default=1-int(default))
     result = box.main(ui)
     return result
 
 def get_string(prompt, options=None, title=None, force_prompt=False,
-               default=None, ui=None):
+               default='', ui=None):
     if title:
         title = '%s: %s' % (reportbug.VERSION, title)
     else:
@@ -369,8 +370,6 @@ def get_multiline(prompt, options=None, title=None, force_prompt=False,
 def menu(par, options, prompt, default=None, title=None, any_ok=False,
          order=None, extras=None, multiple=False, empty_ok=False, ui=None,
          oklabel='Ok', cancellabel='Cancel', quitlabel=None):
-    selected = {}
-
     if not extras:
         extras = []
     else:
@@ -424,7 +423,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
             box.add_buttons( [(oklabel, 0), (cancellabel, -1)] )
         result, chosen = box.main(ui)
         if result < 0:
-            return result
+            return []
         return chosen
 
     # Single menu option only
@@ -445,16 +444,16 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
             b = urwid.AttrWrap( b, 'selectable','focus' )
         widgets.append((b, desc))
     
-    if any_ok:
-        editbox = urwid.Edit(multiline=multiline)
-        e = urwid.ListBox([editbox])
-        e = urwid.AttrWrap(e, 'selectable', 'focustext')
-        e = urwid.Pile( [('fixed', 1, e)] )
-        e = urwid.Filler(body)
-        widgets.append(e)
+##     if any_ok:
+##         editbox = urwid.Edit(multiline=False)
+##         e = urwid.ListBox([editbox])
+##         e = urwid.AttrWrap(e, 'selectable', 'focustext')
+##         e = urwid.Pile( [('fixed', 1, e)] )
+##         e = urwid.Filler(e)
+##         widgets.append((e, None))
 
     box = listdialog(par, widgets, height=('relative', 80),
-                     title=title)
+                     title=title, buttonwidth=12)
     if quitlabel:
         box.add_buttons( [(oklabel, 0), (cancellabel, -1), (quitlabel, -2)] )
     else:
@@ -501,11 +500,9 @@ def show_report(number, system, mirrors,
         long_message('Bug report #%d not found.', number, title=title, ui=ui)
         return
 
-    options = dict(o='Ok', d='More details (launch browser)', q='Quit')
-    valid = 'Odq'
-    if not queryonly:
-        options['m'] = 'Submit more information'
-        valid = 'Odmq'
+    options = dict(o='Ok', d='More details (launch browser)',
+                   m='Submit more information', q='Quit')
+    valid = 'Odmq'
     
     while 1:
         (bugtitle, bodies) = info
@@ -575,10 +572,14 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                 bcount = len(bugs)
                 buglist.append( ('---', t) )
                 for bug in bugs:
-                    bits = bug[1:].split('[: ]', 1)
-                    tag, info = bits
-                    info = info.strip()
-                    if not info:
+                    bits = re.split(r'[: ]', bug[1:], 1)
+                    if len(bits) > 1:
+                        tag, info = bits
+                        info = info.strip()
+                        if not info:
+                            info = '(no subject)'
+                    else:
+                        tag = bug[1:]
                         info = '(no subject)'
                     buglist.append( (tag, info) )
 

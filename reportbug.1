@@ -35,7 +35,7 @@ A summary of options are included below.
 .B \-h, \-\-help
 Show summary of options.
 .TP
-.B \-v, \-\-version
+.B \-\-version
 Show the version of
 .B reportbug
 and exit.
@@ -97,7 +97,10 @@ This will erase any pre-existing settings in the file; however, a
 backup will be written as .reportbugrc~.
 .TP
 .B \-\-check\-available
-Check for newer releases of the package at packages.debian.org (default).
+Check for newer releases of the package at packages.debian.org
+(default).  In \fBadvanced\fP and \fBexpert\fP mode, check
+\fBincoming.debian.org\fP and
+\fBhttp://ftp-master.debian.org/new.html\fP.
 .TP
 .B \-\-no\-check\-available
 Do not check for newer releases of the package at packages.debian.org.
@@ -306,6 +309,14 @@ behind a firewall.  The PROXY argument should be formatted as a valid
 HTTP URL, including (if necessary) a port number; for example,
 \fBhttp://192.168.1.1:3128/\fP.
 .TP
+.B \-P PSEUDO-HEADER, \-\-pseudo\-header=PSEUDO-HEADER
+Add a custom pseudo-header to your email; for example, to add the
+.I mytag
+usertag for the user
+.I humberto@example.com
+to the bug, you could use
+.I \-P 'User: humberto@example.com' \-P 'Usertags: mytag'
+.TP
 .B \-q, \-\-quiet
 Suppress diagnostic messages to standard error.
 .TP
@@ -430,8 +441,8 @@ with # is taken to be a comment and will be ignored.
 
 Generally, options corresponding to the GNU long options for
 .B reportbug
-are supported, without leading \-\- sequences.  See the default
-.B /etc/reportbug.conf
+are supported, without leading \-\- sequences.  See 
+.B reportbug.conf(5)
 for all acceptable options.
 .SH ENVIRONMENT
 .TP
@@ -480,7 +491,9 @@ should probably be compatible with other bug tracking systems, like
 .B jitterbug
 (used by Samba, AbiSource and FreeCiv) but it isn't.
 .SH "SEE ALSO"
-http://www.debian.org/Bugs/Developer#tags for available tags, querybts(1)
+reportbug.conf(5),
+.I http://www.debian.org/Bugs/Developer#tags
+for available tags, querybts(1)
 .SH AUTHOR
 Chris Lawrence <lawrencc@debian.org>.
 

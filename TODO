@@ -1,18 +1,25 @@
 reportbug now has public CVS read access at:
 
-http://cvs.alioth.debian.org/cgi-bin/cvsweb.cgi/reportbug/
+http://alioth.debian.org/plugins/scmcvs/cvsweb.php/?cvsroot=reportbug
 
 --
 
-Silly TODO list for 3.0 (possibly etch, depending on RM's mood):
+Silly TODO list for reportbug 4.0 (lenny):
 
-1. Document reportbug.conf properly in a man page.
+0. Use debian-btsutils instead of debianbts.py for BTS queries.
 
-Silly TODO list for 4.0 (etch+1), in no particular order:
+1. Proper GNOME interface.  My current thinking is to hack the
+   bug-buddy Glade file to pieces, or do something similar in straight
+   PyGTK, and give up on the whole "UI abstraction" nonsense for now.
 
-1. Convert the modules to a proper package and stick it in the Python
+   (To give you an idea of the limitations of the GNOME Druid widget,
+   bug-buddy doesn't even use a Druid... instead, it's a giant
+   notebook hack that emulates a Druid in appearance.)
+
+2. Convert the modules to a proper package and stick it in the Python
    search path (per #157079).  Reform the names.  Rename
-   "reportbug.py" to something sensible.
+   "reportbug.py" to something sensible.  This probably has to be done
+   before #1 can happen.
 
    (Not sure of a good approach here.  Maybe we should have a class
    that carries around all the information for a bug report, and be
@@ -20,7 +27,7 @@ Silly TODO list for 4.0 (etch+1), in no particular order:
    when we go talking to external tools like dpkg, debconf-show,
    debsums, etc.)
 
-2. BTS management interface for developers.  You should be able to
+3. BTS management interface for developers.  You should be able to
    view the list of bug reports for a package, construct a list of
    actions, and produce one giant email to control@bugs.debian.org to
    do that.  Forwarding and merging, which both can be major PITAs,
@@ -28,26 +35,29 @@ Silly TODO list for 4.0 (etch+1), in no particular order:
 
    ("devscripts" has the bts command.  This is hence a very low priority.)
 
-3. i18n/l10n.
+4. i18n/l10n.
 
    (i18n/l10n with reportbug may not make much sense, since the
    reports have to be in English for most maintainers to understand
    them... unless we figure out some way to get bug reports translated
    for maintainers.)
 
-4. Cajole the BTS maintainers into producing an XML serialization of
-   the BTS data.  (See #184983)
+5. Convert BTS code to use the mbox-format reports if available, as
+   they should be easier to parse.
 
-5. Allow followups from the command line using a specific bug number,
+6. Alternatively, cajole the BTS maintainers into producing an XML
+   serialization of the BTS data.  (See #184983)
+
+7. Allow followups from the command line using a specific bug number,
    rather than requiring people to go through the browser.  Coupled
    with --query-only, this should allow me to drop querybts
    completely.  (See #223335)
 
-6. Optionally display changelogs for new upstream versions.
-   (See: #241552)  Better yet, show bugs fixed between current version
-   installed first in the BTS browser.
+8. Optionally display changelogs for new upstream versions.
+   (See: #241552)  Perhaps it should cooperate with apt-listchanges
+   somehow to do this?
 
-7. Improve MUA code to allow arbitrary arguments to MUAs; see #271084.
+9. Improve MUA code to allow arbitrary arguments to MUAs; see #271084.
 
-8. Multiple BTS support (again), which probably means "Bugzilla
-   support" for Ubuntu, etc.
+10. Multiple BTS support (again), which probably means "Bugzilla
+    support" for Ubuntu, etc.

@@ -1,9 +1,239 @@
-reportbug (3.99.1) experimental; urgency=low
+reportbug (3.39-0.1) unstable; urgency=low
 
-  * Start experimental fork of reportbug for 4.0 (likely post-etch).
-  * Incorporate changes from reportbug 3.27-3.29.1.
+  * Non-maintainer upload
+  * Add templates for ftp.debian.org removal (RM) requests (Closes: #459333)
+  * Add a -P option to allow setting pseudo-headers, useful for setting
+    usertags.  Thanks Lucas Nussbaum <lucas@lucas-nussbaum.net> for the patch
+    (Closes: #445144)
+  * Raise an error and indicate to the user in case of any network errors
+    (Closes: #302103)
+  * CC: secure-testing-team@lists.alioth.debian.org when a security issue is
+    reported (Closes: #448874)
+  * Indicate that in mode > standard incoming and NEW are also checked with
+    --check-available (Closes: #450523, #447380)
 
- --
+ -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Sat, 22 Mar 2008 15:33:23 +0530
+
+reportbug (3.39) unstable; urgency=low
+
+  * Add man page for reportbug.conf, thanks to Y Giridhar Appaji Nag.
+    (Closes: #437473)
+  * Cope (hopefully) with non-ASCII realnames in .reportbugrc when
+    reportbug --help is invoked.  (Closes: #434011, #432505)
+  * Get rid of duplicate listings for uninstalled packages due to multiple
+    appearances in the available file.  (Closes: #424433, 427660)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 16 Aug 2007 17:40:08 -0500
+
+reportbug (3.38) unstable; urgency=low
+
+  * Use apt-cache showsrc and apt-cache show to eliminate churns of the
+    available database.  (Closes: #414487)
+  * Another Unicode cleanup in offer_configuration().  (Closes: #421613)
+  * Conflict with broken version of python-central.  (Closes: #418166)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 11 May 2007 21:00:36 -0500
+
+reportbug (3.37) unstable; urgency=low
+
+  * More Unicode cleanups (Closes: #420038)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 19 Apr 2007 13:21:39 -0500
+
+reportbug (3.36) unstable; urgency=low
+
+  * Fix urwid select_multiple() call to return an empty list when cancel
+    is selected.  (Closes: #418411)
+  * Allow submitting additional information in queryonly mode.
+    (Closes: #265014)
+  * Clear the pipe from apt-cache dumpavail before shutting it down.
+    (Closes: #418209)
+  * Don't crash when in newt UI and browsing bugs that are fixed.
+    (Closes: #419275)
+  * Update display_message() for Urwid 0.9.8; conflict with previous
+    versions which will no longer work.  (Closes: #419469)
+  * Remove os.curdir from sys.path.  (Closes: #419466)
+  * Unicode cleanups with wnpp Owner: header handling.  (Closes: #407122)
+  * Update the pseudo-packages list.  (Closes: #418759).  Note that reportbug
+    uses 'linux-image' instead of 'kernel' since the former will resolve using
+    virtual packages to the user's installed kernel (or a choice thereof),
+    providing more accurate reports than simply falling into the 'kernel'
+    bucket.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 17 Apr 2007 15:19:16 -0500
+
+reportbug (3.35) unstable; urgency=low
+
+  * Include # of cores for SMP kernels in system information section.
+    (Closes: #417383)
+  * More dumpavail cleanups.  (Closes: #418209)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon,  2 Apr 2007 11:14:49 -0500
+
+reportbug (3.34.2) unstable; urgency=high
+
+  * Test if the realname is a str or unicode before trying to decode it.
+    (Closes: #416883)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 31 Mar 2007 21:25:05 -0500
+
+reportbug (3.34.1) unstable; urgency=high
+
+  * Decode non-ASCII characters in .reportbugrc rather than trying to
+    encode them.  (Closes: #416518)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Wed, 28 Mar 2007 11:11:46 -0500
+
+reportbug (3.34) unstable; urgency=low
+
+  * The "why can't I make Python assume the user is sane and using UTF-8
+    instead of 7-bit ASCII" release?
+  * Fix check for nonexistent/bogus package names.  (Closes: #407587)
+  * Avoid crash with Unicode maintainer names.  (Closes: #409445)
+  * Avoid crash with Unicode crap in debconf output.  (Closes: #386659)
+  * Fiddle with more Unicode crap in hopes of avoiding crashes.
+    (Closes: #407133)
+  * Use fancy iterator to avoid caching apt-cache dumpavail and the status
+    database.  Downside: more disk thrashing.  Upside: less memory used.
+    (Closes: #404249)
+  * Urwid UI patches: fix wide buttons and add question marks to yes/no
+    prompts.  Thanks to Rafael Laboissiere.  (Closes: #415339, #415340)
+  * Kudos go to packages.debian.org directly if smtphost is set to
+    bugs.debian.org; we also send all kudos to package@p.d.o.
+    (Closes: #412766)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Mon, 19 Mar 2007 17:14:06 -0500
+
+reportbug (3.33) unstable; urgency=low
+
+  * Fix French translation of man page.  (Closes: #404900)
+  * Use text interface password input in urwid interface.
+    (Closes: #398420)
+  * Disable mouse reporting in urwid interface.  (Closes: #390465, #394477)
+  * Don't check available version for configured but not installed packages.
+    (Closes: #406150)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 14 Jan 2007 14:48:28 -0600
+
+reportbug (3.32) unstable; urgency=low
+
+  * Remove recommendations of python-{cjkcodecs,iconvcodec}.
+    (Closes: #401870)
+  * Encode unicode strings before output in text interface's ewrite()
+    function.  (Closes: #404165)
+  * More unicode fixups.  (Closes: #397357, #403385)
+  * Fix typo in help message.  (Closes: #397983)
+  * Bail out immediately if no subject specified in a followup.
+    (Closes: #403668)
+  * Update French man page.  (Closes: #400276)
+  
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 23 Dec 2006 00:44:51 -0600
+
+reportbug (3.31) unstable; urgency=low
+
+  * Add po4a support for translating man pages.  (Closes: #392458)
+  * More ehlo/helo madness.
+  * Change default for get_string() in the urwid interface to ''.
+    (Closes: #392608)
+  * Add BIG CAPS WARNINGS to the reportbug presubj about the new default
+    behavior of exim4.  (Closes: #392609)
+  * Warn user that email addresses may be harvested by spambots in
+    offer_configuration().
+  * Remove bogus documentation that '-v' == '--version' in reportbug(1).
+    (Closes: #397204)
+  * Don't crash if package-specific info is non-UTF-8.
+    (Closes: #393657, #397206)
+  * Suggest python-urwid.  (Closes: #394579)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun,  5 Nov 2006 17:31:45 -0600
+
+reportbug (3.30) unstable; urgency=low
+
+  * Put bugs that are fixed in subsequent releases at the top of the bug
+    browser; this should hopefully reduce the incidence of duplicate
+    reports.  (Note that some bugs that are closed may appear at the top
+    due to known problems in debbugs.)
+  * Don't allow tab-expansion of the realname in offer_configuration(); this
+    should resolve the encoding issues that some people have been bumping
+    into.
+  * When some recipients are refused, inform the user and dump the report
+    in a temporary file.  (Closes: #387691)
+  * Bypass vi nag when $EDITOR is set.  (Closes: #388437)
+  * Add an extra EHLO when doing STARTTLS, since (contrary to the smtplib
+    documentation) smtplib seems to need it.  (Closes: #3226523)
+  * Fix crash when bugtitle lacks a colon.  (Closes: #389259)
+  
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 28 Sep 2006 21:16:38 -0500
+
+reportbug (3.29.5) unstable; urgency=low
+
+  * Fix missing parenthesis in offer_configuration.  (Closes: #386737)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun, 10 Sep 2006 13:53:12 -0500
+
+reportbug (3.29.4) unstable; urgency=low
+
+  * Fixup handling of "any_ok" dialogs in urwid interface.
+    (Closes: #385810)
+  * Handle non-ASCII encodings better in offer_configuration().
+    (Closes: #385597)
+  * Also handle them better when dealing with the editor.
+    (Closes: #386463)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sun,  3 Sep 2006 19:21:48 -0500
+
+reportbug (3.29.3) unstable; urgency=low
+
+  * Fix crash when the maintainer field is unavailable.  (Closes: #384778)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Sat, 26 Aug 2006 11:37:17 -0500
+
+reportbug (3.29.2) unstable; urgency=medium
+
+  * Fallback gracefully when the selected UI can't be imported.
+    (Closes: #384648)
+  * Fix split in reportbug_ui_urwid.  (Closes: #384617)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 25 Aug 2006 21:05:19 -0500
+
+reportbug (3.29.1) unstable; urgency=low
+
+  * Fix crashes when maintainer name is UTF-8 encoded.
+    (Closes: #384423, #384547)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Thu, 24 Aug 2006 20:17:42 -0500
+
+reportbug (3.29) unstable; urgency=low
+
+  * Send the version header in BTS queries.
+  * Include version in which closed bugs were fixed in the bug listing.
+  * Handle bug reports that don't exist (like #2).  (Closes: #376245)
+  * Fix ewrite() failure when % in message but no arguments.
+    (Closes: #384167)
+  * Improvements to character set handling: available and status
+    information are assumed to be in UTF-8; avoid crashes with weird
+    characters in realname.  (Closes: #337276)
+  * If an Origin header is detected, ensure that the proper system
+    information is looked up for filing the bug report.  (Closes: #341618)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Tue, 22 Aug 2006 13:45:04 -0500
+
+reportbug (3.28) unstable; urgency=low
+
+  * Actually search sys.path for available UIs.  (Closes: #383665)
+  * The urwid interface is mostly functional in this release; feel free
+    to test it.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 18 Aug 2006 17:02:08 -0500
+
+reportbug (3.27) unstable; urgency=medium
+
+  * Fix string formatting bug in the SMTP username prompt in
+    offer_configuration().  (Closes: #383583)
+  * Ask the user if the bug still exists in that version to avoid
+    automatically reopening reports.  (Closes: #383503)
+
+ -- Chris Lawrence <lawrencc@debian.org>  Fri, 18 Aug 2006 11:04:23 -0500
 
 reportbug (3.26) unstable; urgency=medium
 

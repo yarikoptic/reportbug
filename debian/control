@@ -3,15 +3,15 @@ Section: utils
 Priority: standard
 Maintainer: Chris Lawrence <lawrencc@debian.org>
 Standards-Version: 3.7.2
-Build-Depends: debhelper (>= 5.0.37.2), python-central (>= 0.5)
+Build-Depends: debhelper (>= 5.0.37.2), python-central (>= 0.5), po4a (>= 0.23)
 Build-Depends-Indep: python-dev
-XS-Python-Version: current
+XS-Python-Version: current, >= 2.4
 
 Package: reportbug
 Architecture: all
-Depends: ${python:Depends}
-Recommends: python-cjkcodecs | python-iconvcodec
-Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate
+Depends: ${python:Depends}, apt
+Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid
+Conflicts: python-urwid (<< 0.9.8-1), python-central (= 0.5.13)
 XB-Python-Version: ${python:Versions}
 Description: reports bugs in the Debian distribution
  reportbug is a tool designed to make the reporting of bugs in Debian
@@ -31,9 +31,3 @@ Description: reports bugs in the Debian distribution
  .
  This package also includes the "querybts" script for browsing the
  Debian bug tracking system.
- .
- If your system's users use locales with character sets other than
- UTF-8 and ISO-8859-*, one of either python2.3-cjkcodecs or
- python2.3-iconvcodec is required for proper operation.  For Asian
- locales, the use of python2.3-cjkcodecs is preferred over the more
- limited python2.3-iconvcodec.
