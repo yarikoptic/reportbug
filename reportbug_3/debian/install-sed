@@ -1,8 +1,0 @@
-#!/bin/sh
-
-dir=$1
-shift
-
-for filename in $@; do
-    sed -f sed-script < $filename > `pwd`/debian/reportbug/$dir/$filename
-done
