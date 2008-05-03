@@ -5,7 +5,6 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
-export DH_COMPAT=4
 
 build: build-stamp
 build-stamp:
@@ -55,12 +54,12 @@ install-stamp: build-stamp
 
 	touch install-stamp
 
-# Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
-
 # Build architecture-dependent files here.
 binary-arch: build install
+# We have nothing to do by default.
+
+# Build architecture-independent files here.
+binary-indep: build install
 #	dh_testversion
 	dh_testdir
 	dh_testroot

@@ -3,10 +3,11 @@ Section: utils
 Priority: standard
 Maintainer: Chris Lawrence <lawrencc@debian.org>
 Uploaders: Sandro Tosi <matrixhasu@gmail.com>, Y Giridhar Appaji Nag <giridhar@appaji.net>
-Standards-Version: 3.7.2
-Build-Depends: debhelper (>= 5.0.37.2), python-central (>= 0.5), po4a (>= 0.23)
-Build-Depends-Indep: python-dev
+Standards-Version: 3.7.3
+Build-Depends: debhelper (>= 5.0.37.2), po4a (>= 0.23)
+Build-Depends-Indep: python-dev, python-central (>= 0.5)
 XS-Python-Version: current, >= 2.4
+XS-DM-Upload-Allowed: yes
 
 Package: reportbug
 Architecture: all

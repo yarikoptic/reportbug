@@ -2,8 +2,24 @@ reportbug (3.40) UNRELEASED; urgency=low
 
   * debian/control
     - added Giridhar and me to Uploaders
+    - added "XS-DM-Upload-Allowed: yes"
+    - bump Standards-Version to 3.7.3
+    - moved python-central to Build-Depends-Indep
+  * debian/copyright
+    - clear separation of author, copyright and license notices
+  * debian/menu
+    - section updated to "Applications/System/Administration"
+  * debian/rules
+    - removed export DH_COMPAT
+    - now using binary-indep since it's and arch: all package
+  * debian/compat
+    - added with value = 5
+  * reportbug.conf.5, po4a/add_fr/{reportbug.add,querybts.add}
+    - escaped minus sign to be an hyphen
+  * reportbug.ja.1
+    - fixed some formatting errors
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 03 May 2008 12:28:34 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 03 May 2008 16:24:42 +0200
 
 reportbug (3.39-0.1) unstable; urgency=low
 

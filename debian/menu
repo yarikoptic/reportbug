@@ -1,3 +1,3 @@
-?package(reportbug):needs="text" section="Apps/System" \
+?package(reportbug):needs="text" section="Applications/System/Administration" \
   title="reportbug" command="/usr/bin/reportbug --exit-prompt" \
   hints="Bug reporting"

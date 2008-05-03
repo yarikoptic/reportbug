@@ -7,7 +7,7 @@ L'équipe de traduction a fait le maximum pour réaliser une adaptation
 française de qualité.
 .PP
 La version anglaise la plus à jour de ce document est toujours
-consultable via la commande\ : man -L C reportbug
+consultable via la commande\ : man \-L C reportbug
 .PP
 N'hésitez pas à signaler à l'auteur ou au traducteur, selon le cas,
 toute erreur dans cette page de manuel.
