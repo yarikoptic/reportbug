@@ -131,7 +131,7 @@ def query_dpkg_for(filename, use_dlocate=True):
     except OSError:
         os.chdir('/')
     searchfilename = glob_escape(filename)
-    (pipe, dlocate_used) = search_pipe(searchfilename)
+    (pipe, dlocate_used) = search_pipe(searchfilename, use_dlocate)
     packages = {}
 
     for line in pipe:

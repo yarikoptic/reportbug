@@ -157,6 +157,7 @@ debother = {
 # dpkg-iwj -- The dpkg branch maintained by Ian Jackson
     'debian-policy' : 'Proposed changes in the Debian policy documentation',
     'ftp.debian.org' : 'Problems with the FTP site and Package removal requests',
+    'nm.debian.org' : 'New Maintainer process and nm.debian.org website',
     'general' : 'General problems (e.g., that many manpages are mode 755)',
 #    'install' : 'Problems with the sarge installer.',
 #    'installation' : 'General installation problems not covered otherwise.',

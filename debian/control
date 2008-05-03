@@ -8,12 +8,15 @@ Build-Depends: debhelper (>= 5.0.37.2), po4a (>= 0.23)
 Build-Depends-Indep: python-dev, python-central (>= 0.5)
 XS-Python-Version: current, >= 2.4
 XS-DM-Upload-Allowed: yes
+Vcs-Svn: svn://svn.debian.org/svn/reportbug/trunk/
+Vcs-Browser: http://svn.debian.org/wsvn/reportbug/trunk/
+Homepage: http://alioth.debian.org/projects/reportbug/
 
 Package: reportbug
 Architecture: all
 Depends: ${python:Depends}, apt
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid
-Conflicts: python-urwid (<< 0.9.8-1), python-central (= 0.5.13)
+Conflicts: python-urwid (<< 0.9.8-1), python-central (<< 0.5.13)
 XB-Python-Version: ${python:Versions}
 Description: reports bugs in the Debian distribution
  reportbug is a tool designed to make the reporting of bugs in Debian

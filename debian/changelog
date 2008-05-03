@@ -5,6 +5,10 @@ reportbug (3.40) UNRELEASED; urgency=low
     - added "XS-DM-Upload-Allowed: yes"
     - bump Standards-Version to 3.7.3
     - moved python-central to Build-Depends-Indep
+    - updated Conflicts with python-central version lower than 0.5.13 (Closes:
+      #418166)
+    - added Vcs-{Svn,Browser} fields
+    - added Homepage field
   * debian/copyright
     - clear separation of author, copyright and license notices
   * debian/menu
@@ -18,8 +22,12 @@ reportbug (3.40) UNRELEASED; urgency=low
     - escaped minus sign to be an hyphen
   * reportbug.ja.1
     - fixed some formatting errors
+  * debianbts.py
+    - added 'nm.debian.org' pseudo-package, Giridhar's patch (Closes: #478414)
+  * reportbug.py
+    - uses dpkg when dlocate can't find the package's file (Closes: #429824)
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 03 May 2008 16:24:42 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 03 May 2008 19:22:40 +0200
 
 reportbug (3.39-0.1) unstable; urgency=low
 
