@@ -213,8 +213,6 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
         "Package removal - Architecture Not Allowed In Source.",
         'ICE' :
         "Package removal - Internal Compiler Error.",
-        '[cruft-report]' :
-        "Package removal - detected by the cruft finder script.",
         'other' :
         "Not a package removal request, report other problems.",
         }, 'Choose the request type: ', empty_ok=True)
@@ -444,9 +442,6 @@ SYSTEMS = { 'debian' :
               'btsroot': 'http://bugs.kde.org/' },
             'mandrake' :
             { 'name' : 'Linux-Mandrake', 'email': '%s@bugs.linux-mandrake.com',
-              'type' : 'mailto', 'query-dpkg' : False },
-            'gnome' :
-            { 'name' : 'GNOME Project', 'email': '%s@bugs.gnome.org',
               'type' : 'mailto', 'query-dpkg' : False },
             'ximian' :
             { 'name' : 'Ximian', 'email': '%s@bugs.ximian.com',
