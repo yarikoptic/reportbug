@@ -1,20 +1,6 @@
 ;; Vague implementation of needed code to invoke GNUS from reportbug
 ;; by Tollef Fog Heen
-(require 'gnus)
-
-;; Match each component of Gnus' version number.
-(string-match "^\\([0-9]+\\)\\.\\([0-9]+\\)\\(?:\\.\\([0-9]+\\)\\)?$"
-	      gnus-version-number)
-;; Only load gnus-load if using a separately packaged Gnus (that is,
-;; not the Gnus bundled with Emacs).
-(if (or
-     ;; Check for a separately packaged release of Gnus
-     ;; (second component of version number even):
-     (= (% (string-to-int (match-string 2 gnus-version-number)) 2) 0)
-     ;; Check for a separately packaged pre-release of Gnus
-     ;; (first component of version number 0):
-     (= (string-to-int (match-string 1 gnus-version-number)) 0))
-    (require 'gnus-load))
+(require 'gnus-load)
 
 (defun tfheen-set-header (header value)
   "Insert a string at the beginning of a header."
