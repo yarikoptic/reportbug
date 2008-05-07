@@ -22,7 +22,7 @@ clean:
 	rm -f build-stamp install-stamp
 
 	# Add here commands to clean up after the build process.
-	rm -rf `find . -name '*~' -o -name '.#*' -o -name '*.orig' -o -name '*.rej' -o -name '*.py[co]'` test sed-script
+	rm -rf `find . -name '*~' -o -name '.#*' -o -name '*.orig' -o -name '*.rej' -o -name '*.py[co]'` sed-script
 	po4a --rm-translations po4a/po4a.cfg
 
 	dh_clean
