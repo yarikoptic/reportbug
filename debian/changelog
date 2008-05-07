@@ -36,6 +36,21 @@ reportbug (3.40) UNRELEASED; urgency=low
     - applied patch to let Gnus work; thanks to Håkon Stordahl for it (Closes:
       #227153)
 
+  [Ben Finney]
+
+  * Makefile, */module.mk
+    - Begin a modular makefile structure for package development and build
+      tasks
+  * test/*
+    - Begin unit test suite
+    - Add make target so 'make test' runs the unit test suite
+  * debian/control
+    - Build-Depends-Indep on 'python-nose' for the unit test suite
+  * README.developers
+    - Describe new unit test suite capabilities
+    - Describe new makefile targets 'test', 'test-continuous', 'coverage',
+      'pyflakes', 'pylint'
+
  -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 05 May 2008 00:29:17 +0200
 
 reportbug (3.39-0.1) unstable; urgency=low
