@@ -6,8 +6,7 @@ Uploaders: Sandro Tosi <matrixhasu@gmail.com>, Y Giridhar Appaji Nag <giridhar@a
 Standards-Version: 3.7.3
 Build-Depends: debhelper (>= 5.0.37.2), po4a (>= 0.23)
 Build-Depends-Indep: python-dev, python-central (>= 0.5.14),
-    python-nose,
-    inotify-tools
+    python-nose
 XS-Python-Version: current, >= 2.4
 XS-DM-Upload-Allowed: yes
 Vcs-Svn: svn://svn.debian.org/svn/reportbug/trunk/
