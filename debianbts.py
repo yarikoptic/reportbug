@@ -157,7 +157,6 @@ debother = {
 # dpkg-iwj -- The dpkg branch maintained by Ian Jackson
     'debian-policy' : 'Proposed changes in the Debian policy documentation',
     'ftp.debian.org' : 'Problems with the FTP site and Package removal requests',
-    'nm.debian.org' : 'New Maintainer process and nm.debian.org website',
     'general' : 'General problems (e.g., that many manpages are mode 755)',
 #    'install' : 'Problems with the sarge installer.',
 #    'installation' : 'General installation problems not covered otherwise.',
@@ -167,12 +166,14 @@ debother = {
     'listarchives' :  'Problems with the WWW mailing list archives',
     'lists.debian.org' : 'The mailing lists, debian-*@lists.debian.org.',
     'mirrors' : 'Problems with Debian archive mirrors.',
+    'nm.debian.org' : 'New Maintainer process and nm.debian.org website',
     'press' : 'Press release issues',
     'project' : 'Problems related to project administration',
     'qa.debian.org' : 'Problems related to the quality assurance group',
 #slink-cd -- Slink CD 
 #spam -- Spam (reassign spam to here so we can complain about it)
     'release-notes' : 'Problems with the release notes',
+    'security-tracker' : 'The Debian Security Bug Tracker',
     'security.debian.org' : 'Problems with the security updates server',
     'tech-ctte' : 'Issues to be referred to the technical committee',
     'upgrade-reports' : 'Reports of successful and unsucessful upgrades',
