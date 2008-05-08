@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 5.0.37.2), po4a (>= 0.23)
 Build-Depends-Indep: python-dev, python-central (>= 0.5.14),
     python-nose
 XS-Python-Version: current, >= 2.4
-XS-DM-Upload-Allowed: yes
+DM-Upload-Allowed: yes
 Vcs-Svn: svn://svn.debian.org/svn/reportbug/trunk/
 Vcs-Browser: http://svn.debian.org/wsvn/reportbug/trunk/
 Homepage: http://alioth.debian.org/projects/reportbug/
