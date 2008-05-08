@@ -1,5 +1,6 @@
 reportbug (3.40) UNRELEASED; urgency=low
 
+  [ Sandro Tosi ]
   * debian/control
     - added Giridhar and me to Uploaders
     - added "XS-DM-Upload-Allowed: yes"
@@ -51,7 +52,11 @@ reportbug (3.40) UNRELEASED; urgency=low
     - Describe new makefile targets 'test', 'test-continuous', 'coverage',
       'pyflakes', 'pylint'
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 05 May 2008 00:29:17 +0200
+  [ Y Giridhar Appaji Nag ]
+  * Use singular they instead of he/she.  Thanks Adeodato Simó
+    <dato@net.com.org.es> (Closes: #458356)
+
+ -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Thu, 08 May 2008 16:28:24 +0530
 
 reportbug (3.39-0.1) unstable; urgency=low
 
