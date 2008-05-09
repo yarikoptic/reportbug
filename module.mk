@@ -12,7 +12,9 @@
 
 MODULE_DIR := .
 
-CODE_MODULES += $(shell find ${CODE_PACKAGE_DIR} -name '*.py')
+CODE_MODULES += $(shell find ${CODE_PACKAGE_DIR} \
+	-path ${CODE_PACKAGE_DIR}/${TEST_DIR} -prune -o \
+	-name '*.py' -print)
 
 CODE_PROGRAM_NAMES += reportbug
 CODE_PROGRAM_NAMES += querybts
