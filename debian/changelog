@@ -37,8 +37,7 @@ reportbug (3.40) UNRELEASED; urgency=low
     - applied patch to let Gnus work; thanks to Håkon Stordahl for it (Closes:
       #227153)
 
-  [Ben Finney]
-
+  [ Ben Finney ]
   * Makefile, */module.mk
     - Begin a modular makefile structure for package development and build
       tasks
