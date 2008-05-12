@@ -99,6 +99,51 @@ def which_editor(default_editor=None):
         editor = default_editor
     return editor
 
+def include_file_in_report(message, message_filename,
+                           attachment_filenames, package_name,
+                           include_filename, inline=False):
+    """ Include a file in the report.
+
+        :parameters:
+            `message`
+                The current text of the message.
+            `message_filename`
+                The current message filename.
+            `attachment_filenames`
+                List of current attachment filenames.
+            `package_name`
+                Name of the package for this report.
+            `include_filename`
+                Full pathname of the file to be included.
+            `inline`
+                If True, include the message inline with the message
+                text. Otherwise, add the file path to the attachments.
+
+        :return value:
+            Tuple (`message`, `message_filename`, `attachments`) of
+            values as modified during the process of including the new
+            file.
+
+        """
+    if inline:
+        try:
+            fp = file(include_filename)
+            message += '\n*** %s\n%s' % (include_filename, fp.read())
+            fp.close()
+            fp, temp_filename = TempFile(
+                prefix=tempfile_prefix(package_name))
+            fp.write(message)
+            fp.close()
+            os.unlink(message_filename)
+            message_filename = temp_filename
+        except (IOError, OSError), exc:
+            ewrite('Unable to attach file %s\n%s\n',
+                   include_filename, str(exc))
+    else:
+        attachment_filenames.append(include_filename)
+
+    return (message, message_filename, attachment_filenames)
+
 def handle_editing(filename, dmessage, options, sendto, attachments, package,
                    editor=None, charset='utf-8'):
     if not editor:
@@ -170,22 +215,11 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     attachfile = os.path.expanduser(attachfile)
                     if os.access(attachfile, os.R_OK) and os.path.isfile(attachfile):
                         invalid = False
-                        if x == 'i':
-                            try:
-                                fp = file(attachfile)
-                                message += '\n*** %s\n%s' % (attachfile, fp.read())
-                                fp.close()
-                                fp, filename2 = TempFile(
-                                    prefix=tempfile_prefix(package))
-                                fp.write(message)
-                                fp.close()
-                                os.unlink(filename)
-                                filename = filename2
-                            except (IOError, OSError), x:
-                                ewrite('Unable to attach file %s\n%s\n',
-                                       attachfile, str(x))
-                        else:
-                            attachments.append(attachfile)
+                        inline = (x == 'i')
+                        (message, filename, attachments) = include_file_in_report(
+                            message, filename, attachments, package,
+                            attachfile, inline=inline)
+                        if not inline:
                             skip_editing = True
                     else:
                         ewrite("Can't find %s to include!\n", attachfile)
