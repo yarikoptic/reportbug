@@ -24,12 +24,6 @@ SOFTWARE."""
 # Version ##VERSION##; see changelog for revision history
 # $Id: reportbug,v 1.98.2.33 2008-04-18 05:38:27 lawrencc Exp $
 
-# Work around case where Python install might be broken (#290043)
-try:
-    import site
-except ImportError:
-    pass
-
 DEBUGGER = 'lawrencc@debian.org'
 DEFAULT_BTS = 'debian'
 
