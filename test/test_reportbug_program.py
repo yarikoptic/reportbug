@@ -155,7 +155,6 @@ class Test_include_file_in_report_inline(TestCase):
             filename should be that of the generated temporary file.
 
             """
-        include_filename = self.include_filename
         (nil, message_filename, nil) = reportbug.include_file_in_report(
             self.message, self.message_filename,
             self.attachment_filenames, self.package_name,
