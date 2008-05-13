@@ -29,9 +29,6 @@ MODULES += ${TEST_DIR}
 
 RM = rm
 
-# Include the make data for each module
-include $(patsubst %,%/module.mk,${MODULES})
-
 
 .PHONY: all
 all: build
@@ -53,3 +50,6 @@ test:
 
 .PHONY: qa
 qa:
+
+# Include the make data for each module
+include $(patsubst %,%/module.mk,${MODULES})
