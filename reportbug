@@ -36,6 +36,7 @@ import gettext, popen2
 
 from rbtempfile import TempFile, tempfile_prefix, cleanup_temp_file
 
+import reportbug
 from reportbug import MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD
 from reportbug_exceptions import *
 from optparse import OptionParser, OptionValueError
@@ -136,7 +137,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                    editor=None, charset='utf-8'):
     if not editor:
         editor = options.editor
-    editor = which_editor(editor)
+    editor = reportbug.which_editor(editor)
     message = None
     skip_editing = False
     while True:
@@ -1013,7 +1014,7 @@ class UI(object):
         if self.options.debugmode:
             sendto = fromaddr
 
-        edname = which_editor(self.options.editor)
+        edname = reportbug.which_editor(self.options.editor)
         baseedname = os.path.basename(edname)
         if baseedname == 'sensible-editor':
             edname = reportbug.realpath('/usr/bin/editor')
