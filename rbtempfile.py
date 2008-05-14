@@ -33,7 +33,7 @@ def tempfile_prefix(package=None, extra=None):
             package = '%s-%s' % (package, extra)
         else:
             package = extra
-    
+
     if package:
         return 'reportbug-%s-%s-%d-' % (
             package, time.strftime('%Y%m%d'), os.getpid())
@@ -73,3 +73,19 @@ def TempFile(suffix="", prefix=template, dir=None, text=True,
     fh, filename = tempfile.mkstemp(suffix, prefix, dir, text)
     fd = os.fdopen(fh, mode, bufsize)
     return (fd, filename)
+
+def cleanup_temp_file(temp_filename):
+    """ Clean up a temporary file.
+
+        :parameters:
+          `temp_filename`
+            Full filename of the file to clean up.
+
+        :return value:
+            None
+
+        Removes (unlinks) the named file if it exists.
+
+        """
+    if os.path.exists(temp_filename):
+        os.unlink(temp_filename)
