@@ -34,7 +34,7 @@ import optparse, re, os, pwd, time, locale, commands, checkversions
 import rfc822, smtplib, reportbug, cStringIO, socket, debianbts, checkbuildd
 import gettext, popen2
 
-from rbtempfile import TempFile, tempfile_prefix
+from rbtempfile import TempFile, tempfile_prefix, cleanup_temp_file
 
 from reportbug import MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD
 from reportbug_exceptions import *
@@ -1673,7 +1673,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 addinfo = u"\n-- Package-specific info:\n"+fp.read().decode('utf-8', 'replace')
                 fp.close()
 
-            os.unlink(filename)
+            cleanup_temp_file(filename)
             if addinfo and incfiles:
                 incfiles = addinfo + u"\n" + incfiles
             elif addinfo:
@@ -1745,13 +1745,10 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 mua = self.options.mua
             if mua:
                 mailing = False
-                if os.path.exists(filename):
-                    os.unlink(filename)
+                cleanup_temp_file(filename)
             elif not sendto:
                 print message,
-                # Remove the temporary file
-                if os.path.exists(filename):
-                    os.unlink(filename)
+                cleanup_temp_file(filename)
                 return
 
             if not mua and patch and not attachments and not notatty:
