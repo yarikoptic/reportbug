@@ -23,6 +23,80 @@ module_file_path = os.path.join(scaffold.bin_dir, "reportbug")
 reportbug = scaffold.make_module_from_file(module_name, module_file_path)
 
 
+class Test_which_editor(TestCase):
+    """ Test cases for 'which_editor' function """
+
+    def setUp(self):
+        """ Set up test fixtures """
+
+        stub_os_environ = {}
+        self.os_environ_prev = os.environ
+        os.environ = stub_os_environ
+
+        self.debian_default_editor = "bogus-default"
+
+    def tearDown(self):
+        """ Tear down test fixtures """
+        os.environ = self.os_environ_prev
+
+    def test_prefers_specified_default_editor_over_all(self):
+        """ Should return specified `default_editor`
+
+            The `default_editor` parameter should override all other
+            sources for an editor setting.
+
+            """
+        specified_editor = "foo-specified"
+        os.environ.update({
+            "VISUAL": "bogus-visual",
+            "EDITOR": "bogus-editor",
+            })
+        editor = reportbug.which_editor(specified_editor)
+        expect_editor = specified_editor
+        self.failUnlessEqual(expect_editor, editor)
+
+    def test_prefers_visual_variable_over_editor_variable(self):
+        """ Should return 'VISUAL' variable rather than 'EDITOR'
+
+            The 'VISUAL' environment variable should be preferred over
+            the 'EDITOR' variable.
+
+            """
+        os.environ.update({
+            "VISUAL": "foo-visual",
+            "EDITOR": "bogus-editor",
+            })
+        editor = reportbug.which_editor()
+        expect_editor = os.environ["VISUAL"]
+        self.failUnlessEqual(expect_editor, editor)
+
+    def test_prefers_editor_variable_over_debian_default(self):
+        """ Should return 'EDITOR' variable rather than Debian default
+
+            The 'EDITOR' environment variable should be preferred over
+            the Debian default editor.
+
+            """
+        os.environ.update({
+            "EDITOR": "foo-editor",
+            })
+        editor = reportbug.which_editor()
+        expect_editor = os.environ["EDITOR"]
+        self.failUnlessEqual(expect_editor, editor)
+
+    def test_prefers_debian_default_over_nothing(self):
+        """ Should return Debian default when no other alternative
+
+            The Debian default editor should be returned when no other
+            alternative is set.
+
+            """
+        self.debian_default_editor = "/usr/bin/sensible-editor"
+        editor = reportbug.which_editor()
+        expect_editor = self.debian_default_editor
+        self.failUnlessEqual(expect_editor, editor)
+
+
 def setup_include_file_in_report_fixture(testcase):
     """ Set up test fixtures for 'include_file_in_report' function """
 
