@@ -87,14 +87,6 @@ def system(cmdline):
         os.chdir('/')
     os.system(cmdline)
 
-def which_editor(default_editor=None):
-    if not default_editor:
-        editor = (os.environ.get('VISUAL') or os.environ.get('EDITOR') or
-                  '/usr/bin/sensible-editor')
-    else:
-        editor = default_editor
-    return editor
-
 def include_file_in_report(message, message_filename,
                            attachment_filenames, package_name,
                            include_filename, inline=False):

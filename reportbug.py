@@ -112,6 +112,14 @@ def search_path_for(filename):
             return realpath(fullname)
     return None
 
+def which_editor(default_editor=None):
+    if not default_editor:
+        editor = (os.environ.get('VISUAL') or os.environ.get('EDITOR') or
+                  '/usr/bin/sensible-editor')
+    else:
+        editor = default_editor
+    return editor
+
 def glob_escape(filename):
     filename = re.sub(r'([*?\[\]])', r'\\\1', filename)
     return filename
