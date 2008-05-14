@@ -124,11 +124,15 @@ def which_editor(default_editor=None):
             Command to invoke for selected editor program.
 
         """
-    if not default_editor:
-        editor = (os.environ.get('VISUAL') or os.environ.get('EDITOR') or
-                  '/usr/bin/sensible-editor')
-    else:
-        editor = default_editor
+    debian_default_editor = "/usr/bin/sensible-editor"
+    for editor in [
+        default_editor,
+        os.environ.get("VISUAL"),
+        os.environ.get("EDITOR"),
+        debian_default_editor]:
+        if editor is not None:
+            break
+
     return editor
 
 def glob_escape(filename):
