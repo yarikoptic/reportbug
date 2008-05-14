@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: reportbug.fr\n"
-"POT-Creation-Date: 2008-04-03 23:45+0200\n"
+"POT-Creation-Date: 2008-05-14 09:06+0200\n"
 "PO-Revision-Date: 2006-11-22 18:36+0100\n"
 "Last-Translator: Sylvain Cherrier <sylvain.cherrier@free.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -499,11 +499,12 @@ msgstr "B<-i FICHIER, --include=FICHIER>"
 
 # type: Plain text
 #: reportbug.1:162
+#, fuzzy
 msgid ""
 "Include the specified file as part of the body of the message to be edited.  "
 "Can be used multiple times to add multiple files; text-only please! From a "
-"suggestion by Michael Alan Dorman in the B<bug> bug list.  (See also the --"
-"attach option.)"
+"suggestion by Michael Alan Dorman in the B<bug> mailing list.  (See also the "
+"--attach option.)"
 msgstr ""
 "Ajouter le fichier indiqué dans le corps du message à éditer. Peut être "
 "utilisé autant de fois qu'il y a de fichiers à inclure\\ ; au format texte "

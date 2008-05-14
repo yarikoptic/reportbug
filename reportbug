@@ -75,7 +75,9 @@ def stopmsg(filename):
     ui.final_message(
         'reportbug stopped; your incomplete report is stored as "%s".\n'
         'This file may be located in a temporary directory; if so, it might '
-        'disappear without any further notice.\n', filename)
+        'disappear without any further notice. '
+	'To recover this file to use it as bug report body, please take a look at '
+	'the command-line options "--body-file=BODYFILE" or "-i FILE, --include=FILE".\n', filename)
 
 # Obscene hack :)
 def system(cmdline):
