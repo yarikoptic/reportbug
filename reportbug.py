@@ -112,13 +112,13 @@ def search_path_for(filename):
             return realpath(fullname)
     return None
 
-def which_editor(default_editor=None):
+def which_editor(specified_editor=None):
     """ Determine which editor program to use.
 
         :parameters:
-          `default_editor`
-            Specified "default editor" for reportbug, to be used in
-            preference to other defaults.
+          `specified_editor`
+            Specified editor for reportbug, to be used in preference
+            to other settings.
 
         :return value:
             Command to invoke for selected editor program.
@@ -126,7 +126,7 @@ def which_editor(default_editor=None):
         """
     debian_default_editor = "/usr/bin/sensible-editor"
     for editor in [
-        default_editor,
+        specified_editor,
         os.environ.get("VISUAL"),
         os.environ.get("EDITOR"),
         debian_default_editor]:
