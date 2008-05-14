@@ -53,6 +53,8 @@ reportbug (3.40) UNRELEASED; urgency=low
   * reportbug
     - Remove ancient workaround for 'import site' (originally introduced
       for bug #290043), no longer needed in any supported Python version.
+    - Clean up temp file always during mail message generation
+      (closes: #340560).
 
   [ Y Giridhar Appaji Nag ]
   * Use singular they instead of he/she.  Thanks Adeodato Simó

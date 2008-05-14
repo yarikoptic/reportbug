@@ -1745,11 +1745,12 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 mua = self.options.mua
             if mua:
                 mailing = False
-                cleanup_temp_file(filename)
             elif not sendto:
                 print message,
                 cleanup_temp_file(filename)
                 return
+
+            cleanup_temp_file(filename)
 
             if not mua and patch and not attachments and not notatty:
                 while True:
