@@ -32,6 +32,7 @@ reportbug (3.40) UNRELEASED; urgency=low
       Giridhar's patch (Closes: #474970)
     - reintroduced 'kernel' pseudo-package, but just to fall back to
       'linux-image' (Closes: #423197)
+    - added 'wiki.debian.org', 'release.debian.org' and 'spam' pseudo-packages
   * reportbug.py
     - uses dpkg when dlocate can't find the package's file (Closes: #429824,
       #422369, #322983, #408834)
@@ -72,7 +73,7 @@ reportbug (3.40) UNRELEASED; urgency=low
   * Add security-tracker to the list of pseudo-packages, re-org the list to be
     in alphabetical order (like it was earlier).
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Fri, 16 May 2008 01:17:41 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 17 May 2008 00:10:03 +0200
 
 reportbug (3.39-0.1) unstable; urgency=low
 

@@ -161,7 +161,7 @@ debother = {
 #    'install' : 'Problems with the sarge installer.',
 #    'installation' : 'General installation problems not covered otherwise.',
     'installation-reports' : 'Problems with installing Debian',
-    'kernel' : 'IMPORTANT: Obsolete, please use "linux-image" instead (we will use linux-image even if you choose this)',
+    'kernel' : 'IMPORTANT: Obsolete, please use "linux-image" instead (linux-image will be used in any case)',
     'linux-image' : 'Problems with the Linux kernel, or the kernel shipped with Debian',
     'listarchives' :  'Problems with the WWW mailing list archives',
     'lists.debian.org' : 'The mailing lists, debian-*@lists.debian.org.',
@@ -171,12 +171,14 @@ debother = {
     'project' : 'Problems related to project administration',
     'qa.debian.org' : 'Problems related to the quality assurance group',
 #slink-cd -- Slink CD 
-#spam -- Spam (reassign spam to here so we can complain about it)
+    'release.debian.org' : 'Requests regarding Debian releases and release team tools',
     'release-notes' : 'Problems with the release notes',
     'security-tracker' : 'The Debian Security Bug Tracker',
     'security.debian.org' : 'Problems with the security updates server',
+    'spam' : 'Spam (reassign spam to here so we can complain about it)',
     'tech-ctte' : 'Issues to be referred to the technical committee',
     'upgrade-reports' : 'Reports of successful and unsucessful upgrades',
+    'wiki.debian.org' : 'Problems with the Debian wiki',
     'wnpp' : 'Work-Needing and Prospective Packages list',
     'www.debian.org' : 'Problems with the WWW site (including other *.debian.org sites)'
     }
