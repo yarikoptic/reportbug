@@ -130,7 +130,7 @@ def which_editor(specified_editor=None):
         os.environ.get("VISUAL"),
         os.environ.get("EDITOR"),
         debian_default_editor]:
-        if editor is not None:
+        if editor:
             break
 
     return editor

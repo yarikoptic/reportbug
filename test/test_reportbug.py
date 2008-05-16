@@ -128,3 +128,20 @@ class Test_which_editor(TestCase):
         editor = reportbug.which_editor()
         expect_editor = self.debian_default_editor
         self.failUnlessEqual(expect_editor, editor)
+
+    def test_empty_string_value_skipped_in_precendence(self):
+        """ Should skip an empty string value in the precedence check
+
+            An empty string value should cause the precedence check to
+            skip the value as though it were unset.
+
+            """
+        specified_editor = ""
+        os.environ.update({
+            "VISUAL": "",
+            "EDITOR": "",
+            })
+        self.debian_default_editor = "/usr/bin/sensible-editor"
+        editor = reportbug.which_editor(specified_editor)
+        expect_editor = self.debian_default_editor
+        self.failUnlessEqual(expect_editor, editor)
