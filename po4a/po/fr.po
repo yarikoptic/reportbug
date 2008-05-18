@@ -1,12 +1,12 @@
-# translation of reportbug.fr.po to French
-# Copyright (C) 2006 Free Software Foundation, Inc.
+# translation of fr.po to French
+# Copyright (C) 2006, 2008 Free Software Foundation, Inc.
 #
-# Sylvain Cherrier <sylvain.cherrier@free.fr>, 2006.
+# Sylvain Cherrier <sylvain.cherrier@free.fr>, 2006, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: reportbug.fr\n"
-"POT-Creation-Date: 2008-05-14 09:06+0200\n"
-"PO-Revision-Date: 2006-11-22 18:36+0100\n"
+"Project-Id-Version: fr\n"
+"POT-Creation-Date: 2008-04-03 23:45+0200\n"
+"PO-Revision-Date: 2008-05-10 15:14+0200\n"
 "Last-Translator: Sylvain Cherrier <sylvain.cherrier@free.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -44,8 +44,7 @@ msgstr "SYNOPSIS"
 msgid ""
 "B<reportbug> I<[options] E<lt>package | pseudo-package | absolute-"
 "pathnameE<gt>>"
-msgstr ""
-"B<reportbug> I<[options] E<lt>paquet | pseudo-paquet | chemin-absoluE<gt>>"
+msgstr "B<reportbug> I<[options] E<lt>paquet | pseudo-paquet | chemin-absoluE<gt>>"
 
 # type: SH
 #: reportbug.1:7 querybts.1:7
@@ -136,7 +135,7 @@ msgstr "Afficher un résumé des options."
 #: reportbug.1:37
 #, no-wrap
 msgid "B<--version>"
-msgstr "B<---version>"
+msgstr "B<--version>"
 
 # type: Plain text
 #: reportbug.1:42
@@ -323,6 +322,9 @@ msgid ""
 "In B<advanced> and B<expert> mode, check B<incoming.debian.org> and B<http://"
 "ftp-master.debian.org/new.html>."
 msgstr ""
+"Vérifier les nouvelles versions du paquet sur packages.debian.org (par "
+"défaut). Dans les modes B<advanced> et B<expert, vérifier aussi sur "
+"B<incoming.debian.org> et B<http://ftp-master.debian.org/new.html>."
 
 # type: TP
 #: reportbug.1:104
@@ -499,12 +501,11 @@ msgstr "B<-i FICHIER, --include=FICHIER>"
 
 # type: Plain text
 #: reportbug.1:162
-#, fuzzy
 msgid ""
 "Include the specified file as part of the body of the message to be edited.  "
 "Can be used multiple times to add multiple files; text-only please! From a "
-"suggestion by Michael Alan Dorman in the B<bug> mailing list.  (See also the "
-"--attach option.)"
+"suggestion by Michael Alan Dorman in the B<bug> bug list.  (See also the --"
+"attach option.)"
 msgstr ""
 "Ajouter le fichier indiqué dans le corps du message à éditer. Peut être "
 "utilisé autant de fois qu'il y a de fichiers à inclure\\ ; au format texte "
@@ -608,8 +609,7 @@ msgstr "B<--license>"
 
 # type: Plain text
 #: reportbug.1:193
-msgid ""
-"Show B<reportbug>'s copyright and license information on standard output."
+msgid "Show B<reportbug>'s copyright and license information on standard output."
 msgstr ""
 "Afficher le copyright de B<reportbug> et les informations de licence sur la "
 "sortie standard."
@@ -880,8 +880,7 @@ msgstr "B<--no-paranoid>"
 
 # type: Plain text
 #: reportbug.1:297
-msgid ""
-"Don't show the full contents of the message before it is sent (default)."
+msgid "Don't show the full contents of the message before it is sent (default)."
 msgstr ""
 "Ne pas afficher le contenu complet du message avant de l'envoyer (mode par "
 "défaut)."
@@ -927,9 +926,9 @@ msgstr ""
 
 # type: TP
 #: reportbug.1:311
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-P PSEUDO-HEADER, --pseudo-header=PSEUDO-HEADER>"
-msgstr "B<-H ENTÊTE, --header=ENTÊTE>"
+msgstr "B<-P PSEUDO-ENTÊTE, --pseudo-header=PSEUDO--ENTÊTE>"
 
 # type: Plain text
 #: reportbug.1:319
@@ -938,6 +937,10 @@ msgid ""
 "usertag for the user I<humberto@example.com> to the bug, you could use I<-P "
 "'User: humberto@example.com' -P 'Usertags: mytag'>"
 msgstr ""
+"Ajouter une pseudo entête à votre courriel. Si vous voulez, par exemple,  "
+"ajouter au bogue le usertag I<mytag> concernant l'utilsateur "
+"I<humberto@example.com>, vous pouvez utiliser I<-P 'User: humberto@example."
+"com' -P 'Usertags: mytag'> "
 
 # type: TP
 #: reportbug.1:319
@@ -1263,8 +1266,7 @@ msgstr "B<-z, --no-compress>"
 
 # type: Plain text
 #: reportbug.1:422
-msgid ""
-"Don't compress configuration files by removing comments and blank lines."
+msgid "Don't compress configuration files by removing comments and blank lines."
 msgstr ""
 "Ne pas réduire la taille des fichiers de configuration par la suppression "
 "des commentaires et des lignes blanches."
@@ -1327,7 +1329,6 @@ msgstr ""
 
 # type: Plain text
 #: reportbug.1:447
-#, fuzzy
 msgid ""
 "Generally, options corresponding to the GNU long options for B<reportbug> "
 "are supported, without leading -- sequences.  See B<reportbug.conf(5)> for "
@@ -1335,8 +1336,7 @@ msgid ""
 msgstr ""
 "En général, les options correspondant aux options longues (type GNU) de "
 "B<reportbug> sont acceptées, sans les préfixer par la séquence --. Consultez "
-"le fichier B</etc/reportbug.conf> fourni par défaut pour toutes les options "
-"acceptées."
+"le fichier B<reportbug.conf(5)> pour connaître toutes les options acceptées."
 
 # type: SH
 #: reportbug.1:447 querybts.1:74
@@ -1495,13 +1495,12 @@ msgstr "VOIR AUSSI"
 
 # type: Plain text
 #: reportbug.1:497
-#, fuzzy
 msgid ""
 "reportbug.conf(5), I<http://www.debian.org/Bugs/Developer#tags> for "
 "available tags, querybts(1)"
 msgstr ""
-"http://www.debian.org/Bugs/Developer#tags à lire pour connaître les balises "
-"disponibles, querybts(1)"
+"reportbug.conf(5), I<http://www.debian.org/Bugs/Developer#tags> à lire pour "
+"connaître les balises disponibles, querybts(1)"
 
 # type: SH
 #: reportbug.1:497 querybts.1:96
@@ -1523,8 +1522,7 @@ msgstr "querybts"
 # type: Plain text
 #: querybts.1:4
 msgid "querybts - view outstanding bug reports on a debbugs server"
-msgstr ""
-"querybts - affiche les rapports de bogue actifs sur un serveur de bogues"
+msgstr "querybts - affiche les rapports de bogue actifs sur un serveur de bogues"
 
 # type: Plain text
 #: querybts.1:7
@@ -1697,21 +1695,10 @@ msgstr ""
 # type: Plain text
 #: querybts.1:94
 msgid "You must have the python-newt package installed to run this program."
-msgstr ""
-"Vous devez avoir installé le paquet python-newt pour exécuter ce programme."
+msgstr "Vous devez avoir installé le paquet python-newt pour exécuter ce programme."
 
 # type: Plain text
 #: querybts.1:96
 msgid "reportbug(1), reportbug.conf(5)"
-msgstr ""
+msgstr "reportbug(1), reportbug.conf(5)"
 
-# type: Plain text
-#~ msgid ""
-#~ "Check for newer releases of the package at packages.debian.org (default)."
-#~ msgstr ""
-#~ "Vérifier la présence de nouvelles versions du paquet sur packages.debian."
-#~ "org (comportement par défaut)."
-
-# type: TH
-#~ msgid "reportbug(1)"
-#~ msgstr "reportbug(1)"
