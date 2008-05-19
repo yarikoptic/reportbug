@@ -57,6 +57,8 @@ reportbug (3.40) UNRELEASED; urgency=low
     - Add make target so 'make test' runs the unit test suite
   * debian/control
     - Build-Depends-Indep on 'python-nose' for the unit test suite
+  * debian/copyright
+    - Convert to machine-parseable format.
   * README.developers
     - Describe new unit test suite capabilities
     - Describe new makefile targets 'test', 'test-continuous', 'coverage',
