@@ -25,6 +25,7 @@
 # $Id: debianbts.py,v 1.24.2.15 2008-04-18 05:38:27 lawrencc Exp $
 
 import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
+import textwrap
 from reportbug_exceptions import *
 from urlutils import open_url
 import sys
@@ -304,6 +305,20 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
 
     return (subject, severity, headers, pseudos, body, query)
 
+
+itp_template = textwrap.dedent(u"""\
+    * Package name    : %(package)s
+      Version         : x.y.z
+      Upstream Author : Name <somebody@example.org>
+    * URL             : http://www.example.org/
+    * License         : (GPL, LGPL, BSD, MIT/X, etc.)
+      Programming Lang: (C, C++, C#, Perl, Python, etc.)
+      Description     : %(short_desc)s
+
+    (Include the long description here.)
+    """)
+
+
 def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     short_desc = body = ''
     headers = []
@@ -367,16 +382,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
             ui.ewrite('Your report will be carbon-copied to debian-devel, '
                       'per Debian policy.\n')
 
-        body = u"""* Package name    : %(package)s
-  Version         : x.y.z
-  Upstream Author : Name <somebody@example.org>
-* URL             : http://www.example.org/
-* License         : (GPL, LGPL, BSD, MIT/X, etc.)
-  Programming Lang: (C, C++, C#, Perl, Python, etc.)
-  Description     : %(short_desc)s
-
-(Include the long description here.)
-""" % vars()
+        body = itp_template % vars()
     elif tag in ('O', 'RFA', 'RFH'):
         severity = 'normal'
         query = False
