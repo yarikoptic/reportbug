@@ -42,7 +42,7 @@ def msgfactory(fp):
         # Don't return None since that will
         # stop the mailbox iterator
         return ''
-    
+
 class Error(Exception):
     pass
 
@@ -52,7 +52,7 @@ SEVERITIES = {
     whole system) break, or causes serious data loss, or introduces a
     security hole on systems where you install the package.""",
     'grave' : """makes the package in question unusable by most or all users,
-    or causes data loss, or introduces a security hole allowing access 
+    or causes data loss, or introduces a security hole allowing access
     to the accounts of users who use the package.""",
     'serious' : """is a severe violation of Debian policy (that is,
     the problem is a violation of a 'must' or 'required' directive);
@@ -170,7 +170,7 @@ debother = {
     'press' : 'Press release issues',
     'project' : 'Problems related to project administration',
     'qa.debian.org' : 'Problems related to the quality assurance group',
-#slink-cd -- Slink CD 
+#slink-cd -- Slink CD
     'release.debian.org' : 'Requests regarding Debian releases and release team tools',
     'release-notes' : 'Problems with the release notes',
     'security-tracker' : 'The Debian Security Bug Tracker',
@@ -193,7 +193,7 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     headers = []
     pseudos = []
     query = True
-    
+
     tag = ui.menu('What sort of request is this?  (If none of these '
                   'things mean anything to you, or you are trying to report '
                   'a bug in an existing package, please press Enter to '
@@ -309,7 +309,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     headers = []
     pseudos = []
     query = True
-    
+
     tag = ui.menu('What sort of request is this?  (If none of these '
                   'things mean anything to you, or you are trying to report '
                   'a bug in an existing package, please press Enter to '
@@ -352,7 +352,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
                 'warning message may have been produced in error.',
                 'Exit without filing a report.', default=0):
                 sys.exit(1)
-            
+
         severity = 'wishlist'
 
         short_desc = ui.get_string(
@@ -413,11 +413,11 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
                 orphstr = 'request an adopter for'
             elif tag == 'RFH':
                 orphstr = 'request assistance with maintaining'
-                
+
             body = ('I %s the %s package.\n\n'
                     'The package description is:\n') % (orphstr, package)
             body = body + long_desc + '\n'
-        
+
     if short_desc:
         subject = '%s: %s -- %s' % (tag, package, short_desc)
     else:
@@ -519,7 +519,7 @@ def cgi_package_url(system, package, archived=False, source=False,
                     repeatmerged=True, version=None):
     root = SYSTEMS[system].get('cgiroot')
     if not root: return None
-    
+
     #package = urllib.quote_plus(package.lower())
     if source:
         query = {'src' : package.lower()}
@@ -531,7 +531,7 @@ def cgi_package_url(system, package, archived=False, source=False,
 
     if version:
         query['version'] = str(version)
-    
+
     qstr = urllib.urlencode(query)
     #print qstr
     return '%spkgreport.cgi?%s' % (root, qstr)
@@ -540,7 +540,7 @@ def package_url(system, package, mirrors=None, source=False,
                 repeatmerged=True):
     btsroot=get_btsroot(system, mirrors)
     package = urllib.quote_plus(package.lower())
-    return btsroot+('db/pa/l%s.html' % package) 
+    return btsroot+('db/pa/l%s.html' % package)
 
 def report_url(system, number, mirrors=None):
     number = str(number)
@@ -679,7 +679,7 @@ class BTSParser(sgmllib.SGMLParser):
     def end_ul(self):
         if self.inbuglist:
             self.check_li()
-        
+
         self.inbuglist = False
 
     def do_br(self, attrs):
@@ -708,11 +708,11 @@ class BTSParser(sgmllib.SGMLParser):
                 else:
                     if title.endswith(':'):
                         title = title[:-1]
-                    
+
                     buginfo = '%s [FIXED %s]' % (title, match.group(1))
             else:
                 buginfo = self.bugtitle
-            
+
             self.lidatalist.append(buginfo)
             self.bugcount += 1
 
@@ -735,7 +735,7 @@ class BTSParser(sgmllib.SGMLParser):
             if not self.endh2: return
         else:
             if self.cgi and self.preblock: return
-        
+
         self.save_bgn()
 
     def end_pre(self):
@@ -763,21 +763,21 @@ class BTSParser(sgmllib.SGMLParser):
             if 'Resolved' in title:
                 newhierarchy.append( (title, buglist) )
                 continue
-            
+
             bugs = []
             for bug in buglist:
                 if fixedfinder.search(bug):
                     fixed.append(bug)
                 else:
                     bugs.append(bug)
-                    
+
             if bugs:
                 title = ' '.join(title.split()[:-2])
                 if len(bugs) != 1:
                     title += ' (%d bugs)' % len(bugs)
                 else:
                     title += ' (1 bug)'
-                
+
                 newhierarchy.append( (title, bugs) )
 
         if fixed:
@@ -847,7 +847,7 @@ def parse_mbox_report(number, url, http_proxy, followups=False):
     for message in mbox:
         if not message:
             pass
-        
+
         subject = message.get('Subject')
         if not title:
             title = subject
@@ -896,7 +896,7 @@ def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
     #content = page.read()
     #if 'Maintainer' not in content:
     #    return (0, None, None)
-    
+
     parser = BTSParser(cgi=True)
     for line in page:
         parser.feed(line)
@@ -976,7 +976,7 @@ def get_reports(package, system='debian', mirrors=None, version=None,
             title, body = result
             this_hierarchy.append(title)
             #print title
-    
+
     title = "Multiple bug reports"
     bugcount = len(this_hierarchy)
     hierarchy = [('Reports', this_hierarchy)]
@@ -990,7 +990,7 @@ def get_report(number, system='debian', mirrors=None,
         result = get_cgi_report(number, system, http_proxy, archived,
                                 followups)
         if result: return result
-        
+
     url = report_url(system, number, mirrors)
     if not url: return None
 
