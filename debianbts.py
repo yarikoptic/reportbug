@@ -305,7 +305,7 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     return (subject, severity, headers, pseudos, body, query)
 
 def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
-    desc = body = ''
+    short_desc = body = ''
     headers = []
     pseudos = []
     query = True
@@ -355,10 +355,10 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
             
         severity = 'wishlist'
 
-        desc = ui.get_string(
+        short_desc = ui.get_string(
             'Please briefly describe this package; this should be an '
             'appropriate short description for the eventual package: ')
-        if not desc:
+        if not short_desc:
             return
 
         if tag == 'ITP':
@@ -376,7 +376,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
   Description     : %s
 
 (Include the long description here.)
-""" % (package, desc)
+""" % (package, short_desc)
     elif tag in ('O', 'RFA', 'RFH'):
         severity = 'normal'
         query = False
@@ -392,11 +392,11 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
                        'n': 'Exit without filing a report.' })
             if cont == 'n':
                 sys.exit(1)
-            desc = fulldesc = ''
+            short_desc = long_desc = ''
         else:
-            desc = info[11] or ''
+            short_desc = info[11] or ''
             package = info[12] or package
-            fulldesc = info[13]
+            long_desc = info[13]
 
         if tag == 'O' and info and info[9] in \
                ('required', 'important', 'standard'):
@@ -407,7 +407,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
             ui.ewrite('Your request will be carbon-copied to debian-devel, '
                       'per Debian policy.\n')
 
-        if fulldesc:
+        if long_desc:
             orphstr = 'intend to orphan'
             if tag == 'RFA':
                 orphstr = 'request an adopter for'
@@ -416,10 +416,10 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
                 
             body = ('I %s the %s package.\n\n'
                     'The package description is:\n') % (orphstr, package)
-            body = body + fulldesc + '\n'
+            body = body + long_desc + '\n'
         
-    if desc:
-        subject = '%s: %s -- %s' % (tag, package, desc)
+    if short_desc:
+        subject = '%s: %s -- %s' % (tag, package, short_desc)
     else:
         subject = '%s: %s' % (tag, package)
 
