@@ -76,8 +76,9 @@ reportbug (3.40) UNRELEASED; urgency=low
     in alphabetical order (like it was earlier).
   * Updated French manpage, thanks Sylvain Cherrier <sylvain.cherrier@free.fr>
     (Closes: #481775)
+  * Move po4a to Build-Depends-Indep: from Build-Depends:
 
- -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Wed, 21 May 2008 12:06:26 +0530
+ -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Wed, 21 May 2008 12:24:26 +0530
 
 reportbug (3.39-0.1) unstable; urgency=low
 
