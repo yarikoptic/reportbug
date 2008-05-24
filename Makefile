@@ -53,3 +53,7 @@ qa:
 
 # Include the make data for each module
 include $(patsubst %,%/module.mk,${MODULES})
+
+.PHONY: checks
+checks:
+	PYTHONPATH=. $(PYTHON) checks/compare_pseudo-pkgs_lists.py

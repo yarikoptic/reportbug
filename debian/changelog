@@ -1,4 +1,4 @@
-reportbug (3.40) UNRELEASED; urgency=low
+reportbug (3.40) unstable; urgency=low
 
   [ Sandro Tosi ]
   * debian/control
@@ -49,6 +49,8 @@ reportbug (3.40) UNRELEASED; urgency=low
       in #328531
   * checks/compare_pseudo-pkgs_lists.py
     - added to compare local pseudo-packages list with the one on ftp-master
+  * Makefile
+    - added "checks" target to run scripts under "checks/" dir
 
   [ Ben Finney ]
   * Makefile, */module.mk
@@ -82,7 +84,7 @@ reportbug (3.40) UNRELEASED; urgency=low
     (Closes: #481775)
   * Specified local path for GPL license
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Thu, 22 May 2008 00:37:02 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 24 May 2008 11:55:15 +0200
 
 reportbug (3.39-0.1) unstable; urgency=low
 
