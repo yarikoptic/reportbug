@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"POT-Creation-Date: 2008-05-14 09:06+0200\n"
+"POT-Creation-Date: 2008-05-28 00:22+0200\n"
 "PO-Revision-Date: 2008-05-10 15:14+0200\n"
 "Last-Translator: Sylvain Cherrier <sylvain.cherrier@free.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -1375,51 +1375,52 @@ msgstr ""
 
 # type: TP
 #: reportbug.1:454
-#, no-wrap
-msgid "B<EMAIL, REPORTBUGEMAIL, DEBEMAIL>"
+#, fuzzy, no-wrap
+msgid "B<REPORTBUGEMAIL, EMAIL, DEBEMAIL>"
 msgstr "B<EMAIL, REPORTBUGEMAIL, DEBEMAIL>"
 
 # type: Plain text
-#: reportbug.1:458
+#: reportbug.1:459
+#, fuzzy
 msgid ""
-"Email address to use as your from address; default is taken from your user "
-"name and /etc/mailname."
+"Email address to use as your from address (in this order). If no environment "
+"variable exists, the default is taken from your user name and /etc/mailname."
 msgstr ""
 "Adresse de courriel à indiquer dans le champ From\\ ; par défaut, cette "
 "adresse est tirée de votre nom d'utilisateur et de /etc/mailname."
 
 # type: TP
-#: reportbug.1:458
+#: reportbug.1:459
 #, no-wrap
 msgid "B<DEBFULLNAME, DEBNAME, NAME>"
 msgstr "B<DEBFULLNAME, DEBNAME, NAME>"
 
 # type: Plain text
-#: reportbug.1:461
+#: reportbug.1:462
 msgid "Real name to use; default is taken from /etc/passwd."
 msgstr "Nom complet à utiliser\\ : il est tiré par défaut de /etc/passwd."
 
 # type: TP
-#: reportbug.1:461
+#: reportbug.1:462
 #, no-wrap
 msgid "B<REPLYTO>"
 msgstr "B<REPLYTO>"
 
 # type: Plain text
-#: reportbug.1:464
+#: reportbug.1:465
 msgid "Address for Reply-To header in outgoing mail."
 msgstr ""
 "Adresse à mettre dans le champ «\\ Répondre à\\ » (Reply-To) dans le courrier "
 "émis."
 
 # type: TP
-#: reportbug.1:464
+#: reportbug.1:465
 #, no-wrap
 msgid "B<MAILCC>"
 msgstr "B<MAILCC>"
 
 # type: Plain text
-#: reportbug.1:469
+#: reportbug.1:470
 msgid ""
 "Use the specified CC address on your email.  Note you can also use the B<-H> "
 "option for this (and for Bcc's too)."
@@ -1429,13 +1430,13 @@ msgstr ""
 "Cachée (BCC)."
 
 # type: TP
-#: reportbug.1:469
+#: reportbug.1:470
 #, no-wrap
 msgid "B<MAILBCC>"
 msgstr "B<MAILBCC>"
 
 # type: Plain text
-#: reportbug.1:475
+#: reportbug.1:476
 msgid ""
 "Use the specified BCC address, instead of your email address.  (CC and BCC "
 "based on suggestions from Herbert Thielen in the B<bug> wishlist)."
@@ -1445,13 +1446,13 @@ msgstr ""
 "sur les suggestions de Herbert Thielen dans la liste de souhaits de B<bug>)."
 
 # type: TP
-#: reportbug.1:475 querybts.1:81
+#: reportbug.1:476 querybts.1:81
 #, no-wrap
 msgid "B<http_proxy>"
 msgstr "B<http_proxy>"
 
 # type: Plain text
-#: reportbug.1:482 querybts.1:88
+#: reportbug.1:483 querybts.1:88
 msgid ""
 "Provides the address of a proxy server to handle the BTS query.  This should "
 "be a valid B<http> URL for a proxy server, including any required port "
@@ -1464,13 +1465,13 @@ msgstr ""
 "le numéro de port s'il est différent de 80 NE FONCTIONNERA PAS)."
 
 # type: SH
-#: reportbug.1:482 querybts.1:88
+#: reportbug.1:483 querybts.1:88
 #, no-wrap
 msgid "NOTES"
 msgstr "NOTES"
 
 # type: Plain text
-#: reportbug.1:486 querybts.1:92
+#: reportbug.1:487 querybts.1:92
 msgid ""
 "Python's getopt module is pickier than GNU getopt() about the order of "
 "command line arguments; all switches must be specified before the package "
@@ -1481,7 +1482,7 @@ msgstr ""
 "doivent être écrits avant le nom du paquet."
 
 # type: Plain text
-#: reportbug.1:493
+#: reportbug.1:494
 msgid ""
 "B<reportbug> should probably be compatible with other bug tracking systems, "
 "like B<bugzilla> (used by the GNOME and Mozilla projects) and B<jitterbug> "
@@ -1493,13 +1494,13 @@ msgstr ""
 "mais il ne l'est pas."
 
 # type: SH
-#: reportbug.1:493 querybts.1:94
+#: reportbug.1:494 querybts.1:94
 #, no-wrap
 msgid "SEE ALSO"
 msgstr "VOIR AUSSI"
 
 # type: Plain text
-#: reportbug.1:497
+#: reportbug.1:498
 msgid ""
 "reportbug.conf(5), I<http://www.debian.org/Bugs/Developer#tags> for "
 "available tags, querybts(1)"
@@ -1508,13 +1509,13 @@ msgstr ""
 "connaître les balises disponibles, querybts(1)"
 
 # type: SH
-#: reportbug.1:497 querybts.1:96
+#: reportbug.1:498 querybts.1:96
 #, no-wrap
 msgid "AUTHOR"
 msgstr "AUTEUR"
 
 # type: Plain text
-#: reportbug.1:499 querybts.1:97
+#: reportbug.1:500 querybts.1:97
 msgid "Chris Lawrence E<lt>lawrencc@debian.orgE<gt>."
 msgstr "Chris Lawrence E<lt>lawrencc@debian.orgE<gt>."
 
