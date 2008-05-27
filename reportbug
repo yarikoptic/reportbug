@@ -183,9 +183,8 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         x = ui.select_options(prompt, menuopts,
                               {'y': 'Submit the bug report via email.',
                                'n': "Don't submit the bug report; instead, "
-                               "save it in a temporary file.",
-                               'q': "Don't submit the bug report; instead, "
-                               "save it in a temporary file.",
+                               "save it in a temporary file (exits reportbug).",
+                               'q': "Save it in a temporary file and quit.",
                                'a': "Attach a file.",
                                'i': "Include a text file.",
                                'c': "Change editor and re-edit.",

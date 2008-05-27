@@ -83,8 +83,11 @@ reportbug (3.40) unstable; urgency=low
   * Updated French manpage, thanks Sylvain Cherrier <sylvain.cherrier@free.fr>
     (Closes: #481775)
   * Specified local path for GPL license
+  * Change help text for 'q' and 'n' in the final step after exiting the
+    editor.  Retain both options in the interest of making minimal changes to
+    existing UI (Closes: #483063)
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 24 May 2008 11:55:15 +0200
+ -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Tue, 27 May 2008 11:09:26 +0530
 
 reportbug (3.39-0.1) unstable; urgency=low
 
