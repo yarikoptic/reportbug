@@ -49,6 +49,9 @@ reportbug (3.40) unstable; urgency=low
   * reportbug.1
     - fixed a little typo in "-i FILE, --include=FILE" options, as suggested
       in #328531
+    - reordered "REPORTBUGEMAIL, DEBEMAIL, EMAIL" to match selection order;
+      thanks to Jari Aalto <jari.aalto@cante.net> for report and (partial)
+      patch; (Closes: #472296)
   * checks/compare_pseudo-pkgs_lists.py
     - added to compare local pseudo-packages list with the one on ftp-master
   * Makefile
@@ -90,7 +93,7 @@ reportbug (3.40) unstable; urgency=low
     existing UI (Closes: #483063)
   * Specified the license for files under checks/ dir
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Tue, 27 May 2008 18:19:50 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Tue, 27 May 2008 23:41:21 +0200
 
 reportbug (3.39-0.1) unstable; urgency=low
 

@@ -452,9 +452,10 @@ Editor to use for editing your bug report.
 .B EDITOR
 Editor to use for editing the bug report (overridden by VISUAL).
 .TP
-.B EMAIL, REPORTBUGEMAIL, DEBEMAIL
-Email address to use as your from address; default is taken from your
-user name and /etc/mailname.
+.B REPORTBUGEMAIL, EMAIL, DEBEMAIL
+Email address to use as your from address (in this order). If no
+environment variable exists, the default is taken from your user name
+and /etc/mailname.
 .TP
 .B DEBFULLNAME, DEBNAME, NAME
 Real name to use; default is taken from /etc/passwd.
