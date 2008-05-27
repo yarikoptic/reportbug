@@ -56,3 +56,10 @@ License: GPL-2+
     .
     On Debian systems, the complete text of the GNU General Public License
     can be found in file "/usr/share/common-licenses/GPL".
+
+Files: checks/compare_pseudo-pkgs_lists.py
+Copyright:
+    © 2008 Sandro Tosi <matrixhasu@gmail.com>
+License: PD
+    checks/compare_pseudo-pkgs_lists.py was placed in public domain by Sandro
+    Tosi <matrixhasu@gmail.com>
