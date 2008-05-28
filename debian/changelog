@@ -1,3 +1,12 @@
+reportbug (3.41) UNRELEASED; urgency=low
+
+  [ Chris Lawrence ]
+  * debian/control
+    - Added self to Uploaders
+    - Set Maintainer to new list on alioth.
+
+ -- Chris Lawrence <lawrencc@debian.org>  Wed, 28 May 2008 18:19:04 -0500
+
 reportbug (3.40) unstable; urgency=low
 
   [ Sandro Tosi ]
