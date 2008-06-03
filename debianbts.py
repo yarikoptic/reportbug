@@ -457,8 +457,6 @@ SYSTEMS = { 'debian' :
               'email' : '%s@bugs.guug.de', 'query-dpkg' : False },
             }
 
-SYSTEMS['helixcode'] = SYSTEMS['ximian']
-
 CLASSES = {
     'sw-bug' : 'The problem is a bug in the software or code.  For'
     'example, a crash would be a sw-bug.',
