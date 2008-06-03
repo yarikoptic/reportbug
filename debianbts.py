@@ -458,10 +458,6 @@ SYSTEMS = { 'debian' :
             'guug' :
             { 'name' : 'GUUG (German Unix User Group)',
               'email' : '%s@bugs.guug.de', 'query-dpkg' : False },
-            'grml' :
-            { 'name' : 'grml', 'email': '%s@bugs.grml.org',
-              'btsroot' : 'http://bugs.grml.org/',
-              'cgiroot' : 'http://bugs.grml.org/cgi-bin/' },
             }
 
 SYSTEMS['helixcode'] = SYSTEMS['ximian']

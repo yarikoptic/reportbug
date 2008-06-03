@@ -8,8 +8,9 @@ reportbug (3.41) UNRELEASED; urgency=low
   [ Y Giridhar Appaji Nag ]
   * debianbts.py
     - Remove kde and ximian, they use bugzilla
+    - Remove grml, they use roundup
 
- -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Tue, 03 Jun 2008 14:39:13 +0530
+ -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Tue, 03 Jun 2008 14:40:46 +0530
 
 reportbug (3.40) unstable; urgency=low
 
