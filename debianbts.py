@@ -446,9 +446,6 @@ SYSTEMS = { 'debian' :
                            'chill', 'gij', 'g77', 'python', 'python-base',
                            'x-window-system-core', 'x-window-system'),
               'cgiroot' : 'http://bugs.debian.org/cgi-bin/' },
-            'mandrake' :
-            { 'name' : 'Linux-Mandrake', 'email': '%s@bugs.linux-mandrake.com',
-              'type' : 'mailto', 'query-dpkg' : False },
             'progeny' :
             { 'name' : 'Progeny', 'email' : 'bugs@progeny.com',
               'type' : 'gnats', 'otherpkgs' : progenyother },
