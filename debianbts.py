@@ -446,15 +446,9 @@ SYSTEMS = { 'debian' :
                            'chill', 'gij', 'g77', 'python', 'python-base',
                            'x-window-system-core', 'x-window-system'),
               'cgiroot' : 'http://bugs.debian.org/cgi-bin/' },
-            'kde' :
-            { 'name' : 'KDE Project', 'email': '%s@bugs.kde.org',
-              'btsroot': 'http://bugs.kde.org/' },
             'mandrake' :
             { 'name' : 'Linux-Mandrake', 'email': '%s@bugs.linux-mandrake.com',
               'type' : 'mailto', 'query-dpkg' : False },
-            'ximian' :
-            { 'name' : 'Ximian', 'email': '%s@bugs.ximian.com',
-              'type' : 'mailto' },
             'progeny' :
             { 'name' : 'Progeny', 'email' : 'bugs@progeny.com',
               'type' : 'gnats', 'otherpkgs' : progenyother },

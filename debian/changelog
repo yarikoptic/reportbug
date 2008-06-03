@@ -5,7 +5,11 @@ reportbug (3.41) UNRELEASED; urgency=low
     - Added self to Uploaders
     - Set Maintainer to new list on alioth.
 
- -- Chris Lawrence <lawrencc@debian.org>  Wed, 28 May 2008 18:19:04 -0500
+  [ Y Giridhar Appaji Nag ]
+  * debianbts.py
+    - Remove kde and ximian, they use bugzilla
+
+ -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Tue, 03 Jun 2008 14:39:13 +0530
 
 reportbug (3.40) unstable; urgency=low
 
