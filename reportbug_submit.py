@@ -30,7 +30,7 @@ import reportbug
 from reportbug import VERSION, VERSION_NUMBER
 
 import os
-sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
+sys.path = ['/usr/share/reportbug'] + sys.path + [os.curdir]
 
 import re
 import commands
@@ -484,7 +484,6 @@ def main():
     'o'
 
 if __name__ == '__main__':
-    sys.path.append('/usr/share/reportbug')
     try:
         main()
     except KeyboardInterrupt:

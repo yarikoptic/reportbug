@@ -1798,7 +1798,6 @@ orphaned for a long period of time are often removed from the archive.\n''')
         return
 
 if __name__ == '__main__':
-    sys.path.append('/usr/share/reportbug')
     try:
         main()
     except KeyboardInterrupt:

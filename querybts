@@ -25,7 +25,7 @@
 # $Id: querybts,v 1.7.2.3 2008-04-18 05:38:27 lawrencc Exp $
 
 import sys, os
-sys.path = [os.curdir, '/usr/share/reportbug'] + sys.path
+sys.path = ['/usr/share/reportbug'] + sys.path + [os.curdir]
 
 from reportbug_exceptions import *
 
