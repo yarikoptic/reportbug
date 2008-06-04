@@ -30,7 +30,7 @@ import reportbug
 from reportbug import VERSION, VERSION_NUMBER
 
 import os
-sys.path = ['/usr/share/reportbug'] + sys.path + [os.curdir]
+sys.path = ['/usr/share/reportbug'] + sys.path
 
 import re
 import commands

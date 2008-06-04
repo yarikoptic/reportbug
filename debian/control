@@ -1,7 +1,7 @@
 Source: reportbug
 Section: utils
 Priority: standard
-Maintainer: reportbug maintainers <reportbug-maint@lists.alioth.debian.org>
+Maintainer: Reportbug Maintainers <reportbug-maint@lists.alioth.debian.org>
 Uploaders: Sandro Tosi <matrixhasu@gmail.com>, Y Giridhar Appaji Nag <giridhar@appaji.net>, Chris Lawrence <lawrencc@debian.org>
 Standards-Version: 3.7.3
 Build-Depends: debhelper (>= 5.0.37.2), po4a (>= 0.23)

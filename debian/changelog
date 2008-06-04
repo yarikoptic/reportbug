@@ -1,4 +1,11 @@
-reportbug (3.41) UNRELEASED; urgency=low
+reportbug (3.41) unstable; urgency=high
+
+  [ Sandro Tosi ]
+  * Security bugfix release, hence urgency is set to high
+  * querybts, reportbug_submit.py
+    - os.curdir is not added to sys.path anymore, thanks to Thomas Arendsen
+      Hein <thomas@intevation.de> for the report; Fixes: CVE-2008-2230;
+      Closes: #484311
 
   [ Chris Lawrence ]
   * debian/control
@@ -12,10 +19,9 @@ reportbug (3.41) UNRELEASED; urgency=low
   * --body-file doesn't allow preview of report, don't suggest using it with
     saved files.  Thanks Shai Berger <shai@platonix.com> for the bug report
     (Closes: #484245)
-  * Add os.curdir as the last entry in sys.path (Fixes CVE-2008-2230) and
-    remove calls to sys.path.append('/usr/share/reportbug') (Closes: #484311)
+  * remove calls to sys.path.append('/usr/share/reportbug') from reportbug
 
- -- Y Giridhar Appaji Nag <giridhar@appaji.net>  Wed, 04 Jun 2008 17:42:11 +0530
+ -- Sandro Tosi <matrixhasu@gmail.com>  Wed, 04 Jun 2008 18:07:23 +0200
 
 reportbug (3.40) unstable; urgency=low
 
