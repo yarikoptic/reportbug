@@ -1,3 +1,13 @@
+reportbug (3.42) UNRELEASED; urgency=low
+
+  * debian/control
+    - bump Standards-Version to 3.8.0 (no changes needed)
+  * reportbug
+    - changed shebang to "/usr/bin/env python", removing "-S" parameter;
+      thanks to Neil Mayhew for the hint; Closes: #484534
+
+ -- Sandro Tosi <matrixhasu@gmail.com>  Thu, 12 Jun 2008 00:30:42 +0200
+
 reportbug (3.41) unstable; urgency=high
 
   [ Sandro Tosi ]

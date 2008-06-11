@@ -1,4 +1,4 @@
-#!/usr/bin/python -S
+#!/usr/bin/env python
 # -*- python -*-
 # reportbug - Report a bug in the Debian distribution.
 #   Written by Chris Lawrence <lawrencc@debian.org>
