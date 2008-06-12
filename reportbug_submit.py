@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#
 # reportbug_submit module - email and GnuPG functions
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   Copyright (C) 1999-2006 Chris Lawrence

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#! /usr/bin/python
 # -*- python -*-
 # querybts - Examine the state of a debbugs server
 #   Written by Chris Lawrence <lawrencc@debian.org>

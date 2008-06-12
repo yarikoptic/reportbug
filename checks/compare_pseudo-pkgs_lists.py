@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # Author: Sandro Tosi
 # Date: 2008-05-16
 # License: Public domain

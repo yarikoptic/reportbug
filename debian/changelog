@@ -1,12 +1,26 @@
 reportbug (3.42) UNRELEASED; urgency=low
 
+  [ Sandro Tosi ]
   * debian/control
     - bump Standards-Version to 3.8.0 (no changes needed)
-  * reportbug
-    - changed shebang to "/usr/bin/env python", removing "-S" parameter, now
-      urwid is imported; thanks to Neil Mayhew for the hint; Closes: #484534
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Thu, 12 Jun 2008 00:40:37 +0200
+  [ Sandro Tosi, Ben Finney ]
+  * reportbug
+    - Changed shebang to Debian standard "/usr/bin/python", removing "-S"
+      parameter. Now urwid is imported; thanks to Neil Mayhew for the hint.
+      (Closes: #484534)
+
+  [ Ben Finney ]
+  * reportbug
+  * querybts
+  * script
+    - Standardise all Python programs to same shebang line as per Debian
+      Python policy §1.3.2.
+  * reportbug_submit.py
+  * checks/compare_pseudo-pkgs_lists.py
+    - Remove shebang line from non-exectable modules.
+
+ -- Ben Finney <ben+debian@benfinney.id.au>  Thu, 12 Jun 2008 17:45:51 +1000
 
 reportbug (3.41) unstable; urgency=high
 
