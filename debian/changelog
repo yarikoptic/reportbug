@@ -19,6 +19,12 @@ reportbug (3.42) UNRELEASED; urgency=low
   * reportbug_submit.py
   * checks/compare_pseudo-pkgs_lists.py
     - Remove shebang line from non-exectable modules.
+  * Tidy up imports.
+    - reportbug, querybts
+      - Remove redundant imports.
+      - Import names explicitly.
+    - test/test_querybts_program.py
+      - Ensure 'querybts' program doesn't cause ImportError.
 
  -- Ben Finney <ben+debian@benfinney.id.au>  Thu, 12 Jun 2008 17:45:51 +1000
 

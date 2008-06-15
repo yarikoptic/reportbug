@@ -27,15 +27,20 @@
 import sys, os
 sys.path = ['/usr/share/reportbug'] + sys.path
 
-from reportbug_exceptions import *
+import getopt
+import re
 
-import reportbug, debianbts, commands, getopt, re, mailcap, urlutils
+import reportbug
+from reportbug_exceptions import (
+    UINotImportable,
+    NoPackage, NoBugs, NoReport, NoNetwork,
+    )
+import debianbts
+import urlutils
 
 try:
     import reportbug_ui_newt as ui
     ui_mode = 'newt'
-##    import reportbug_ui_text
-##    ui = reportbug_ui_text
 except:
     import reportbug_ui_text as ui
     ui_mode = 'text'
