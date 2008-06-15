@@ -278,7 +278,7 @@ reportbug (3.32) unstable; urgency=low
   * Bail out immediately if no subject specified in a followup.
     (Closes: #403668)
   * Update French man page.  (Closes: #400276)
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Sat, 23 Dec 2006 00:44:51 -0600
 
 reportbug (3.31) unstable; urgency=low
@@ -314,7 +314,7 @@ reportbug (3.30) unstable; urgency=low
   * Add an extra EHLO when doing STARTTLS, since (contrary to the smtplib
     documentation) smtplib seems to need it.  (Closes: #3226523)
   * Fix crash when bugtitle lacks a colon.  (Closes: #389259)
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Thu, 28 Sep 2006 21:16:38 -0500
 
 reportbug (3.29.5) unstable; urgency=low
@@ -484,7 +484,7 @@ reportbug (3.18) unstable; urgency=high
     .reportbugrc files with 'bugs.debian.org' as the smtphost, and noisily
     overrides any 'master.debian.org' settings it sees.  (Closes: #338900)
   * s/kernel-image/linux-image/ (Closes: #336871)
-  * Generate a Message-ID for every message sent by reportbug. 
+  * Generate a Message-ID for every message sent by reportbug.
     (Closes: #341325)
 
  -- Chris Lawrence <lawrencc@debian.org>  Tue, 29 Nov 2005 23:29:24 -0500
@@ -515,7 +515,7 @@ reportbug (3.16) unstable; urgency=low
   * vi nag now includes how to disable it.  (Closes: #322852)
   * Better handling for the case where $HOME doesn't exist during a
     config run.  (Closes: #323595)
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Mon, 22 Aug 2005 01:57:31 -0400
 
 reportbug (3.15) unstable; urgency=low
@@ -562,7 +562,7 @@ reportbug (3.12) unstable; urgency=low
   * Nag novice users if they use vi.  (Closes: #299172)
   * When calling an MTA, separate addresses with spaces rather than
     commas.  (Closes: #308293, #308543)
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Tue, 10 May 2005 17:24:01 -0500
 
 reportbug (3.11) unstable; urgency=low
@@ -705,7 +705,7 @@ reportbug (2.99.5) unstable; urgency=low
   * Don't check packages.debian.org if options.bts is set to something
     other than "debian".
   * Incorporate applicable changes in 2.62ubuntu1 to this tree.
-  
+
     (Main advantage: --bts=ubuntu works now.  If someone will kindly tell
     me an easy way to tell a Ubuntu system from a Debian one, I will
     incorporate code to eliminate the need for the forked package.  Same
@@ -783,7 +783,7 @@ reportbug (2.64) unstable; urgency=low
   * If signing fails, don't bail out; instead, send the message unsigned.
     (Closes: #259649)
   * Hide the security tag with severities < grave.  (Closes: #258333)
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Wed, 28 Jul 2004 20:28:24 -0400
 
 reportbug (2.63) unstable; urgency=low
@@ -1345,7 +1345,7 @@ reportbug (2.11) unstable; urgency=low
   * Avoid Ctrl-C tracebacks.  (Closes: #181475)
   * Rerun reportbug after the initial configuration.  (Closes: #195636)
   * Fix browser launch from newt interface.  (Closes: #180791)
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Fri, 20 Jun 2003 02:24:06 -0500
 
 reportbug (2.10.2) unstable; urgency=low
@@ -1385,7 +1385,7 @@ reportbug (2.9) unstable; urgency=low
   * Don't declare a character set on anything we send.  This should
     resolve all of the following...
     (Closes: #165720, #166495, #166248, #166819)
-    (The right thing to do is figure out what character set is used, but 
+    (The right thing to do is figure out what character set is used, but
     I'm not writing a full-blown MUA here...)
   * Rewrite to use MIMEMultipart instead of MIMEBase.
     (Closes: #165856, #167222)
@@ -1410,7 +1410,7 @@ reportbug (2.8) unstable; urgency=low
       exceed line-length limitations.
     + Still QP-encode message bodies, since nobody's complained about
       that yet.
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Sat, 19 Oct 2002 16:56:29 -0500
 
 reportbug (2.7) unstable; urgency=low
@@ -1436,12 +1436,12 @@ reportbug (2.6) unstable; urgency=low
 
   * The "I thought Python 2.2 was feature-frozen" release.
   * Back off on the email module's overaggressive quoting of ASCII
-    characters in headers.  (Something like reportbug::encode_if_needed 
+    characters in headers.  (Something like reportbug::encode_if_needed
     probably should migrate into the email module for everyone's sanity.)
   * I should also back off on the overaggressive q-p encoding of message
     bodies, but we get a lhuvely DeprecationWarning if we do that...
   * Did I mention I thought Python 2.2 was feature-frozen?
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Thu, 17 Oct 2002 20:00:53 -0500
 
 reportbug (2.5) unstable; urgency=low
@@ -1667,7 +1667,7 @@ reportbug (1.99.46) unstable; urgency=low
     type the bug text in the editor.  This prompt is stripped from the
     message after editing.
   * Cleaned up external script support.
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Thu,  4 Jul 2002 17:49:11 -0400
 
 reportbug (1.99.45) unstable; urgency=low
@@ -1770,7 +1770,7 @@ reportbug (1.99.35) unstable; urgency=low
   * Fix odd issues in dependency printing code with libcomerr and the like.
   * Fix query problem where a package's Source: line has a version number
     in it.  (Closes: #149000)
-    
+
  -- Chris Lawrence <lawrencc@debian.org>  Tue,  4 Jun 2002 15:13:03 -0500
 
 reportbug (1.99.34) unstable; urgency=low
@@ -1941,7 +1941,7 @@ reportbug (1.99.17) unstable; urgency=low
   * Check packages.debian.org in addition to the status database when
     filing an ITP/RFP, as the status database may include false positives
     when the package is built locally but not in Debian.  (Closes: #146614)
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Sun, 12 May 2002 22:10:17 -0500
 
 reportbug (1.99.16) experimental; urgency=low
@@ -2132,7 +2132,7 @@ reportbug (1.42) unstable; urgency=medium
     reports of this issue will be merged with #131100.  You have been warned.
   * Added a diagnostic routine, per README.developers spec.
     (It also shows how to write one in something other than bash.)
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Fri,  1 Feb 2002 03:33:38 -0600
 
 reportbug (1.41.1421356) unstable; urgency=medium
@@ -2616,7 +2616,7 @@ reportbug (1.12) unstable; urgency=low
     some time.)  Try reporting a wnpp bug to see what it does... who
     knows, you may even like it ;-)
   * Updated priority to 'standard'.
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Tue,  6 Feb 2001 09:58:01 -0600
 
 reportbug (1.11) unstable; urgency=medium
@@ -2647,7 +2647,7 @@ reportbug (1.10) unstable; urgency=medium
   * Leading and trailing spaces on input are now stripped.  This shouldn't
     hurt anything, and makes tab completion behave nicely.
   * Complies to policy 3.2.1.0, no changes necessary.
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Sat, 27 Jan 2001 00:41:34 -0600
 
 reportbug (1.9) unstable; urgency=medium
@@ -2850,7 +2850,7 @@ reportbug (0.54) frozen unstable; urgency=low
   * Disabled bug template support; removed our example file.  An
     implementation of the more flexible system used by 'bug' will appear
     when I actually have some time to code.
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Fri, 10 Mar 2000 18:39:12 -0800
 
 reportbug (0.53) frozen unstable; urgency=medium
@@ -2950,7 +2950,7 @@ reportbug (0.46) unstable; urgency=low
   * You can now enter a bug number at the "Is the bug you found..."
     prompt. (Closes: #52309)
   * Cleaned up Ctrl-C exit from querybts.
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Fri, 10 Dec 1999 23:57:25 -0600
 
 reportbug (0.45) unstable; urgency=low
@@ -2974,7 +2974,7 @@ reportbug (0.44) unstable; urgency=low
 
 reportbug (0.43) unstable; urgency=low
 
-  * Back out change in 0.42 that broke reportbug if you didn't have a 
+  * Back out change in 0.42 that broke reportbug if you didn't have a
     "real name".  (Closes: #50378)
   * Don't try to get input in find_package_for() if we don't have a TTY.
     Instead, list matching package names.  (Closes: #50622)
@@ -3151,7 +3151,7 @@ reportbug (0.27) unstable; urgency=low
     This allows C-u M-! reportbug (options) in emacs to generate a nicely
     formatted report template.  Thanks to Francesco Potorti` for the
     report.
-  
+
  -- Chris Lawrence <lawrencc@debian.org>  Mon,  6 Sep 1999 16:04:12 -0500
 
 reportbug (0.26) unstable; urgency=low
@@ -3243,7 +3243,7 @@ reportbug (0.19.1) unstable; urgency=low
     package appears in brackets after the name.
 
  -- Chris Lawrence <lawrencc@debian.org>  Wed, 28 Jul 1999 03:55:12 -0500
-  
+
 reportbug (0.18) unstable; urgency=low
 
   * Generate a message for unreadable conf files instead of stopping with

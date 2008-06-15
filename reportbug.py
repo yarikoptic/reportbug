@@ -84,7 +84,7 @@ def realpath(filename):
         component = '/'.join(bits[0:i])
         if component in fhs_directories:
             continue
-        
+
         if os.path.islink(component):
             resolved = os.readlink(component)
             (dir, file) = os.path.split(component)
@@ -100,12 +100,12 @@ pathdirs = ['/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/X11R6/bin',
 def search_path_for(filename):
     d, f = os.path.split(filename)
     if d: return realpath(filename)
-    
+
     path = os.environ.get("PATH", os.defpath).split('/')
     for d in pathdirs:
         if not d in path:
             path.append(d)
-    
+
     for d in path:
         fullname = os.path.join(d, f)
         if os.path.exists(fullname):
@@ -174,7 +174,7 @@ def query_dpkg_for(filename, use_dlocate=True):
     # Try again without dlocate if no packages found
     if not packages and dlocate_used:
         return query_dpkg_for(filename, use_dlocate=False)
-    
+
     return filename, packages
 
 def find_package_for(filename, pathonly=False):
@@ -183,7 +183,7 @@ def find_package_for(filename, pathonly=False):
     if filename[0] == '/':
         fn, pkglist = query_dpkg_for(filename)
         if pkglist: return fn, pkglist
-        
+
     newfilename = search_path_for(filename)
     if pathonly and not newfilename:
         return (filename, None)
@@ -220,7 +220,7 @@ def get_user_id(email='', realname='', charset='utf-8'):
     info = pwd.getpwuid(uid)
     email = (os.environ.get('REPORTBUGEMAIL', email) or
              os.environ.get('DEBEMAIL') or os.environ.get('EMAIL'))
-    
+
     email = email or find_rewritten(info[0]) or info[0]
 
     if '@' not in email:
@@ -228,7 +228,7 @@ def get_user_id(email='', realname='', charset='utf-8'):
             domainname = file('/etc/mailname').readline().strip()
         else:
             domainname = socket.getfqdn()
-  
+
         email = email+'@'+domainname
 
     # Handle EMAIL if it's formatted as 'Bob <bob@host>'.
@@ -250,7 +250,7 @@ def get_user_id(email='', realname='', charset='utf-8'):
     # but only if it is not already in Unicode
     if isinstance(realname, str):
         realname = realname.decode(charset, 'replace')
-    
+
     if re.match(r'[\w\s]+$', realname):
         return u'%s <%s>' % (realname, email)
 
@@ -263,7 +263,7 @@ statuscache = {}
 def get_package_status(package, avail=False):
     if not avail and package in statuscache:
         return statuscache[package]
-    
+
     versionre = re.compile('Version: ')
     packagere = re.compile('Package: ')
     priorityre = re.compile('Priority: ')
@@ -286,7 +286,7 @@ def get_package_status(package, avail=False):
     recommends = []
     confmode = False
     state = ''
-    
+
     try:
         x = os.getcwd()
     except OSError:
@@ -401,7 +401,7 @@ class AvailDB(object):
             line = self.fp.readline()
             if not line:
                 break
-                
+
             if line == '\n':
                 return chunk
             chunk += line.decode('utf-8', 'replace')
@@ -460,7 +460,7 @@ def get_source_name(package):
         if m:
             return m.group(1)
     return None
-        
+
 def get_source_package(package):
     packages = []
     retlist = []
@@ -475,7 +475,7 @@ def get_source_package(package):
             packs = m.group(1)
             packlist = re.split(r',\s*', packs)
             packages += packlist
-    
+
     for p in packages:
         desc = available_package_description(p)
         if desc and (p not in found):
@@ -488,7 +488,7 @@ def get_source_package(package):
 def get_package_info(packages, skip_notfound=False):
     if not packages:
         return []
-    
+
     packinfo = get_dpkg_database()
     pkgname = r'(?:[\S]+(?:$|,\s+))'
 
@@ -510,7 +510,7 @@ def get_package_info(packages, skip_notfound=False):
 
     groups = groupfor.values()
     found = {}
-    
+
     searchobs = [re.compile(x, re.MULTILINE) for x in searchbits]
     packob = re.compile('^Package: (?P<pkg>.*)$', re.MULTILINE)
     statob = re.compile('^Status: (?P<stat>.*)$', re.MULTILINE)
@@ -533,7 +533,7 @@ def get_package_info(packages, skip_notfound=False):
                     provides = m.group('pkg')
                 else:
                     provides = None
-                
+
                 vers = versob.search(p).group('vers')
                 desc = descob.search(p).group('desc')
 
@@ -593,9 +593,9 @@ def get_dependency_info(package, depends, rel="depends on"):
     for (pack, status, vers, desc, provides) in deplist:
         if provides:
             pack += ' [' + provides + ']'
-        
+
         packstuff = '%-*.*s %s' % (39-maxlen, 39-maxlen, pack, vers)
-                
+
         info = '%-3.3s %-40.40s %-.34s\n' % (status, packstuff, desc)
         depinfo += info
 
@@ -707,9 +707,9 @@ def generate_blank_report(package, pkgversion, severity, justification,
             else:
                 env = allsetting or env
         locinfo.append('%s=%s' % (setting, env))
-    
+
     locinfo = ', '.join(locinfo)
-    
+
     if debianbts.SYSTEMS[system].has_key('namefmt'):
         package = debianbts.SYSTEMS[system]['namefmt'] % package
 
@@ -717,7 +717,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
         headers = u'\n'.join(pseudos)+u'\n'
     else:
         headers = u''
-    
+
     if pkgversion:
         headers += u'Version: %s\n' % pkgversion
 
@@ -736,7 +736,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
 
     if mode < MODE_ADVANCED:
         body = NEWBIELINE+u'\n\n'+body
-    
+
     report = "\n"
     if not exinfo:
         if type == 'gnats':
@@ -866,7 +866,7 @@ def parse_config_files():
                 lex = our_lex(file(filename))
             except IOError, msg:
                 continue
-            
+
             lex.wordchars = lex.wordchars + '-.@/:<>'
 
             token = lex.get_token().lower()
@@ -1030,7 +1030,7 @@ def cleanup_msg(dmessage, headers, type):
                 ph2[header] = content
             else:
                 newheaders.append( (header, content) )
-        
+
         for header in PSEUDOHEADERS:
             if header in ph2:
                 ph += ['%s: %s' % (header, ph2[header])]
