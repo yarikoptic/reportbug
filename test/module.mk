@@ -20,7 +20,10 @@ COVERAGE = python-coverage
 DATE = date
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 INWAIT = inotifywait
-INWAIT_OPTS = -q -r -e modify -e create -t 0
+inwait_event_opts += -e create
+inwait_event_opts += -e modify
+inwait_event_opts += -e delete
+INWAIT_OPTS = -q -r -t 0 ${inwait_event_opts}
 TEST_INWAIT_FILES = ${CODE_PACKAGE_DIR} ${CODE_PROGRAMS} ${TEST_DIR}
 
 NOSETESTS_FILES = ${TEST_DIR}
