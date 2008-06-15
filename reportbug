@@ -30,18 +30,26 @@ DEFAULT_BTS = 'debian'
 import sys, os
 sys.path = ['/usr/share/reportbug'] + sys.path
 
-import optparse, re, os, pwd, time, locale, commands, checkversions
-import rfc822, smtplib, reportbug, cStringIO, socket, debianbts, checkbuildd
-import gettext, popen2
-from optparse import OptionParser, OptionValueError
+import optparse
+import re
+import locale
+import commands
+import rfc822
+import gettext
 import textwrap
 
 import reportbug
 from reportbug import MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD
 from reportbug import VERSION, COPYRIGHT
 from rbtempfile import TempFile, tempfile_prefix, cleanup_temp_file
-from reportbug_exceptions import *
+from reportbug_exceptions import (
+    UINotImportable, UINotImplemented,
+    NoNetwork, NoPackage, NoBugs, NoReport,
+    )
 import reportbug_submit
+import checkversions
+import debianbts
+import checkbuildd
 
 try:
     gettext.install('reportbug')
