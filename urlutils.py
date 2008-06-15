@@ -42,7 +42,7 @@ UA_STR = 'reportbug/##VERSION## (Debian)'
 def decode (page):
     "gunzip or deflate a compressed page"
     #print page.info().headers
-    encoding = page.info().get("Content-Encoding") 
+    encoding = page.info().get("Content-Encoding")
     if encoding in ('gzip', 'x-gzip', 'deflate'):
         from cStringIO import StringIO
         # cannot seek in socket descriptors, so must get content now
@@ -90,7 +90,7 @@ class handlepasswd(urllib2.HTTPPasswordMgrWithDefaultRealm):
             "Enter password for %s in %s at %s: " % (user, realm, authurl))
         self.add_password(realm, authurl, user, password)
         return user, password
-        
+
 _opener = None
 def urlopen(url, proxies=None, data=None):
     global _opener
@@ -100,7 +100,7 @@ def urlopen(url, proxies=None, data=None):
 
     headers = {'User-Agent': UA_STR,
                'Accept-Encoding' : 'gzip;q=1.0, deflate;q=0.9, identity;q=0.5'}
-    
+
     req = urllib2.Request(url, data, headers)
 
     proxy_support = urllib2.ProxyHandler(proxies)
@@ -119,7 +119,7 @@ def urlopen(url, proxies=None, data=None):
         _opener = urllib2.build_opener(*handlers)
         # print _opener.handlers
         urllib2.install_opener(_opener)
-    
+
     return _opener.open(req)
 
 # Global useful URL opener; returns None if the page is absent, otherwise
@@ -153,7 +153,7 @@ def launch_browser(url):
         cmd = 'sensible-browser' + commands.mkarg(url)
         os.system(cmd)
         return
-    
+
     if webbrowser:
         webbrowser.open(url)
         return

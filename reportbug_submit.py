@@ -319,7 +319,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         if not ui.yes_no('Does your report seem satisfactory', 'Yes, send it.',
                          'No, don\'t send it.'):
             smtphost = mta = None
-            
+
     filename = None
     if template or printonly:
         pipe = sys.stdout
@@ -350,7 +350,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
 
         malist = [commands.mkarg(a[1]) for a in alist]
         jalist = ' '.join(malist)
-        
+
         faddr = rfc822.parseaddr(fromaddr)[1]
         ewrite("Sending message via %s...\n", mta)
         pipe = os.popen('%s -f %s -oi -oem %s' % (
@@ -391,7 +391,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                     tryagain = True
                     smtppasswd = None
                     continue
-            
+
                 failed = True
                 ewrite('SMTP send failure: %s\n', x)
 

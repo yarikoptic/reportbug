@@ -109,7 +109,7 @@ class IncomingParser(sgmllib.SGMLParser):
         for attrib, value in attrs:
             if attrib.lower() != 'href':
                 continue
-            
+
             mob = self.package.match(value)
             if mob:
                 self.found.append(mob.group(1))
@@ -261,7 +261,7 @@ def get_incoming_version(package, http_proxy=None, arch='i386'):
         return None
     if not page:
         return None
-    
+
     parser = IncomingParser(package, arch)
     for line in page:
         parser.feed(line)

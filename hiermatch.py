@@ -6,7 +6,7 @@ import reportbug_exceptions
 def egrep_list(strlist, pattern_str, subindex=None):
     """Use the pattern_str to find any match in a list of strings."""
     """Return: a list of index for the matchs into the origin list."""
-    
+
     if strlist is None:
         return None
 
@@ -14,7 +14,7 @@ def egrep_list(strlist, pattern_str, subindex=None):
         pat = re.compile(pattern_str, re.I|re.M)
     except:
         raise reportbug_exceptions.InvalidRegex
-    
+
     resultlist = []
     if subindex is None:
         subindex = range(len(strlist))
@@ -39,7 +39,7 @@ def egrep_hierarchy(hier, pattern_str, subhier=None, nth=1):
 
         resulthier.append(resultlist)
     return resulthier
-    
+
 def matched_hierarchy(hier, pattern_str):
     """Actually create a new hierarchy from a pattern matching."""
     mhier = []
