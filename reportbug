@@ -33,22 +33,15 @@ sys.path = ['/usr/share/reportbug'] + sys.path
 import optparse, re, os, pwd, time, locale, commands, checkversions
 import rfc822, smtplib, reportbug, cStringIO, socket, debianbts, checkbuildd
 import gettext, popen2
-
-from rbtempfile import TempFile, tempfile_prefix, cleanup_temp_file
-
-import reportbug
-from reportbug import MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD
-from reportbug_exceptions import *
 from optparse import OptionParser, OptionValueError
 import textwrap
 
+import reportbug
+from reportbug import MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD
 from reportbug import VERSION, COPYRIGHT
-
+from rbtempfile import TempFile, tempfile_prefix, cleanup_temp_file
+from reportbug_exceptions import *
 import reportbug_submit
-
-# Ignore the f*cking deprecation warnings that slipped into a stable release
-#import warnings
-#warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 try:
     gettext.install('reportbug')
