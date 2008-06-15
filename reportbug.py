@@ -27,13 +27,17 @@ VERSION = "reportbug ##VERSION##"
 VERSION_NUMBER = "##VERSION##"
 COPYRIGHT = VERSION + '\nCopyright (C) 1999-2006 Chris Lawrence <lawrencc@debian.org>'
 
-import time, sys, os, locale, re, pwd, commands, shlex, debianbts, rfc822
+import sys
+import os
+import re
+import pwd
+import commands
+import shlex
+import rfc822
 import socket
-import pprint
 import subprocess
 
-from string import ascii_letters, digits
-from rbtempfile import TempFile, tempfile_prefix
+import debianbts
 
 # Paths for dpkg
 DPKGLIB = '/var/lib/dpkg'
