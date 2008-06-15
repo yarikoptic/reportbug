@@ -23,6 +23,8 @@ reportbug (3.42) UNRELEASED; urgency=low
     - reportbug, querybts, *.py
       - Remove redundant imports.
       - Import names explicitly.
+      - Use '__import__' for importing dynamically-named modules,
+        instead of 'exec' + 'eval'.
     - reportbug_submit.py
       - Don't munge sys.path unnecessarily.
     - test/*.py

@@ -170,10 +170,9 @@ def main():
 
     if interface:
         global ui, ui_mode
-        iface = 'reportbug_ui_'+interface
+        iface = 'reportbug_ui_%(interface)s' % vars()
         try:
-            exec 'import '+iface
-            ui = eval(iface)
+            ui = __import__(iface)
             ui_mode = interface
         except UINotImportable, msg:
             ui.long_message('*** Unable to import %s interface: %s '

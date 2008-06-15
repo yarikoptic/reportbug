@@ -809,10 +809,9 @@ def main():
                             "indicate problems with this interface.\n",
                             interface)
 
-        iface = 'reportbug_ui_'+interface
+        iface = 'reportbug_ui_%(interface)s' % vars()
         try:
-            exec 'import '+iface
-            ui = eval(iface)
+            ui = __import__(iface)
         except UINotImportable, msg:
             ui.long_message('*** Unable to import %s interface: %s '
                             'Falling back to text interface.\n',
