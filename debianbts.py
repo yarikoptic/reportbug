@@ -24,17 +24,26 @@
 #
 # $Id: debianbts.py,v 1.24.2.15 2008-04-18 05:38:27 lawrencc Exp $
 
-import sgmllib, glob, os, re, reportbug, rfc822, time, urllib, checkversions
-import textwrap
-from reportbug_exceptions import *
-from urlutils import open_url
 import sys
-
 import mailbox
 import email
 import email.Errors
 import cStringIO
-import cgi
+import sgmllib
+import glob
+import os
+import re
+import time
+import urllib
+import textwrap
+import pprint
+
+import reportbug
+import checkversions
+from reportbug_exceptions import (
+    NoNetwork,
+    )
+from urlutils import open_url
 
 def msgfactory(fp):
     try:
@@ -992,8 +1001,6 @@ class NullParser(sgmllib.SGMLParser):
         sgmllib.SGMLParser.__init__(self)
 
 if __name__ == '__main__':
-    import pprint
-
     data = get_cgi_reports('reportbug')
     pprint.pprint(data)
     time.sleep(1000)

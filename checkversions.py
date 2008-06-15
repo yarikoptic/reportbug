@@ -24,12 +24,19 @@
 #
 # Version ##VERSION##; see changelog for revision history
 
+import sys
+import os
+import re
+import urllib2
 import sgmllib
-#import HTMLParser
+import gc
+import time
 
-import os, re, sys, urllib2
+import reportbug
 from urlutils import open_url
-from reportbug_exceptions import *
+from reportbug_exceptions import (
+    NoNetwork,
+    )
 
 PACKAGES_URL = 'http://packages.debian.org/%s'
 INCOMING_URL = 'http://incoming.debian.org/'
@@ -281,7 +288,6 @@ def get_incoming_version(package, http_proxy=None, arch='i386'):
     del parser
     return None
 
-import gc
 def check_available(package, version, dists=None, check_incoming=True,
                     check_newqueue=True,
                     http_proxy=None, arch='i386'):
@@ -294,7 +300,6 @@ def check_available(package, version, dists=None, check_incoming=True,
     stuff = get_versions_available(package, dists, http_proxy, arch)
     avail.update(stuff)
     if check_newqueue:
-        import reportbug
         srcpackage = reportbug.get_source_name(package)
 	if srcpackage is None:
 	    srcpackage = package
@@ -321,9 +326,6 @@ def check_available(package, version, dists=None, check_incoming=True,
     return new, too_new
 
 if __name__=='__main__':
-    import time
-    import gc
-
     gc.set_debug(gc.DEBUG_LEAK)
     print get_newqueue_available('reportbug')
     print gc.garbage

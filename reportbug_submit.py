@@ -23,25 +23,14 @@
 # $Id: reportbug_submit.py,v 1.20.2.6 2007-04-19 21:21:31 lawrencc Exp $
 
 import sys
-
-import reportbug
-from reportbug import VERSION, VERSION_NUMBER
-
-import os
 sys.path = ['/usr/share/reportbug'] + sys.path
 
+import os
 import re
 import commands
 import rfc822
 import smtplib
 import socket
-import debianbts
-import time
-
-from rbtempfile import TempFile, open_write_safe, tempfile_prefix
-
-from reportbug_exceptions import *
-
 import email
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
@@ -50,11 +39,18 @@ from email.MIMEImage import MIMEImage
 from email.MIMEBase import MIMEBase
 from email.MIMEMessage import MIMEMessage
 from email.Header import Header
-from email import Encoders
+import mimetypes
+
+import reportbug
+from reportbug import VERSION, VERSION_NUMBER
+import debianbts
+from rbtempfile import TempFile, open_write_safe, tempfile_prefix
+from reportbug_exceptions import (
+    NoMessage,
+    )
+import reportbug_ui_text as ui
 
 quietly = False
-
-import reportbug_ui_text as ui
 
 # Obscene hack :)
 def system(cmdline):
@@ -158,7 +154,6 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
     return body
 
 def mime_attach(body, attachments, charset, body_charset=None):
-    import mimetypes
     mimetypes.init()
 
     message = MIMEMultipart('mixed')

@@ -31,11 +31,11 @@ import socket
 import commands
 import os
 import sys
-from reportbug_exceptions import *
-try:
-    import webbrowser
-except:
-    webbrowser = None
+import webbrowser
+
+from reportbug_exceptions import (
+    NoNetwork,
+    )
 
 UA_STR = 'reportbug/##VERSION## (Debian)'
 

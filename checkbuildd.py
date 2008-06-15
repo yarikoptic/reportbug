@@ -22,9 +22,13 @@
 #
 # Version ##VERSION##; see changelog for revision history
 
-import sgmllib, os, commands
+import sgmllib
+import commands
+
 from urlutils import open_url
-from reportbug_exceptions import *
+from reportbug_exceptions import (
+    NoNetwork,
+    )
 
 BUILDD_URL = 'http://buildd.debian.org/build.php?arch=%s&pkg=%s'
 
