@@ -23,8 +23,6 @@
 # $Id: reportbug_submit.py,v 1.20.2.6 2007-04-19 21:21:31 lawrencc Exp $
 
 import sys
-sys.path = ['/usr/share/reportbug'] + sys.path
-
 import os
 import re
 import commands
