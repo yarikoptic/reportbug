@@ -24,8 +24,16 @@
 #
 # $Id: reportbug_ui_urwid.py,v 1.3.2.19 2007-04-17 20:02:41 lawrencc Exp $
 
-import commands, string, sys, re
-from reportbug_exceptions import *
+import sys
+import re
+
+import reportbug
+from reportbug_exceptions import (
+    UINotImportable,
+    NoPackage, NoBugs, NoNetwork, NoReport,
+    )
+from urlutils import launch_browser
+from reportbug_ui_text import ewrite
 
 try:
     import urwid.raw_display
@@ -33,13 +41,7 @@ try:
 except ImportError:
     raise UINotImportable, 'Please install the python-urwid package to use this interface.'
 
-import reportbug
-
-from urlutils import launch_browser
-
 ISATTY = sys.stdin.isatty()
-
-from reportbug_ui_text import spawn_editor, ewrite, get_password
 
 log_message = ewrite
 display_failure = ewrite

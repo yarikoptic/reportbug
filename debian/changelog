@@ -20,7 +20,7 @@ reportbug (3.42) UNRELEASED; urgency=low
   * checks/compare_pseudo-pkgs_lists.py
     - Remove shebang line from non-exectable modules.
   * Tidy up imports.
-    - reportbug, querybts
+    - reportbug, querybts, reportbug_ui_*.py
       - Remove redundant imports.
       - Import names explicitly.
     - test/*.py

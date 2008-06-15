@@ -20,17 +20,29 @@
 #
 # $Id: reportbug_ui_text.py,v 1.19.2.9 2008-04-18 05:38:28 lawrencc Exp $
 
-import commands, sys, os, re, math, string, debianbts, errno, reportbug
-from reportbug_exceptions import *
-from urlutils import launch_browser
-import dircache
+import sys
+import os
+import commands
+import re
+import math
+import string
+import errno
 import glob
 import getpass
-
+import textwrap
 try:
-    import textwrap
-except:
-    from optik import textwrap
+    import readline
+except ImportError:
+    readline = None
+
+import reportbug
+import debianbts
+from reportbug_exceptions import (
+    NoReport, NoPackage, NoBugs, NoNetwork,
+    InvalidRegex,
+    )
+from urlutils import launch_browser
+import hiermatch
 
 ISATTY = sys.stdin.isatty()
 charset = 'us-ascii'
@@ -78,16 +90,13 @@ def indent_wrap_text(text, starttext='', indent=0, linelen=None):
     return output + '\n'
 
 # Readline support, if available
-try:
-    import readline
+if readline is not None:
     readline.parse_and_bind("tab: complete")
     try:
         # minimize the word delimeter list if possible
         readline.set_completer_delims(' ')
     except:
         pass
-except:
-    readline = None
 
 class our_completer(object):
     def __init__(self, completions=None):
@@ -372,8 +381,6 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 def show_report(number, system, mirrors,
                 http_proxy, screen=None, queryonly=False, title='',
                 archived='no'):
-    import debianbts
-
     sysinfo = debianbts.SYSTEMS[system]
     ewrite('Retrieving report #%d from %s bug tracking system...\n',
            number, sysinfo['name'])
@@ -449,8 +456,6 @@ def show_report(number, system, mirrors,
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
                      source=False, version=None):
-    import debianbts
-
     root = debianbts.SYSTEMS[bts].get('btsroot')
     if not root:
         ewrite('%s bug tracking system has no web URL; bypassing query\n',
@@ -698,7 +703,6 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
 	return "FilterEnd"
 
     " Create new hierarchy match the pattern."
-    import hiermatch
     try:
         hierarchy = hiermatch.matched_hierarchy(hierarchyfull, pattern)
     except InvalidRegex:

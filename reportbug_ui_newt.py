@@ -20,8 +20,14 @@
 #
 # $Id: reportbug_ui_newt.py,v 1.5.2.4 2007-04-17 19:42:56 lawrencc Exp $
 
-import commands, string, sys, re, debianbts
-from reportbug_exceptions import *
+import sys
+import commands
+import string
+import debianbts
+from reportbug_exceptions import (
+    UINotImportable,
+    NoPackage, NoBugs, NoNetwork,
+    )
 from urlutils import launch_browser
 
 try:
@@ -141,8 +147,6 @@ def menu(par, options, prompt, default=None, title=None, any_ok=0, order=None):
 # Things that are very UI dependent go here
 def show_report(number, system, mirrors, http_proxy, screen=None, queryonly=0,
                 title='', archived='no'):
-    import debianbts
-
     s = screen
     if not s:
         s = newt_screen()
@@ -201,8 +205,6 @@ def show_report(number, system, mirrors, http_proxy, screen=None, queryonly=0,
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=0, screen=None, title="", archived='no',
                      source=0):
-    import debianbts
-
     sysinfo = debianbts.SYSTEMS[bts]
     root = sysinfo.get('btsroot')
     if not root:
