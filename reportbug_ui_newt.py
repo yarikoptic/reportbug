@@ -56,7 +56,7 @@ def newt_infobox(text, height=6, width=50, title="", screen=None):
         s = snack.SnackScreen()
     else:
         s = screen
-        
+
     t = snack.TextboxReflowed(width, text, maxHeight = s.height - 12)
     g = snack.GridForm(s, title[:width], 1, 2)
     g.add(t, 0, 0, padding = (0, 0, 0, 1))
@@ -165,7 +165,7 @@ def show_report(number, system, mirrors, http_proxy, screen=None, queryonly=0,
     buttons = ['Ok', 'More details (launch browser)', 'Quit']
     if not queryonly:
         buttons.append('Submit more information')
-        
+
     s.popWindow()
     while 1:
         (bugtitle, bodies) = info
@@ -193,7 +193,7 @@ def show_report(number, system, mirrors, http_proxy, screen=None, queryonly=0,
         # os.system('stty sane; clear')
         launch_browser(debianbts.get_report_url(system, number, archived))
         s.resume()
-        
+
     if not screen:
         s.finish()
     return
@@ -213,7 +213,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     scr = screen
     if not scr:
         scr = newt_screen()
-    
+
     if isinstance(package, basestring):
         if source:
             newt_infobox('Querying %s bug tracking system for reports on'

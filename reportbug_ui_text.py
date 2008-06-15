@@ -70,7 +70,7 @@ def indent_wrap_text(text, starttext='', indent=0, linelen=None):
     text = ' '.join(text.split())
     if not text:
         return starttext+'\n'
-    
+
     output = textwrap.fill(text, width=linelen, initial_indent=starttext,
                            subsequent_indent=si)
     if output.endswith('\n'):
@@ -97,7 +97,7 @@ class our_completer(object):
 
     def complete(self, text, i):
         if not self.completions: return None
-        
+
         matching = [x for x in self.completions if x.startswith(text)]
         if i < len(matching):
             return matching[i]
@@ -134,7 +134,7 @@ def select_options(msg, ok, help, allow_numbers=None, nowrap=False):
         if option in string.ascii_uppercase:
             default=option
             break
-    
+
     if not help: help = {}
 
     if '?' not in ok: ok = ok+'?'
@@ -164,7 +164,7 @@ def select_options(msg, ok, help, allow_numbers=None, nowrap=False):
                                   ', '.join(map(str, nums))
             except (ValueError, TypeError):
                 pass
-                
+
     if not ch: ch = default
     ch = ch[0]
     if ch=='?':
@@ -184,7 +184,7 @@ def select_options(msg, ok, help, allow_numbers=None, nowrap=False):
         ewrite(indent_wrap_text(err_message))
     else:
         ewrite('Invalid selection.\n')
-        
+
     return select_options(msg, ok, help, allow_numbers, nowrap)
 
 def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False):
@@ -193,7 +193,7 @@ def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False):
         ok = 'Ynq'
     else:
         ok = 'yNq'
-        
+
     res = select_options(msg, ok, {'y': yeshelp, 'n': nohelp, 'q' : 'Quit.'},
                          nowrap=nowrap)
     if res == 'q':
@@ -248,7 +248,7 @@ def get_password(prompt=None):
 def FilenameCompleter(text, i):
     paths = glob.glob(text+'*')
     if not paths: return None
-    
+
     if i < len(paths):
         entry = paths[i]
         if os.path.isdir(entry):
@@ -306,7 +306,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 
     allowed = map(lambda x: x[0], options)
     allowed = allowed + extras
-    
+
     maxlen_name = min(max(map(len, allowed)), columns/3)
     digits = int(math.ceil(math.log10(len(options)+1)))
 
@@ -324,7 +324,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 
     if multiple:
         prompt += '(one at a time) '
-    
+
     while 1:
         if default:
             aprompt = prompt + '[%s] ' % default
@@ -333,7 +333,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 
         response = our_raw_input(aprompt, allowed)
         if not response: response = default
-        
+
         try:
             num = int(response)
             if 1 <= num <= len(options):
@@ -384,11 +384,11 @@ def show_report(number, system, mirrors,
                                     http_proxy=http_proxy, archived=archived)
     except:
         info = None
-        
+
     if not info:
         ewrite('No report available: #%s\n', number)
         return
-               
+
     (title, messages) = info
     current_message = 0
     skip_pager = False
@@ -399,7 +399,7 @@ def show_report(number, system, mirrors,
                                                  messages[current_message])
         else:
             text = 'Original report - %s\n\n%s' % (title, messages[0])
-            
+
         if not skip_pager:
             fd = os.popen('sensible-pager', 'w')
             try:
@@ -413,7 +413,7 @@ def show_report(number, system, mirrors,
         skip_pager = False
 
         options = 'xOrbq'
-            
+
         if (current_message+1) < len(messages):
             options = 'N'+options.lower()
         if (current_message):
@@ -450,7 +450,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
                      source=False, version=None):
     import debianbts
-    
+
     root = debianbts.SYSTEMS[bts].get('btsroot')
     if not root:
         ewrite('%s bug tracking system has no web URL; bypassing query\n',
@@ -460,7 +460,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     srcstr = ""
     if source:
         srcstr = " (source)"
-        
+
     if isinstance(package, basestring):
         long_message('Querying %s BTS for reports on %s%s...\n',
                      debianbts.SYSTEMS[bts]['name'], package, srcstr)
@@ -577,7 +577,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                     'f' : 'Filter bug list using a pattern.'}
                 if skipmsg:
                     helptext['n'] = helptext['n'][:-1]+' (skip to Next page).'
-                    
+
                 while 1:
                     sys.stderr.writelines(lastpage)
                     x = select_options(pstr, options, helptext,
@@ -685,7 +685,7 @@ def proc_hierarchy(hierarchy):
 	    if match:
 		bugs.append(int(match.group(1)))
     return count, bugs
-    
+
 def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                 http_proxy, screen, title):
     """Search for the bug list using a pattern."""
@@ -704,10 +704,10 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
     except InvalidRegex:
 	our_raw_input('Invalid regular expression, press ENTER to continue.')
 	return "FilterEnd"
-        
+
     count, bugs = proc_hierarchy(hierarchy)
     exp = re.compile(r'\#(\d+):')
-    
+
     if not count:
 	our_raw_input('No match found, press ENTER to continue.')
 	return "FilterEnd"
@@ -777,7 +777,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
 		    't' : 'Top of the bug list (remove all filters).'}
                 if skipmsg:
                     helptext['n'] = helptext['n'][:-1]+' (skip to Next page).'
-                    
+
                 while 1:
                     sys.stderr.writelines(lastpage)
                     x = select_options(pstr, options, helptext,
@@ -790,7 +790,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                     elif x == 'q':
                         raise NoReport
                     elif x == 's':
-                        return 
+                        return
                     elif x == 'y':
                         if queryonly:
                             return

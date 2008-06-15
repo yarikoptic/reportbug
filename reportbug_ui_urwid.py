@@ -71,7 +71,7 @@ class dialog(object):
     def __init__(self, message, body=None, width=None, height=None,
                  title='', long_message=''):
         self.body = body
-        
+
         self.scrollmode=False
         if not body:
             if long_message:
@@ -92,7 +92,7 @@ class dialog(object):
         if message:
             self.frame.header = urwid.Pile([urwid.Text(message),
                                             urwid.Divider()])
-            
+
         w = self.frame
         # pad area around listbox
         w = urwid.Padding(w, ('fixed left',2), ('fixed right',2))
@@ -102,7 +102,7 @@ class dialog(object):
         if title:
             w = urwid.Frame(w)
             w.header = urwid.Text( ('title', title) )
-        
+
         # "shadow" effect
         w = urwid.Columns( [w, ('fixed', 1, urwid.AttrWrap( urwid.Filler(urwid.Text(('border',' ')), "top") ,'shadow'))])
         w = urwid.Frame( w, footer = urwid.AttrWrap(urwid.Text(('border',' ')),'shadow'))
@@ -152,7 +152,7 @@ class dialog(object):
                 for k in keys:
                     if urwid.is_mouse_event(k):
                         event, button, col, row = k
-                        self.view.mouse_event( size, 
+                        self.view.mouse_event( size,
                                                event, button, col, row,
                                                focus=True)
                     if k == 'window resize':
@@ -165,7 +165,7 @@ class dialog(object):
 
     def on_exit(self, exitcode):
         return exitcode
-    
+
     def unhandled_key(self, size, k):
         if k in ('tab', 'shift tab'):
             focus = self.frame.focus_part
@@ -173,7 +173,7 @@ class dialog(object):
                 self.frame.set_focus('body')
             else:
                 self.frame.set_focus('footer')
-        
+
         if k in ('up','page up', 'down', 'page down'):
             if self.scrollmode:
                 self.frame.set_focus('body')
@@ -182,7 +182,7 @@ class dialog(object):
                 self.frame.set_focus('body')
             else:
                 self.frame.set_focus('footer')
-                
+
         if k == 'enter':
             # pass enter to the "ok" button
             self.frame.set_focus('footer')
@@ -232,7 +232,7 @@ class listdialog(dialog):
         for (w, label) in widgets:
             self.items.append(w)
             if label:
-                w = urwid.Columns( [('fixed', buttonwidth, w), 
+                w = urwid.Columns( [('fixed', buttonwidth, w),
                                     urwid.Text(label)], 2 )
             w = urwid.AttrWrap(w, 'selectable','focus')
             l.append(w)
@@ -257,12 +257,12 @@ class listdialog(dialog):
 class checklistdialog(listdialog):
     def on_exit(self, exitcode):
         """
-        Mimick dialog(1)'s --checklist exit. 
+        Mimick dialog(1)'s --checklist exit.
         Put each checked item in double quotes with a trailing space.
         """
         if exitcode:
             return exitcode, []
-        
+
         l = []
         for i in self.items:
             if i.get_state():
@@ -277,7 +277,7 @@ def display_message(message, *args, **kwargs):
         title = kwargs['title']
     else:
         title = ''
-        
+
     if 'ui' in kwargs:
         ui = kwargs['ui']
     else:
@@ -299,12 +299,12 @@ def long_message(message, *args, **kwargs):
         title = kwargs['title']
     else:
         title = ''
-        
+
     if 'ui' in kwargs:
         ui = kwargs['ui']
     else:
         ui = None
-        
+
     # Rewrap the message
     chunks = re.split('\n\n+', message)
     chunks = [re.sub(r'\s+', ' ', x).strip() for x in chunks]
@@ -348,7 +348,7 @@ def get_string(prompt, options=None, title=None, force_prompt=False,
         title = '%s: %s' % (reportbug.VERSION, title)
     else:
         title = reportbug.VERSION
-    
+
     box = textentry(prompt, title=title)
     box.add_buttons([ ("OK", 0) ])
     code, text = box.main(ui)
@@ -443,7 +443,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
             b.exitcode = option
             b = urwid.AttrWrap( b, 'selectable','focus' )
         widgets.append((b, desc))
-    
+
 ##     if any_ok:
 ##         editbox = urwid.Edit(multiline=False)
 ##         e = urwid.ListBox([editbox])
@@ -464,7 +464,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
             if opt[0] == default:
                 focus = i
                 break
-    
+
     result, chosen = box.main(ui)
     if result < 0:
         return result
@@ -491,7 +491,7 @@ def show_report(number, system, mirrors,
         ui = initialize_urwid_ui()
 
     sysinfo = debianbts.SYSTEMS[system]
-    display_message('Retrieving report #%d from %s bug tracking system...', 
+    display_message('Retrieving report #%d from %s bug tracking system...',
         number, sysinfo['name'], title=title, ui=ui)
 
     info = debianbts.get_report(number, system, mirrors=mirrors,
@@ -503,7 +503,7 @@ def show_report(number, system, mirrors,
     options = dict(o='Ok', d='More details (launch browser)',
                    m='Submit more information', q='Quit')
     valid = 'Odmq'
-    
+
     while 1:
         (bugtitle, bodies) = info
         body = bodies[0]
@@ -535,12 +535,12 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     ui = screen
     if not ui:
         ui = initialize_urwid_ui()
-    
+
     if isinstance(package, basestring):
         pkgname = package
         if source:
             pkgname += ' (source)'
-            
+
         display_message('Querying %s bug tracking system for reports on %s',
                         debianbts.SYSTEMS[bts]['name'], pkgname,
                         ui=ui, title=title)
@@ -591,7 +591,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
             else:
                 cancellabel = 'Continue'
                 quitlabel='Quit'
-                
+
             while True:
                 info = menu('Select a bug to read the report:', buglist,
                             '', ui=ui, title=sectitle, default=p,
