@@ -17,7 +17,7 @@ import urllib, re
 dictparse = re.compile(r'([^\s]+)\s+(.+)',re.IGNORECASE)
 
 ftpmaster_list = {}
-pseudo = urllib.urlopen('http://ftp-master.debian.org/bzr/ftpmaster-dak/config/debian/pseudo-packages.description')
+pseudo = urllib.urlopen('http://ftp-master.debian.org/pseudo-packages.description')
 for l in pseudo:
     m = dictparse.search(l)
     ftpmaster_list[m.group(1)] = m.group(2)

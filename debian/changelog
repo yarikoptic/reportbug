@@ -3,6 +3,9 @@ reportbug (3.42) UNRELEASED; urgency=low
   [ Sandro Tosi ]
   * debian/control
     - bump Standards-Version to 3.8.0 (no changes needed)
+  * checks/compare_pseudo-pkgs_lists.py
+    - updated ftp-master url (previous was on brz, but ftp-master moved to
+      git and there is no web file access)
 
   [ Sandro Tosi, Ben Finney ]
   * reportbug
@@ -30,7 +33,7 @@ reportbug (3.42) UNRELEASED; urgency=low
     - test/*.py
       - Ensure programs and modules don't cause ImportError.
 
- -- Ben Finney <ben+debian@benfinney.id.au>  Sun, 15 Jun 2008 18:37:15 +1000
+ -- Sandro Tosi <matrixhasu@gmail.com>  Tue, 17 Jun 2008 01:26:45 +0200
 
 reportbug (3.41) unstable; urgency=high
 
