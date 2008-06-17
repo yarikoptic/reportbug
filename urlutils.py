@@ -146,6 +146,13 @@ def open_url(url, http_proxy=None):
     except TypeError:
         print >> sys.stderr, "http_proxy environment variable must be formatted as a valid URI"
         raise NoNetwork
+    except httplib.HTTPException, exc:
+        exc_name = exc.__class__.__name__
+        message = (
+            "Failed to open %(url)r"
+            " (%(exc_name)s: %(exc)s)"
+            ) % vars()
+        raise NoNetwork(message)
     return page
 
 def launch_browser(url):
