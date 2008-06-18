@@ -1627,7 +1627,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         HOMEDIR = os.environ.get('HOME', '/')
 
         if (rtype == 'debbugs' and not self.options.tags and
-            not (notatty or self.options.kudos or exinfo) and package != 'wnpp' and
+            not (notatty or self.options.kudos or exinfo) and package not in ('wnpp','ftp.debian.org') and
             mode > MODE_NOVICE):
             # Multiple-choice checkbox
             if severity in ('grave', 'critical', 'serious'):

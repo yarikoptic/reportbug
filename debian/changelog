@@ -6,6 +6,9 @@ reportbug (3.42) UNRELEASED; urgency=low
   * checks/compare_pseudo-pkgs_lists.py
     - updated ftp-master url (previous was on brz, but ftp-master moved to
       git and there is no web file access)
+  * reportbug
+    - do not ask for additional tags if the user is filing a bug against
+      ftp.debian.org; thanks to Bernd Zeimetz for the report; Closes: #486753
 
   [ Sandro Tosi, Ben Finney ]
   * reportbug
@@ -33,7 +36,7 @@ reportbug (3.42) UNRELEASED; urgency=low
     - test/*.py
       - Ensure programs and modules don't cause ImportError.
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Tue, 17 Jun 2008 01:26:45 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Wed, 18 Jun 2008 07:28:12 +0200
 
 reportbug (3.41) unstable; urgency=high
 
