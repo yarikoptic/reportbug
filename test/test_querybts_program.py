@@ -17,4 +17,4 @@ import scaffold
 
 module_name = 'querybts'
 module_file_path = os.path.join(scaffold.bin_dir, "querybts")
-reportbug = scaffold.make_module_from_file(module_name, module_file_path)
+querybts = scaffold.make_module_from_file(module_name, module_file_path)
