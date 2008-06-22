@@ -107,6 +107,39 @@ Note that the getkey and yesno functions are only available in scripts
 written using /bin/bash as their interpreter; for other shells or
 languages, you will need to write your own input parsing functions.
 
+Source layout
+=============
+
+The source tree for ``reportbug`` is organised this way:
+
+* Top level
+
+  * Programs (e.g. ``reportbug``, ``querybts``, etc.).
+
+  * Python library modules, used by the programs.
+
+  * Manual pages.
+
+* Debian packaging
+
+  * ``debian/`` contains the control files used to build the Debian
+    source and binary packages.
+
+* `Unit testing framework`_
+
+  * ``test/`` contains the unit test suite. Unit test modules are
+    discovered and run using the ``nosetests`` program, and are named
+    as ``test_*.py``.
+
+* ?? TODO: describe the purpose
+
+  * ``checks/`` contains ???
+
+* Internationalisation and localisation
+
+  * ``po4a/`` contains configuration and data for localisation of
+    source files using the ``po4a`` tool.
+
 Unit testing framework
 ======================
 
