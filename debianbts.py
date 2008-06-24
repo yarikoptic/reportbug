@@ -325,7 +325,7 @@ itp_template = textwrap.dedent(u"""\
       Description     : %(short_desc)s
 
     (Include the long description here.)
-    """)
+""")
 
 
 def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):

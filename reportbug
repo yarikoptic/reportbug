@@ -161,6 +161,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             changed = True
 
         prompt = 'Submit this report on %s (e to edit)' % package
+
         if options.kudos:
             prompt = 'Send this message (e to edit)'
             ewrite("Message will be sent to %s\n", sendto)
@@ -179,7 +180,18 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             ewrite('No subject found in message.  Please edit again.\n')
 
         menuopts = "Ynaceilmpq"
-        if not changed or not subject: menuopts = "ynacEilmpq"
+
+        if not changed or not subject:
+            menuopts = "ynacEilmpq"
+
+        # cfr Debian BTS #293361
+        if package == 'wnpp':
+            for itp_line in debianbts.itp_template.rsplit('\n'):
+                # if the line is not empty and it's in the message the user wrote
+                if itp_line in message and itp_line != '':
+                    ewrite("Wrong line: %s\n", itp_line)
+                    menuopts = "Eq"
+                    prompt = 'ERROR: you have composed an ITP with fields unchanged from the template; this will NOT be submitted. You should edit all fields so they contain correct values for your ITP (e to edit)'
 
         x = ui.select_options(prompt, menuopts,
                               {'y': 'Submit the bug report via email.',

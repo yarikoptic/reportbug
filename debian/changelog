@@ -9,6 +9,8 @@ reportbug (3.42) UNRELEASED; urgency=low
   * reportbug
     - do not ask for additional tags if the user is filing a bug against
       ftp.debian.org; thanks to Bernd Zeimetz for the report; Closes: #486753
+    - all fields of ITP bugs must contain valid data and not template lines;
+      thanks to Adeodato Simó for the bug report; Closes: #293361
 
   [ Sandro Tosi, Ben Finney ]
   * reportbug
@@ -36,7 +38,7 @@ reportbug (3.42) UNRELEASED; urgency=low
     - test/*.py
       - Ensure programs and modules don't cause ImportError.
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Wed, 18 Jun 2008 07:28:12 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Tue, 24 Jun 2008 02:29:56 +0200
 
 reportbug (3.41) unstable; urgency=high
 
