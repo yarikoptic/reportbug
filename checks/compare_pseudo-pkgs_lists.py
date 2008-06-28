@@ -8,7 +8,7 @@
 import sys, os
 sys.path = ['.'] + sys.path
 
-import debianbts
+import reportbuglib.debianbts as debianbts
 
 import urllib, re
 

@@ -13,6 +13,8 @@ reportbug (3.42~devel) UNRELEASED; urgency=low
       thanks to Adeodato Simó for the bug report; Closes: #293361
   * README.Users
     - added to contain suggestions or some info helpful to users
+  * checks/compare_pseudo-pkgs_lists.py
+    - updated due to new reportbuglib format
 
   [ Sandro Tosi, Ben Finney ]
   * reportbug
@@ -43,7 +45,7 @@ reportbug (3.42~devel) UNRELEASED; urgency=low
   * debian/rules
     - Install library modules from current location.
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 29 Jun 2008 01:11:41 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 29 Jun 2008 01:15:03 +0200
 
 reportbug (3.41) unstable; urgency=high
 
