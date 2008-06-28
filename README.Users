@@ -10,3 +10,5 @@ You have to set these variables in ~/.reportbugrc file:
 smtphost smtp.googlemail.com:587
 smtpuser "<your address>@gmail.com"
 smtptls
+
+Thanks to: Raphael Geissert <atomo64@gmail.com>
