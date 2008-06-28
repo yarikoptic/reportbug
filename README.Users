@@ -1,0 +1,12 @@
+===============================
+reportbug Information for Users
+===============================
+
+How to use GMail SMTP server
+============================
+
+You have to set these variables in ~/.reportbugrc file:
+
+smtphost smtp.googlemail.com:587
+smtpuser "<your address>@gmail.com"
+smtptls

@@ -1,4 +1,4 @@
-reportbug (3.42) UNRELEASED; urgency=low
+reportbug (3.42~devel) UNRELEASED; urgency=low
 
   [ Sandro Tosi ]
   * debian/control
@@ -11,6 +11,8 @@ reportbug (3.42) UNRELEASED; urgency=low
       ftp.debian.org; thanks to Bernd Zeimetz for the report; Closes: #486753
     - all fields of ITP bugs must contain valid data and not template lines;
       thanks to Adeodato Simó for the bug report; Closes: #293361
+  * README.Users
+    - added to contain suggestions or some info helpful to users
 
   [ Sandro Tosi, Ben Finney ]
   * reportbug
@@ -41,7 +43,7 @@ reportbug (3.42) UNRELEASED; urgency=low
   * debian/rules
     - Install library modules from current location.
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Tue, 24 Jun 2008 02:29:56 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 29 Jun 2008 01:11:41 +0200
 
 reportbug (3.41) unstable; urgency=high
 
