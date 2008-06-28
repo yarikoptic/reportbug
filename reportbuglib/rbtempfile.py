@@ -1,5 +1,5 @@
 #
-# rbtempfile module - Temporary file handling for reportbug
+# reportbuglib/rbtempfile module - Temporary file handling for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   (C) 1999-2004 Chris Lawrence
 #

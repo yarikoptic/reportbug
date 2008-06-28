@@ -1,5 +1,6 @@
 #
-# checkversions.py - Find if the installed version of a package is the latest
+# reportbuglib/checkversions.py
+# Find if the installed version of a package is the latest
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   (C) 2002-06 Chris Lawrence

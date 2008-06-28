@@ -8,7 +8,7 @@
 # under the terms of the GNU General Public License, version 2 or later.
 # No warranty expressed or implied. See the file LICENSE for details.
 
-""" Unit test for urlutils module
+""" Unit test for reportbuglib.urlutils module
 """
 
 import httplib
@@ -16,8 +16,8 @@ import httplib
 import scaffold
 from scaffold import TestCase
 
-import reportbug_exceptions
-import urlutils
+from reportbuglib import reportbug_exceptions
+from reportbuglib import urlutils
 
 
 class StubObject(object):

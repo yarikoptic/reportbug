@@ -1,3 +1,4 @@
+# reportbuglib/reportbug_ui_text.py
 # Text user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   (C) 2001-06 Chris Lawrence

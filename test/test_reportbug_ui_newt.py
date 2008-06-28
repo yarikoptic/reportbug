@@ -8,9 +8,9 @@
 # under the terms of the GNU General Public License, version 2 or later.
 # No warranty expressed or implied. See the file LICENSE for details.
 
-""" Unit test for reportbug_ui_newt module
+""" Unit test for reportbuglib.reportbug_ui_newt module
 """
 
 import scaffold
 
-import reportbug_ui_newt
+from reportbuglib import reportbug_ui_newt

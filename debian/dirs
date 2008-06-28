@@ -1,4 +1,5 @@
 etc
 usr/bin
 usr/share/reportbug
+usr/share/reportbug/reportbuglib
 usr/share/bug/reportbug

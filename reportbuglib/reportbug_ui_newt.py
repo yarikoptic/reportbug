@@ -23,6 +23,7 @@
 import sys
 import commands
 import string
+
 import debianbts
 from reportbug_exceptions import (
     UINotImportable,

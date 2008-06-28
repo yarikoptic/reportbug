@@ -8,7 +8,7 @@
 # under the terms of the GNU General Public License, version 2 or later.
 # No warranty expressed or implied. See the file LICENSE for details.
 
-""" Unit test for reportbug module
+""" Unit test for reportbuglib.reportbug module
 """
 
 import os
@@ -16,7 +16,7 @@ import os
 import scaffold
 from scaffold import TestCase
 
-import reportbug
+from reportbuglib import reportbug
 
 
 class Test_glob_escape(TestCase):

@@ -1,3 +1,4 @@
+# reportbuglib/reportbug_ui_urwid.py
 # urwid user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   (C) 2006 Chris Lawrence

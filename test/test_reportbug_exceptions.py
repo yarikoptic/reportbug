@@ -8,9 +8,9 @@
 # under the terms of the GNU General Public License, version 2 or later.
 # No warranty expressed or implied. See the file LICENSE for details.
 
-""" Unit test for reportbug_exceptions module
+""" Unit test for reportbuglib.reportbug_exceptions module
 """
 
 import scaffold
 
-import reportbug_exceptions
+from reportbuglib import reportbug_exceptions

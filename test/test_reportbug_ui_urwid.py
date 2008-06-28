@@ -8,9 +8,9 @@
 # under the terms of the GNU General Public License, version 2 or later.
 # No warranty expressed or implied. See the file LICENSE for details.
 
-""" Unit test for reportbug_ui_urwid module
+""" Unit test for reportbuglib.reportbug_ui_urwid module
 """
 
 import scaffold
 
-import reportbug_ui_urwid
+from reportbuglib import reportbug_ui_urwid

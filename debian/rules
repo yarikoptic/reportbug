@@ -37,15 +37,10 @@ install-stamp: build-stamp
 	@echo "s/##VERSION##/`head -n 1 debian/changelog | sed -e 's/[^(]*(\([^)]*\).*/\1/'`/g" > sed-script
 	cat sed-script
 
-	# Add here commands to install the package into debian/reportbug.
 	debian/install-sed /usr/bin reportbug querybts
-	debian/install-sed /usr/share/reportbug *.py
-	# Copy correct email module into place under the reportbug private path
-	#mkdir `pwd`/debian/reportbug/usr/share/reportbug/email
-	#cp -vr /usr/lib/python2.3/email/*.py `pwd`/debian/reportbug/usr/share/reportbug/email
+	debian/install-sed /usr/share/reportbug reportbuglib/*.py
 	# Remove unneeded .py files
 	rm -f `pwd`/debian/reportbug/usr/share/reportbug/urllib2.py
-	rm `pwd`/debian/reportbug/usr/share/reportbug/test_hiermatch.py
 
 	chmod 0755 `pwd`/debian/reportbug/usr/bin/*
 	cp handle_bugscript reportbug.el `pwd`/debian/reportbug/usr/share/reportbug
@@ -71,7 +66,7 @@ binary-indep: build install
 	dh_installcron
 	dh_installman querybts.1 reportbug.1 reportbug.fr.1 querybts.fr.1 reportbug.ja.1 reportbug.conf.5
 #	dh_undocumented
-	dh_installchangelogs 
+	dh_installchangelogs
 	dh_link
 	dh_strip
 	dh_compress
@@ -85,7 +80,7 @@ binary-indep: build install
 	dh_md5sums
 	dh_builddeb
 
-source diff:								      
+source diff:
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 
 binary: binary-indep binary-arch

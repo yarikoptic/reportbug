@@ -1,5 +1,6 @@
 #
-# checkbuildd.py - Check buildd.debian.org for successful past builds
+# reportbuglib/checkbuildd.py
+# Check buildd.debian.org for successful past builds
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   (C) 2002 Chris Lawrence

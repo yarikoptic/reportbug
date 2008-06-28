@@ -1,5 +1,7 @@
 #
-# Reportbug module - common functions for reportbug and greportbug
+# reportbuglib/reportbug.py
+# Common functions for reportbug and greportbug
+#
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   Copyright (C) 1999-2006 Chris Lawrence
 #
@@ -36,6 +38,7 @@ import shlex
 import rfc822
 import socket
 import subprocess
+import imp
 
 import debianbts
 
@@ -49,13 +52,13 @@ PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
                  'Justification', 'Followup-For', 'Owner', 'User', 'Usertags')
 
 VALID_UIS = ['newt', 'text', 'gnome2', 'urwid']
-AVAILABLE_UIS = []
+AVAILABLE_UIS = VALID_UIS
 for ui in VALID_UIS:
-    pkgname = 'reportbug_ui_%s.py' % ui
-    for d in sys.path:
-        if os.path.exists(os.path.join(d, pkgname)):
-            AVAILABLE_UIS.append(ui)
-            break
+    module_name = 'reportbug_ui_%(ui)s' % vars()
+    try:
+        imp.find_module(module_name)
+    except ImportError:
+        AVAILABLE_UIS.remove(ui)
 
 UIS = {'text': 'A text-oriented console interface',
        'urwid': 'A menu-based console interface',

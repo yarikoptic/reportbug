@@ -8,9 +8,9 @@
 # under the terms of the GNU General Public License, version 2 or later.
 # No warranty expressed or implied. See the file LICENSE for details.
 
-""" Unit test for debianbts module
+""" Unit test for reportbuglib.debianbts module
 """
 
 import scaffold
 
-import debianbts
+from reportbuglib import debianbts

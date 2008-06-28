@@ -1,5 +1,6 @@
 #
-# debianbts.py - Routines to deal with the debbugs web pages
+# reportbuglib/debianbts.py
+# Routines to deal with the debbugs web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   (C) 1999-2006 Chris Lawrence

@@ -37,6 +37,9 @@ reportbug (3.42) UNRELEASED; urgency=low
       - Don't munge sys.path unnecessarily.
     - test/*.py
       - Ensure programs and modules don't cause ImportError.
+  * Move library modules to new 'reportbuglib' Python package.
+  * debian/rules
+    - Install library modules from current location.
 
  -- Sandro Tosi <matrixhasu@gmail.com>  Tue, 24 Jun 2008 02:29:56 +0200
 

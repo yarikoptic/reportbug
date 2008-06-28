@@ -8,9 +8,9 @@
 # under the terms of the GNU General Public License, version 2 or later.
 # No warranty expressed or implied. See the file LICENSE for details.
 
-""" Unit test for hiermatch module
+""" Unit test for reportbuglib.hiermatch module
 """
 
 import scaffold
 
-import hiermatch
+from reportbuglib import hiermatch

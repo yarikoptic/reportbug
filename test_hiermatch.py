@@ -1,6 +1,6 @@
 # $Id: test_hiermatch.py,v 1.1.1.1 2004-02-05 04:29:08 lawrencc Exp $
 
-import hiermatch as hier
+from reportbuglib import hiermatch as hier
 
 def test_list():
     import sys
@@ -38,11 +38,7 @@ def test_mhier():
     d = [len(i[1]) for i in c]
     print reduce(lambda x, y: x+y, d)
 
-    
-
 test_mhier()
-
-
 
 # vim:ts=8:sw=4:expandtab:
 

@@ -1,7 +1,8 @@
 # Doing match on a list of string or a hierarchy.
 
 import re
-import reportbug_exceptions
+
+from reportbuglib import reportbug_exceptions
 
 def egrep_list(strlist, pattern_str, subindex=None):
     """Use the pattern_str to find any match in a list of strings."""
