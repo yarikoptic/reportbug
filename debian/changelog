@@ -1,4 +1,4 @@
-reportbug (3.42~devel) UNRELEASED; urgency=low
+reportbug (3.42) unstable; urgency=low
 
   [ Sandro Tosi ]
   * debian/control
@@ -45,7 +45,7 @@ reportbug (3.42~devel) UNRELEASED; urgency=low
   * debian/rules
     - Install library modules from current location.
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 29 Jun 2008 01:15:03 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 30 Jun 2008 00:39:27 +0200
 
 reportbug (3.41) unstable; urgency=high
 
