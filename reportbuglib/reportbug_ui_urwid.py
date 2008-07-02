@@ -34,7 +34,10 @@ from reportbug_exceptions import (
     NoPackage, NoBugs, NoNetwork, NoReport,
     )
 from urlutils import launch_browser
-from reportbug_ui_text import ewrite
+from reportbug_ui_text import (
+    ewrite,
+    spawn_editor,
+    )
 
 try:
     import urwid.raw_display
