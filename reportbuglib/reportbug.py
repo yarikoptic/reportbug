@@ -276,6 +276,7 @@ def get_package_status(package, avail=False):
     priorityre = re.compile('Priority: ')
     dependsre = re.compile('(Pre-)?Depends: ')
     recsre = re.compile('Recommends: ')
+    suggestsre = re.compile('Suggests: ')
     conffilesre = re.compile('Conffiles: ')
     maintre = re.compile('Maintainer: ')
     statusre = re.compile('Status: ')
@@ -291,6 +292,7 @@ def get_package_status(package, avail=False):
     fulldesc = []
     depends = []
     recommends = []
+    suggests = []
     confmode = False
     state = ''
 
@@ -346,6 +348,12 @@ def get_package_status(package, avail=False):
             thisdepends = [[y.split()[0] for y in x.split('|')]
                            for x in (thisdepends.split(', '))]
             recommends.extend(thisdepends)
+        elif suggestsre.match(line):
+            (crud, thisdepends) = line.split(": ", 1)
+            # Remove versioning crud
+            thisdepends = [[y.split()[0] for y in x.split('|')]
+                           for x in (thisdepends.split(', '))]
+            suggests.extend(thisdepends)
         elif conffilesre.match(line):
             confmode = True
         elif maintre.match(line):
@@ -377,7 +385,7 @@ def get_package_status(package, avail=False):
     info = (pkgversion, pkgavail, tuple(depends), tuple(recommends),
             tuple(conffiles),
             maintainer, installed, origin, vendor, reportinfo, priority,
-            desc, src_name, os.linesep.join(fulldesc), state)
+            desc, src_name, os.linesep.join(fulldesc), state, tuple(suggests))
 
     if not avail:
         statuscache[package] = info
