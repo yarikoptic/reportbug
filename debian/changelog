@@ -9,8 +9,11 @@ reportbug (3.43~devel) UNRELEASED; urgency=medium
   * reportbuglib/reportbug.py, reportbug
     - reports status of suggested packages; thanks to Ari Pollak for the
       report; Closes: #441056
+  * reportbug
+    - fixed packages list generation for a file search if run not in a tty (or
+      via --template); thanks to Dan Jacobson for the report; Closes: #489515
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Fri, 04 Jul 2008 18:44:16 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 06 Jul 2008 17:56:38 +0200
 
 reportbug (3.42) unstable; urgency=low
 

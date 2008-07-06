@@ -286,14 +286,15 @@ def find_package_for(filename, notatty=False, pathonly=False):
         ewrite("No packages match.\n")
         return (filename, None)
     elif len(packages) > 1:
-        if notatty:
-            print "Please re-run reportbug selecting one of these packages:"
-            for package in packlist:
-                print "  "+package
-            sys.exit(1)
-
         packlist = packages.items()
         packlist.sort()
+
+        if notatty:
+            print "Please re-run reportbug selecting one of these packages:"
+            for pkg, files in packlist:
+                print "  "+pkg
+            sys.exit(1)
+
         packs = []
         for pkg, files in packlist:
             if len(files) > 3:
