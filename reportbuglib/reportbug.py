@@ -794,39 +794,42 @@ def generate_blank_report(package, pkgversion, severity, justification,
                 debinfo += u'Architecture: %s (%s)\n' % (debarch, utsmachine)
         else:
             debinfo += u'Architecture: ? (%s)\n' % utsmachine
+
+
+    # Gather system info only for bugs not wnpp
+    if package not in ('wnpp'):
         debinfo += u'\n'
 
-    if un[0] == 'GNU':
-        # Use uname -v on Hurd
-        uname_string = un[3]
-    else:
-        kern = un[0]
-        if kern.startswith('GNU/'):
-            kern = kern[4:]
+        if un[0] == 'GNU':
+            # Use uname -v on Hurd
+            uname_string = un[3]
+        else:
+            kern = un[0]
+            if kern.startswith('GNU/'):
+                kern = kern[4:]
 
-        uname_string = '%s %s' % (kern, un[2])
-        if kern == 'Linux':
-            kinfo = []
+            uname_string = '%s %s' % (kern, un[2])
+            if kern == 'Linux':
+                kinfo = []
 
-            if 'SMP' in un[3]:
-                cores = get_cpu_cores()
-                if cores > 1:
-                    kinfo += ['SMP w/%d CPU cores' % cores]
-                else:
-                    kinfo += ['SMP w/1 CPU core']
-            if 'PREEMPT' in un[3]:
-                kinfo += ['PREEMPT']
+                if 'SMP' in un[3]:
+                    cores = get_cpu_cores()
+                    if cores > 1:
+                        kinfo += ['SMP w/%d CPU cores' % cores]
+                    else:
+                        kinfo += ['SMP w/1 CPU core']
+                if 'PREEMPT' in un[3]:
+                    kinfo += ['PREEMPT']
 
-            if kinfo:
-                uname_string = '%s (%s)' % (uname_string, '; '.join(kinfo))
+                if kinfo:
+                    uname_string = '%s (%s)' % (uname_string, '; '.join(kinfo))
 
-    if uname_string:
-        debinfo += u'Kernel: %s\n' % uname_string
-
-    if locinfo:
-        debinfo += u'Locale: %s\n' % locinfo
-    if shellpath != '/bin/sh':
-        debinfo += u'Shell: /bin/sh linked to %s\n' % shellpath
+        if uname_string:
+            debinfo += u'Kernel: %s\n' % uname_string
+        if locinfo:
+            debinfo += u'Locale: %s\n' % locinfo
+        if shellpath != '/bin/sh':
+            debinfo += u'Shell: /bin/sh linked to %s\n' % shellpath
 
     return u"""%s%s%s
 -- System Information:

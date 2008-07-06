@@ -12,8 +12,11 @@ reportbug (3.43~devel) UNRELEASED; urgency=medium
   * reportbug
     - fixed packages list generation for a file search if run not in a tty (or
       via --template); thanks to Dan Jacobson for the report; Closes: #489515
+  * reportbuglib/reportbug.py
+    - show system information only if the bug is not against wnpp; thanks to
+      Francois Marier for the report; Closes: #448806
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 06 Jul 2008 17:56:38 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 07 Jul 2008 01:06:46 +0200
 
 reportbug (3.42) unstable; urgency=low
 
