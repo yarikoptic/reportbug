@@ -1598,8 +1598,9 @@ orphaned for a long period of time are often removed from the archive.\n''')
                 justification = ui.get_string(
                     'You are reporting a serious bug; which section of the '
                     'Debian Policy Manual contains the "must" or "required" '
-                    'directive that it violates?  (E.g., "1.2.3")  Just type '
-                    '"unknown" if you are not sure.', force_prompt=True)
+                    'directive that it violates (E.g., "1.2.3")? '
+                    'Just type "unknown" if you are not sure (that would '
+                    'downgrade severity to normal).', force_prompt=True)
                 if re.match('[0-9]+\.[0-9.]+', justification):
                     justification = 'Policy ' + justification
                 elif not justification:
