@@ -17,8 +17,10 @@ reportbug (3.43~devel) UNRELEASED; urgency=medium
   * reportbuglib/reportbug.py
     - show system information only if the bug is not against wnpp; thanks to
       Francois Marier for the report; Closes: #448806
+  * README.Users
+    - added how to usertag a bug at submit-time
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Tue, 08 Jul 2008 07:39:14 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 12 Jul 2008 17:33:08 +0200
 
 reportbug (3.42) unstable; urgency=low
 

@@ -12,3 +12,26 @@ smtpuser "<your address>@gmail.com"
 smtptls
 
 Thanks to: Raphael Geissert <atomo64@gmail.com>
+
+How to Usertags a Bug at Report Time
+====================================
+
+If you're filing a bug and you what to usertag it, you can add these
+lines (in the pseudo-header)
+
+User: <user email address>
+Usertags: <tag>
+
+right after
+
+Package: <package>
+Version: <version>
+Severity: <severity>
+
+lines in the bug body.
+
+Please note that if you specify more than 2 tag, then they will be
+ordered alphabetically (so if you use usercategories, it will only
+appears in the first one).
+
+Thanks to: Sandro Tosi <matrixhasu@gmail.com>
