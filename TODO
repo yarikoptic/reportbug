@@ -1,12 +1,4 @@
-reportbug now has public CVS read access at:
-
-http://alioth.debian.org/plugins/scmcvs/cvsweb.php/?cvsroot=reportbug
-
---
-
-Silly TODO list for reportbug 4.0 (lenny):
-
-0. Use debian-btsutils instead of debianbts.py for BTS queries.
+TODO list for reportbug 4.0 (lenny):
 
 1. Proper GNOME interface.  My current thinking is to hack the
    bug-buddy Glade file to pieces, or do something similar in straight
