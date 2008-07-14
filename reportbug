@@ -1677,7 +1677,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
             tags = ''
 
         # Execute bug script
-        if interactive and bugexec and not self.options.kudos:
+        if (interactive or self.options.template) and bugexec and not self.options.kudos:
             if os.path.exists('handle_bugscript'):
                 handler = './handle_bugscript'
             else:
