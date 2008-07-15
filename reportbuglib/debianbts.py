@@ -270,7 +270,7 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
             'oldstable-proposed-updates' : "Old stable proposed updates.",
             'stable' : "Stable.",
             'stable-proposed-updates' : "Stable proposed updates.",
-            'testing' : "Testing",
+            'testing' : "Testing only (NOT unstable)",
 	    'testing-proposed-updates' : "Testing proposed updates",
             'experimental' : "Experimental.",
         }, 'Choose the suite: ', empty_ok=True)
