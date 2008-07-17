@@ -1,4 +1,4 @@
-reportbug (3.43~devel) UNRELEASED; urgency=medium
+reportbug (3.43) unstable; urgency=medium
 
   [ Ben Finney ]
   * reportbuglib/reportbug_ui_urwid.py
@@ -32,7 +32,7 @@ reportbug (3.43~devel) UNRELEASED; urgency=medium
     - shortened Format-Specification, removing the GET parameter on the URL
       (lintian warning)
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Wed, 16 Jul 2008 01:13:58 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Thu, 17 Jul 2008 20:19:34 +0200
 
 reportbug (3.42) unstable; urgency=low
 
