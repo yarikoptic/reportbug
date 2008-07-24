@@ -1,3 +1,11 @@
+reportbug (3.44) UNRELEASED; urgency=low
+
+  [ Chris Lawrence ]
+  * reportbug
+    + Yet another character set issue fix.  (Closes: #492240)
+
+ --
+
 reportbug (3.43) unstable; urgency=medium
 
   [ Ben Finney ]

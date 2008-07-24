@@ -96,7 +96,7 @@ def system(cmdline):
 
 def include_file_in_report(message, message_filename,
                            attachment_filenames, package_name,
-                           include_filename, inline=False):
+                           include_filename, charset, inline=False):
     """ Include a file in the report.
 
         :parameters:
@@ -123,11 +123,13 @@ def include_file_in_report(message, message_filename,
     if inline:
         try:
             fp = file(include_filename)
-            message += '\n*** %s\n%s' % (include_filename, fp.read())
+            message += '\n*** %s\n%s' % (
+                       include_filename.decode(charset, 'replace'),
+                       fp.read().decode(charset, 'replace'))
             fp.close()
             fp, temp_filename = TempFile(
                 prefix=tempfile_prefix(package_name))
-            fp.write(message)
+            fp.write(message.encode(charset, 'replace'))
             fp.close()
             os.unlink(message_filename)
             message_filename = temp_filename
@@ -224,7 +226,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                         inline = (x == 'i')
                         (message, filename, attachments) = include_file_in_report(
                             message, filename, attachments, package,
-                            attachfile, inline=inline)
+                            attachfile, charset, inline=inline)
                         if not inline:
                             skip_editing = True
                     else:
@@ -1062,7 +1064,9 @@ class UI(object):
             for f in self.options.include:
                 if os.path.exists(f):
                     fp = file(f)
-                    incfiles = u'%s\n*** %s\n%s' % (incfiles, f, fp.read().decode('utf-8', 'replace'))
+                    incfiles = u'%s\n*** %s\n%s' % (
+                               incfiles, f.decode('utf-8', 'replace'),
+                               fp.read().decode('utf-8', 'replace'))
                     fp.close()
                 else:
                     ewrite("Can't find %s to include!\n", f)
