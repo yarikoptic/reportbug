@@ -1,9 +1,7 @@
 #
-# reportbuglib/reportbug.py
-# Common functions for reportbug and greportbug
-#
+# utils module - common functions for reportbug UIs
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2006 Chris Lawrence
+#   Copyright (C) 1999-2008 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -25,10 +23,6 @@
 #
 # $Id: reportbug.py,v 1.35.2.24 2008-04-18 05:38:28 lawrencc Exp $
 
-VERSION = "reportbug ##VERSION##"
-VERSION_NUMBER = "##VERSION##"
-COPYRIGHT = VERSION + '\nCopyright (C) 1999-2006 Chris Lawrence <lawrencc@debian.org>'
-
 import sys
 import os
 import re
@@ -38,9 +32,10 @@ import shlex
 import rfc822
 import socket
 import subprocess
-import imp
 
 import debianbts
+from string import ascii_letters, digits
+from tempfiles import TempFile, tempfile_prefix
 
 # Paths for dpkg
 DPKGLIB = '/var/lib/dpkg'
@@ -51,14 +46,19 @@ STATUSDB = os.path.join(DPKGLIB, 'status')
 PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
                  'Justification', 'Followup-For', 'Owner', 'User', 'Usertags')
 
-VALID_UIS = ['newt', 'text', 'gnome2', 'urwid']
-AVAILABLE_UIS = VALID_UIS
-for ui in VALID_UIS:
-    module_name = 'reportbug_ui_%(ui)s' % vars()
-    try:
-        imp.find_module(module_name)
-    except ImportError:
-        AVAILABLE_UIS.remove(ui)
+AVAILABLE_UIS = ['text']
+
+try:
+    import ui.urwid
+    AVAILABLE_UIS.append('urwid')
+except:
+    pass
+
+try:
+    import ui.gnome2
+    AVAILABLE_UIS.append('gnome2')
+except:
+    pass
 
 UIS = {'text': 'A text-oriented console interface',
        'urwid': 'A menu-based console interface',
@@ -688,6 +688,9 @@ def get_debian_release_info():
 
     return debinfo
 
+def lsb_release_info():
+    return commands.getoutput('lsb_release -a 2>/den/null')
+
 def get_arch():
     arch = commands.getoutput('COLUMNS=79 dpkg --print-installation-architecture 2>/dev/null')
     if not arch:
@@ -703,137 +706,18 @@ def generate_blank_report(package, pkgversion, severity, justification,
                           system='debian', exinfo=0, type=None, klass='',
                           subject='', tags='', body='', mode=MODE_EXPERT,
                           pseudos=None):
-    un = os.uname()
-    utsmachine = un[4]
-    debinfo = u''
-    shellpath = realpath('/bin/sh')
+    # For now...
+    import bugreport
 
-    locinfo = []
-    langsetting = os.environ.get('LANG', 'C')
-    allsetting = os.environ.get('LC_ALL', '')
-    for setting in ('LANG', 'LC_CTYPE'):
-        if setting == 'LANG':
-            env = langsetting
-        else:
-            env = '%s (charmap=%s)' % (os.environ.get(setting, langsetting), commands.getoutput("locale charmap"))
+    sysinfo = (package not in ('wnpp', 'ftp.debian.org'))
 
-            if allsetting and env:
-                env = "%s (ignored: LC_ALL set to %s)" % (env, allsetting)
-            else:
-                env = allsetting or env
-        locinfo.append('%s=%s' % (setting, env))
-
-    locinfo = ', '.join(locinfo)
-
-    if debianbts.SYSTEMS[system].has_key('namefmt'):
-        package = debianbts.SYSTEMS[system]['namefmt'] % package
-
-    if pseudos:
-        headers = u'\n'.join(pseudos)+u'\n'
-    else:
-        headers = u''
-
-    if pkgversion:
-        headers += u'Version: %s\n' % pkgversion
-
-    if not exinfo:
-        if severity:
-            headers += u'Severity: %s\n' % severity
-
-        if justification:
-            headers += u'Justification: %s\n' % justification
-
-        if tags:
-            headers += u'Tags: %s\n' % tags
-
-        if foundfile:
-            headers += u'File: %s\n' % foundfile
-
-    if mode < MODE_ADVANCED:
-        body = NEWBIELINE+u'\n\n'+body
-
-    report = "\n"
-    if not exinfo:
-        if type == 'gnats':
-            report = ">Synopsis: %s\n>Confidential: no\n" % subject
-            if package == 'debian-general':
-                report += ">Category: %s\n" % package
-            else:
-                report += ">Category: debian-packages\n"\
-                          ">Release: %s_%s\n" % (package, pkgversion)
-
-            if severity:
-                report += ">" + ('Severity: %s\n' % severity)
-
-            if klass:
-                report += ">Class: %s\n" % klass
-            report += (
-                ">Description:\n\n"
-                "  <describe the bug here; use as many lines as you need>\n\n"
-                ">How-To-Repeat:\n\n"
-                "  <show how the bug is triggered>\n\n"
-                ">Fix:\n\n"
-                "  <if you have a patch or solution, put it here>\n\n"
-                ">Environment:\n")
-        else:
-            report = "Package: %s\n%s\n" % (package, headers)
-    else:
-        report = "Followup-For: Bug #%d\nPackage: %s\n%s\n" % (
-            exinfo, package, headers)
-
-    if not body:
-        body = u"\n"
-
-    if debianbts.SYSTEMS[system].get('query-dpkg', True):
-        debinfo += get_debian_release_info()
-        debarch = get_arch()
-        if debarch:
-            if utsmachine == debarch:
-                debinfo += u'Architecture: %s\n' % (debarch)
-            else:
-                debinfo += u'Architecture: %s (%s)\n' % (debarch, utsmachine)
-        else:
-            debinfo += u'Architecture: ? (%s)\n' % utsmachine
-
-
-    # Gather system info only for bugs not wnpp
-    if package not in ('wnpp'):
-        debinfo += u'\n'
-
-        if un[0] == 'GNU':
-            # Use uname -v on Hurd
-            uname_string = un[3]
-        else:
-            kern = un[0]
-            if kern.startswith('GNU/'):
-                kern = kern[4:]
-
-            uname_string = '%s %s' % (kern, un[2])
-            if kern == 'Linux':
-                kinfo = []
-
-                if 'SMP' in un[3]:
-                    cores = get_cpu_cores()
-                    if cores > 1:
-                        kinfo += ['SMP w/%d CPU cores' % cores]
-                    else:
-                        kinfo += ['SMP w/1 CPU core']
-                if 'PREEMPT' in un[3]:
-                    kinfo += ['PREEMPT']
-
-                if kinfo:
-                    uname_string = '%s (%s)' % (uname_string, '; '.join(kinfo))
-
-        if uname_string:
-            debinfo += u'Kernel: %s\n' % uname_string
-        if locinfo:
-            debinfo += u'Locale: %s\n' % locinfo
-        if shellpath != '/bin/sh':
-            debinfo += u'Shell: /bin/sh linked to %s\n' % shellpath
-
-    return u"""%s%s%s
--- System Information:
-%s%s%s""" % (report, body, incfiles, debinfo, depinfo, confinfo)
+    rep = bugreport.bugreport(package, version=pkgversion, severity=severity,
+                              justification=justification, filename=foundfile,
+                              mode=mode, subject=subject, tags=tags, body=body,
+                              pseudoheaders=pseudos, exinfo=exinfo, type=type,
+                              system=system, depinfo=depinfo, sysinfo=sysinfo,
+                              confinfo=confinfo, incfiles=incfiles)
+    return unicode(rep)
 
 def get_cpu_cores():
     cpucount = 0

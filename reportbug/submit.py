@@ -1,4 +1,4 @@
-# reportbuglib/reportbug_submit module - email and GnuPG functions
+# reportbug_submit module - email and GnuPG functions
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   Copyright (C) 1999-2006 Chris Lawrence
 #
@@ -39,18 +39,13 @@ from email.MIMEMessage import MIMEMessage
 from email.Header import Header
 import mimetypes
 
-from reportbuglib import reportbug
-from reportbuglib.reportbug import VERSION, VERSION_NUMBER
-from reportbuglib import debianbts
-from reportbuglib.rbtempfile import (
-    TempFile,
-    open_write_safe,
-    tempfile_prefix,
-    )
-from reportbuglib.reportbug_exceptions import (
+from __init__ import VERSION, VERSION_NUMBER
+import debianbts
+from tempfiles import TempFile, open_write_safe, tempfile_prefix
+from exceptions import (
     NoMessage,
     )
-from reportbuglib import reportbug_ui_text as ui
+import ui.text as ui
 
 quietly = False
 

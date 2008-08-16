@@ -1,7 +1,7 @@
 #
-# reportbuglib/rbtempfile module - Temporary file handling for reportbug
+# tempfiles module - Temporary file handling for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2004 Chris Lawrence
+#   (C) 1999-2008 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #

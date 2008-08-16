@@ -1,7 +1,6 @@
-# reportbuglib/reportbug_ui_urwid.py
 # urwid user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2006 Chris Lawrence
+#   (C) 2006-08 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -28,16 +27,17 @@
 import sys
 import re
 import getpass
-import reportbug
-from reportbug_exceptions import (
+from .. import utils
+from ..exceptions import (
     UINotImportable,
     NoPackage, NoBugs, NoNetwork, NoReport,
     )
-from urlutils import launch_browser
-from reportbug_ui_text import (
+from ..urlutils import launch_browser
+from text import (
     ewrite,
     spawn_editor,
     )
+from ..__init__ import VERSION
 
 try:
     import urwid.raw_display
@@ -294,7 +294,7 @@ def display_message(message, *args, **kwargs):
     chunks = [re.sub(r'\s+', ' ', x).strip() for x in chunks]
     message = '\n\n'.join(chunks).strip()
 
-    box = displaybox('', long_message=message, title=title or reportbug.VERSION)
+    box = displaybox('', long_message=message, title=title or VERSION)
     box.show(ui)
 
 def long_message(message, *args, **kwargs):
@@ -316,7 +316,7 @@ def long_message(message, *args, **kwargs):
     chunks = [re.sub(r'\s+', ' ', x).strip() for x in chunks]
     message = '\n\n'.join(chunks).strip()
 
-    box = dialog('', long_message=message, title=title or reportbug.VERSION)
+    box = dialog('', long_message=message, title=title or VERSION)
     box.add_buttons([ ("OK", 0) ])
     box.main(ui)
 
@@ -326,7 +326,7 @@ display_report = long_message
 def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
                    ui=None, title=None):
     box = dialog('', long_message=msg, height=('relative', 80),
-                 title=title or reportbug.VERSION)
+                 title=title or VERSION)
     if not help:
         help = {}
 
@@ -343,7 +343,7 @@ def select_options(msg, ok, help=None, allow_numbers=False, nowrap=False,
     return result
 
 def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
-    box = dialog('', long_message=msg+"?", title=reportbug.VERSION)
+    box = dialog('', long_message=msg+"?", title=VERSION)
     box.add_buttons([ ('Yes', True), ('No', False) ], default=1-int(default))
     result = box.main(ui)
     return result
@@ -351,9 +351,9 @@ def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
 def get_string(prompt, options=None, title=None, force_prompt=False,
                default='', ui=None):
     if title:
-        title = '%s: %s' % (reportbug.VERSION, title)
+        title = '%s: %s' % (VERSION, title)
     else:
-        title = reportbug.VERSION
+        title = VERSION
 
     box = textentry(prompt, title=title)
     box.add_buttons([ ("OK", 0) ])
@@ -363,9 +363,9 @@ def get_string(prompt, options=None, title=None, force_prompt=False,
 def get_multiline(prompt, options=None, title=None, force_prompt=False,
                   ui=None):
     if title:
-        title = '%s: %s' % (reportbug.VERSION, title)
+        title = '%s: %s' % (VERSION, title)
     else:
-        title = reportbug.VERSION
+        title = VERSION
 
     box = textentry(prompt, multiline=True)
     box.add_buttons([ ("OK", 0) ])
@@ -388,9 +388,9 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
         default = ''
 
     if title:
-        title = '%s: %s' % (reportbug.VERSION, title)
+        title = '%s: %s' % (VERSION, title)
     else:
-        title = reportbug.VERSION
+        title = VERSION
 
     if isinstance(options, dict):
         options = options.copy()

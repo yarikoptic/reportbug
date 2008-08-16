@@ -1,7 +1,6 @@
-# reportbuglib/reportbug_ui_text.py
 # Text user interface for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2001-06 Chris Lawrence
+#   (C) 2001-08 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -36,14 +35,12 @@ try:
 except ImportError:
     readline = None
 
-import reportbug
-import debianbts
-from reportbug_exceptions import (
+from .. import debianbts, utils, hiermatch
+from ..exceptions import (
     NoReport, NoPackage, NoBugs, NoNetwork,
     InvalidRegex,
     )
-from urlutils import launch_browser
-import hiermatch
+from ..urlutils import launch_browser
 
 ISATTY = sys.stdin.isatty()
 charset = 'us-ascii'
@@ -896,7 +893,7 @@ def spawn_editor(message, filename, editor, charset='utf-8'):
     for (lineno, line) in enumerate(file(filename)):
         if line == '\n' and not ourline:
             ourline = lineno + 2
-        elif line.strip() == reportbug.NEWBIELINE:
+        elif line.strip() == utils.NEWBIELINE:
             ourline = lineno + 2
 
     opts = ''

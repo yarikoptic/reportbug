@@ -2,7 +2,7 @@
 # urlutils.py - Simplified urllib handling
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2006 Chris Lawrence
+#   (C) 1999-2008 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -33,11 +33,13 @@ import os
 import sys
 import webbrowser
 
-from reportbug_exceptions import (
+from exceptions import (
     NoNetwork,
     )
 
-UA_STR = 'reportbug/##VERSION## (Debian)'
+from __init__ import VERSION_NUMBER
+
+UA_STR = 'reportbug/'+VERSION_NUMBER+' (Debian)'
 
 def decode (page):
     "gunzip or deflate a compressed page"
