@@ -5,7 +5,7 @@ Maintainer: Reportbug Maintainers <reportbug-maint@lists.alioth.debian.org>
 Uploaders: Sandro Tosi <matrixhasu@gmail.com>, Y Giridhar Appaji Nag <giridhar@appaji.net>, Chris Lawrence <lawrencc@debian.org>
 Standards-Version: 3.8.0
 Build-Depends: debhelper (>= 5.0.37.2), po4a (>= 0.23)
-Build-Depends-Indep: python, python-central (>= 0.5.14), python-nose
+Build-Depends-Indep: python-dev (>= 2.5), python-central (>= 0.5.14), python-nose, python-setuptools
 XS-Python-Version: current, >= 2.5
 DM-Upload-Allowed: yes
 Vcs-Svn: svn://svn.debian.org/svn/reportbug/trunk/
@@ -14,7 +14,7 @@ Homepage: http://alioth.debian.org/projects/reportbug/
 
 Package: reportbug
 Architecture: all
-Depends: ${python:Depends}, apt
+Depends: ${python:Depends}, apt, python-reportbug
 Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid
 Conflicts: python-urwid (<< 0.9.8-1), python-central (<< 0.5.13)
 XB-Python-Version: ${python:Versions}
@@ -36,3 +36,18 @@ Description: reports bugs in the Debian distribution
  .
  This package also includes the "querybts" script for browsing the
  Debian bug tracking system.
+
+Package: python-reportbug
+Section: python
+Architecture: all
+Depends: ${python:Depends}, apt
+Suggests: reportbug
+XB-Python-Version: ${python:Versions}
+Description: Python modules for interacting with bug tracking systems
+ reportbug is a tool designed to make the reporting of bugs in Debian
+ and derived distributions relatively painless.
+ .
+ This package includes Python modules which may be reusable by other
+ tools that want to interact with the Debian bug tracking system.
+ .
+ To actually report a bug, install the reportbug package.

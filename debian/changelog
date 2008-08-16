@@ -1,3 +1,10 @@
+reportbug (3.99.0) UNRELEASED; urgency=low
+
+  [ Chris Lawrence ]
+  * Split off python-reportbug into a separate package.
+
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 17 Aug 2008 01:06:52 +0200
+
 reportbug (3.45) unstable; urgency=low
 
   * reportbuglib/reportbug_ui_urwid.py
