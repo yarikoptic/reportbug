@@ -13,4 +13,4 @@
 
 import scaffold
 
-from reportbuglib import reportbug_ui_text
+from reportbug.ui import text as reportbug_ui_text

@@ -20,7 +20,7 @@ if not test_dir in sys.path:
     sys.path.insert(1, test_dir)
 if not parent_dir in sys.path:
     sys.path.insert(1, parent_dir)
-bin_dir = parent_dir
+bin_dir = os.path.join(parent_dir, 'bin')
 
 
 def suite(module_name):

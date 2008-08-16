@@ -13,4 +13,4 @@
 
 import scaffold
 
-from reportbuglib import checkbuildd
+from reportbug import checkbuildd

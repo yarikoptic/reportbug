@@ -13,4 +13,4 @@
 
 import scaffold
 
-from reportbuglib import checkversions
+from reportbug import checkversions

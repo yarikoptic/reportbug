@@ -16,8 +16,8 @@ import httplib
 import scaffold
 from scaffold import TestCase
 
-from reportbuglib import reportbug_exceptions
-from reportbuglib import urlutils
+from reportbug import exceptions as reportbug_exceptions
+from reportbug import urlutils
 
 
 class StubObject(object):

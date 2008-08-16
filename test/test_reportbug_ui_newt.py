@@ -13,4 +13,4 @@
 
 import scaffold
 
-from reportbuglib import reportbug_ui_newt
+from reportbug.ui import newt as reportbug_ui_newt

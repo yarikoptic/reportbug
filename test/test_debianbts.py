@@ -13,4 +13,4 @@
 
 import scaffold
 
-from reportbuglib import debianbts
+from reportbug import debianbts
