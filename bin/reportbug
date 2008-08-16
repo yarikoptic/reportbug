@@ -2,24 +2,24 @@
 # -*- python -*-
 # reportbug - Report a bug in the Debian distribution.
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   Copyright (C) 1999-2007 Chris Lawrence
+#   Copyright (C) 1999-2008 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
-LICENSE="""\
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose and without fee is hereby granted,
-provided that the above copyright notice appears in all copies and that
-both that copyright notice and this permission notice appear in
-supporting documentation.
-
-I DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL I
-BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
-DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
-SOFTWARE."""
+##  Permission to use, copy, modify, and distribute this software and its
+##  documentation for any purpose and without fee is hereby granted,
+##  provided that the above copyright notice appears in all copies and that
+##  both that copyright notice and this permission notice appear in
+##  supporting documentation.
+##
+##  I DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+##  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL I
+##  BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
+##  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+##  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+##  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+##  SOFTWARE.
+#
 #
 # Version ##VERSION##; see changelog for revision history
 # $Id: reportbug,v 1.98.2.33 2008-04-18 05:38:27 lawrencc Exp $
@@ -27,9 +27,8 @@ SOFTWARE."""
 DEBUGGER = 'lawrencc@debian.org'
 DEFAULT_BTS = 'debian'
 
-import sys, os
-sys.path = ['/usr/share/reportbug'] + sys.path
-
+import sys
+import os
 import optparse
 import re
 import locale
@@ -38,25 +37,25 @@ import rfc822
 import gettext
 import textwrap
 
-from reportbuglib import reportbug
-from reportbuglib.reportbug import (
+from reportbug import utils
+from reportbug.utils import (
     VERSION, COPYRIGHT,
     MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD,
     )
-from reportbuglib.rbtempfile import (
+from reportbug.tempfiles import (
     TempFile,
     tempfile_prefix,
     cleanup_temp_file,
     )
-from reportbuglib.reportbug_exceptions import (
+from reportbug.exceptions import (
     UINotImportable, UINotImplemented,
     NoNetwork, NoPackage, NoBugs, NoReport,
     )
-from reportbuglib import reportbug_submit
-from reportbuglib import checkversions
-from reportbuglib import debianbts
-from reportbuglib import checkbuildd
-from reportbuglib import reportbug_ui_text as ui
+from reportbug import submit
+from reportbug import checkversions
+from reportbug import debianbts
+from reportbug import checkbuildd
+import reportbug.ui.text as ui
 
 try:
     gettext.install('reportbug')
@@ -122,7 +121,7 @@ def include_file_in_report(message, message_filename,
         """
     if inline:
         try:
-            fp = file(include_filename)
+            fp = open(include_filename)
             message += '\n*** %s\n%s' % (
                        include_filename.decode(charset, 'replace'),
                        fp.read().decode(charset, 'replace'))
@@ -145,7 +144,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                    editor=None, charset='utf-8'):
     if not editor:
         editor = options.editor
-    editor = reportbug.which_editor(editor)
+    editor = utils.which_editor(editor)
     message = None
     skip_editing = False
     while True:
@@ -164,7 +163,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     stopmsg(filename)
                     sys.exit(1)
 
-            message = file(filename).read().decode(charset, 'replace')
+            message = open(filename).read().decode(charset, 'replace')
             changed = True
 
         prompt = 'Submit this report on %s (e to edit)' % package
@@ -238,12 +237,12 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             if ed:
                 editor = ed
         elif x == 'm':
-            mailers = [(x, '') for x in reportbug.MUA.keys()]
+            mailers = [(x, '') for x in utils.MUA.keys()]
             mailers.sort()
             mailer = ui.menu('Choose a mailer for your report', mailers,
                              'Select mailer: ', default='', empty_ok=True)
             if mailer:
-                mailer = reportbug.MUA.get(mailer)
+                mailer = utils.MUA.get(mailer)
                 if mailer:
                     options.mua = mailer
                     break
@@ -276,11 +275,11 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             else:
                 break
 
-    return file(filename).read()
+    return open(filename).read()
 
 def find_package_for(filename, notatty=False, pathonly=False):
     ewrite("Finding package for '%s'...\n", filename)
-    (newfilename, packages) = reportbug.find_package_for(filename, pathonly)
+    (newfilename, packages) = utils.find_package_for(filename, pathonly)
     if newfilename != filename:
         filename = newfilename
         ewrite("Resolved as '%s'.\n", filename)
@@ -423,15 +422,14 @@ def offer_configuration(options):
                         'the first time you have used reportbug, we are '
                         'configuring its behavior.  These settings will be '
                         'saved to the file "%s", which you will be free to '
-                        'edit further.\n\n', reportbug.USERFILE)
+                        'edit further.\n\n', utils.USERFILE)
     mode = ui.menu('Please choose the default operating mode for reportbug.',
-                   reportbug.MODES, 'Select mode: ', options.mode,
-                   order=reportbug.MODELIST)
-
+                   utils.MODES, 'Select mode: ', options.mode,
+                   order=utils.MODELIST)
     uis = dict()
-    for i in reportbug.AVAILABLE_UIS:
-        if (i in reportbug.UIS) and i != 'newt':
-            uis[i] = reportbug.UIS[i]
+    for i in utils.AVAILABLE_UIS:
+        if (i in utils.UIS) and i != 'newt':
+            uis[i] = utils.UIS[i]
     if len(uis) > 1:
         interface = ui.menu(
             'Please choose the default interface for reportbug.', uis,
@@ -450,7 +448,7 @@ def offer_configuration(options):
                        'receive mail.',
                        default=(not options.offline))
 
-    def_realname, def_email = reportbug.get_email()
+    def_realname, def_email = utils.get_email()
 
     try:
         if options.realname:
@@ -502,21 +500,21 @@ def offer_configuration(options):
              'don\'t need a user name.' % smtphost), force_prompt=True)
     else:
         smtpuser = ''
-
-    if os.path.exists(reportbug.USERFILE):
+    
+    if os.path.exists(utils.USERFILE):
         try:
-            os.rename(reportbug.USERFILE, reportbug.USERFILE+'~')
+            os.rename(utils.USERFILE, utils.USERFILE+'~')
         except OSError:
-            ewrite('Unable to rename %s as %s~\n', reportbug.USERFILE,
-                   reportbug.USERFILE)
+            ewrite('Unable to rename %s as %s~\n', utils.USERFILE,
+                   utils.USERFILE)
 
     try:
-        fd = os.open(reportbug.USERFILE, os.O_WRONLY|os.O_TRUNC|os.O_CREAT,
+        fd = os.open(utils.USERFILE, os.O_WRONLY|os.O_TRUNC|os.O_CREAT,
                      0600)
     except OSError, x:
         ui.long_message('Unable to save %s; most likely, you do not have a '
                         'home directory.  Please fix this before using '
-                        'reportbug again.\n', reportbug.USERFILE)
+                        'reportbug again.\n', utils.USERFILE)
         sys.exit(1)
 
     fp = os.fdopen(fd, 'w')
@@ -525,7 +523,7 @@ def offer_configuration(options):
     print >> fp, '# Version of reportbug this preferences file was written by'
     print >> fp, 'reportbug_version "##VERSION##"'
     print >> fp, '# default operating mode: one of:',
-    print >> fp, ', '.join(reportbug.MODELIST)
+    print >> fp, ', '.join(utils.MODELIST)
     print >> fp, 'mode %s' % mode
     print >> fp, '# default user interface'
     print >> fp, 'ui %s' % interface
@@ -635,9 +633,9 @@ def main():
     # the original value as determined by the cascade of command-line options
     # and configuration files.  When we need to adjust a value, we first say
     # "foo = options.foo" and then refer to just `foo'.
-    args = reportbug.parse_config_files()
+    args = utils.parse_config_files()
     for option, arg in args.items():
-        if option in reportbug.CONFIG_ARGS:
+        if option in utils.CONFIG_ARGS:
             if isinstance(arg, unicode):
                 arg = arg.encode(charset, 'replace')
             defaults[option] = arg
@@ -669,7 +667,7 @@ def main():
                       dest='sign', const='gpg',
                       help='sign report with GNU Privacy Guard')
     parser.add_option('-G', '--gnus', action='store_const', dest='mua',
-                      const=reportbug.MUA['gnus'],
+                      const=utils.MUA['gnus'],
                       help='send the report using GNUS')
     parser.add_option('--pgp', action='store_const', dest='sign',
                       const='pgp', help='sign report with PGP')
@@ -685,16 +683,16 @@ def main():
                       dest='sendto', const='maintonly',
                       help='send the report to the maintainer only')
     parser.add_option('-M', '--mutt', action='store_const', dest='mua',
-                      const=reportbug.MUA['mutt'],
+                      const=utils.MUA['mutt'],
                       help='send the report using mutt')
     parser.add_option('--mirror', action='append', help='add a BTS mirror',
                       dest='mirrors')
     parser.add_option('-a', '--af', action='store_const', dest='mua',
-                      const=reportbug.MUA['af'],
+                      const=utils.MUA['af'],
                       help='send the report using af')
     parser.add_option('-n', '--mh', '--nmh', action='store_const', dest='mua',
                       help='send the report using mh/nmh',
-                      const=reportbug.MUA['mh'])
+                      const=utils.MUA['mh'])
     parser.add_option('--mua', dest='mua',
                       help='send the report using the specified mailer')
     parser.add_option('--mta', dest='mta', help='send the report using the '
@@ -757,7 +755,7 @@ def main():
     parser.add_option('-u', '--interface', '--ui', action='callback',
                       callback=verify_option, type='string', dest='interface',
                       callback_args=('Valid user interfaces',
-                                     reportbug.AVAILABLE_UIS),
+                                     utils.AVAILABLE_UIS),
                       help='choose which user interface to use')
     parser.add_option('-Q', '--query-only', action='store_true',
                       dest='queryonly', help='only query the BTS')
@@ -788,7 +786,7 @@ def main():
                       'mode for reportbug', callback=verify_option,
                       type='string', dest='mode',
                       callback_args=('Permitted operating modes',
-                                     reportbug.MODES.keys()))
+                                     utils.MODES.keys()))
     parser.add_option('-v', '--verify', action='store_true', help='verify '
                       'integrity of installed package using debsums')
     parser.add_option('--no-verify', action='store_false', dest='verify',
@@ -839,7 +837,7 @@ def main():
                             interface, msg)
             ewrite('\n')
 
-        reportbug_submit.ui = ui
+        reportbug.submit.ui = ui
         # Add INTERFACE as an environment variable to access it from the
         # script gathering the special information for reportbug, when
         # a new bug should be filed against it.
@@ -899,7 +897,7 @@ class UI(object):
             body = textwrap.fill(self.options.body)
         elif self.options.bodyfile:
             try:
-                body = file(self.options.bodyfile).read()
+                body = open(self.options.bodyfile).read()
             except:
                 ewrite('Unable to read body from file %s.\n', self.options.bodyfile)
                 sys.exit(1)
@@ -950,7 +948,7 @@ class UI(object):
             ewrite('Attachments are incompatible with using an MUA.  They will be ignored.\n')
             attachments = []
 
-        if reportbug.first_run():
+        if utils.first_run():
             if not self.args:
                 offer_configuration(self.options)
                 main()
@@ -958,7 +956,7 @@ class UI(object):
             else:
                 ewrite('Warning: no reportbug configuration found.  Proceeding in %s mode.\n' % self.options.mode)
 
-        mode = reportbug.MODELIST.index(self.options.mode)
+        mode = utils.MODELIST.index(self.options.mode)
 
         # Disable signatures when in printonly or mua mode
         # (since they'll be bogus anyway)
@@ -989,7 +987,7 @@ class UI(object):
                     ewrite("reportbug stopped.\n")
                     sys.exit(1)
 
-        if (reportbug.first_run() and not self.args):
+        if (utils.first_run() and not self.args):
             offer_configuration(self.options)
             ewrite('To report a bug, please rerun reportbug.\n')
             sys.exit(0)
@@ -1034,16 +1032,16 @@ class UI(object):
             ewrite("Detected character set: %s\n"
                    "Please change your locale if this is incorrect.\n\n", charset)
 
-        fromaddr = reportbug.get_user_id(self.options.email, self.options.realname, charset)
+        fromaddr = utils.get_user_id(self.options.email, self.options.realname, charset)
         ewrite("Using '%s' as your from address.\n", fromaddr.encode(charset, 'replace'))
         fromaddr = fromaddr.encode('utf-8')
         if self.options.debugmode:
             sendto = fromaddr
 
-        edname = reportbug.which_editor(self.options.editor)
+        edname = utils.which_editor(self.options.editor)
         baseedname = os.path.basename(edname)
         if baseedname == 'sensible-editor':
-            edname = reportbug.realpath('/usr/bin/editor')
+            edname = utils.realpath('/usr/bin/editor')
 
         if not notatty and 'vi' in baseedname and mode < MODE_STANDARD and \
                'EDITOR' not in os.environ:
@@ -1063,7 +1061,7 @@ class UI(object):
         if self.options.include:
             for f in self.options.include:
                 if os.path.exists(f):
-                    fp = file(f)
+                    fp = open(f)
                     incfiles = u'%s\n*** %s\n%s' % (
                                incfiles, f.decode('utf-8', 'replace'),
                                fp.read().decode('utf-8', 'replace'))
@@ -1087,7 +1085,7 @@ class UI(object):
         if not pkgversion and self.options.querydpkg and \
                sysinfo.get('query-dpkg', True):
             ewrite("Getting status for %s...\n", package)
-            status = reportbug.get_package_status(package)
+            status = utils.get_package_status(package)
 
             pkgavail, installed = status[1], status[6]
             # Packages that only exist to do weird dependency things
@@ -1107,7 +1105,7 @@ class UI(object):
                                 package = depends[0]
                         else:
                             opts = [(x,
-                                     (reportbug.get_package_status(x)[11] or
+                                     (utils.get_package_status(x)[11] or
                                       'not installed')) for x in depends]
                             if mode >= MODE_ADVANCED:
                                 opts += [(package,
@@ -1119,12 +1117,12 @@ class UI(object):
                                               opts,
                                               'Select one of these packages: ')
                         ewrite("Getting status for %s...\n", package)
-                        status = reportbug.get_package_status(package)
+                        status = utils.get_package_status(package)
                         pkgavail, installed = status[1], status[6]
 
             if not pkgavail and not isvirtual:
                 # Look for a matching source package
-                packages = reportbug.get_source_package(package)
+                packages = utils.get_source_package(package)
                 if len(packages) > 0:
                     src = package
                     if len(packages) and not notatty:
@@ -1145,7 +1143,7 @@ class UI(object):
 
                     if package != src:
                         ewrite("Getting status for %s...\n", package)
-                        status = reportbug.get_package_status(package)
+                        status = utils.get_package_status(package)
                         pkgavail, installed = status[1], status[6]
                     elif len(packages) > 1:
                         issource = True
@@ -1153,7 +1151,7 @@ class UI(object):
                     ewrite('No matching source or binary packages.\n')
 
             if (not installed and not isvirtual and not issource) and not notatty:
-                packages = reportbug.packages_providing(package)
+                packages = utils.packages_providing(package)
                 tmp = pack = None
                 if not packages:
                     if ui.yes_no(
@@ -1167,7 +1165,7 @@ class UI(object):
                         pack = package
                         packages = [(package, '')]
                         ewrite("Getting available info for %s...\n", package)
-                        status = reportbug.get_package_status(package, avail=True)
+                        status = utils.get_package_status(package, avail=True)
                         check_available = False
                         usedavail = True
 
@@ -1187,7 +1185,7 @@ class UI(object):
                 if not status and pack:
                     foundfile, package = tmp, pack
                     ewrite("Getting status for %s...\n", package)
-                    status = reportbug.get_package_status(package)
+                    status = utils.get_package_status(package)
                 elif not packages:
                     if not ui.yes_no(
                         'This package does not appear to be installed; continue '
@@ -1205,7 +1203,7 @@ class UI(object):
                         efail("No package specified; stopping.\n")
                     else:
                         ewrite("Getting status for %s...\n", package)
-                        status = reportbug.get_package_status(package)
+                        status = utils.get_package_status(package)
             elif not pkgavail and not notatty and not isvirtual and not issource:
                 if not ui.yes_no(
                     'This package does not appear to exist; continue',
@@ -1233,7 +1231,7 @@ class UI(object):
 
             if os.path.isfile(buginfo+'/control'):
                 submitas, submitto, reportwith, supplemental = \
-                          reportbug.parse_bug_control_file(buginfo+'/control')
+                          utils.parse_bug_control_file(buginfo+'/control')
         elif os.path.isfile('/usr/share/bug/default/'+package) \
              and os.access('/usr/share/bug/default/'+package, os.X_OK):
             bugexec = '/usr/share/bug/default/'+package
@@ -1248,7 +1246,7 @@ class UI(object):
 
             if os.path.isfile(buginfo+'/control'):
                 submitas, submitto, reportwith, supplemental = \
-                          reportbug.parse_bug_control_file(buginfo+'/control')
+                          utils.parse_bug_control_file(buginfo+'/control')
 
         if submitas and (submitas not in reportwith):
             reportwith += [submitas]
@@ -1281,7 +1279,7 @@ class UI(object):
                                            '(blank OK)', force_prompt=True)
         elif (check_available and not (self.options.kudos or notatty or self.options.offline)
               and state == 'installed' and bts == 'debian'):
-            arch = reportbug.get_arch()
+            arch = utils.get_arch()
             check_more = (mode > MODE_STANDARD)
             if check_more:
                 ewrite('Checking for newer versions at packages.debian.org,'+
@@ -1432,28 +1430,28 @@ orphaned for a long period of time are often removed from the archive.\n''')
         # Grab dependency list, removing version conditions.
         if (depends or recommends or suggests) and not self.options.kudos:
             ewrite("Looking up dependencies of %s...\n", package)
-            depinfo = (reportbug.get_dependency_info(package, depends) +
-                       reportbug.get_dependency_info(package, recommends, "recommends") +
-                       reportbug.get_dependency_info(package, suggests, "suggests"))
+            depinfo = (utils.get_dependency_info(package, depends) +
+                       utils.get_dependency_info(package, recommends, "recommends") +
+                       utils.get_dependency_info(package, suggests, "suggests"))
 
         if reportwith and not self.options.kudos:
             for extrapackage in reportwith:
                 ewrite("Getting status for related package %s...\n", extrapackage)
-                extrastatus = reportbug.get_package_status(extrapackage)
+                extrastatus = utils.get_package_status(extrapackage)
                 if extrastatus[2]:
                     extradepends = [x for x in extrastatus[2] if package not in x]
                     ewrite("Looking up dependencies of related package %s...\n", extrapackage)
-                    depinfo += reportbug.get_dependency_info(extrapackage, extradepends)
+                    depinfo += utils.get_dependency_info(extrapackage, extradepends)
 
         if supplemental and not self.options.kudos:
             ewrite("Looking up status of additional packages...\n")
-            depinfo += reportbug.get_dependency_info(
+            depinfo += utils.get_dependency_info(
                 package, [[x] for x in supplemental], rel='is related to')
 
         confinfo = []
         if conffiles and not self.options.kudos:
             ewrite("Getting changed configuration files...\n")
-            confinfo, changed = reportbug.get_changed_config_files(
+            confinfo, changed = utils.get_changed_config_files(
                 conffiles, nocompress)
 
             if self.options.noconf and changed:
@@ -1513,7 +1511,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         ewrite('\n')
         prompted = False
         if interactive and not (self.options.kudos or exinfo) and presubj:
-            ui.display_report(file(presubj).read()+'\n')
+            ui.display_report(open(presubj).read()+'\n')
 
         if self.options.kudos:
             subject = subject or ('Thanks for packaging %s!' % package)
@@ -1718,11 +1716,11 @@ orphaned for a long period of time are often removed from the archive.\n''')
             if not mua:
                 SIGFILE = os.path.join(HOMEDIR, '.signature')
                 try:
-                    message = u"\n\n-- \n"+file(SIGFILE).read().decode('utf-8', 'replace')
+                    message = u"\n\n-- \n"+open(SIGFILE).read().decode('utf-8', 'replace')
                 except IOError:
                     pass
         else:
-            message = reportbug.generate_blank_report(
+            message = utils.generate_blank_report(
                 submitas or package, pkgversion, severity, justification,
                 depinfo, conftext, foundfile, incfiles, bts, exinfo, rtype,
                 klass, subject, tags, body, mode, pseudos)
@@ -1793,12 +1791,12 @@ orphaned for a long period of time are often removed from the archive.\n''')
                     else:
                         break
 
-        body, headers, pseudoheaders = reportbug.cleanup_msg(message,headers,rtype)
+        body, headers, pseudoheaders = utils.cleanup_msg(message,headers,rtype)
 
         if sign:
             ewrite('Passing message to %s for signature...\n', sign)
             oldbody = body
-            body = reportbug_submit.sign_message(body, fromaddr, package, pgp_addr,
+            body = reportbug.submit.sign_message(body, fromaddr, package, pgp_addr,
                                                  sign)
             if not body:
                 ewrite('Signature failed; sending message unsigned.\n')
@@ -1811,7 +1809,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         # newline in the message.  See #234963.
         body = body.rstrip('\n')+'\n'
 
-        reportbug_submit.send_report(
+        reportbug.submit.send_report(
             body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             headers, package, charset, mailing, sysinfo, rtype, exinfo,
             self.options.replyto, self.options.printonly, self.options.template,

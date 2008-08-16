@@ -2,7 +2,7 @@
 # -*- python -*-
 # querybts - Examine the state of a debbugs server
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2006 Chris Lawrence
+#   (C) 1999-2008 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -24,25 +24,24 @@
 #
 # $Id: querybts,v 1.7.2.3 2008-04-18 05:38:27 lawrencc Exp $
 
-import sys, os
-sys.path = ['/usr/share/reportbug'] + sys.path
-
+import sys
+import os
 import getopt
 import re
 
-from reportbuglib import reportbug
-from reportbuglib.reportbug_exceptions import (
+from reportbug import utils
+from reportbug.exceptions import (
     UINotImportable,
     NoPackage, NoBugs, NoReport, NoNetwork,
     )
-from reportbuglib import debianbts
-from reportbuglib import urlutils
+from reportbug import debianbts
+from reportbug import urlutils
 
 try:
-    from reportbuglib import reportbug_ui_newt as ui
+    import reportbug.ui.newt as ui
     ui_mode = 'newt'
 except:
-    from reportbuglib import reportbug_ui_text as ui
+    import reportbug.ui.text as ui
     ui_mode = 'text'
 
 VERSION = "querybts ##VERSION##"
@@ -67,7 +66,7 @@ def main():
     mirrors = None
     mbox = False
 
-    args = reportbug.parse_config_files()
+    args = utils.parse_config_files()
     for option, arg in args.items():
         if option == 'system':
             system = arg
@@ -105,7 +104,7 @@ def main():
         elif option in ('-s', '--source'):
             source = True
         elif option in ('-u', '--ui', '--interface'):
-            if arg in reportbug.AVAILABLE_UIS:
+            if arg in utils.AVAILABLE_UIS:
                 interface = arg
             elif arg == 'help':
                 print 'Permitted arguments to --ui:\n'\
