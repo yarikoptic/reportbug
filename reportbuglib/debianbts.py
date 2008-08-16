@@ -911,6 +911,12 @@ def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
     # Reorganize hierarchy to put recently-fixed bugs at top
     parser.reorganize()
 
+    # Morph @ 2008-08-15; due to BTS output format changes
+    try:
+        parser.hierarchy.remove(('Select bugs', []))
+    except:
+        pass
+
     data = (parser.bugcount, parser.title, parser.hierarchy)
     del parser
 

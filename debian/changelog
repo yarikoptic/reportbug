@@ -1,3 +1,14 @@
+reportbug (3.45) unstable; urgency=low
+
+  * reportbuglib/reportbug_ui_urwid.py
+    - added get_password function; thanks to Torsten Wiebke and Jan Muszynski
+      for the reports; Closes: #494509, #491328
+  * reportbuglib/debianbts.py
+    - added removal of cruft from BTS parsed page; thanks to Davide Prina, Dan
+      Greene and Paul Menzel for the reports; Closes: #494545, #495018, #495050
+
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 16 Aug 2008 15:20:38 +0200
+
 reportbug (3.44) unstable; urgency=medium
 
   [ Chris Lawrence ]

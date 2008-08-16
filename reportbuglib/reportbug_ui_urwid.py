@@ -27,7 +27,7 @@
 
 import sys
 import re
-
+import getpass
 import reportbug
 from reportbug_exceptions import (
     UINotImportable,
@@ -372,6 +372,9 @@ def get_multiline(prompt, options=None, title=None, force_prompt=False,
     code, text = box.main(ui)
     l = text.split('\n')
     return l
+
+def get_password(prompt=None):
+    return getpass.getpass(prompt)
 
 def menu(par, options, prompt, default=None, title=None, any_ok=False,
          order=None, extras=None, multiple=False, empty_ok=False, ui=None,
