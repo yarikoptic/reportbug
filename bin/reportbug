@@ -38,8 +38,11 @@ import gettext
 import textwrap
 
 from reportbug import utils
+from reportbug import (
+    VERSION,
+    COPYRIGHT
+    )
 from reportbug.utils import (
-    VERSION, COPYRIGHT,
     MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD,
     )
 from reportbug.tempfiles import (
@@ -827,9 +830,9 @@ def main():
                             "indicate problems with this interface.\n",
                             interface)
 
-        iface = 'reportbug_ui_%(interface)s' % vars()
+        iface = '%(interface)s' % vars()
         try:
-            lib_package = __import__('reportbuglib', fromlist=[iface])
+            lib_package = __import__('reportbug.ui', fromlist=[iface])
             ui = getattr(lib_package, iface)
         except UINotImportable, msg:
             ui.long_message('*** Unable to import %s interface: %s '
@@ -837,7 +840,7 @@ def main():
                             interface, msg)
             ewrite('\n')
 
-        reportbug.submit.ui = ui
+        submit.ui = ui
         # Add INTERFACE as an environment variable to access it from the
         # script gathering the special information for reportbug, when
         # a new bug should be filed against it.
@@ -1809,7 +1812,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         # newline in the message.  See #234963.
         body = body.rstrip('\n')+'\n'
 
-        reportbug.submit.send_report(
+        submit.send_report(
             body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             headers, package, charset, mailing, sysinfo, rtype, exinfo,
             self.options.replyto, self.options.printonly, self.options.template,

@@ -3,7 +3,17 @@ reportbug (3.99.0) UNRELEASED; urgency=low
   [ Chris Lawrence ]
   * Split off python-reportbug into a separate package.
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 17 Aug 2008 01:06:52 +0200
+  [ Sandro Tosi ]
+  * Split off python-reportbug into a separate package
+    - bin/reportbug
+      + fixed VERSION and COPYRIGHT import
+      + hacked the way to identify working ui ******* NEEDS ADDITIONAL FIX, line 833 ***********
+      + remove module name from some methods call, since we import selectively
+        some methods only
+    - setup.py
+      + added reportbug.ui to packages to install UI files
+
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 31 Aug 2008 01:39:08 +0200
 
 reportbug (3.45) unstable; urgency=low
 

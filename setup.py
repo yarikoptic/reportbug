@@ -22,5 +22,6 @@ setup(name='reportbug', version=reportbug.VERSION_NUMBER,
       url='http://alioth.debian.org/projects/reportbug',
       data_files=[('share/reportbug', ['handle_bugscript', 'reportbug.el']),
                   ('share/bug/reportbug', ['presubj', 'script'])],
-      license='MIT', packages=['reportbug'],
+      license='MIT',
+      packages=['reportbug','reportbug.ui'],
       scripts=['bin/reportbug', 'bin/querybts'])
