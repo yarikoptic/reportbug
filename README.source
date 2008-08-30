@@ -1,0 +1,106 @@
+Source layout
+=============
+
+The source tree for ``reportbug`` is organised this way:
+
+* Top level
+
+  * Manual pages.
+
+* Debian packaging
+
+  * ``debian/`` contains the control files used to build the Debian
+    source and binary packages.
+
+* `Programs`_
+
+  * ``bin/`` contains the end-user programs (e.g. ``reportbug``,
+    ``querybts``).
+
+* `Libraries`_
+
+  * ``reportbug/`` contains the Python library module package used by
+    the programs.
+
+* `Unit testing framework`_
+
+  * ``test/`` contains the unit test suite. Unit test modules are
+    discovered and run using the ``nosetests`` program, and are named
+    as ``test_*.py``.
+
+* `Internal checking framework`_
+
+  * ``checks/`` contains various scripts that ensure reportbug's
+    internals are up-to-date with the Debian BTS.
+
+* Internationalisation and localisation
+
+  * ``po4a/`` contains configuration and data for localisation of
+    source files using the ``po4a`` tool.
+
+Unit testing framework
+======================
+
+The reportbug source package now has a unit testing framework.
+
+The directory ``test/`` contains unit test modules and supporting
+files. New unit test modules should be added to this directory and
+named ``test_*.py``.
+
+The unit test suite depends on the `python-nose` package being
+installed, to make the ``nosetests`` command available. The unit tests
+themselves can be written using either the `unittest` or `doctest`
+modules in the standard Python library.
+
+The `scaffold` module (from the ``test/scaffold.py`` file) contains
+some helper functionality for unit tests, including an extended
+`TestCase` class.
+
+``make`` targets for testing and quality checks
+-----------------------------------------------
+
+The following ``make`` targets are useful for testing and related
+tasks.
+
+* ``make test`` runs the unit test suite, preceded by a timestamp
+  banner, and reports any test failures or "OK" if all tests pass.
+
+* ``make test-continuous`` starts a loop which clears the screen, runs
+  ``make test``, then waits for any of the tests or source code to
+  change, and starts the loop again.
+
+  This is useful to run in a separate terminal during a development
+  session, so that whenever a change is made the test suite will be
+  run automatically. You might want to keep the window hidden while
+  actually editing files, and only look at it when you've created or
+  modified a file and want to check its effect on the test run.
+
+  This uses the ``inotifywait`` command from the `inotify-tools`
+  package to wait for `create` and `modify` events.
+
+* ``make coverage`` runs the test suite and collects test coverage
+  information, then reports the current statement coverage of the test
+  suite.
+
+  This requires the `python-coverage` package to be installed. See its
+  documentation for more about its operation.
+
+* ``make pyflakes`` runs the `pyflakes` static code checker on all
+  Python files found in the project tree.
+
+  This requires the `pyflakes` package to be installed. See its
+  documentation for more about its operation.
+
+* ``make pylint`` runs the `pylint` code checker on all code modules
+  and programs.
+
+  This requires the `pylint` package to be installed. See its
+  documentation for more about its operation.
+
+
+..
+    Local Variables:
+    coding: utf-8
+    mode: rst
+    End:
+    vim: filetype=rst :

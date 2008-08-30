@@ -13,4 +13,4 @@
 
 import scaffold
 
-from reportbuglib import reportbug_exceptions
+from reportbug import exceptions as reportbug_exceptions

@@ -1,9 +1,8 @@
 #
-# reportbuglib/checkversions.py
-# Find if the installed version of a package is the latest
+# checkversions.py - Find if the installed version of a package is the latest
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2002-06 Chris Lawrence
+#   (C) 2002-08 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -33,9 +32,9 @@ import sgmllib
 import gc
 import time
 
-import reportbug
+import utils
 from urlutils import open_url
-from reportbug_exceptions import (
+from reportbug.exceptions import (
     NoNetwork,
     )
 
@@ -301,7 +300,7 @@ def check_available(package, version, dists=None, check_incoming=True,
     stuff = get_versions_available(package, dists, http_proxy, arch)
     avail.update(stuff)
     if check_newqueue:
-        srcpackage = reportbug.get_source_name(package)
+        srcpackage = utils.get_source_name(package)
 	if srcpackage is None:
 	    srcpackage = package
         stuff = get_newqueue_available(srcpackage, dists, http_proxy, arch)

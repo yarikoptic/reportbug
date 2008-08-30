@@ -1,9 +1,8 @@
 #
-# reportbuglib/debianbts.py
-# Routines to deal with the debbugs web pages
+# debianbts.py - Routines to deal with BTS web pages
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 1999-2006 Chris Lawrence
+#   (C) 1999-2008 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -25,6 +24,7 @@
 #
 # $Id: debianbts.py,v 1.24.2.15 2008-04-18 05:38:27 lawrencc Exp $
 
+import utils
 import sys
 import mailbox
 import email
@@ -39,9 +39,8 @@ import urllib
 import textwrap
 import pprint
 
-import reportbug
 import checkversions
-from reportbug_exceptions import (
+from exceptions import (
     NoNetwork,
     )
 from urlutils import open_url
@@ -245,14 +244,14 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
             return
 
         ui.ewrite('Checking status database...\n')
-        info = reportbug.get_package_status(package)
+        info = utils.get_package_status(package)
         available = info[1]
 
         query = False
         if not available:
-            info = reportbug.get_source_package(package)
+            info = utils.get_source_package(package)
             if info:
-                info = reportbug.get_package_status(info[0][0])
+                info = utils.get_package_status(info[0][0])
 
         if not info:
             cont = ui.select_options(
@@ -362,7 +361,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     if not package: return
 
     ui.ewrite('Checking status database...\n')
-    info = reportbug.get_package_status(package)
+    info = utils.get_package_status(package)
     available = info[1]
 
     severity = 'normal'
@@ -397,9 +396,9 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
         severity = 'normal'
         query = False
         if not available:
-            info = reportbug.get_source_package(package)
+            info = utils.get_source_package(package)
             if info:
-                info = reportbug.get_package_status(info[0][0])
+                info = utils.get_package_status(info[0][0])
 
         if not info:
             cont = ui.select_options(
@@ -441,6 +440,28 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
 
     return (subject, severity, headers, pseudos, body, query)
 
+def dpkg_infofunc():
+    debarch = utils.get_arch()
+    if debarch:
+        utsmachine = os.uname()[4]
+        if utsmachine == debarch:
+            debinfo = u'Architecture: %s\n\n' % debarch
+        else:
+            debinfo = u'Architecture: %s (%s)\n\n' % (debarch, utsmachine)
+    else:
+        debinfo = u'Architecture: ? (%s)\n\n' % utsmachine
+    return debinfo
+
+def debian_infofunc():
+    return utils.get_debian_release_info() + dpkg_infofunc()
+
+def ubuntu_infofunc():
+    return utils.lsb_release_info() + dpkg_infofunc()
+
+def generic_infofunc():
+    utsmachine = os.uname(4)
+    return utils.lsb_release_info() + u'Architecture: %s\n\n' % utsmachine
+
 # Supported servers
 # Theoretically support for GNATS and Jitterbug could be added here.
 SYSTEMS = { 'debian' :
@@ -455,13 +476,14 @@ SYSTEMS = { 'debian' :
               'deppkgs' : ('gcc', 'g++', 'cpp', 'gcj', 'gpc', 'gobjc',
                            'chill', 'gij', 'g77', 'python', 'python-base',
                            'x-window-system-core', 'x-window-system'),
-              'cgiroot' : 'http://bugs.debian.org/cgi-bin/' },
-            'progeny' :
-            { 'name' : 'Progeny', 'email' : 'bugs@progeny.com',
-              'type' : 'gnats', 'otherpkgs' : progenyother },
+              'cgiroot' : 'http://bugs.debian.org/cgi-bin/',
+              'infofunc' : debian_infofunc,
+              },
             'ubuntu' :
             { 'name' : 'Ubuntu', 'email' : 'ubuntu-users@lists.ubuntu.com',
-              'type' : 'mailto' },
+              'type' : 'mailto',
+              'infofunc' : ubuntu_infofunc,
+              },
             'guug' :
             { 'name' : 'GUUG (German Unix User Group)',
               'email' : '%s@bugs.guug.de', 'query-dpkg' : False },

@@ -13,4 +13,4 @@
 
 import scaffold
 
-from reportbuglib import hiermatch
+from reportbug import hiermatch

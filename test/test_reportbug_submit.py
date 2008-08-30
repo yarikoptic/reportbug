@@ -13,4 +13,4 @@
 
 import scaffold
 
-from reportbuglib import reportbug_submit
+from reportbug import submit as reportbug_submit

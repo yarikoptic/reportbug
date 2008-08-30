@@ -1,17 +1,20 @@
-TODO list for reportbug 4.0 (lenny):
+TODO list for reportbug 4.0 (lenny+1):
 
-1. Proper GNOME interface.  My current thinking is to hack the
-   bug-buddy Glade file to pieces, or do something similar in straight
-   PyGTK, and give up on the whole "UI abstraction" nonsense for now.
+0. revisit README.developers source code layout section
+
+1. (We have one, but it needs to be updated.) Proper GNOME interface.
+   My current thinking is to hack the bug-buddy Glade file to pieces,
+   or do something similar in straight PyGTK, and give up on the whole
+   "UI abstraction" nonsense for now.
 
    (To give you an idea of the limitations of the GNOME Druid widget,
    bug-buddy doesn't even use a Druid... instead, it's a giant
    notebook hack that emulates a Druid in appearance.)
 
-2. Convert the modules to a proper package and stick it in the Python
-   search path (per #157079).  Reform the names.  Rename
-   "reportbug.py" to something sensible.  This probably has to be done
-   before #1 can happen.
+2. (In progress.)  Convert the modules to a proper package and stick
+   it in the Python search path (per #157079).  Reform the names.
+   Rename "reportbug.py" to something sensible.  This probably has to
+   be done before #1 can happen.
 
    (Not sure of a good approach here.  Maybe we should have a class
    that carries around all the information for a bug report, and be
@@ -34,11 +37,13 @@ TODO list for reportbug 4.0 (lenny):
    them... unless we figure out some way to get bug reports translated
    for maintainers.)
 
-5. Convert BTS code to use the mbox-format reports if available, as
-   they should be easier to parse.
+5. (This is already done, I believe.) Convert BTS code to use the
+   mbox-format reports if available, as they should be easier to
+   parse.
 
-6. Alternatively, cajole the BTS maintainers into producing an XML
-   serialization of the BTS data.  (See #184983)
+6. (SOAP is here, we need to integrate it.)  Alternatively, cajole the
+   BTS maintainers into producing an XML serialization of the BTS
+   data.  (See #184983)
 
 7. Allow followups from the command line using a specific bug number,
    rather than requiring people to go through the browser.  Coupled

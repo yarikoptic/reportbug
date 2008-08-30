@@ -16,7 +16,7 @@ import os
 import scaffold
 from scaffold import TestCase
 
-from reportbuglib import reportbug
+from reportbug import utils as reportbug
 
 
 class Test_glob_escape(TestCase):

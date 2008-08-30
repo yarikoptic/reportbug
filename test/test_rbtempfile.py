@@ -16,7 +16,7 @@ import os
 import scaffold
 from scaffold import TestCase
 
-from reportbuglib import rbtempfile
+from reportbug import tempfiles as rbtempfile
 
 
 class Test_cleanup_temp_file(TestCase):

@@ -1,8 +1,7 @@
 # Doing match on a list of string or a hierarchy.
 
 import re
-
-from reportbuglib import reportbug_exceptions
+import exceptions
 
 def egrep_list(strlist, pattern_str, subindex=None):
     """Use the pattern_str to find any match in a list of strings."""
@@ -14,8 +13,8 @@ def egrep_list(strlist, pattern_str, subindex=None):
     try:
         pat = re.compile(pattern_str, re.I|re.M)
     except:
-        raise reportbug_exceptions.InvalidRegex
-
+        raise exceptions.InvalidRegex
+    
     resultlist = []
     if subindex is None:
         subindex = range(len(strlist))

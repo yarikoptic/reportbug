@@ -6,13 +6,17 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+VERSION=$(shell debian/extract_version)
+
 build: build-stamp
 build-stamp:
 	dh_testdir
 
-	# Add here commands to compile the package.
-	echo 'No make needed.'
+	# Test if versions are synchronized; this will bomb if not synced
+	@python -c "import reportbug, sys; sys.exit(reportbug.VERSION_NUMBER != '$(VERSION)')" || (echo 'Please update reportbug/__version__'; exit 1)
+
 	po4a po4a/po4a.cfg
+	python setup.py build
 
 	touch build-stamp
 
@@ -23,6 +27,7 @@ clean:
 
 	# Add here commands to clean up after the build process.
 	rm -rf `find . -name '*~' -o -name '.#*' -o -name '*.orig' -o -name '*.rej' -o -name '*.py[co]'` sed-script
+	rm -rf build
 	po4a --rm-translations po4a/po4a.cfg
 
 	dh_clean
@@ -34,18 +39,11 @@ install-stamp: build-stamp
 	dh_clean -k
 	dh_installdirs
 
-	@echo "s/##VERSION##/`head -n 1 debian/changelog | sed -e 's/[^(]*(\([^)]*\).*/\1/'`/g" > sed-script
-	cat sed-script
-
-	debian/install-sed /usr/bin reportbug querybts
-	debian/install-sed /usr/share/reportbug reportbuglib/*.py
-	# Remove unneeded .py files
-	rm -f `pwd`/debian/reportbug/usr/share/reportbug/urllib2.py
-
-	chmod 0755 `pwd`/debian/reportbug/usr/bin/*
-	cp handle_bugscript reportbug.el `pwd`/debian/reportbug/usr/share/reportbug
-	cp -p reportbug.conf `pwd`/debian/reportbug/etc
-	cp -p presubj script `pwd`/debian/reportbug/usr/share/bug/reportbug/
+	# Add here commands to install the package into debian/reportbug.
+	python setup.py install --root $(CURDIR)/debian/reportbug
+	mv $(CURDIR)/debian/reportbug/usr/lib $(CURDIR)/debian/python-reportbug/usr
+	chmod 0755 $(CURDIR)/debian/reportbug/usr/bin/*
+	cp -p reportbug.conf $(CURDIR)/debian/reportbug/etc
 
 	touch install-stamp
 
@@ -64,7 +62,7 @@ binary-indep: build install
 #	dh_installemacsen
 #	dh_installinit
 	dh_installcron
-	dh_installman querybts.1 reportbug.1 reportbug.fr.1 querybts.fr.1 reportbug.ja.1 reportbug.conf.5
+	dh_installman man/*
 #	dh_undocumented
 	dh_installchangelogs
 	dh_link

@@ -1,9 +1,8 @@
 #
-# reportbuglib/checkbuildd.py
-# Check buildd.debian.org for successful past builds
+# checkbuildd.py - Check buildd.debian.org for successful past builds
 #
 #   Written by Chris Lawrence <lawrencc@debian.org>
-#   (C) 2002 Chris Lawrence
+#   (C) 2002-08 Chris Lawrence
 #
 # This program is freely distributable per the following license:
 #
@@ -27,7 +26,7 @@ import sgmllib
 import commands
 
 from urlutils import open_url
-from reportbug_exceptions import (
+from reportbug.exceptions import (
     NoNetwork,
     )
 

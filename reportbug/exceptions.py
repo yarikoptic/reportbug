@@ -1,4 +1,3 @@
-# reportbuglib/reportbug_exceptions.py
 # Exceptions for reportbug
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   (C) 2002-04 Chris Lawrence
