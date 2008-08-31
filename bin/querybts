@@ -169,9 +169,9 @@ def main():
 
     if interface:
         global ui, ui_mode
-        iface = 'reportbug_ui_%(interface)s' % vars()
+        iface = '%(interface)s' % vars()
         try:
-            lib_package = __import__('reportbuglib', fromlist=[iface])
+            lib_package = __import__('reportbug.ui', fromlist=[iface])
             ui = getattr(lib_package, iface)
             ui_mode = interface
         except UINotImportable, msg:
