@@ -27,17 +27,17 @@
 import sys
 import re
 import getpass
-from .. import utils
-from ..exceptions import (
+from reportbug import utils
+from reportbug.exceptions import (
     UINotImportable,
     NoPackage, NoBugs, NoNetwork, NoReport,
     )
-from ..urlutils import launch_browser
+from reportbug.urlutils import launch_browser
 from text import (
     ewrite,
     spawn_editor,
     )
-from ..__init__ import VERSION
+from reportbug import VERSION
 
 try:
     import urwid.raw_display

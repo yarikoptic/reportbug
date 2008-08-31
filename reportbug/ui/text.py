@@ -35,12 +35,12 @@ try:
 except ImportError:
     readline = None
 
-from .. import debianbts, utils, hiermatch
-from ..exceptions import (
+from reportbug import debianbts, utils, hiermatch
+from reportbug.exceptions import (
     NoReport, NoPackage, NoBugs, NoNetwork,
     InvalidRegex,
     )
-from ..urlutils import launch_browser
+from reportbug.urlutils import launch_browser
 
 ISATTY = sys.stdin.isatty()
 charset = 'us-ascii'

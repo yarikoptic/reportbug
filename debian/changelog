@@ -14,8 +14,10 @@ reportbug (3.99.0) UNRELEASED; urgency=low
       + added reportbug.ui to packages to install UI files
     - bin/querybts
       + hacked the way to identify working ui ******* NEEDS ADDITIONAL FIX, line 174 ***********
+    - reportbug/ui/{text.py,urwid.py}
+      + replaced relative imports with absolute ones
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 31 Aug 2008 21:37:25 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 31 Aug 2008 21:41:46 +0200
 
 reportbug (3.45) unstable; urgency=low
 
