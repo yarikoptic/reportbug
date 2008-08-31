@@ -27,7 +27,6 @@
 import sys
 import re
 import getpass
-from reportbug import utils
 from reportbug.exceptions import (
     UINotImportable,
     NoPackage, NoBugs, NoNetwork, NoReport,

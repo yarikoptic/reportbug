@@ -35,7 +35,7 @@ try:
 except ImportError:
     readline = None
 
-from reportbug import debianbts, utils, hiermatch
+from reportbug import debianbts, hiermatch
 from reportbug.exceptions import (
     NoReport, NoPackage, NoBugs, NoNetwork,
     InvalidRegex,
