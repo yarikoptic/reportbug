@@ -32,7 +32,7 @@ from reportbug.exceptions import (
     NoPackage, NoBugs, NoNetwork, NoReport,
     )
 from reportbug.urlutils import launch_browser
-from text import (
+from text_ui import (
     ewrite,
     spawn_editor,
     )

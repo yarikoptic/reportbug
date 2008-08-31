@@ -45,7 +45,7 @@ from tempfiles import TempFile, open_write_safe, tempfile_prefix
 from exceptions import (
     NoMessage,
     )
-import ui.text as ui
+import ui.text_ui as ui
 
 quietly = False
 

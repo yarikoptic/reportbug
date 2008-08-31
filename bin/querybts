@@ -169,7 +169,7 @@ def main():
 
     if interface:
         global ui, ui_mode
-        iface = '%(interface)s' % vars()
+        iface = '%(interface)s_ui' % vars()
         try:
             lib_package = __import__('reportbug.ui', fromlist=[iface])
             ui = getattr(lib_package, iface)

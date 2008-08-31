@@ -893,8 +893,9 @@ def spawn_editor(message, filename, editor, charset='utf-8'):
     for (lineno, line) in enumerate(file(filename)):
         if line == '\n' and not ourline:
             ourline = lineno + 2
-        elif line.strip() == utils.NEWBIELINE:
-            ourline = lineno + 2
+        # Morph @ 2008-08-31
+        #elif line.strip() == utils.NEWBIELINE:
+        #    ourline = lineno + 2
 
     opts = ''
     if 'vim' in edname:

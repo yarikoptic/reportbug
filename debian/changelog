@@ -18,8 +18,16 @@ reportbug (3.99.0) UNRELEASED; urgency=low
       + replaced relative imports with absolute ones
       + removed reportbug.utils import to avoid circular import (and because
         it's not needed)
+    - reportbug/ui/{newt.py,text.py,urwid.py}
+      + renamed to <file>_ui.py because from <file>.py you cannot import <file>
+        (urwid UI had this problem)
+    - reportbug/{submit.py,utils.py}, bin/{querybts,reportbug}
+      + fixed for ui file rename
+    - reportbug/ui/text_ui.py
+      + disabled utils.NEWBIELINE check to avoid circular import between text
+        and utils ******** WE NEED TO FIND A SOLUTION TO THIS **********
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 31 Aug 2008 22:38:39 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 01 Sep 2008 00:45:25 +0200
 
 reportbug (3.45) unstable; urgency=low
 

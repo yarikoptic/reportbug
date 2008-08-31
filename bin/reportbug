@@ -58,7 +58,7 @@ from reportbug import submit
 from reportbug import checkversions
 from reportbug import debianbts
 from reportbug import checkbuildd
-import reportbug.ui.text as ui
+import reportbug.ui.text_ui as ui
 
 try:
     gettext.install('reportbug')
@@ -830,7 +830,7 @@ def main():
                             "indicate problems with this interface.\n",
                             interface)
 
-        iface = '%(interface)s' % vars()
+        iface = '%(interface)s_ui' % vars()
         try:
             lib_package = __import__('reportbug.ui', fromlist=[iface])
             ui = getattr(lib_package, iface)

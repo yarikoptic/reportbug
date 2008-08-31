@@ -49,7 +49,7 @@ PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
 AVAILABLE_UIS = ['text']
 
 try:
-    import ui.urwid
+    import ui.urwid_ui
     AVAILABLE_UIS.append('urwid')
 except:
     pass
