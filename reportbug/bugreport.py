@@ -98,7 +98,7 @@ class bugreport(object):
 
         body = getattr(self, 'body', u'')
         if self.mode < utils.MODE_ADVANCED:
-            body = NEWBIELINE+u'\n\n'+body
+            body = utils.NEWBIELINE+u'\n\n'+body
         elif not body:
             body = u'\n'
 

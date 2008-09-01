@@ -31,7 +31,18 @@ reportbug (3.99.0) UNRELEASED; urgency=low
     - bin/{querybts,reportbug}
       - changed for new UIs list location
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 01 Sep 2008 22:40:41 +0200
+  * Added GTK+ UI
+    [ Luca Bruno ]
+    - reportbug/ui/gtk2_ui.py
+      + GTK+ interface
+
+    [ Sandro Tosi ]
+    - debian/control
+      + added python-gtk2 to suggests
+    - debian/copyright
+      - added gtk2 ui copyright
+
+ -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 01 Sep 2008 23:47:34 +0200
 
 reportbug (3.45) unstable; urgency=low
 
