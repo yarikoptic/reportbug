@@ -22,4 +22,24 @@
 #
 # $Id: reportbug.py,v 1.35.2.24 2008-04-18 05:38:28 lawrencc Exp $
 
-__all__ = ['text', 'urwid']
+
+__all__ = ['text_ui', 'urwid_ui', 'newt_ui', 'gtk2_ui']
+
+UIS = {'text': 'A text-oriented console user interface',
+       'urwid': 'A menu-based console user interface',
+       'newt': 'A newt user interface',
+       'gtk2': 'A graphical (GTK+) user interface'}
+
+AVAILABLE_UIS = []
+
+for uis in UIS.keys():
+    try:
+        # let's try to import the ui...
+        ui_module = __import__('reportbug.ui', fromlist=[uis+'_ui'])
+        # ... and check if it's really imported
+        ui = getattr(ui_module, uis+'_ui')
+        # then we can finally add it to AVAILABLE_UIS
+        AVAILABLE_UIS.append(uis)
+    except:
+        # we can't import uis, so just skip it
+        pass

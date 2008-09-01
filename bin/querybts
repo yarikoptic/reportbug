@@ -37,6 +37,8 @@ from reportbug.exceptions import (
 from reportbug import debianbts
 from reportbug import urlutils
 
+from reportbug.ui import AVAILABLE_UIS
+
 try:
     import reportbug.ui.newt as ui
     ui_mode = 'newt'
@@ -104,7 +106,7 @@ def main():
         elif option in ('-s', '--source'):
             source = True
         elif option in ('-u', '--ui', '--interface'):
-            if arg in utils.AVAILABLE_UIS:
+            if arg in AVAILABLE_UIS:
                 interface = arg
             elif arg == 'help':
                 print 'Permitted arguments to --ui:\n'\

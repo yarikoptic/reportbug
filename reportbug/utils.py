@@ -46,23 +46,25 @@ STATUSDB = os.path.join(DPKGLIB, 'status')
 PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
                  'Justification', 'Followup-For', 'Owner', 'User', 'Usertags')
 
-AVAILABLE_UIS = ['text']
+from reportbug.ui import AVAILABLE_UIS
 
-try:
-    import ui.urwid_ui
-    AVAILABLE_UIS.append('urwid')
-except:
-    pass
-
-try:
-    import ui.gnome2
-    AVAILABLE_UIS.append('gnome2')
-except:
-    pass
-
-UIS = {'text': 'A text-oriented console interface',
-       'urwid': 'A menu-based console interface',
-       'gnome2': 'A graphical (Gnome 2) interface'}
+#AVAILABLE_UIS = ['text']
+#
+#try:
+#    import ui.urwid_ui
+#    AVAILABLE_UIS.append('urwid')
+#except:
+#    pass
+#
+#try:
+#    import ui.gnome2
+#    AVAILABLE_UIS.append('gnome2')
+#except:
+#    pass
+#
+#UIS = {'text': 'A text-oriented console interface',
+#       'urwid': 'A menu-based console interface',
+#       'gnome2': 'A graphical (Gnome 2) interface'}
 
 MODES = {'novice': 'Offer simple prompts, bypassing technical questions.',
          'standard': 'Offer more extensive prompts, including asking about '

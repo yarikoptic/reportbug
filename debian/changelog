@@ -26,8 +26,12 @@ reportbug (3.99.0) UNRELEASED; urgency=low
     - reportbug/ui/text_ui.py
       + disabled utils.NEWBIELINE check to avoid circular import between text
         and utils ******** WE NEED TO FIND A SOLUTION TO THIS **********
+    - reportbug/{utils.py,ui/__init__.py}
+      + moved UIs list to ui.__init__, where it belongs; Closes: #497024
+    - bin/{querybts,reportbug}
+      - changed for new UIs list location
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 01 Sep 2008 00:45:25 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 01 Sep 2008 22:40:41 +0200
 
 reportbug (3.45) unstable; urgency=low
 
