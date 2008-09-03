@@ -41,8 +41,11 @@ reportbug (3.99.0) UNRELEASED; urgency=low
       + added python-gtk2 to suggests
     - debian/copyright
       - added gtk2 ui copyright
+  
+  * reportbug/debianbts.py
+    - added buildd.emdebian.org and debian-i18n pseudo-packages
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 01 Sep 2008 23:47:34 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Wed, 03 Sep 2008 19:22:59 +0200
 
 reportbug (3.45) unstable; urgency=low
 

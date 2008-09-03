@@ -162,10 +162,12 @@ debother = {
 #    'boot-floppy' : '(Obsolete, please use boot-floppies instead.)',
 #    'boot-floppies' : 'Bugs in the woody installation subsystem',
     'bugs.debian.org' : 'The bug tracking system, @bugs.debian.org',
+    'buildd.emdebian.org' :  'Problems related to building packages for Emdebian'
     'cdimage.debian.org' : 'CD Image issues',
     'cdrom' : 'Problems with installation from CD-ROMs',
 # dpkg-iwj -- The dpkg branch maintained by Ian Jackson
     'debian-policy' : 'Proposed changes in the Debian policy documentation',
+    'debian-i18n' :  'Requests regarding Internationalization (i18n) of the distribution',
     'ftp.debian.org' : 'Problems with the FTP site and Package removal requests',
     'general' : 'General problems (e.g., that many manpages are mode 755)',
 #    'install' : 'Problems with the sarge installer.',
