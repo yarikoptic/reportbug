@@ -61,8 +61,10 @@ from reportbug import checkbuildd
 import reportbug.ui.text_ui as ui
 
 from reportbug.ui import (
-    UIS, AVAILABLE_UIS
+    UIS, AVAILABLE_UIS, getUI
     )
+
+#ui = getUI('text')
 
 try:
     gettext.install('reportbug')
@@ -433,16 +435,10 @@ def offer_configuration(options):
     mode = ui.menu('Please choose the default operating mode for reportbug.',
                    utils.MODES, 'Select mode: ', options.mode,
                    order=utils.MODELIST)
-    uis = dict()
-    for i in AVAILABLE_UIS:
-        if (i in UIS) and i != 'newt':
-            uis[i] = UIS[i]
-    if len(uis) > 1:
-        interface = ui.menu(
-            'Please choose the default interface for reportbug.', uis,
-            'Select interface: ', options.interface)
-    else:
-        interface = 'text'
+
+    interface = ui.menu(
+        'Please choose the default interface for reportbug.', AVAILABLE_UIS,
+        'Select interface: ', options.interface)
 
     online = ui.yes_no('Will reportbug often have direct '
                        'Internet access?  (You should answer yes to this '
@@ -762,7 +758,7 @@ def main():
     parser.add_option('-u', '--interface', '--ui', action='callback',
                       callback=verify_option, type='string', dest='interface',
                       callback_args=('Valid user interfaces',
-                                     AVAILABLE_UIS),
+                                     AVAILABLE_UIS.keys()),
                       help='choose which user interface to use')
     parser.add_option('-Q', '--query-only', action='store_true',
                       dest='queryonly', help='only query the BTS')
@@ -826,13 +822,6 @@ def main():
     sys.argv = sys.argv[:1] + list(args)
     if options.interface:
         interface = options.interface
-        if interface in ('gnome', 'newt'):
-            ui.long_message("The %s interface is not supported.  Unless you "
-                            "are debugging reportbug, please do not use it.  "
-                            "If you are debugging reportbug, please DO NOT "
-                            "file bugs more serious than 'normal' that "
-                            "indicate problems with this interface.\n",
-                            interface)
 
         iface = '%(interface)s_ui' % vars()
         try:

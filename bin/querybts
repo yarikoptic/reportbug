@@ -40,10 +40,10 @@ from reportbug import urlutils
 from reportbug.ui import AVAILABLE_UIS
 
 try:
-    import reportbug.ui.newt as ui
+    import reportbug.ui.newt_ui as ui
     ui_mode = 'newt'
 except:
-    import reportbug.ui.text as ui
+    import reportbug.ui.text_ui as ui
     ui_mode = 'text'
 
 VERSION = "querybts ##VERSION##"
@@ -106,12 +106,11 @@ def main():
         elif option in ('-s', '--source'):
             source = True
         elif option in ('-u', '--ui', '--interface'):
-            if arg in AVAILABLE_UIS:
+            if arg in AVAILABLE_UIS.keys():
                 interface = arg
             elif arg == 'help':
-                print 'Permitted arguments to --ui:\n'\
-                      ' text: line-oriented text mode\n'\
-                      ' newt: screen-oriented text mode'
+                print 'Allowed arguments to --ui:\n'
+                for k in AVAILABLE_UIS.keys(): print ' %s: %s' % (k, AVAILABLE_UIS[k])
                 sys.exit(0)
             else:
                 print "Ignoring unknown user interface %s\n" % arg

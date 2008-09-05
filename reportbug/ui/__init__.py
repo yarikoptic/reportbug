@@ -30,7 +30,11 @@ UIS = {'text': 'A text-oriented console user interface',
        'newt': 'A newt user interface',
        'gtk2': 'A graphical (GTK+) user interface'}
 
-AVAILABLE_UIS = []
+# Only the available UIs
+AVAILABLE_UIS = {}
+
+# List of already loaded ui, we can give back to requestors
+__LOADED_UIS = {}
 
 for uis in UIS.keys():
     try:
@@ -39,7 +43,19 @@ for uis in UIS.keys():
         # ... and check if it's really imported
         ui = getattr(ui_module, uis+'_ui')
         # then we can finally add it to AVAILABLE_UIS
-        AVAILABLE_UIS.append(uis)
+        AVAILABLE_UIS[uis] = UIS[uis]
+        __LOADED_UIS[uis] = ui
     except:
         # we can't import uis, so just skip it
         pass
+
+
+def getUI(ui):
+    """Returns the requested UI, or default to text if not available"""
+
+    if __LOADED_UIS.has_key(ui):
+        print "loading %s" % ui
+        return __LOADED_UIS[ui]
+    else:
+        print "defaulting to text ui"
+        return __LOADED_UIS['text']

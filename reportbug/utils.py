@@ -48,24 +48,6 @@ PSEUDOHEADERS = ('Package', 'Version', 'Severity', 'File', 'Tags',
 
 from reportbug.ui import AVAILABLE_UIS
 
-#AVAILABLE_UIS = ['text']
-#
-#try:
-#    import ui.urwid_ui
-#    AVAILABLE_UIS.append('urwid')
-#except:
-#    pass
-#
-#try:
-#    import ui.gnome2
-#    AVAILABLE_UIS.append('gnome2')
-#except:
-#    pass
-#
-#UIS = {'text': 'A text-oriented console interface',
-#       'urwid': 'A menu-based console interface',
-#       'gnome2': 'A graphical (Gnome 2) interface'}
-
 MODES = {'novice': 'Offer simple prompts, bypassing technical questions.',
          'standard': 'Offer more extensive prompts, including asking about '
          'things that a moderately sophisticated user would be expected to '
@@ -813,7 +795,7 @@ def parse_config_files():
                         args['sign'] = ''
                 elif token == 'ui':
                     token = lex.get_token().lower()
-                    if token in AVAILABLE_UIS:
+                    if token in AVAILABLE_UIS.keys():
                         args['interface'] = token
                 elif token == 'mode':
                     arg = lex.get_token().lower()
