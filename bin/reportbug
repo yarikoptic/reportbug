@@ -833,6 +833,7 @@ def main():
                             interface, msg)
             ewrite('\n')
 
+        ui.initialize ()
         submit.ui = ui
         # Add INTERFACE as an environment variable to access it from the
         # script gathering the special information for reportbug, when

@@ -298,3 +298,6 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     if not screen:
         scr.finish()
     return result
+
+def initialize ():
+    pass

@@ -646,6 +646,9 @@ palette = [
     ('scrolllabel', 'white', 'dark cyan'),
     ]
 
+def initialize ():
+    pass
+
 def test():
     import time
 
