@@ -24,7 +24,6 @@
 # Version ##VERSION##; see changelog for revision history
 # $Id: reportbug,v 1.98.2.33 2008-04-18 05:38:27 lawrencc Exp $
 
-DEBUGGER = 'lawrencc@debian.org'
 DEFAULT_BTS = 'debian'
 
 import sys
@@ -40,6 +39,7 @@ import textwrap
 from reportbug import utils
 from reportbug import (
     VERSION,
+    VERSION_NUMBER,
     COPYRIGHT
     )
 from reportbug.utils import (
@@ -524,7 +524,7 @@ def offer_configuration(options):
     print >> fp, '# reportbug preferences file'
     print >> fp, '# character encoding: %s' % charset
     print >> fp, '# Version of reportbug this preferences file was written by'
-    print >> fp, 'reportbug_version "##VERSION##"'
+    print >> fp, 'reportbug_version "%s"' % VERSION_NUMBER
     print >> fp, '# default operating mode: one of:',
     print >> fp, ', '.join(utils.MODELIST)
     print >> fp, 'mode %s' % mode

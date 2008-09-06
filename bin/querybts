@@ -46,7 +46,9 @@ except:
     import reportbug.ui.text_ui as ui
     ui_mode = 'text'
 
-VERSION = "querybts ##VERSION##"
+from reportbug import VERSION_NUMBER
+
+VERSION = "querybts %s" % VERSION_NUMBER
 
 USAGE = ("querybts - Examine the state of a debbugs server.\n\n"
          "Usage: querybts [options] {<package> | <report number> [report2] ...}\n"
