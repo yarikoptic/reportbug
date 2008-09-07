@@ -328,7 +328,9 @@ class BugPage (gtk.EventBox, threading.Thread):
         bodies = info[1]
         vbox = gtk.VBox (spacing=12)
         vbox.set_border_width (12)
-        vbox.pack_start (gtk.Label ('Description: '+desc), expand=False)
+        label = gtk.Label ('Description: '+desc)
+        label.set_line_wrap (True)
+        vbox.pack_start (label, expand=False)
         
         view = gtk.TreeView ()
         view.get_selection().set_mode (gtk.SELECTION_NONE)
@@ -375,7 +377,7 @@ class BugsDialog (gtk.Dialog):
         self.notebook = gtk.Notebook ()
         self.vbox.pack_start (self.notebook)
         self.connect ('response', self.on_response)
-        self.set_size_request (800, 600)
+        self.set_default_size (600, 600)
 
     def on_response (self, *args):
         self.destroy ()
@@ -594,6 +596,7 @@ class GetMultilinePage (Page):
         return text.split ('\n')
 
     def execute (self, prompt):
+        self.empty_ok = True
         # The result must be iterable for reportbug even if it's empty and not modified
         self.label.set_text (prompt)
         self.buffer.set_text ("")
@@ -680,6 +683,8 @@ class GetListPage (TreePage):
             self.model.remove (iter)
 
     def execute (self, prompt):
+        self.empty_ok = True
+
         self.label.set_text (prompt)
 
         self.model = gtk.ListStore (str)
@@ -1025,10 +1030,15 @@ class SelectOptionsPage (Page):
         self.application.set_next_value (menuopt)
         self.assistant.forward_page ()
 
+    def setup_focus (self):
+        if self.default:
+            self.default.set_flags (gtk.CAN_DEFAULT | gtk.HAS_DEFAULT)
+            self.default.grab_default ()
+
     def execute (self, prompt, menuopts, options):
         self.label.set_text (prompt)
 
-        default = None
+        self.default = None
         buttons = []
         for menuopt in menuopts:
             desc = options[menuopt.lower ()]
@@ -1038,7 +1048,7 @@ class SelectOptionsPage (Page):
             button = gtk.Button (options[menuopt.lower ()])
             button.connect ('clicked', self.on_clicked, menuopt.lower ())
             if menuopt.isupper ():
-                default = button
+                self.default = button
                 buttons.insert (0, gtk.HSeparator ())
                 buttons.insert (0, button)
             else:
@@ -1046,11 +1056,6 @@ class SelectOptionsPage (Page):
 
         for button in buttons:
             self.vbox.pack_start (button, expand=False)
-
-        if default:
-            default.set_flags (gtk.CAN_DEFAULT | gtk.HAS_DEFAULT)
-            default.grab_default ()
-            default.grab_focus ()
 
         self.vbox.show_all ()
 
@@ -1064,6 +1069,7 @@ class ProgressPage (Page):
     def create_widget (self):
         vbox = gtk.VBox (spacing=6)
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
         self.progress = gtk.ProgressBar ()
         self.progress.set_pulse_step (0.01)
         vbox.pack_start (self.label, expand=False)
@@ -1085,7 +1091,7 @@ class ReportbugAssistant (gtk.Assistant):
         self.showing_page = None
         self.requested_page = None
         self.progress_page = None
-        self.set_size_request (600, 400)
+        self.set_default_size (600, 400)
         self.set_forward_page_func (self.forward)
         self.connect_signals ()
         self.setup_pages ()
@@ -1258,9 +1264,11 @@ def initialize ():
 
 def test ():
     # Write some tests here
+    print select_options ('test', 'A', {'a': 'A test'})
+    print get_multiline ('ENTER', empty_ok=True)
     print get_string ("test")
     page = HandleBTSQueryPage (assistant)
-    application.run_once_in_main_thread (page.execute_operation, [('asd', (Bug ('#123 [asd] [we] we we Reported by: asd;' ), Bug ('#123 [asd] [we] we we Reported by: asd;')))], 'asd')
+    application.run_once_in_main_thread (page.execute_operation, [('test', (Bug ('#123 [test] [we] we we Reported by: test;' ), Bug ('#123 [test] [we] we we Reported by: test;')))], 'test')
     return application.get_last_value ()
 
 if __name__ == '__main__':
