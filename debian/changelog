@@ -44,8 +44,10 @@ reportbug (3.99.0) UNRELEASED; urgency=low
   
   * reportbug/debianbts.py
     - added buildd.emdebian.org and debian-i18n pseudo-packages
+  * man/{querybts.1,reportbug.1,reportbug.conf.5}
+    - added UI information; thanks to Luca Bruno's patch
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 06 Sep 2008 00:50:37 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 08 Sep 2008 23:53:51 +0200
 
 reportbug (3.45) unstable; urgency=low
 

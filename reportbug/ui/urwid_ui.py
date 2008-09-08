@@ -492,7 +492,7 @@ def select_multiple(par, options, prompt, title=None, order=None, extras=None):
 def show_report(number, system, mirrors,
                 http_proxy, screen=None, queryonly=False, title='',
                 archived='no'):
-    import debianbts
+    from reportbug import debianbts
 
     ui = screen
     if not ui:
@@ -531,7 +531,7 @@ def show_report(number, system, mirrors,
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=False, screen=None, title="", archived='no',
                      source=False, version=None):
-    import debianbts
+    from reportbug import debianbts
 
     sysinfo = debianbts.SYSTEMS[bts]
     root = sysinfo.get('btsroot')

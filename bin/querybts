@@ -182,6 +182,7 @@ def main():
                             'Falling back to %s interface.\n',
                             interface, msg, ui_mode)
             ewrite('\n')
+    ui.initialize ()
 
     reportre = re.compile(r'^#?(\d+)$')
     try:

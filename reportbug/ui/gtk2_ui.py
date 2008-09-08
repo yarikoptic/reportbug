@@ -43,6 +43,7 @@ from reportbug import debianbts
 from reportbug.urlutils import launch_browser
 
 ISATTY = True
+DEBIAN_LOGO = "/usr/share/pixmaps/debian-logo.png"
 
 global application, assistant
 
@@ -276,13 +277,14 @@ class BugReport (object):
 # BTS GUI
 
 class BugPage (gtk.EventBox, threading.Thread):
-    def __init__ (self, dialog, number, bts, mirrors, http_proxy, archived):
+    def __init__ (self, dialog, number, queryonly, bts, mirrors, http_proxy, archived):
         threading.Thread.__init__ (self)
         gtk.EventBox.__init__ (self)
         self.dialog = dialog
         self.assistant = self.dialog.assistant
         self.application = self.assistant.application
         self.number = number
+        self.queryonly = queryonly
         self.bts = bts
         self.mirrors = mirrors
         self.http_proxy = http_proxy
@@ -347,10 +349,11 @@ class BugPage (gtk.EventBox, threading.Thread):
         button = gtk.Button ("Open in browser")
         button.connect ('clicked', self.on_open_browser)
         bbox.pack_start (button)
-        button = gtk.Button ("Reply")
-        button.set_image (gtk.image_new_from_stock (gtk.STOCK_EDIT, gtk.ICON_SIZE_BUTTON))
-        button.connect ('clicked', self.on_reply)
-        bbox.pack_start (button)
+        if not self.queryonly:
+            button = gtk.Button ("Reply")
+            button.set_image (gtk.image_new_from_stock (gtk.STOCK_EDIT, gtk.ICON_SIZE_BUTTON))
+            button.connect ('clicked', self.on_reply)
+            bbox.pack_start (button)
         vbox.pack_start (bbox, expand=False)
 
         self.add (vbox)
@@ -368,11 +371,12 @@ class BugPage (gtk.EventBox, threading.Thread):
         self.dialog.destroy ()
 
 class BugsDialog (gtk.Dialog):
-    def __init__ (self, assistant):
+    def __init__ (self, assistant, queryonly):
         gtk.Dialog.__init__ (self, "Reportbug: bug information", assistant,
                              gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                              (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE))
         self.assistant = assistant
+        self.queryonly = queryonly
         self.application = assistant.application
         self.notebook = gtk.Notebook ()
         self.vbox.pack_start (self.notebook)
@@ -383,7 +387,7 @@ class BugsDialog (gtk.Dialog):
         self.destroy ()
 
     def show_bug (self, number, *args):
-        page = BugPage (self, number, *args)
+        page = BugPage (self, number, self.queryonly, *args)
         self.notebook.append_page (page, gtk.Label (number))
         page.start ()
         
@@ -443,7 +447,7 @@ class Page (ReportbugConnector):
     next_page_num = 0
     page_type = gtk.ASSISTANT_PAGE_CONTENT
     default_complete = False
-    side_image = "/usr/share/pixmaps/debian-logo.png"
+    side_image = DEBIAN_LOGO
 
     def __init__ (self, assistant):
         self.assistant = assistant
@@ -743,11 +747,15 @@ class HandleBTSQueryPage (TreePage):
     value_column = 0
 
     def sync_pre_operation (self, package, bts, mirrors=None, http_proxy="", queryonly=False, screen=None,
-                            archived='no', source=False, version=None):
+                            archived='no', source=False, title=None, version=None):
         self.bts = bts
         self.mirrors = mirrors
         self.http_proxy = http_proxy
         self.archived = archived
+
+        self.queryonly = queryonly
+        if queryonly:
+            self.page_type = gtk.ASSISTANT_PAGE_CONFIRM
 
         sysinfo = debianbts.SYSTEMS[bts]
         root = sysinfo.get('btsroot')
@@ -852,7 +860,7 @@ class HandleBTSQueryPage (TreePage):
             info_dialog ("Please select one ore more bugs")
             return
 
-        dialog = BugsDialog (self.assistant)
+        dialog = BugsDialog (self.assistant, self.queryonly)
         for id in bug_ids:
             dialog.show_bug (id, self.bts, self.mirrors, self.http_proxy, self.archived)
         dialog.show_all ()
@@ -1024,6 +1032,7 @@ class SelectOptionsPage (Page):
         self.label = gtk.Label ()
         self.vbox = gtk.VBox (spacing=6)
         self.vbox.pack_start (self.label, expand=False, padding=6)
+        self.default = None
         return self.vbox
 
     def on_clicked (self, button, menuopt):
@@ -1034,11 +1043,11 @@ class SelectOptionsPage (Page):
         if self.default:
             self.default.set_flags (gtk.CAN_DEFAULT | gtk.HAS_DEFAULT)
             self.default.grab_default ()
+            self.default.grab_focus ()
 
     def execute (self, prompt, menuopts, options):
         self.label.set_text (prompt)
 
-        self.default = None
         buttons = []
         for menuopt in menuopts:
             desc = options[menuopt.lower ()]
@@ -1087,6 +1096,7 @@ class ReportbugAssistant (gtk.Assistant):
     def __init__ (self, application):
         gtk.Assistant.__init__ (self)
         self.set_title ('Reportbug')
+        self.set_icon_from_file (DEBIAN_LOGO)
         self.application = application
         self.showing_page = None
         self.requested_page = None
