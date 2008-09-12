@@ -46,8 +46,11 @@ reportbug (3.99.0) UNRELEASED; urgency=low
     - added buildd.emdebian.org and debian-i18n pseudo-packages
   * man/{querybts.1,reportbug.1,reportbug.conf.5}
     - added UI information; thanks to Luca Bruno's patch
+  * checks/compare_pseudo-pkgs_lists.py
+    - updated location of canonical pseudo-packages list from ftpmaster to
+      bugs.d.o; thanks to Josip Rodin for the patch; Closes: #498663
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Mon, 08 Sep 2008 23:53:51 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Fri, 12 Sep 2008 07:40:34 +0200
 
 reportbug (3.45) unstable; urgency=low
 
