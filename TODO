@@ -1,6 +1,14 @@
-TODO list for reportbug 4.0 (lenny+1):
+TODO list for reportbug 4.0 (squeeze):
 
-0. revisit README.developers source code layout section
+0. revisit README.{developers,source} for source code layout section
+
+0.1. fix the way reportbug/querybts obtain a UI: the ideal would be to
+     use getUI from reportbug.ui, since the module already has all the
+     UIs loaded (to know the ones available).
+     bin/reportbug - line 833
+     bin/querybts  - line 174
+
+0.2. add a desktop file, mimic menu file?
 
 1. (We have one, but it needs to be updated.) Proper GNOME interface.
    My current thinking is to hack the bug-buddy Glade file to pieces,
