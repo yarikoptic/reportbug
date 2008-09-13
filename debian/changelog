@@ -53,8 +53,10 @@ reportbug (3.99.0) UNRELEASED; urgency=low
   * checks/compare_pseudo-pkgs_lists.py
     - updated location of canonical pseudo-packages list from ftpmaster to
       bugs.d.o; thanks to Josip Rodin for the patch; Closes: #498663
+  * doc/README.*, debian/docs
+    - moved README.* files under doc/ dir
 
- -- Sandro Tosi <matrixhasu@gmail.com>  Sat, 13 Sep 2008 23:59:46 +0200
+ -- Sandro Tosi <matrixhasu@gmail.com>  Sun, 14 Sep 2008 01:02:57 +0200
 
 reportbug (3.45) unstable; urgency=low
 
