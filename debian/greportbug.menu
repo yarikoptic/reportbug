@@ -1,2 +1,0 @@
-?package(greportbug):needs=x11 section=Apps/System\
-  title="greportbug" command="/usr/bin/greportbug"

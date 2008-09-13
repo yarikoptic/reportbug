@@ -1096,7 +1096,6 @@ class ReportbugAssistant (gtk.Assistant):
     def __init__ (self, application):
         gtk.Assistant.__init__ (self)
         self.set_title ('Reportbug')
-        self.set_icon_from_file (DEBIAN_LOGO)
         self.application = application
         self.showing_page = None
         self.requested_page = None
@@ -1265,6 +1264,7 @@ def initialize ():
     sys.excepthook = ExceptionDialog.create_excepthook (oldhook)
 
     # GTK settings
+    gtk.window_set_default_icon_from_file (DEBIAN_LOGO)
     gtk.link_button_set_uri_hook (lambda button, uri: launch_browser (uri))
 
     application = ReportbugApplication ()
