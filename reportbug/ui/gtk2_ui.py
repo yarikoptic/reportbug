@@ -1174,6 +1174,10 @@ class YesNoDialog (ReportbugConnector, gtk.MessageDialog):
 
     def execute_operation (self, msg, yeshelp=None, nohelp=None, default=True, nowrap=False):
         self.set_markup (msg+"?")
+        if default:
+            self.set_default_response (gtk.RESPONSE_YES)
+        else:
+            self.set_default_response (gtk.RESPONSE_NO)
         self.show_all ()
 
 class DisplayFailureDialog (ReportbugConnector, gtk.MessageDialog):
