@@ -1,0 +1,3 @@
+# suppress lintian warning about po4a: it's needed in clean target
+# so it must be in Build-Depends field
+reportbug source: build-depends-without-arch-dep po4a

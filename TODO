@@ -10,6 +10,10 @@ TODO list for reportbug 4.0 (squeeze):
 
 0.2. add a desktop file, mimic menu file?
 
+0.3. reportbug/ui/text_ui.py
+       + disabled utils.NEWBIELINE check to avoid circular import between text
+         and utils ******** WE NEED TO FIND A SOLUTION TO THIS **********
+
 1. (We have one, but it needs to be updated.) Proper GNOME interface.
    My current thinking is to hack the bug-buddy Glade file to pieces,
    or do something similar in straight PyGTK, and give up on the whole

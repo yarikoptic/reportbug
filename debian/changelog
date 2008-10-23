@@ -1,4 +1,4 @@
-reportbug (3.99.0) UNRELEASED; urgency=low
+reportbug (3.99.0) experimental; urgency=low
 
   [ Chris Lawrence ]
   * Split off python-reportbug into a separate package.
@@ -23,13 +23,26 @@ reportbug (3.99.0) UNRELEASED; urgency=low
         (urwid UI had this problem)
     - reportbug/{submit.py,utils.py}, bin/{querybts,reportbug}
       + fixed for ui file rename
-    - reportbug/ui/text_ui.py
-      + disabled utils.NEWBIELINE check to avoid circular import between text
-        and utils ******** WE NEED TO FIND A SOLUTION TO THIS **********
     - reportbug/{utils.py,ui/__init__.py}
       + moved UIs list to ui.__init__, where it belongs; Closes: #497024
     - bin/{querybts,reportbug}
       - changed for new UIs list location
+  * reportbug/debianbts.py
+    - added buildd.emdebian.org and debian-i18n pseudo-packages
+  * man/{querybts.1,reportbug.1,reportbug.conf.5}
+    - added UI information; thanks to Luca Bruno's patch
+  * checks/compare_pseudo-pkgs_lists.py
+    - updated location of canonical pseudo-packages list from ftpmaster to
+      bugs.d.o; thanks to Josip Rodin for the patch; Closes: #498663
+  * doc/README.*, debian/docs
+    - moved README.* files under doc/ dir
+  * TODO
+    - updated
+  * debian/control
+    - updated my email address
+  * debian/source.lintian-overrides
+    - added to override the warning about po4a wrong build-dep (we need it
+      because it's used in clean debian/rules target)
 
   * Added GTK+ UI
     [ Luca Bruno ]
@@ -45,22 +58,8 @@ reportbug (3.99.0) UNRELEASED; urgency=low
       + removed since no more needed
     - debian/menu
       + added entry for GTK+ ui
-  
-  * reportbug/debianbts.py
-    - added buildd.emdebian.org and debian-i18n pseudo-packages
-  * man/{querybts.1,reportbug.1,reportbug.conf.5}
-    - added UI information; thanks to Luca Bruno's patch
-  * checks/compare_pseudo-pkgs_lists.py
-    - updated location of canonical pseudo-packages list from ftpmaster to
-      bugs.d.o; thanks to Josip Rodin for the patch; Closes: #498663
-  * doc/README.*, debian/docs
-    - moved README.* files under doc/ dir
-  * TODO
-    - updated
-  * debian/control
-    - updated my email address
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Sep 2008 22:14:06 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 23 Oct 2008 16:04:28 +0200
 
 reportbug (3.45) unstable; urgency=low
 
