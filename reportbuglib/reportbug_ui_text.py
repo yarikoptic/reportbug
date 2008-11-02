@@ -31,6 +31,7 @@ import errno
 import glob
 import getpass
 import textwrap
+import locale
 try:
     import readline
 except ImportError:
@@ -521,6 +522,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
 
 def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                 http_proxy, screen, title):
+    output_encoding = locale.getpreferredencoding()
     endcount = catcount = 0
     scount = startcount = 1
     category = hierarchy[0]
@@ -585,7 +587,8 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                     helptext['n'] = helptext['n'][:-1]+' (skip to Next page).'
 
                 while 1:
-                    sys.stderr.writelines(lastpage)
+                    for line in lastpage:
+                        sys.stderr.write(line.decode('utf-8').encode(output_encoding, "replace"))
                     x = select_options(pstr, options, helptext,
                                        allow_numbers=allowed)
                     if x == 'n':
