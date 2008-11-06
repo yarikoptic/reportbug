@@ -61,6 +61,17 @@ reportbug (3.99.0) experimental; urgency=low
 
  -- Sandro Tosi <morph@debian.org>  Thu, 23 Oct 2008 16:04:28 +0200
 
+reportbug (3.46) unstable; urgency=low
+
+  * debian/control
+    - updated my email address
+  * reportbuglib/reportbug_ui_text.py
+    - convert BTS output from UTF-8 to local encoding; thanks to Mark Hobley,
+      Gregor Herrmann and Klaus Ethgen for the bug reports and to Vincent
+      Fourmond for the patch; Closes: #497641, #496159, #504005
+
+ -- Sandro Tosi <morph@debian.org>  Sun, 02 Nov 2008 12:54:33 +0100
+
 reportbug (3.45) unstable; urgency=low
 
   * reportbuglib/reportbug_ui_urwid.py
