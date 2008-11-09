@@ -1,3 +1,10 @@
+reportbug (3.99.1) UNRELEASED; urgency=low
+
+  * reportbug/ui/{__init__.py,newt_ui.py}, test/test_reportbug_ui_newt.py
+    - removed newt UI, since unused, broken, unmaintained
+
+ -- Sandro Tosi <morph@debian.org>  Sun, 09 Nov 2008 12:48:06 +0100
+
 reportbug (3.99.0) experimental; urgency=low
 
   [ Chris Lawrence ]

@@ -23,11 +23,10 @@
 # $Id: reportbug.py,v 1.35.2.24 2008-04-18 05:38:28 lawrencc Exp $
 
 
-__all__ = ['text_ui', 'urwid_ui', 'newt_ui', 'gtk2_ui']
+__all__ = ['text_ui', 'urwid_ui', 'gtk2_ui']
 
 UIS = {'text': 'A text-oriented console user interface',
        'urwid': 'A menu-based console user interface',
-       'newt': 'A newt user interface',
        'gtk2': 'A graphical (GTK+) user interface'}
 
 # Only the available UIs
