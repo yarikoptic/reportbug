@@ -481,6 +481,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
         (count, title, hierarchy)=debianbts.get_reports(
             package, bts, mirrors=mirrors, version=version,
             source=source, http_proxy=http_proxy, archived=archived)
+
         if debianbts.SYSTEMS[bts].has_key('namefmt'):
             package2 = debianbts.SYSTEMS[bts]['namefmt'] % package
             (count2, title2, hierarchy2) = \
@@ -492,12 +493,27 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
             for entry in hierarchy2:
                 hierarchy.append( (package2+' '+entry[0], entry[1]) )
 
-        exp = re.compile(r'#(\d+)[ :]')
-        for entry in hierarchy or []:
+        # remove unneeded info from bugs hierarchy, we leave only bug number and subject
+        # format "#<bug no> [???] [pkg name] subject <all the rest>
+        bug_re = re.compile(r'#(\d+) \[[^]]+\] \[[^]]+\] (.*) Reported by.*')
+        hierarchy_new = []
+
+        for entry in hierarchy:
+            # first item is the title of the section
+            entry_new = entry[0]
+            bugs_new = []
+            # second item is a list of bugs report
             for bug in entry[1]:
-                match = exp.match(bug)
+                match = bug_re.match(bug)
                 if match:
+                    # we take the info we need (bug number and subject)
+                    bugs_new.append("#" + match.group(1) + "  " + match.group(2))
+                    # and at the same time create a list of bug number
                     bugs.append(int(match.group(1)))
+            hierarchy_new.append( (entry_new,bugs_new))
+
+        # replace old hierarchy with hierarchy_new
+        hierarchy = hierarchy_new
 
         if not count:
             if hierarchy == None:
