@@ -1,0 +1,106 @@
+This file is lifted, almost verbatim, from "bug".
+
+                      BUG'S Features for Developers
+		      =============================
+
+
+ Bug allows maintainers to control the bug reporting process by placing
+files in special places.
+
+Template Information & Interaction with the user
+================================================
+
+ If /usr/share/bug/$package is executable, then bug executes it and
+takes what comes out from the file descriptor 3 and puts it in the bug
+template.
+ The maintainer can then ask questions to the user or run whatever
+information gathering script he likes, and echo all the content to fd 3.
+
+ e.g.:
+	read -p 'color? '
+	echo "Color: $REPLY" >&3
+	...
+	system-information-tool >&3
+	
+ If /usr/share/bug/$package is a directory, then
+/usr/share/bug/$package/script is executed.
+
+ While the script is executed, the following shell functions are
+available ONLY IF IT IS RUN UNDER /bin/bash:
+
+	getkey				- asks for a key
+	yesno <prompt> "yep"|"nop"	- ask for a yes/no answer (with i18n)
+					  leaves response as yep or nop
+					  in REPLY. The second argument is
+					  the default.
+
+ If the file /usr/share/bug/$package/presubj exists, its content is
+shown to the user before asking him for the bug's subject.
+
+ Note: It's your responsibility to check if the information included
+in the template can put the user in any security risk.
+
+Package redirection
+===================
+
+ The package maintainer can control to which packages bug reports are
+submitted, by setting the Package: field of the bug report.  This will
+be mainly used to redirect bugs in packages coming from a single
+source to where the maintainer likes to have them.
+
+ This is done by having this line in /usr/share/bug/$package/control:
+
+	Submit-As: $new-package
+
+ Note that bug will not check if the $new-package exists as a valid package.
+
+BTS selection
+=============
+
+ Packages not distributed by Debian can take advantage of this utility too.
+They just need to add a "send-to" header to the control file
+/usr/share/bug/$package/control.
+
+	Send-To: bugs.myproject.com
+
+ `bug' will add `submit@' `quiet@' or `maintonly@' to form the address the
+bug report mail is send to.
+
+(Note: you probably should use dpkg's support for Origin and Bugs tags
+in lieu of this support.)
+
+Nicolás Lichtmaier.-
+nick@debian.org
+
+Related packages
+================
+
+ Often programs are distributed across several different packages, for
+example an upstream package 'foo' may be packaged in Debian as foo, libfoo,
+foo-common and foo-data.  In such cases it can be useful to include related
+package information in bugreports, to minimise the need for 'moreinfo' requests
+to the submitter :) This is done by adding a "report-with" header to the
+control file.
+
+ report-with: foo libfoo foo-common foo-data
+
+Package information will be added to the bug report for each extra package
+listed.
+
+You can also request that the status information for other packages
+(that are not dependencies or recommendations) be included with the
+report using the "package-status" header.
+
+ package-status: bar baz
+
+Addendum: Languages other than SH
+=================================
+
+The script in /usr/share/bug/reportbug/script is an example of a bug
+handling script written in Python.  You can also write bug handlers in
+many other languages that allow direct access to file descriptors,
+including Perl and C/C++.
+
+Note that the getkey and yesno functions are only available in scripts
+written using /bin/bash as their interpreter; for other shells or
+languages, you will need to write your own input parsing functions.
