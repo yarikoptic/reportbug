@@ -356,7 +356,14 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             tryagain = False
             ewrite("Connecting to %s via SMTP...\n", smtphost)
             try:
-                conn = smtplib.SMTP(smtphost)
+                conn = None
+                # if we're using reportbug.debian.org, send mail to
+                # submit
+                if smtphost.lower() == 'reportbug.debian.org':
+                    conn = smtplib.SMTP(smtphost,587)
+                else: 
+                    conn = smtplib.SMTP(smtphost)
+
                 response = conn.ehlo()
                 if not (200 <= response[0] <= 299):
                     conn.helo()
