@@ -570,13 +570,13 @@ def offer_configuration(options):
         print >> fp, '# Disable fallback mode by commenting out the following:'
         print >> fp, 'no-cc'
         print >> fp, 'header "X-Debbugs-CC: %s"' % email_addy
-        print >> fp, 'smtphost bugs.debian.org'
+        print >> fp, 'smtphost reportbug.debian.org'
     else:
         print >> fp, '# If nothing else works, remove the # at the beginning'
         print >> fp, '# of the following three lines:'
         print >> fp, '#no-cc'
         print >> fp, '#header "X-Debbugs-CC: %s"' % email_addy
-        print >> fp, '#smtphost bugs.debian.org'
+        print >> fp, '#smtphost reportbug.debian.org'
 
     print >> fp, '# You can add other settings after this line.  See'
     print >> fp, '# /etc/reportbug.conf for a full listing of options.'
@@ -944,8 +944,10 @@ class UI(object):
 
         if smtphost and smtphost.lower() == 'master.debian.org':
             ui.long_message('*** Warning: master.debian.org is no longer an appropriate smtphost setting for reportbug; please update your .reportbugrc file.\n')
-            smtphost = 'bugs.debian.org'
-
+            smtphost = 'reportbug.debian.org'
+        if smtphost and smtphost.lower() == 'bugs.debian.org':
+            ui.long_message('*** Warning: bugs.debian.org is no longer an appropriate smtphost setting for reportbug; please update your .reportbugrc file.\n')
+            smtphost = 'reportbug.debian.org'
         if attachments and mua:
             ewrite('Attachments are incompatible with using an MUA.  They will be ignored.\n')
             attachments = []

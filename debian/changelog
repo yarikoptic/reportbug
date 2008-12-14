@@ -1,3 +1,16 @@
+reportbug (3.48) unstable; urgency=low
+
+  [ Don Armstrong ]
+  * Patch to use reportbug.debian.org MX instead of bugs.debian.org; in the same
+    change, we set port to 587 for reportbug.d.o to avoid ISP filtering 25 port;
+    Closes: #508659
+
+  [ Sandro Tosi ]
+  * debian/NEWS
+    - added an entry to explain the changes in this version
+
+ -- Sandro Tosi <morph@debian.org>  Sun, 14 Dec 2008 15:39:20 +0100
+
 reportbug (3.47) unstable; urgency=low
 
   * reportbuglib/reportbug_ui_text.py
