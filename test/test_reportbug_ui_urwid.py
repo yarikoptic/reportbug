@@ -14,8 +14,8 @@
 import scaffold
 from scaffold import TestCase
 
-from reportbug.ui import urwid as reportbug_ui_urwid
-from reportbug.ui import text as reportbug_ui_text
+from reportbug.ui import urwid_ui as reportbug_ui_urwid
+from reportbug.ui import text_ui as reportbug_ui_text
 
 
 class Test_ewrite(TestCase):

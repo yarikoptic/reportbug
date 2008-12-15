@@ -81,12 +81,13 @@ class Test_include_file_in_report(TestCase):
         message_filename = "report"
         attachment_filenames = ["foo", "bar"]
         package_name = "spam"
+        charset = 'utf-8'
         include_filename = self.temp_filename
         expect_attachment_filenames = attachment_filenames
         expect_attachment_filenames.append(include_filename)
         (nil, nil, attachment_filenames) = reportbug.include_file_in_report(
             message, message_filename, attachment_filenames, package_name,
-            include_filename)
+            include_filename, charset)
         self.failUnlessEqual(
             expect_attachment_filenames, attachment_filenames)
 
@@ -108,6 +109,7 @@ class Test_include_file_in_report_inline(TestCase):
         self.message_filename = "report"
         self.attachment_filenames = []
         self.package_name = "spam"
+        self.charset = "utf-8"
 
         self.include_filename = "bogus_include"
         self.include_file_content = """
@@ -145,7 +147,7 @@ class Test_include_file_in_report_inline(TestCase):
         (message, nil, nil) = reportbug.include_file_in_report(
             self.message, self.message_filename,
             self.attachment_filenames, self.package_name,
-            self.include_filename, inline=True)
+            self.include_filename, self.charset, inline=True)
         self.failUnlessIn(message, self.include_file_content)
 
     def test_returns_new_temp_filename_as_message_filename(self):
@@ -158,7 +160,7 @@ class Test_include_file_in_report_inline(TestCase):
         (nil, message_filename, nil) = reportbug.include_file_in_report(
             self.message, self.message_filename,
             self.attachment_filenames, self.package_name,
-            self.include_filename, inline=True)
+            self.include_filename, self.charset, inline=True)
         temp_filename = self.temp_filename
         self.failUnlessEqual(message_filename, temp_filename)
 
@@ -172,7 +174,7 @@ class Test_include_file_in_report_inline(TestCase):
         (message, nil, nil) = reportbug.include_file_in_report(
             self.message, self.message_filename,
             self.attachment_filenames, self.package_name,
-            self.include_filename, inline=True)
+            self.include_filename, self.charset, inline=True)
         temp_filename = self.temp_filename
         temp_file = self.temp_file
         self.failUnlessEqual(message, temp_file.getvalue())
