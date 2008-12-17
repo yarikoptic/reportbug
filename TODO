@@ -14,6 +14,13 @@ TODO list for reportbug 4.0 (squeeze):
        + disabled utils.NEWBIELINE check to avoid circular import between text
          and utils ******** WE NEED TO FIND A SOLUTION TO THIS **********
 
+0.4. check for utf-8/weird locales errors, maybe at
+     http://ginstrom.com/scribbles/2008/11/16/notes-for-using-unicode-with-python-2x/
+     we can find some hints?
+
+0.5. remove the tmp file only after the report is actually sent (or at least it
+     should be configurable?)
+
 1. (We have one, but it needs to be updated.) Proper GNOME interface.
    My current thinking is to hack the bug-buddy Glade file to pieces,
    or do something similar in straight PyGTK, and give up on the whole
