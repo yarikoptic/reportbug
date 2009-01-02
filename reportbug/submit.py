@@ -46,6 +46,7 @@ from exceptions import (
     NoMessage,
     )
 import ui.text_ui as ui
+from utils import get_email_addr
 
 quietly = False
 
@@ -111,7 +112,7 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
         kw need to have the following keys
     '''
     if not pgp_addr:
-        pgp_addr = reportbug.get_email_addr(fromaddr)[1]
+        pgp_addr = get_email_addr(fromaddr)[1]
 
     # Make the unsigned file first
     (unsigned, file1) = TempFile(prefix=tempfile_prefix(package, 'unsigned'))
