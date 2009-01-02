@@ -24,7 +24,7 @@ SOFTWARE."""
 __all__ = ['bugreport', 'utils', 'urlutils', 'checkbuildd', 'checkversions',
            'debianbts', 'exceptions', 'submit', 'tempfile']
 
-VERSION_NUMBER = "3.99.0"
+VERSION_NUMBER = "3.99.1"
 
 VERSION = "reportbug "+VERSION_NUMBER
 COPYRIGHT = VERSION + '\nCopyright (C) 1999-2008 Chris Lawrence <lawrencc@debian.org>'
