@@ -2,8 +2,11 @@ reportbug (3.99.1) UNRELEASED; urgency=low
 
   * reportbug/ui/{__init__.py,newt_ui.py}, test/test_reportbug_ui_newt.py
     - removed newt UI, since unused, broken, unmaintained
+  * bin/reportbug
+    - call the correct method for sign a message; thanks to Chris Taylor for the
+      report; Closes: #503425
 
- -- Sandro Tosi <morph@debian.org>  Sun, 09 Nov 2008 12:48:06 +0100
+ -- Sandro Tosi <morph@debian.org>  Fri, 02 Jan 2009 22:59:20 +0100
 
 reportbug (3.99.0) experimental; urgency=low
 

@@ -1796,8 +1796,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         if sign:
             ewrite('Passing message to %s for signature...\n', sign)
             oldbody = body
-            body = reportbug.submit.sign_message(body, fromaddr, package, pgp_addr,
-                                                 sign)
+            body = submit.sign_message(body, fromaddr, package, pgp_addr, sign)
             if not body:
                 ewrite('Signature failed; sending message unsigned.\n')
                 body = oldbody
