@@ -162,6 +162,7 @@ debother = {
 #    'boot-floppy' : '(Obsolete, please use boot-floppies instead.)',
 #    'boot-floppies' : 'Bugs in the woody installation subsystem',
     'bugs.debian.org' : 'The bug tracking system, @bugs.debian.org',
+    'buildd.debian.org' :  'Problems and requests related to the Debian Buildds',
     'buildd.emdebian.org' :  'Problems related to building packages for Emdebian',
     'cdimage.debian.org' : 'CD Image issues',
     'cdrom' : 'Problems with installation from CD-ROMs',
