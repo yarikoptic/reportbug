@@ -9,8 +9,11 @@ reportbug (3.99.1) UNRELEASED; urgency=low
       report; Closes: #503425
   * reportbug/submit.py
     - get_email_addr is from utils, fixed the import and the instruction
+  * bin/querybts
+    - replaced 'ewrite' (since not defined) with 'print'; thanks to Jiří
+      Paleček for the report and Luca Bruno for the patch; Closes: #492908
 
- -- Sandro Tosi <morph@debian.org>  Fri, 02 Jan 2009 23:10:24 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 03 Jan 2009 02:34:39 +0100
 
 reportbug (3.99.0) experimental; urgency=low
 

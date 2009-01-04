@@ -181,7 +181,7 @@ def main():
             ui.long_message('*** Unable to import %s interface: %s '
                             'Falling back to %s interface.\n',
                             interface, msg, ui_mode)
-            ewrite('\n')
+            print
     ui.initialize ()
 
     reportre = re.compile(r'^#?(\d+)$')
