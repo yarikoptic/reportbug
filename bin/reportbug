@@ -333,10 +333,6 @@ def get_other_package_name(others):
                      "categories:", others, "Enter a package: ", any_ok=True,
                      default='')
     if isinstance(result, basestring):
-        # If the package selected is kernel, we replace it with linux-image
-        # since it contains additional information useful to maintainer
-        if result == 'kernel':
-	    result = 'linux-image'
         return result
     else:
         return None

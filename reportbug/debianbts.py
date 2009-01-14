@@ -174,8 +174,6 @@ debother = {
 #    'install' : 'Problems with the sarge installer.',
 #    'installation' : 'General installation problems not covered otherwise.',
     'installation-reports' : 'Problems with installing Debian',
-    'kernel' : 'IMPORTANT: Obsolete, please use "linux-image" instead (linux-image will be used in any case)',
-    'linux-image' : 'Problems with the Linux kernel, or the kernel shipped with Debian',
     'listarchives' :  'Problems with the WWW mailing list archives',
     'lists.debian.org' : 'The mailing lists, debian-*@lists.debian.org.',
     'mirrors' : 'Problems with Debian archive mirrors.',
