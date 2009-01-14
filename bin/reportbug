@@ -364,6 +364,10 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
             return
         package = validate_package_name(package)
 
+    if package in ('kernel', 'linux-image'):
+        ui.long_message("%s package has been removed, use linux-2.6 instead (replaced here automatically).", package)
+        package = 'linux-2.6'
+
     if mode < MODE_STANDARD:
         if package == 'reportbug':
             if not ui.yes_no('Is "reportbug" actually the package you are '
@@ -1008,6 +1012,10 @@ class UI(object):
         others = debianbts.SYSTEMS[bts].get('otherpkgs')
         if package == 'other' and others:
             package = get_other_package_name(others)
+
+        if package in ('kernel', 'linux-image'):
+            ui.long_message("%s package has been removed, use linux-2.6 instead (replaced here automatically).", package)
+            package = 'linux-2.6'
 
         if not package:
             efail("No package specified; stopping.\n")

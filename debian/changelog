@@ -16,10 +16,11 @@ reportbug (3.99.1) UNRELEASED; urgency=low
     - added 'buildd.debian.org' pseudo package
   * reportbug/debianbts.py, bin/reportbug
     - removed 'kernel' and 'linux-image' pseudo packages, since now 'linux-2.6'
-      source package is to be used; thanks to Moritz Muehlenhoff for the report;
-      Closes: #510690
+      source package is to be used, adding a warning and replacing those old
+      packages with 'linux-2.6' automatically; thanks to Moritz Muehlenhoff for
+      the report; Closes: #510690
 
- -- Sandro Tosi <morph@debian.org>  Mon, 05 Jan 2009 00:55:56 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 14 Jan 2009 10:41:16 +0100
 
 reportbug (3.99.0) experimental; urgency=low
 
