@@ -43,7 +43,7 @@ install-stamp: build-stamp
 	python setup.py install --root $(CURDIR)/debian/reportbug
 	mv $(CURDIR)/debian/reportbug/usr/lib $(CURDIR)/debian/python-reportbug/usr
 	chmod 0755 $(CURDIR)/debian/reportbug/usr/bin/*
-	cp -p reportbug.conf $(CURDIR)/debian/reportbug/etc
+	cp -p conf/reportbug.conf $(CURDIR)/debian/reportbug/etc
 
 	touch install-stamp
 
