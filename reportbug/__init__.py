@@ -28,5 +28,5 @@ __all__ = ['bugreport', 'utils', 'urlutils', 'checkbuildd', 'checkversions',
 VERSION_NUMBER = "3.99.2"
 
 VERSION = "reportbug "+VERSION_NUMBER
-COPYRIGHT = VERSION + '\nCopyright (C) 1999-2008 Chris Lawrence <lawrencc@debian.org>' +
+COPYRIGHT = VERSION + '\nCopyright (C) 1999-2008 Chris Lawrence <lawrencc@debian.org>' + \
                       '\nCopyright (C) 2008-2009 Sandro Tosi <morph@debian.org>'
