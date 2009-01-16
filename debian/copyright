@@ -1,11 +1,14 @@
 Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat
 Upstream-Author: Chris Lawrence <lawrencc@debian.org>
+Upstream-Author: Sandro Tosi <morph@debian.org>
 Packaged-By: Chris Lawrence <lawrencc@debian.org>
+Packaged-By: Sandro Tosi <morph@debian.org>
 Packaged-Date: Fri, 14 May 1999 01:07:35 -0500
 
 Files: *
 Copyright:
     © 1999-2006 Chris Lawrence
+    Copyright (C) 2008-2009 Sandro Tosi <morph@debian.org>
 License: other
     # This program is freely distributable per the following license:
     #
@@ -59,10 +62,10 @@ License: GPL-2+
 
 Files: checks/compare_pseudo-pkgs_lists.py
 Copyright:
-    © 2008 Sandro Tosi <matrixhasu@gmail.com>
+    © 2008 Sandro Tosi <morph@debian.org>
 License: PD
     checks/compare_pseudo-pkgs_lists.py was placed in public domain by Sandro
-    Tosi <matrixhasu@gmail.com>
+    Tosi <morph@debian.org>
 
 Files: reportbug/ui/gtk2_ui.py
 Copyright:

@@ -1,4 +1,4 @@
-# Author: Sandro Tosi
+# Author: Sandro Tosi <morph@debian.org>
 # Date: 2008-05-16
 # License: Public domain
 #

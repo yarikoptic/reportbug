@@ -1,6 +1,7 @@
 # reportbug_submit module - email and GnuPG functions
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   Copyright (C) 1999-2006 Chris Lawrence
+#   Copyright (C) 2008-2009 Sandro Tosi <morph@debian.org>
 #
 # This program is freely distributable per the following license:
 #
