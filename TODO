@@ -24,6 +24,10 @@ TODO list for reportbug 4.0 (squeeze):
 0.6. bin/reportbug: refactor the package name check/get/verify or so (now it's
      sparse all around the file
 
+0.7. what's the difference between 'X-Mailer' (as used by reportbug) and
+     'User-Agent' (as used by bts)? what's preferred to identify the tool
+     generating the email?
+
 1. (We have one, but it needs to be updated.) Proper GNOME interface.
    My current thinking is to hack the bug-buddy Glade file to pieces,
    or do something similar in straight PyGTK, and give up on the whole
