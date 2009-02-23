@@ -42,6 +42,9 @@ from __init__ import VERSION_NUMBER
 
 UA_STR = 'reportbug/'+VERSION_NUMBER+' (Debian)'
 
+# Set timeout to 60 secs (1 min), cfr bug #516449
+socket.setdefaulttimeout(60)
+
 def decode (page):
     "gunzip or deflate a compressed page"
     #print page.info().headers

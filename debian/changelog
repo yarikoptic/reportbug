@@ -12,8 +12,11 @@ reportbug (3.99.2) UNRELEASED; urgency=low
       test/test_hiermatch.py
   * bin/*, reportbug/*, reportbug/ui/*, debian/copyright
     - updated copyright information, in particular adding me 
+  * reportbug/urlutils.py
+    - added a timeout of 1 minute to download a webpage by url; thanks to Michal
+      Suchanek for the report; Closes: 516449
 
- -- Sandro Tosi <morph@debian.org>  Fri, 16 Jan 2009 10:40:29 +0100
+ -- Sandro Tosi <morph@debian.org>  Mon, 23 Feb 2009 23:38:15 +0100
 
 reportbug (3.99.1) experimental; urgency=low
 
