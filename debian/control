@@ -5,7 +5,7 @@ Maintainer: Reportbug Maintainers <reportbug-maint@lists.alioth.debian.org>
 Uploaders: Sandro Tosi <morph@debian.org>, Y Giridhar Appaji Nag <giridhar@appaji.net>, Chris Lawrence <lawrencc@debian.org>
 Standards-Version: 3.8.0
 Build-Depends: debhelper (>= 5.0.37.2), po4a (>= 0.23)
-Build-Depends-Indep: python-dev (>= 2.5), python-central (>= 0.5.14), python-nose, python-setuptools
+Build-Depends-Indep: python-dev (>= 2.5), python-support, python-nose, python-setuptools
 XS-Python-Version: current, >= 2.5
 DM-Upload-Allowed: yes
 Vcs-Svn: svn://svn.debian.org/svn/reportbug/trunk/

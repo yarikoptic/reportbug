@@ -15,8 +15,10 @@ reportbug (3.99.2) UNRELEASED; urgency=low
   * reportbug/urlutils.py
     - added a timeout of 1 minute for url retrieving; thanks to Michal Suchanek
       for the report; Closes: 516449
+  * debian/{control, rules}
+    - switch from python-central to python-support
 
- -- Sandro Tosi <morph@debian.org>  Mon, 23 Feb 2009 23:47:03 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 17 Mar 2009 23:17:47 +0100
 
 reportbug (3.99.1) experimental; urgency=low
 
