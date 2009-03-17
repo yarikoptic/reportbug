@@ -17,8 +17,10 @@ reportbug (3.99.2) UNRELEASED; urgency=low
       for the report; Closes: 516449
   * debian/{control, rules}
     - switch from python-central to python-support
+  * debian/control
+    - bump Standards-Version to 3.8.1 (no changes needed)
 
- -- Sandro Tosi <morph@debian.org>  Tue, 17 Mar 2009 23:17:47 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 17 Mar 2009 23:52:51 +0100
 
 reportbug (3.99.1) experimental; urgency=low
 
