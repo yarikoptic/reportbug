@@ -490,6 +490,8 @@ def offer_configuration(options):
         smtphost = ui.get_string(
             'Please enter the name of your SMTP host.  Usually it\'s called '
             'something like "mail.example.org" or "smtp.example.org". '
+            'If you need to use a different port than default, use the '
+            '<host>:<port> alternative format. '
             'Just press ENTER if you don\'t have one or don\'t know.',
             options=opts, force_prompt=True)
         if smtphost:

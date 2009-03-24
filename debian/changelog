@@ -1,5 +1,6 @@
-reportbug (3.99.2) UNRELEASED; urgency=low
+reportbug (4.0) UNRELEASED; urgency=low
 
+  * Uploading to unstable, since Lenny has been released
   * reportbug/__init__.py
     - updated version number
   * conf/reportbug.conf, debian/rules
@@ -20,8 +21,11 @@ reportbug (3.99.2) UNRELEASED; urgency=low
   * debian/control
     - bump Standards-Version to 3.8.1 (no changes needed)
     - updated Vcs-* fields, we are now using Git
+  * bin/reportbug
+    - clarified that '<host>:<port>' is the way to specify and alternative port;
+      thanks to Apelete Seketeli for the report; Closes: #519452
 
- -- Sandro Tosi <morph@debian.org>  Tue, 24 Mar 2009 14:45:09 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 24 Mar 2009 17:39:00 +0100
 
 reportbug (3.99.1) experimental; urgency=low
 
