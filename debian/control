@@ -8,8 +8,8 @@ Build-Depends: debhelper (>= 5.0.37.2), po4a (>= 0.23)
 Build-Depends-Indep: python-dev (>= 2.5), python-support, python-nose, python-setuptools
 XS-Python-Version: current, >= 2.5
 DM-Upload-Allowed: yes
-Vcs-Svn: svn://svn.debian.org/svn/reportbug/trunk/
-Vcs-Browser: http://svn.debian.org/wsvn/reportbug/trunk/
+Vcs-Git: git://git.debian.org/git/reportbug/reportbug.git
+Vcs-Browser: http://git.debian.org/?p=reportbug/reportbug.git
 Homepage: http://alioth.debian.org/projects/reportbug/
 
 Package: reportbug
