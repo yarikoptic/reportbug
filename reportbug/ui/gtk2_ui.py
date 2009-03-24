@@ -374,7 +374,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         self.application.set_next_value (self.number)
         # Forward the assistant to the progress bar
         self.assistant.forward_page ()
-        # Though we only a page, we are authorized to destroy our parent :)
+        # Though we're only a page, we are authorized to destroy our parent :)
         self.dialog.destroy ()
 
 class BugsDialog (gtk.Dialog):
@@ -1097,7 +1097,8 @@ class SystemPage (Page):
         return hbox
 
     def on_child_exited (self, terminal):
-        self.set_page_complete (True)
+        self.application.set_next_value (None)
+        self.assistant.forward_page ()
 
     def execute (self, cmdline):
         self.terminal.fork_command ('/bin/bash', ['/bin/bash', '-c', cmdline])
