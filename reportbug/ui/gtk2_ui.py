@@ -843,7 +843,9 @@ class HandleBTSQueryPage (TreePage):
         self.columns = ['ID', 'Tag', 'Package', 'Description', 'Reporter', 'Date', 'Severity', 'Version',
                         'Filed date', 'Modified date']
         for col in zip (self.columns, range (len (self.columns))):
-            self.view.append_column (gtk.TreeViewColumn (col[0], gtk.CellRendererText (), text=col[1]))
+            column = gtk.TreeViewColumn (col[0], gtk.CellRendererText (), text=col[1])
+            column.set_reorderable (True)
+            self.view.append_column (column)
         vbox.pack_start (scrolled)
 
         button = gtk.Button ("Retrieve and submit bug information")
