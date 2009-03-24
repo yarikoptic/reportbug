@@ -285,6 +285,8 @@ class BugPage (gtk.EventBox, threading.Thread):
     def __init__ (self, dialog, number, queryonly, bts, mirrors, http_proxy, archived):
         threading.Thread.__init__ (self)
         gtk.EventBox.__init__ (self)
+        self.setDaemon (True)
+
         self.dialog = dialog
         self.assistant = self.dialog.assistant
         self.application = self.assistant.application
@@ -401,6 +403,8 @@ class BugsDialog (gtk.Dialog):
 class ReportbugApplication (threading.Thread):
     def __init__ (self):
         threading.Thread.__init__ (self)
+        self.setDaemon (True)
+
         self.queue = Queue ()
         self.next_value = None
         
@@ -1096,7 +1100,6 @@ class SystemPage (Page):
         self.set_page_complete (True)
 
     def execute (self, cmdline):
-        print cmdline
         self.terminal.fork_command ('/bin/bash', ['/bin/bash', '-c', cmdline])
 
 class ProgressPage (Page):
