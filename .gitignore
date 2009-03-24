@@ -1,0 +1,13 @@
+*~
+*.pyc
+*debhelper*
+build
+*stamp*
+reportbug.egg-info
+debian/files
+debian/python-reportbug.substvars
+debian/python-reportbug/
+debian/reportbug.substvars
+debian/reportbug/
+man/querybts.fr.1
+man/reportbug.fr.1
