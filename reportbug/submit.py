@@ -51,14 +51,6 @@ from utils import get_email_addr
 
 quietly = False
 
-# Obscene hack :)
-def system(cmdline):
-    try:
-        x = os.getcwd()
-    except OSError:
-        os.chdir('/')
-    os.system(cmdline)
-
 ascii_range = ''.join([chr(ai) for ai in range(32,127)])
 notascii = re.compile(r'[^'+re.escape(ascii_range)+']')
 notascii2 = re.compile(r'[^'+re.escape(ascii_range)+r'\s]')
@@ -433,7 +425,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         ewrite("Spawning %s...\n", bit or mua)
         if '%s' not in mua:
             mua += ' %s'
-        system(mua % commands.mkarg(filename)[1:])
+        ui.system(mua % commands.mkarg(filename)[1:])
     elif not failed and (using_sendmail or smtphost):
         if kudos:
             ewrite('\nMessage sent to: %s\n', sendto)

@@ -69,6 +69,13 @@ def ewrite(message, *args):
 log_message = ewrite
 display_failure = ewrite
 
+def system(cmdline):
+    try:
+        x = os.getcwd()
+    except OSError:
+        os.chdir('/')
+    os.system(cmdline)
+
 def indent_wrap_text(text, starttext='', indent=0, linelen=None):
     """Wrapper for textwrap.fill to the existing API."""
     if not linelen:

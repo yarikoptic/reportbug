@@ -95,14 +95,6 @@ def stopmsg(filename):
         'it as bug report body, please take a look at the "-i FILE, '
         '--include=FILE" option.\n', filename)
 
-# Obscene hack :)
-def system(cmdline):
-    try:
-        x = os.getcwd()
-    except OSError:
-        os.chdir('/')
-    os.system(cmdline)
-
 def include_file_in_report(message, message_filename,
                            attachment_filenames, package_name,
                            include_filename, charset, inline=False):
@@ -1481,7 +1473,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                         break
                     elif x == 'd':
                         PAGER = os.environ.get('PAGER', '/usr/bin/sensible-pager')
-                        system(PAGER+' '+' '.join(changed))
+                        ui.system(PAGER+' '+' '.join(changed))
                     else:
                         break
 
@@ -1696,7 +1688,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
 
             fh, filename = TempFile(prefix=tfprefix)
             fh.close()
-            system('%s %s %s' % (handler, commands.mkarg(bugexec),
+            ui.system('%s %s %s' % (handler, commands.mkarg(bugexec),
                                  commands.mkarg(filename)))
 
             addinfo = None

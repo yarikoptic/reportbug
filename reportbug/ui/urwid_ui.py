@@ -36,6 +36,7 @@ from reportbug.urlutils import launch_browser
 from text_ui import (
     ewrite,
     spawn_editor,
+    system
     )
 from reportbug import VERSION
 

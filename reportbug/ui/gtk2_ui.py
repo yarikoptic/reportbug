@@ -29,6 +29,11 @@ try:
 except ImportError:
     raise UINotImportable, 'Please install the python-gtk2 package to use this interface.'
 
+try:
+    import vte
+except ImportError:
+    raise UINotImportable, 'Please install the python-vte package to use this interface.'
+
 gdk.threads_init ()
 
 import sys
@@ -1068,6 +1073,31 @@ class SelectOptionsPage (Page):
 
         self.vbox.show_all ()
 
+class SystemPage (Page):
+    default_complete = False
+
+    def create_widget (self):
+        hbox = gtk.HBox ()
+
+        self.terminal = vte.Terminal ()
+        self.terminal.set_cursor_blinks (True)
+        self.terminal.set_emulation ("xterm")
+        self.terminal.connect ('child-exited', self.on_child_exited)
+        hbox.pack_start (self.terminal)
+
+        scrollbar = gtk.VScrollbar ()
+        scrollbar.set_adjustment (self.terminal.get_adjustment ())
+        hbox.pack_start (scrollbar)
+
+        return hbox
+
+    def on_child_exited (self, terminal):
+        self.set_page_complete (True)
+
+    def execute (self, cmdline):
+        print cmdline
+        self.terminal.fork_command ('/bin/bash', ['/bin/bash', '-c', cmdline])
+
 class ProgressPage (Page):
     page_type = gtk.ASSISTANT_PAGE_PROGRESS
 
@@ -1237,7 +1267,8 @@ pages = { 'get_string': GetStringPage,
           'final_message': FinalMessagePage,
           'spawn_editor': EditorPage,
           'select_options': SelectOptionsPage,
-          'get_list': GetListPage }
+          'get_list': GetListPage,
+          'system': SystemPage }
 dialogs = { 'yes_no': YesNoDialog,
             'get_filename': GetFilenameDialog,
             'display_failure': DisplayFailureDialog, }
@@ -1281,6 +1312,7 @@ def test ():
     print select_options ('test', 'A', {'a': 'A test'})
     print get_multiline ('ENTER', empty_ok=True)
     print get_string ("test")
+    print system ("yes")
     page = HandleBTSQueryPage (assistant)
     application.run_once_in_main_thread (page.execute_operation, [('test', (Bug ('#123 [test] [we] we we Reported by: test;' ), Bug ('#123 [test] [we] we we Reported by: test;')))], 'test')
     return application.get_last_value ()
