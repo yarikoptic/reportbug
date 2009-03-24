@@ -21,11 +21,12 @@ reportbug (4.0) UNRELEASED; urgency=low
   * debian/control
     - bump Standards-Version to 3.8.1 (no changes needed)
     - updated Vcs-* fields, we are now using Git
+    - removed 'DM-Upload-Allowed' flag, we are all DDs now
   * bin/reportbug
     - clarified that '<host>:<port>' is the way to specify and alternative port;
       thanks to Apelete Seketeli for the report; Closes: #519452
 
- -- Sandro Tosi <morph@debian.org>  Tue, 24 Mar 2009 17:39:00 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 24 Mar 2009 17:41:56 +0100
 
 reportbug (3.99.1) experimental; urgency=low
 
