@@ -2,7 +2,7 @@
 #   Written by Luca Bruno <lethalman88@gmail.com>
 #   Based on gnome-reportbug work done by Philipp Kern <pkern@debian.org>
 #   Copyright (C) 2006 Philipp Kern
-#   Copyright (C) 2008 Luca Bruno
+#   Copyright (C) 2008-2009 Luca Bruno
 #
 # This program is freely distributable per the following license:
 #
