@@ -447,10 +447,10 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             for address in debbugs_cc:
                 ewrite('  %s\n', rfc822.dump_address_pair(address))
 
-        if not (exinfo or kudos) and rtype == 'debbugs' and sysinfo:
-            ewrite('\n')
-            ui.long_message(
-"""If you want to provide additional information, please wait to
+    if not (exinfo or kudos) and rtype == 'debbugs' and sysinfo:
+        ewrite('\n')
+        ui.long_message(
+            """If you want to provide additional information, please wait to
 receive the bug tracking number via email; you may then send any extra
 information to %s (e.g. %s), where n is the bug number.  Normally you
 will receive an acknowledgement via email including the bug report number
