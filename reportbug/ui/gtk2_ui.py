@@ -157,7 +157,7 @@ class ExceptionDialog (CustomDialog):
     def setup_dialog (self, vbox, tb):
         # The traceback
         expander = gtk.Expander ("More details")
-        vbox.pack_start (expander)
+        vbox.pack_start (expander, False)
 
         view = gtk.TextView ()
         view.set_editable (False)
@@ -997,7 +997,7 @@ class EditorPage (Page):
         self.others_buffer = view.get_buffer ()
         scrolled = create_scrollable (view)
         expander.add (scrolled)
-        vbox.pack_start (expander)
+        vbox.pack_start (expander, False)
         return vbox
 
     def switch_out (self):
@@ -1238,8 +1238,8 @@ class DisplayFailureDialog (ReportbugConnector, gtk.MessageDialog):
         self.application.put_next_value ()
         self.destroy ()
 
-    def execute_operation (self, msg):
-        self.set_markup (msg)
+    def execute_operation (self, msg, *args):
+        self.set_markup (msg % args)
         self.show_all ()
              
 class GetFilenameDialog (ReportbugConnector, gtk.FileChooserDialog):
