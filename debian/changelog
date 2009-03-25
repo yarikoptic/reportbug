@@ -10,8 +10,10 @@ reportbug (4.1) UNRELEASED; urgency=low
   [ Luca Bruno ]
   * bin/reportbug:
     - fix default when choosing for realname and email at configuration time
+    - offer interface configuration on explicit configuration or when no
+      interface is being specified
 
- -- Luca Bruno <lethalman88@gmail.com>  Wed, 25 Mar 2009 21:20:47 +0100
+ -- Luca Bruno <lethalman88@gmail.com>  Wed, 25 Mar 2009 21:28:19 +0100
 
 reportbug (4.0) unstable; urgency=low
 
