@@ -193,7 +193,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
 
         subject = re.search('^Subject: ', message, re.M | re.I)
         if not subject:
-            ewrite('No subject found in message.  Please edit again.\n')
+            ui.long_message('No subject found in message.  Please edit again.\n')
 
         menuopts = "Ynaceilmpq"
 
