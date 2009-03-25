@@ -441,6 +441,8 @@ def offer_configuration(options):
         interface = ui.menu(
             'Please choose the default interface for reportbug.', AVAILABLE_UIS,
             'Select interface: ', options.interface)
+    else:
+        interface = options.interface
 
     online = ui.yes_no('Will reportbug often have direct '
                        'Internet access?  (You should answer yes to this '
