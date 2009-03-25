@@ -463,7 +463,7 @@ def offer_configuration(options):
         realname = ''
 
     realname = ui.get_string('What real name should be used for sending bug '
-                             'reports? [%s]' % realname, force_prompt=True)
+                             'reports?', default=realname, force_prompt=True)
     if isinstance(realname, str):
         realname = realname.decode(charset, 'replace')
 
@@ -471,8 +471,8 @@ def offer_configuration(options):
         'Which of your email addresses should be used when sending bug '
         'reports? (Note that this address will be visible in the bug tracking '
         'system, so you may want to use a webmail address or another address '
-        'with good spam filtering capabilities.) [%s]' %
-        (options.email or def_email), force_prompt=True)
+        'with good spam filtering capabilities.)',
+        default=(options.email or def_email), force_prompt=True)
 
     stupidmode = not ui.yes_no(
         'Do you have a "mail transport agent" (MTA) like Exim, Postfix or '
