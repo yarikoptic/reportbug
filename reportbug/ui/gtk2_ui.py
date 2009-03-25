@@ -339,6 +339,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         vbox.set_border_width (12)
         label = gtk.Label ('Description: '+desc)
         label.set_line_wrap (True)
+        label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (label, expand=False)
         
         view = gtk.TreeView ()
@@ -548,6 +549,7 @@ class GetStringPage (Page):
         vbox = gtk.VBox (spacing=12)
         self.label = gtk.Label ()
         self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         self.entry = gtk.Entry ()
         vbox.pack_start (self.label, expand=False)
         vbox.pack_start (self.entry, expand=False)
@@ -589,6 +591,8 @@ class GetMultilinePage (Page):
     def create_widget (self):
         vbox = gtk.VBox (spacing=12)
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (self.label, expand=False)
 
         self.view = gtk.TextView ()
@@ -646,6 +650,8 @@ class GetListPage (TreePage):
     def create_widget (self):
         vbox = gtk.VBox (spacing=12)
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (self.label, expand=False)
 
         hbox = gtk.HBox (spacing=6)
@@ -714,6 +720,8 @@ class MenuPage (TreePage):
     def create_widget (self):
         vbox = gtk.VBox (spacing=12)
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (self.label, expand=False)
 
         self.view = gtk.TreeView ()
@@ -1042,6 +1050,8 @@ class SelectOptionsPage (Page):
 
     def create_widget (self):
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         self.vbox = gtk.VBox (spacing=6)
         self.vbox.pack_start (self.label, expand=False, padding=6)
         self.default = None
@@ -1116,6 +1126,7 @@ class ProgressPage (Page):
         vbox = gtk.VBox (spacing=6)
         self.label = gtk.Label ()
         self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         self.progress = gtk.ProgressBar ()
         self.progress.set_pulse_step (0.01)
         vbox.pack_start (self.label, expand=False)
