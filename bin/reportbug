@@ -143,8 +143,8 @@ def include_file_in_report(message, message_filename,
             os.unlink(message_filename)
             message_filename = temp_filename
         except (IOError, OSError), exc:
-            ewrite('Unable to attach file %s\n%s\n',
-                   include_filename, str(exc))
+            ui.display_failure('Unable to attach file %s\n%s\n',
+                               include_filename, str(exc))
     else:
         attachment_filenames.append(include_filename)
 
@@ -239,7 +239,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                         if not inline:
                             skip_editing = True
                     else:
-                        ewrite("Can't find %s to include!\n", attachfile)
+                        ui.display_failure("Can't find %s to include!\n", attachfile)
                 else:
                     break
         elif x == 'c':
@@ -511,17 +511,16 @@ def offer_configuration(options):
         try:
             os.rename(utils.USERFILE, utils.USERFILE+'~')
         except OSError:
-            ewrite('Unable to rename %s as %s~\n', utils.USERFILE,
-                   utils.USERFILE)
+            ui.display_failure('Unable to rename %s as %s~\n', utils.USERFILE,
+                               utils.USERFILE)
 
     try:
         fd = os.open(utils.USERFILE, os.O_WRONLY|os.O_TRUNC|os.O_CREAT,
                      0600)
     except OSError, x:
-        ui.long_message('Unable to save %s; most likely, you do not have a '
+        efail('Unable to save %s; most likely, you do not have a '
                         'home directory.  Please fix this before using '
                         'reportbug again.\n', utils.USERFILE)
-        sys.exit(1)
 
     fp = os.fdopen(fd, 'w')
     print >> fp, '# reportbug preferences file'
@@ -899,8 +898,7 @@ class UI(object):
             try:
                 body = open(self.options.bodyfile).read()
             except:
-                ewrite('Unable to read body from file %s.\n', self.options.bodyfile)
-                sys.exit(1)
+                efail('Unable to read body from file %s.\n', self.options.bodyfile)
 
         if body and not body.endswith('\n'):
             body += '\n'
@@ -1030,7 +1028,7 @@ class UI(object):
         try:
             blah = u'hello'.encode(charset)
         except LookupError:
-            ui.long_message(
+            ui.display_failure(
                 'Unable to use specified character set "%s"; you probably need '
                 'either cjkcodecs (for users of Asian locales) or iconvcodec '
                 'installed.\nFalling back to ASCII encoding.\n', charset)
@@ -1427,8 +1425,9 @@ class UI(object):
 This package is currently "orphaned"; if you are a current or prospective
 Debian developer, you might consider adopting it.  Please be aware that your
 report may not be resolved for a while, and that packages that have been
-orphaned for a long period of time are often removed from the archive.\n''')
-                ui.ewrite('\nFor more details, please see: http://www.debian.org/devel/wnpp/\n')
+orphaned for a long period of time are often removed from the archive.
+
+For more details, please see: http://www.debian.org/devel/wnpp/''')
 
         if self.options.kudos:
             sendto = '%s@packages.debian.org' % package
