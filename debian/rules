@@ -45,6 +45,8 @@ install-stamp: build-stamp
 	chmod 0755 $(CURDIR)/debian/reportbug/usr/bin/*
 	cp -p conf/reportbug.conf $(CURDIR)/debian/reportbug/etc
 
+	cp -p debian/desktop $(CURDIR)/debian/reportbug/usr/share/applications/reportbug.desktop
+
 	touch install-stamp
 
 # Build architecture-dependent files here.
@@ -59,6 +61,7 @@ binary-indep: build install
 	dh_installdocs
 	dh_installexamples
 	dh_installmenu
+	dh_desktop
 #	dh_installemacsen
 #	dh_installinit
 	dh_installcron

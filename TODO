@@ -8,8 +8,6 @@ TODO list for reportbug 4.0 (squeeze):
      bin/reportbug - line 833
      bin/querybts  - line 174
 
-0.2. add a desktop file, mimic menu file?
-
 0.3. reportbug/ui/text_ui.py
        + disabled utils.NEWBIELINE check to avoid circular import between text
          and utils ******** WE NEED TO FIND A SOLUTION TO THIS **********

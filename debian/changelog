@@ -1,3 +1,11 @@
+reportbug (4.1) UNRELEASED; urgency=low
+
+  * debian/{desktop, dirs, rules}
+    - install desktop file; thanks to Fabian Greffrath for the report and file;
+      Closes: #521186
+
+ -- Sandro Tosi <morph@debian.org>  Wed, 25 Mar 2009 20:28:34 +0100
+
 reportbug (4.0) unstable; urgency=low
 
   * Uploading to unstable, since Lenny has been released
