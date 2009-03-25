@@ -11,15 +11,19 @@ reportbug (4.1) UNRELEASED; urgency=low
   * bin/reportbug:
     - fix default when choosing for realname and email at configuration time
     - offer interface configuration on explicit configuration or when no
-      interface is being specified
+      interface is being specified (the used interface is set as default)
   * reportbug/ui/gtk2_ui.py:
     - added VTE to handle bugscripts and mutt
     - support for spell checking in the bug report editor
     - fix display_failure handling
-    - make BTS query tree columns reorderable
+    - make BTS query tree columns sortable
     - ui layout improvements
+  * debian/control
+    - added suggests for python-vte and python-gnome2-extras (for spell check)
+  * debian/copyright, reportbug/ui/gtk2_ui.py
+    - bump copyright years
 
- -- Luca Bruno <lethalman88@gmail.com>  Wed, 25 Mar 2009 22:05:09 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 25 Mar 2009 23:54:21 +0100
 
 reportbug (4.0) unstable; urgency=low
 
