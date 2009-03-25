@@ -34,6 +34,12 @@ try:
 except ImportError:
     raise UINotImportable, 'Please install the python-vte package to use this interface.'
 
+try:
+    import gtkspell
+    has_spell = True
+except:
+    has_spell = False
+
 gdk.threads_init ()
 
 import sys
@@ -458,6 +464,7 @@ class Page (ReportbugConnector):
     page_type = gtk.ASSISTANT_PAGE_CONTENT
     default_complete = False
     side_image = DEBIAN_LOGO
+    WARNING_COLOR = gtk.gdk.color_parse ("#fff8ae")
 
     def __init__ (self, assistant):
         self.assistant = assistant
@@ -987,6 +994,8 @@ class EditorPage (Page):
         vbox.pack_start (hbox, expand=False)
 
         self.view = gtk.TextView ()
+        if has_spell:
+            gtkspell.Spell (self.view)
         self.info_buffer = self.view.get_buffer ()
         scrolled = create_scrollable (self.view)
         vbox.pack_start (scrolled)
@@ -998,6 +1007,16 @@ class EditorPage (Page):
         scrolled = create_scrollable (view)
         expander.add (scrolled)
         vbox.pack_start (expander, False)
+
+        if not has_spell:
+            box = gtk.EventBox ()
+            label = gtk.Label ("Please install <b>python-gnome2-extras</b> to enable spell checking")
+            label.set_use_markup (True)
+            label.set_line_wrap (True)
+            box.add (label)
+            box.modify_bg (gtk.STATE_NORMAL, self.WARNING_COLOR)
+            box.connect ('button-press-event', lambda *args: box.destroy ())
+            vbox.pack_start (box, False)
         return vbox
 
     def switch_out (self):
