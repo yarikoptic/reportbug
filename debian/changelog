@@ -1,10 +1,12 @@
 reportbug (4.1) UNRELEASED; urgency=low
 
+  * reportbug/__init__.py
+    - bump version
   * debian/{desktop, dirs, rules}
     - install desktop file; thanks to Fabian Greffrath for the report and file;
       Closes: #521186
 
- -- Sandro Tosi <morph@debian.org>  Wed, 25 Mar 2009 20:28:34 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 25 Mar 2009 20:31:24 +0100
 
 reportbug (4.0) unstable; urgency=low
 
