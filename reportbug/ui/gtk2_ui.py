@@ -52,7 +52,7 @@ from reportbug.urlutils import launch_browser
 ISATTY = True
 DEBIAN_LOGO = "/usr/share/pixmaps/debian-logo.png"
 
-global application, assistant
+global application, assistant, report_message
 
 # Utilities
 
@@ -171,6 +171,33 @@ class ExceptionDialog (CustomDialog):
 
     def on_response (self, dialog, res):
         sys.exit (1)
+
+class ReportViewerDialog (gtk.Dialog):
+    def __init__ (self, message):
+        gtk.Dialog.__init__ (self, "Reportbug", assistant,
+                             gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                             (gtk.STOCK_COPY, gtk.RESPONSE_APPLY,
+                              gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE))
+        self.message = message
+
+        self.set_default_response (gtk.RESPONSE_CLOSE)
+        self.set_border_width (6)
+        self.connect ('response', self.on_response)
+
+        view = gtk.TextView ()
+        view.get_buffer().set_text (self.message)
+        self.vbox.pack_start (create_scrollable (view))
+
+        self.show_all ()
+
+    def on_response (self, dialog, res):
+        # ok gtk.RESPONSE_APPLY is ugly for gtk.STOCK_COPY, but who cares?
+        # maybe adding it as a secondary button or such is better
+        if res == gtk.RESPONSE_APPLY:
+            clipboard = gtk.clipboard_get ()
+            clipboard.set_text (self.message)
+        else:
+            self.destroy ()
 
 # BTS
 
@@ -1013,8 +1040,10 @@ class EditorPage (Page):
         return vbox
 
     def switch_out (self):
+        global report_message
+        report_message = self.get_value()[0]
         f = file (self.filename, "w")
-        f.write (self.get_value()[0])
+        f.write (report_message)
         f.close ()
 
     def connect_signals (self):
@@ -1073,6 +1102,10 @@ class SelectOptionsPage (Page):
         self.application.set_next_value (menuopt)
         self.assistant.forward_page ()
 
+    def on_display_clicked (self, button):
+        global report_message
+        ReportViewerDialog (report_message)
+
     def setup_focus (self):
         if self.default:
             self.default.set_flags (gtk.CAN_DEFAULT | gtk.HAS_DEFAULT)
@@ -1088,14 +1121,23 @@ class SelectOptionsPage (Page):
             # do we really need to launch an external editor?
             if 'Change editor' in desc:
                 continue
-            button = gtk.Button (options[menuopt.lower ()])
-            button.connect ('clicked', self.on_clicked, menuopt.lower ())
-            if menuopt.isupper ():
-                self.default = button
-                buttons.insert (0, gtk.HSeparator ())
-                buttons.insert (0, button)
-            else:
+            # this will be handled using the text view below
+            if 'Pipe the message through the pager' in desc:
+                continue
+            # stdout is a textview for us
+            if 'Print message to stdout' in desc:
+                button = gtk.Button ("Display message in a text view")
+                button.connect ('clicked', self.on_display_clicked)
                 buttons.append (button)
+            else:
+                button = gtk.Button (options[menuopt.lower ()])
+                button.connect ('clicked', self.on_clicked, menuopt.lower ())
+                if menuopt.isupper ():
+                    self.default = button
+                    buttons.insert (0, gtk.HSeparator ())
+                    buttons.insert (0, button)
+                else:
+                    buttons.append (button)
 
         for button in buttons:
             self.vbox.pack_start (button, expand=False)

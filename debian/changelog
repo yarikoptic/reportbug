@@ -43,6 +43,7 @@ reportbug (4.1) unstable; urgency=low
     - support for spell checking in the bug report editor
     - fix display_failure handling
     - make BTS query tree columns sortable
+    - display report message in a dialog at the end, in substitution of pager and stdout
     - ui layout improvements
   * reportbug/ui/urwid_ui.py
     - fix default severity (to normal) in non-multiple menus; Closes: #496969
