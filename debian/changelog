@@ -13,7 +13,11 @@ reportbug (4.1) UNRELEASED; urgency=low
     - offer interface configuration on explicit configuration or when no
       interface is being specified
   * reportbug/ui/gtk2_ui.py:
-    - display an information dialog if python-vte is not available
+    - added VTE to handle bugscripts and mutt
+    - support for spell checking in the bug report editor
+    - fix display_failure handling
+    - make BTS query tree columns reorderable
+    - ui layout improvements
 
  -- Luca Bruno <lethalman88@gmail.com>  Wed, 25 Mar 2009 22:05:09 +0100
 
