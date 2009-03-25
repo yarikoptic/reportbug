@@ -8,11 +8,14 @@ reportbug (4.1) UNRELEASED; urgency=low
       Closes: #521186
 
   [ Luca Bruno ]
-  * bin/reportbug:
+  * bin/reportbug
     - fix default when choosing for realname and email at configuration time
     - offer interface configuration on explicit configuration or when no
       interface is being specified (the used interface is set as default)
-  * reportbug/ui/gtk2_ui.py:
+  * reportbug/debianbts.py
+    - use ui proper functions instead of ewrite; thanks to Jan Hauke Rahm for
+      the report; Closes: #521113
+  * reportbug/ui/gtk2_ui.py
     - added VTE to handle bugscripts and mutt
     - support for spell checking in the bug report editor
     - fix display_failure handling
@@ -23,7 +26,7 @@ reportbug (4.1) UNRELEASED; urgency=low
   * debian/copyright, reportbug/ui/gtk2_ui.py
     - bump copyright years
 
- -- Sandro Tosi <morph@debian.org>  Wed, 25 Mar 2009 23:54:21 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 26 Mar 2009 00:23:11 +0100
 
 reportbug (4.0) unstable; urgency=low
 
