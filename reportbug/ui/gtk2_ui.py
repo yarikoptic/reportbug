@@ -180,6 +180,7 @@ class ReportViewerDialog (gtk.Dialog):
                               gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE))
         self.message = message
 
+        self.set_default_size (400, 400)
         self.set_default_response (gtk.RESPONSE_CLOSE)
         self.set_border_width (6)
         self.connect ('response', self.on_response)
