@@ -1142,9 +1142,12 @@ class SelectOptionsPage (Page):
                 button.connect ('clicked', self.on_display_clicked)
                 buttons.append (button)
             else:
-                button = gtk.Button (options[menuopt.lower ()])
+                button = gtk.Button ()
+                label = gtk.Label (options[menuopt.lower ()])
+                button.add (label)
                 button.connect ('clicked', self.on_clicked, menuopt.lower ())
                 if menuopt.isupper ():
+                    label.set_markup ("<b>%s</b>" % label.get_text ())
                     self.default = button
                     buttons.insert (0, gtk.HSeparator ())
                     buttons.insert (0, button)
