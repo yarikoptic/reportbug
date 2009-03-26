@@ -44,7 +44,8 @@ reportbug (4.1) unstable; urgency=low
     - fix display_failure handling
     - make BTS query tree columns sortable
     - display report message in a dialog at the end, in substitution of pager and stdout
-    - ui layout improvements
+    - forward page when the user hits ENTER either on an entry or a menu
+    - ui focus and layout improvements
   * reportbug/ui/urwid_ui.py
     - fix default severity (to normal) in non-multiple menus; Closes: #496969
   * debian/control

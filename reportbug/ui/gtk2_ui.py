@@ -505,6 +505,7 @@ class Page (ReportbugConnector):
         self.empty_ok = kwargs.pop ('empty_ok', False)
         self.execute (*args, **kwargs)
         self.assistant.show ()
+        self.setup_focus ()
 
     def connect_signals (self):
         pass
@@ -532,6 +533,11 @@ class Page (ReportbugConnector):
     # Setup keyboard focus in the page
     def setup_focus (self):
         self.widget.grab_focus ()
+
+    # Forward page when a widget is activated (e.g. GtkEntry) only if page is complete
+    def activate_forward (self, *args):
+        if self.assistant.get_page_complete (self.widget):
+            self.assistant.forward_page ()
 
     # The user forwarded the assistant to see the next page
     def switch_out (self):
@@ -588,6 +594,7 @@ class GetStringPage (Page):
 
     def connect_signals (self):
         self.entry.connect ('changed', self.validate)
+        self.entry.connect ('activate', self.activate_forward)
 
     def get_value (self):
         return self.entry.get_text ()
@@ -758,6 +765,10 @@ class MenuPage (TreePage):
         vbox.pack_start (scrolled)
         vbox.show_all ()
         return vbox
+
+    def connect_signals (self):
+        TreePage.connect_signals (self)
+        self.view.connect ('row-activated', self.activate_forward)
 
     def execute (self, par, options, prompt, default=None, any_ok=False,
                  order=None, extras=None, multiple=False):
