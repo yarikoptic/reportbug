@@ -449,7 +449,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
             b = urwid.AttrWrap( b, 'scrolllabel' )
             desc = ''
         else:
-            b = urwid.RadioButton( rlist, label_button(option, desc) )
+            b = urwid.RadioButton( rlist, label_button(option, desc), state=(option == default) )
             b.exitcode = option
             b = urwid.AttrWrap( b, 'selectable','focus' )
         widgets.append((b, desc))

@@ -27,6 +27,8 @@ reportbug (4.1) UNRELEASED; urgency=low
     - fix display_failure handling
     - make BTS query tree columns sortable
     - ui layout improvements
+  * reportbug/ui/urwid_ui.py
+    - fix default value in non-multiple menus; Closes: #496969
   * debian/control
     - added suggests for python-vte and python-gnome2-extras (for spell check)
   * debian/copyright, reportbug/ui/gtk2_ui.py
