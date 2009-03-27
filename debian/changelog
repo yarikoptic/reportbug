@@ -22,6 +22,9 @@ reportbug (4.1) UNRELEASED; urgency=low
   * reportbug/debianbts.py
     - use ui proper functions instead of ewrite; thanks to Jan Hauke Rahm for
       the report; Closes: #521113
+  * reportbug/utils.py
+    - stronger check when opening files; thanks to Carl Chenet for the report
+      and patch; Closes: #521496
   * reportbug/ui/gtk2_ui.py
     - added VTE to handle bugscripts and mutt
     - support for spell checking in the bug report editor

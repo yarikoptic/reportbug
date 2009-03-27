@@ -426,13 +426,13 @@ class AvailDB(object):
             self.fp.close()
 
 def get_dpkg_database():
-    if os.path.exists(STATUSDB):
+    try:
         fp = open(STATUSDB)
         if fp:
             return AvailDB(fp=fp)
-
-    print >> sys.stderr, 'Unable to open', STATUSDB
-    sys.exit(1)
+    except IOError:
+        print >> sys.stderr, 'Unable to open', STATUSDB
+        sys.exit(1)
 
 def get_avail_database():
     #print >> sys.stderr, 'Searching available database'
@@ -654,10 +654,12 @@ def get_debian_release_info():
             dists = [(x[0], x[2]) for x in dists]
             debvers = dists[0][1]
 
-    if os.path.exists('/etc/debian_version'):
+    try:
         fob = open('/etc/debian_version')
         verfile = fob.readline().strip()
         fob.close()
+    except IOError:
+        print >> sys.stderr, 'Unable to open /etc/debian_version'
 
     if verfile:
         debinfo += 'Debian Release: '+verfile+'\n'
@@ -706,7 +708,12 @@ def generate_blank_report(package, pkgversion, severity, justification,
 
 def get_cpu_cores():
     cpucount = 0
-    fob = open('/proc/cpuinfo')
+    try:
+        fob = open('/proc/cpuinfo')
+    except IOError:
+        print >> sys.stderr, 'Unable to open /proc/cpuinfo'
+        return 0
+
     for line in fob:
         if line.startswith('processor'):
             cpucount += 1
