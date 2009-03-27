@@ -6,6 +6,8 @@ reportbug (4.1) UNRELEASED; urgency=low
   * debian/{desktop, dirs, rules}
     - install desktop file; thanks to Fabian Greffrath for the report and file;
       Closes: #521186
+  * debian/rules
+    - cleanup
 
   [ Luca Bruno ]
   * bin/reportbug
@@ -26,7 +28,7 @@ reportbug (4.1) UNRELEASED; urgency=low
   * debian/copyright, reportbug/ui/gtk2_ui.py
     - bump copyright years
 
- -- Sandro Tosi <morph@debian.org>  Thu, 26 Mar 2009 00:23:11 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 26 Mar 2009 16:29:11 +0100
 
 reportbug (4.0) unstable; urgency=low
 
