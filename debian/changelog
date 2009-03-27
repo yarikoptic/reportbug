@@ -18,6 +18,7 @@ reportbug (4.1) UNRELEASED; urgency=low
     - fix default when choosing for realname and email at configuration time
     - offer interface configuration on explicit configuration or when no
       interface is being specified (the used interface is set as default)
+    - specify whether the get_string result can be empty or not
   * reportbug/debianbts.py
     - use ui proper functions instead of ewrite; thanks to Jan Hauke Rahm for
       the report; Closes: #521113

@@ -349,7 +349,7 @@ def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
     result = box.main(ui)
     return result
 
-def get_string(prompt, options=None, title=None, force_prompt=False,
+def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=False,
                default='', ui=None):
     if title:
         title = '%s: %s' % (VERSION, title)

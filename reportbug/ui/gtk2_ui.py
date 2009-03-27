@@ -575,11 +575,8 @@ class GetStringPage (Page):
     def get_value (self):
         return self.entry.get_text ()
 
-    def execute (self, prompt, options=None, force_prompt=False, default=''):
-        if 'blank OK' in prompt:
-            self.empty_ok = True
-        else:
-            self.empty_ok = False
+    def execute (self, prompt, options=None, empty_ok=False, force_prompt=False, default=''):
+        self.empty_ok = empty_ok
         self.label.set_text (prompt)
         self.entry.set_text (default)
 

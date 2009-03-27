@@ -224,7 +224,7 @@ def long_message(text, *args):
 
 final_message = long_message
 
-def get_string(prompt, options=None, title=None, force_prompt=False,
+def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=False,
                default='', completer=None):
     if prompt and (len(prompt) < 2*columns/3) and not force_prompt:
         if default:
