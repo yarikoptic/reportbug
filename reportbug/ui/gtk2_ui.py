@@ -996,6 +996,7 @@ class LongMessagePage (Page):
         self.label = gtk.Label ()
         self.label.set_line_wrap (True)
         self.label.set_justify (gtk.JUSTIFY_FILL)
+        self.label.set_selectable (True)
         eb = gtk.EventBox ()
         eb.add (self.label)
         return eb
