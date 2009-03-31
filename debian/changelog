@@ -8,6 +8,10 @@ reportbug (4.1) UNRELEASED; urgency=low
       Closes: #521186
   * debian/rules
     - cleanup
+  * debian/{extract_version, rules}
+    - parse changelog version removing any '+.*' part (to allow rebuild with
+      binNMU version style); thanks to Daniel Schepler for the report;
+      Closes: #522010
 
   [ Luca Bruno ]
   * bin/reportbug
@@ -28,7 +32,7 @@ reportbug (4.1) UNRELEASED; urgency=low
   * debian/copyright, reportbug/ui/gtk2_ui.py
     - bump copyright years
 
- -- Sandro Tosi <morph@debian.org>  Thu, 26 Mar 2009 16:29:11 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 31 Mar 2009 23:40:35 +0200
 
 reportbug (4.0) unstable; urgency=low
 
