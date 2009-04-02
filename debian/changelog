@@ -37,8 +37,13 @@ reportbug (4.1) UNRELEASED; urgency=low
     - added suggests for python-vte and python-gnome2-extras (for spell check)
   * debian/copyright, reportbug/ui/gtk2_ui.py
     - bump copyright years
+  * man/{querybts.1, reportbug.1, reportbug.conf.5}, conf/reportbug.conf
+    - update frontends list; thanks to Raphaël Hertzog for the report;
+      Closes: #522290
+  * bin/querybts
+    - do not try to import newt ui
 
- -- Sandro Tosi <morph@debian.org>  Tue, 31 Mar 2009 23:40:35 +0200
+ -- Luca Bruno <lethalman88@gmail.com>  Thu, 02 Apr 2009 19:04:14 +0200
 
 reportbug (4.0) unstable; urgency=low
 
