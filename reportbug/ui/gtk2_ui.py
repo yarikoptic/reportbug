@@ -785,10 +785,16 @@ class MenuPage (TreePage):
 
         default_iter = None
         if isinstance (options, dict):
-            for option, desc in options.iteritems ():
-                iter = self.model.append ((highlight (option), desc))
-                if option == default:
-                    default_iter = iter
+            if order:
+                for option in order:
+                    iter = self.model.append ((highlight (option), options[option]))
+                    if option == default:
+                        default_iter = iter
+            else:
+                for option, desc in options.iteritems ():
+                    iter = self.model.append ((highlight (option), desc))
+                    if option == default:
+                        default_iter = iter
         else:
             for row in options:
                 iter = self.model.append ((highlight (row[0]), row[1]))
