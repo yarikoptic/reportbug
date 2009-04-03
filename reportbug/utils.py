@@ -27,7 +27,16 @@
 import sys
 import os
 import re
-import pwd
+import platform
+try:
+    import pwd
+    from tempfiles import TempFile, tempfile_prefix
+except ImportError, e:
+    if platform.system() == 'Windows':
+        pass
+    else:
+        print e
+        sys.exit(1)
 import commands
 import shlex
 import rfc822
@@ -36,7 +45,6 @@ import subprocess
 
 import debianbts
 from string import ascii_letters, digits
-from tempfiles import TempFile, tempfile_prefix
 
 # Paths for dpkg
 DPKGLIB = '/var/lib/dpkg'
