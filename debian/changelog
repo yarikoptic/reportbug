@@ -23,8 +23,8 @@ reportbug (4.1) UNRELEASED; urgency=low
     - use ui proper functions instead of ewrite; thanks to Jan Hauke Rahm for
       the report; Closes: #521113
   * reportbug/utils.py
-    - stronger check when opening files; thanks to Carl Chenet for the report
-      and patch; Closes: #521496
+    - stronger check when opening files, so that it won't crash if files can't
+      be read; thanks to Carl Chenet for the report and patch; Closes: #521496
   * reportbug/ui/gtk2_ui.py
     - added VTE to handle bugscripts and mutt
     - support for spell checking in the bug report editor
@@ -32,16 +32,17 @@ reportbug (4.1) UNRELEASED; urgency=low
     - make BTS query tree columns sortable
     - ui layout improvements
   * reportbug/ui/urwid_ui.py
-    - fix default value in non-multiple menus; Closes: #496969
+    - fix default severity (to normal) in non-multiple menus; Closes: #496969
   * debian/control
     - added suggests for python-vte and python-gnome2-extras (for spell check)
   * debian/copyright, reportbug/ui/gtk2_ui.py
     - bump copyright years
   * man/{querybts.1, reportbug.1, reportbug.conf.5}, conf/reportbug.conf
-    - update frontends list; thanks to Raphaël Hertzog for the report;
-      Closes: #522290
+    - update frontends list, removing newt; thanks to Raphaël Hertzog for the
+      report; Closes: #522290
   * bin/querybts
-    - do not try to import newt ui
+    - do not try to import newt ui as default ui, since it's removed now; use
+      text ui instead
 
  -- Luca Bruno <lethalman88@gmail.com>  Thu, 02 Apr 2009 19:04:14 +0200
 
