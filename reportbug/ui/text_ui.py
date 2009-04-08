@@ -543,7 +543,11 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
 
 def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                 http_proxy, screen, title):
-    output_encoding = locale.getpreferredencoding()
+    try:
+        output_encoding = locale.getpreferredencoding()
+    except locale.Error, msg:
+        print msg
+        sys.exit(1)
     endcount = catcount = 0
     scount = startcount = 1
     category = hierarchy[0]

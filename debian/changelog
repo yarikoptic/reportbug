@@ -12,6 +12,9 @@ reportbug (4.1) UNRELEASED; urgency=low
     - parse changelog version removing any '+.*' part (to allow rebuild with
       binNMU version style); thanks to Daniel Schepler for the report;
       Closes: #522010
+  * reportbug/ui/text_ui.py:
+    - exit (with error) in case of locale not available; thanks Nico Schottelius
+      for the report and Carl Chenet for the patch; Closes: #512506
 
   [ Luca Bruno ]
   * bin/reportbug
@@ -44,7 +47,7 @@ reportbug (4.1) UNRELEASED; urgency=low
     - do not try to import newt ui as default ui, since it's removed now; use
       text ui instead
 
- -- Luca Bruno <lethalman88@gmail.com>  Thu, 02 Apr 2009 19:04:14 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 08 Apr 2009 23:53:28 +0200
 
 reportbug (4.0) unstable; urgency=low
 
