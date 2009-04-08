@@ -15,6 +15,10 @@ reportbug (4.1) UNRELEASED; urgency=low
   * reportbug/ui/text_ui.py:
     - exit (with error) in case of locale not available; thanks Nico Schottelius
       for the report and Carl Chenet for the patch; Closes: #512506
+  * bin/reportbug
+    - check if all the files passed on the CLI are present, if not quitting;
+      thanks to Jari Aalto for the report and Carl Chenet for the patch;
+      Closes: #445443
 
   [ Luca Bruno ]
   * bin/reportbug
@@ -47,7 +51,7 @@ reportbug (4.1) UNRELEASED; urgency=low
     - do not try to import newt ui as default ui, since it's removed now; use
       text ui instead
 
- -- Sandro Tosi <morph@debian.org>  Wed, 08 Apr 2009 23:53:28 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 09 Apr 2009 00:05:46 +0200
 
 reportbug (4.0) unstable; urgency=low
 

@@ -821,6 +821,12 @@ def main():
         interface = options.interface
 
         iface = '%(interface)s_ui' % vars()
+    if options.attachments:
+        for attachment in options.attachments:
+            if not os.path.exists(os.path.expanduser(attachment)):
+                print 'The file %s does not exist. Exiting.' % attachment
+                sys.exit(1)
+
         try:
             lib_package = __import__('reportbug.ui', fromlist=[iface])
             ui = getattr(lib_package, iface)
