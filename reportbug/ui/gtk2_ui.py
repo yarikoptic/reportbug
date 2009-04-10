@@ -28,18 +28,7 @@ try:
 except ImportError:
     raise UINotImportable, 'Please install the python-gtk2 package to use this interface.'
 
-try:
-    import vte
-except ImportError:
-    message = "Please install the %s package to use the gtk2 interface."
-    dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-                                gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, None)
-    dialog.set_markup (message % "<b>python-vte</b>")
-    dialog.run ()
-    dialog.destroy ()
-    while gtk.events_pending ():
-        gtk.main_iteration ()
-    raise UINotImportable, message % "python-vte"
+global vte
 
 try:
     import gtkspell
@@ -1330,7 +1319,21 @@ def forward_operations (parent, operations):
         globals()[operation] = create_forwarder (parent, klass)
 
 def initialize ():
-    global application, assistant
+    global application, assistant, vte
+
+    try:
+        vte = __import__ ("vte")
+    except ImportError:
+        message = "Please install the %s package to use the gtk2 interface."
+        dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                                    gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, None)
+        dialog.set_markup (message % "<b>python-vte</b>")
+        dialog.run ()
+        dialog.destroy ()
+        while gtk.events_pending ():
+            gtk.main_iteration ()
+        sys.exit (1)
+
     # Exception hook
     oldhook = sys.excepthook
     sys.excepthook = ExceptionDialog.create_excepthook (oldhook)
