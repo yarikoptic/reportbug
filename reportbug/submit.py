@@ -27,6 +27,7 @@ import sys
 import os
 import re
 import commands
+from subprocess import Popen, STDOUT, PIPE
 import rfc822
 import smtplib
 import socket
@@ -165,9 +166,8 @@ def mime_attach(body, attachments, charset, body_charset=None):
             continue
         ctype = None
         cset = charset
-        info = commands.getoutput('file --mime --brief' +
-                                   commands.mkarg(attachment) +
-                                  ' 2>/dev/null')
+        info = Popen(['file','--mime', '--brief', attachment],
+            stdout=PIPE, stderr=STDOUT).communicate()[0]
         if info:
             match = re.match(r'([^;, ]*)(,[^;]+)?(?:; )?(.*)', info)
             if match:
