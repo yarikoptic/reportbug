@@ -717,7 +717,9 @@ def get_cpu_cores():
     for line in fob:
         if line.startswith('processor'):
             cpucount += 1
-            #print repr(line), cpucount
+	#Alpha plateform
+	if line.startswith('cpus detected'):
+	    cpucount = int(line.split()[-1])
     fob.close()
 
     return max(cpucount, 1)

@@ -19,6 +19,9 @@ reportbug (4.1) UNRELEASED; urgency=low
     - check if all the files passed on the CLI are present, if not quitting;
       thanks to Jari Aalto for the report and Carl Chenet for the patch;
       Closes: #445443
+  * reportbug/utils.py
+    - correctly recognize the CPUs number on Alpha systems; thanks to Juhana
+      Helovuo for the report and and Carl Chenet for the patch; Closes: #512675
 
   [ Luca Bruno ]
   * bin/reportbug
@@ -51,7 +54,7 @@ reportbug (4.1) UNRELEASED; urgency=low
     - do not try to import newt ui as default ui, since it's removed now; use
       text ui instead
 
- -- Sandro Tosi <morph@debian.org>  Thu, 09 Apr 2009 00:05:46 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 10 Apr 2009 22:37:13 +0200
 
 reportbug (4.0) unstable; urgency=low
 
