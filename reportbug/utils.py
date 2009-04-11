@@ -676,7 +676,7 @@ def get_debian_release_info():
     return debinfo
 
 def lsb_release_info():
-    return commands.getoutput('lsb_release -a 2>/den/null')
+    return commands.getoutput('lsb_release -a 2>/dev/null')
 
 def get_arch():
     arch = commands.getoutput('COLUMNS=79 dpkg --print-installation-architecture 2>/dev/null')
