@@ -1548,7 +1548,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         elif not subject and not notatty:
             prompted = True
             subject = ui.get_string(
-                'Please briefly describe your problem (you can elaborate in '
+                'Please briefly describe your problem (max. 100 characters; you can elaborate in '
                 'a moment; an empty response will stop reportbug).  This will '
 		'be the bug email subject, so write a concise summary of what '
 		'is wrong with the package, for example, "fails to send email" '
