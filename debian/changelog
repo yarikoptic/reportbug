@@ -1,4 +1,4 @@
-reportbug (4.1) UNRELEASED; urgency=low
+reportbug (4.1) unstable; urgency=low
 
   [ Sandro Tosi ]
   * reportbug/__init__.py
@@ -57,7 +57,7 @@ reportbug (4.1) UNRELEASED; urgency=low
     - do not try to import newt ui as default ui, since it's removed now; use
       text ui instead
 
- -- Sandro Tosi <morph@debian.org>  Fri, 10 Apr 2009 23:06:59 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 12 Apr 2009 14:33:23 +0200
 
 reportbug (4.0) unstable; urgency=low
 
