@@ -1,3 +1,14 @@
+reportbug (4.2) UNRELEASED; urgency=low
+
+  [ Luca Bruno ]
+  * reportbug/ui/gtk2_ui.py
+    - display report message in a dialog at the end, in substitution of pager and stdout
+    - forward page when the user hits ENTER either on an entry or a menu
+    - respect given order in menus
+    - ui focus and layout improvements
+
+ -- Sandro Tosi <morph@debian.org>  Mon, 13 Apr 2009 22:43:48 +0200
+
 reportbug (4.1) unstable; urgency=low
 
   [ Sandro Tosi ]
@@ -43,10 +54,7 @@ reportbug (4.1) unstable; urgency=low
     - support for spell checking in the bug report editor
     - fix display_failure handling
     - make BTS query tree columns sortable
-    - display report message in a dialog at the end, in substitution of pager and stdout
-    - forward page when the user hits ENTER either on an entry or a menu
-    - respect given order in menus
-    - ui focus and layout improvements
+    - ui layout improvements
   * reportbug/ui/urwid_ui.py
     - fix default severity (to normal) in non-multiple menus; Closes: #496969
   * debian/control
