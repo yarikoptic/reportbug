@@ -817,15 +817,23 @@ def main():
 
     # Load the interface, *before* the configuration step.
     sys.argv = sys.argv[:1] + list(args)
+
+    # check if attachment files exist, else exiting
+    # all are checked, and it doesn't exit at the first missing
+    if options.attachments:
+        any_missing = False
+        for attachment in options.attachments:
+            if not os.path.exists(os.path.expanduser(attachment)):
+                print 'The attachment file %s does not exist.' % attachment
+                any_missing = True
+        if any_missing:
+            print "The above files are missing, so can't be attached; exiting"
+            sys.exit(1)
+
     if options.interface:
         interface = options.interface
 
         iface = '%(interface)s_ui' % vars()
-    if options.attachments:
-        for attachment in options.attachments:
-            if not os.path.exists(os.path.expanduser(attachment)):
-                print 'The file %s does not exist. Exiting.' % attachment
-                sys.exit(1)
 
         try:
             lib_package = __import__('reportbug.ui', fromlist=[iface])
