@@ -12,6 +12,7 @@ reportbug (4.2) UNRELEASED; urgency=low
     - display report message in a dialog at the end, in substitution of pager and stdout
     - forward page when the user hits ENTER either on an entry or a menu
     - respect given order in menus
+    - wrap text in menus and disable the horizontal scrollbar
     - ui focus and layout improvements
 
  -- Sandro Tosi <morph@debian.org>  Wed, 15 Apr 2009 20:06:48 +0200

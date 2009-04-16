@@ -25,6 +25,7 @@
 try:
     import gtk
     import gobject
+    import pango
 except ImportError:
     raise UINotImportable, 'Please install the python-gtk2 package to use this interface.'
 
@@ -749,6 +750,13 @@ class GetListPage (TreePage):
 
         self.view.append_column (gtk.TreeViewColumn ('Item', gtk.CellRendererText (), text=0))
 
+class WrapRendererText (gtk.CellRendererText):
+    def do_render (self, window, widget, background_area, cell_area, expose_area, flags):
+        self.set_property ('wrap-width', cell_area.width)
+        gtk.CellRendererText.do_render (self, window, widget, background_area, cell_area, expose_area, flags)
+
+gobject.type_register (WrapRendererText)
+
 class MenuPage (TreePage):
     value_column = 0
 
@@ -762,6 +770,7 @@ class MenuPage (TreePage):
         self.view = gtk.TreeView ()
         self.view.set_rules_hint (True)
         scrolled = create_scrollable (self.view)
+        scrolled.set_policy (gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         vbox.pack_start (scrolled)
         vbox.show_all ()
         return vbox
@@ -781,7 +790,10 @@ class MenuPage (TreePage):
             self.selection.set_mode (gtk.SELECTION_MULTIPLE)
 
         self.view.append_column (gtk.TreeViewColumn ('Option', gtk.CellRendererText (), markup=0))
-        self.view.append_column (gtk.TreeViewColumn ('Description', gtk.CellRendererText (), text=1))
+        rend = WrapRendererText ()
+        rend.set_property ('wrap-mode', pango.WRAP_WORD)
+        rend.set_property ('wrap-width', 300)
+        self.view.append_column (gtk.TreeViewColumn ('Description', rend, text=1))
 
         default_iter = None
         if isinstance (options, dict):
