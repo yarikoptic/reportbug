@@ -600,8 +600,7 @@ class GetStringPage (Page):
     def get_value (self):
         return self.entry.get_text ()
 
-    def execute (self, prompt, options=None, empty_ok=False, force_prompt=False, default=''):
-        self.empty_ok = empty_ok
+    def execute (self, prompt, options=None, force_prompt=False, default=''):
         self.label.set_text (prompt)
         self.entry.set_text (default)
 
