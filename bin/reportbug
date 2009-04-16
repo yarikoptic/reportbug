@@ -450,6 +450,11 @@ def offer_configuration(options):
     def_realname, def_email = utils.get_email()
 
     try:
+        def_email = def_email.encode(charset, 'replace')
+    except UnicodeDecodeError:
+        def_email = ''
+
+    try:
         if options.realname:
             realname = options.realname.encode(charset, 'replace')
         else:
