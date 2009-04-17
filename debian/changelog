@@ -6,6 +6,8 @@ reportbug (4.2) UNRELEASED; urgency=low
       check for attachments existance out of the ui check code. Now all the
       attachment files are checked for existance and it won't exit at the first
       missing.
+    - added max number of characters allowed for report subject; thanks to Hong
+      Jen Yee for the report and Carl Chenet for the patch; Closes: #364626
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py
