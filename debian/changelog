@@ -9,8 +9,8 @@ reportbug (4.2) UNRELEASED; urgency=low
     - added max number of characters allowed for report subject; thanks to Hong
       Jen Yee for the report and Carl Chenet for the patch; Closes: #364626
   * reportbug/utils.py
-    - fixed a typo in redirecting to /dev/null; thanks to Carl Chenet for the
-      report and patch; Closes: 523684
+    - fixed a typo in redirecting to /dev/null when calling lsb_release; thanks
+      to Carl Chenet for the report and patch; Closes: #523684
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py
@@ -21,7 +21,7 @@ reportbug (4.2) UNRELEASED; urgency=low
       #521162
     - ui focus and layout improvements
 
- -- Sandro Tosi <morph@debian.org>  Sat, 18 Apr 2009 12:15:52 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 18 Apr 2009 12:25:28 +0200
 
 reportbug (4.1) unstable; urgency=low
 
