@@ -1,6 +1,8 @@
 reportbug (4.2) UNRELEASED; urgency=low
 
   [ Sandro Tosi ]
+  * reportbug/__init__.py
+    - bump reportbug version
   * bin/reportbug
     - resolved regression about not being able to select ui from cli, moving the
       check for attachments existance out of the ui check code. Now all the
@@ -24,7 +26,7 @@ reportbug (4.2) UNRELEASED; urgency=low
       #521162
     - ui focus and layout improvements
 
- -- Sandro Tosi <morph@debian.org>  Sat, 18 Apr 2009 14:30:54 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 18 Apr 2009 17:01:47 +0200
 
 reportbug (4.1) unstable; urgency=low
 
