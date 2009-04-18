@@ -16,17 +16,22 @@ reportbug (4.2) UNRELEASED; urgency=low
   * reportbug/utils.py
     - fixed a typo in redirecting to /dev/null when calling lsb_release; thanks
       to Carl Chenet for the report and patch; Closes: #523684
+    - handle import of pwd and tempfile in a try..catch, since they are platform
+      specific, so that there is a minimum of functionalities available even if
+      those modules are not present; thanks to Ritesh Raj Sarraf for the report
+      and patch; Closes: #523816
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py
-    - display report message in a dialog at the end, in substitution of pager and stdout
+    - display report message in a dialog at the end, in substitution of pager
+      and stdout
     - forward page when the user hits ENTER either on an entry or a menu
     - respect given order in menus
     - wrap text in menus and disable the horizontal scrollbar; partially fixes
       #521162
     - ui focus and layout improvements
 
- -- Sandro Tosi <morph@debian.org>  Sat, 18 Apr 2009 17:01:47 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 18 Apr 2009 19:38:24 +0200
 
 reportbug (4.1) unstable; urgency=low
 
