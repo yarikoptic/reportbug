@@ -31,7 +31,10 @@ reportbug (4.2) UNRELEASED; urgency=low
       #521162
     - ui focus and layout improvements
 
- -- Sandro Tosi <morph@debian.org>  Sat, 18 Apr 2009 19:38:24 +0200
+  [ Y Giridhar Appaji Nag ]
+  * Remove Y Giridhar Appaji Nag from Uploaders
+
+ -- Y Giridhar Appaji Nag <appaji@debian.org>  Tue, 21 Apr 2009 09:52:22 +0530
 
 reportbug (4.1) unstable; urgency=low
 
