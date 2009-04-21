@@ -242,10 +242,10 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
         prompt = 'Please enter the name of the package: '
         package = ui.get_string(prompt)
         if not package:
-            ui.ewrite('You seem to want to report a generic bug, not request a removal\n')
+            ui.log_message('You seem to want to report a generic bug, not request a removal\n')
             return
 
-        ui.ewrite('Checking status database...\n')
+        ui.log_message('Checking status database...\n')
         info = utils.get_package_status(package)
         available = info[1]
 
@@ -280,7 +280,7 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
 
         if suite not in ('testing', 'unstable', 'experimental'):
             headers.append('X-Debbugs-CC: debian-release@lists.debian.org')
-            ui.ewrite('Your report will be carbon-copied to debian-release.\n')
+            ui.log_message('Your report will be carbon-copied to debian-release.\n')
 
         why = 'Please enter the reason for removal: '
         reason = ui.get_string(why)
@@ -309,9 +309,9 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
             subject = 'RM: %s -- %s; %s' % (package, tag, reason)
 
     if suite == 'testing':
-        ui.ewrite('Please use the following subject and send a mail to '
-                  'debian-release@lists.debian.org to request removal.\n')
-        ui.ewrite(subject)
+        ui.long_message('Please use the following subject and send a mail to '
+                        'debian-release@lists.debian.org to request removal.\n')
+        ui.log_message(subject)
         sys.exit(1)
 
     return (subject, severity, headers, pseudos, body, query)
@@ -362,7 +362,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     package = ui.get_string(prompt)
     if not package: return
 
-    ui.ewrite('Checking status database...\n')
+    ui.log_message('Checking status database...\n')
     info = utils.get_package_status(package)
     available = info[1]
 
@@ -390,8 +390,8 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
         if tag == 'ITP':
             headers.append('X-Debbugs-CC: debian-devel@lists.debian.org')
             pseudos.append(u'Owner: %s' % fromaddr.decode('utf-8', 'replace'))
-            ui.ewrite('Your report will be carbon-copied to debian-devel, '
-                      'per Debian policy.\n')
+            ui.log_message('Your report will be carbon-copied to debian-devel, '
+                           'per Debian policy.\n')
 
         body = itp_template % vars()
     elif tag in ('O', 'RFA', 'RFH'):
@@ -421,8 +421,8 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
 
         if tag == 'RFH':
             headers.append('X-Debbugs-CC: debian-devel@lists.debian.org')
-            ui.ewrite('Your request will be carbon-copied to debian-devel, '
-                      'per Debian policy.\n')
+            ui.log_message('Your request will be carbon-copied to debian-devel, '
+                           'per Debian policy.\n')
 
         if long_desc:
             orphstr = 'intend to orphan'

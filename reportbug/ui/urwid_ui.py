@@ -36,6 +36,7 @@ from reportbug.urlutils import launch_browser
 from text_ui import (
     ewrite,
     spawn_editor,
+    system
     )
 from reportbug import VERSION
 
@@ -348,7 +349,7 @@ def yes_no(msg, yeshelp, nohelp, default=True, nowrap=False, ui=None):
     result = box.main(ui)
     return result
 
-def get_string(prompt, options=None, title=None, force_prompt=False,
+def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=False,
                default='', ui=None):
     if title:
         title = '%s: %s' % (VERSION, title)
@@ -448,7 +449,7 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
             b = urwid.AttrWrap( b, 'scrolllabel' )
             desc = ''
         else:
-            b = urwid.RadioButton( rlist, label_button(option, desc) )
+            b = urwid.RadioButton( rlist, label_button(option, desc), state=(option == default) )
             b.exitcode = option
             b = urwid.AttrWrap( b, 'selectable','focus' )
         widgets.append((b, desc))

@@ -137,7 +137,7 @@ class bugreport(object):
                     cores = utils.get_cpu_cores()
                     if cores > 1:
                         kinfo += ['SMP w/%d CPU cores' % cores]
-                    else:
+                    elif cores == 1:
                         kinfo += ['SMP w/1 CPU core']
                 if 'PREEMPT' in un[3]:
                     kinfo += ['PREEMPT']

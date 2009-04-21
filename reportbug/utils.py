@@ -27,7 +27,16 @@
 import sys
 import os
 import re
-import pwd
+import platform
+try:
+    import pwd
+    from tempfiles import TempFile, tempfile_prefix
+except ImportError, e:
+    if platform.system() == 'Windows':
+        pass
+    else:
+        print e
+        sys.exit(1)
 import commands
 import shlex
 import rfc822
@@ -36,7 +45,6 @@ import subprocess
 
 import debianbts
 from string import ascii_letters, digits
-from tempfiles import TempFile, tempfile_prefix
 
 # Paths for dpkg
 DPKGLIB = '/var/lib/dpkg'
@@ -426,13 +434,13 @@ class AvailDB(object):
             self.fp.close()
 
 def get_dpkg_database():
-    if os.path.exists(STATUSDB):
+    try:
         fp = open(STATUSDB)
         if fp:
             return AvailDB(fp=fp)
-
-    print >> sys.stderr, 'Unable to open', STATUSDB
-    sys.exit(1)
+    except IOError:
+        print >> sys.stderr, 'Unable to open', STATUSDB
+        sys.exit(1)
 
 def get_avail_database():
     #print >> sys.stderr, 'Searching available database'
@@ -654,10 +662,12 @@ def get_debian_release_info():
             dists = [(x[0], x[2]) for x in dists]
             debvers = dists[0][1]
 
-    if os.path.exists('/etc/debian_version'):
+    try:
         fob = open('/etc/debian_version')
         verfile = fob.readline().strip()
         fob.close()
+    except IOError:
+        print >> sys.stderr, 'Unable to open /etc/debian_version'
 
     if verfile:
         debinfo += 'Debian Release: '+verfile+'\n'
@@ -674,7 +684,7 @@ def get_debian_release_info():
     return debinfo
 
 def lsb_release_info():
-    return commands.getoutput('lsb_release -a 2>/den/null')
+    return commands.getoutput('lsb_release -a 2>/dev/null')
 
 def get_arch():
     arch = commands.getoutput('COLUMNS=79 dpkg --print-installation-architecture 2>/dev/null')
@@ -706,11 +716,18 @@ def generate_blank_report(package, pkgversion, severity, justification,
 
 def get_cpu_cores():
     cpucount = 0
-    fob = open('/proc/cpuinfo')
+    try:
+        fob = open('/proc/cpuinfo')
+    except IOError:
+        print >> sys.stderr, 'Unable to open /proc/cpuinfo'
+        return 0
+
     for line in fob:
         if line.startswith('processor'):
             cpucount += 1
-            #print repr(line), cpucount
+	#Alpha plateform
+	if line.startswith('cpus detected'):
+	    cpucount = int(line.split()[-1])
     fob.close()
 
     return max(cpucount, 1)

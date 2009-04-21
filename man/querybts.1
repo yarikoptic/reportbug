@@ -50,7 +50,7 @@ Query on source packages, rather than binary packages.
 .TP
 .B \-u, \-\-ui
 Specify the user interface to use.
-Valid options are \fBtext\fP, \fBnewt\fP, \fBurwid\fP, \fBgtk2\fP;
+Valid options are \fBtext\fP, \fBurwid\fP, \fBgtk2\fP;
 default is taken from the reportbug configuration files.
 .TP
 .B \-w, \-\-web
@@ -94,8 +94,6 @@ specifying a hostname, or omitting a port other than 80, WILL NOT WORK).
 Python's getopt module is pickier than GNU getopt() about the order of
 command line arguments; all switches must be specified before the
 package name.
-
-You must have the python-newt package installed to run this program.
 .SH "SEE ALSO"
 reportbug(1), reportbug.conf(5)
 .SH AUTHOR

@@ -27,6 +27,7 @@ import sys
 import os
 import re
 import commands
+from subprocess import Popen, STDOUT, PIPE
 import rfc822
 import smtplib
 import socket
@@ -50,14 +51,6 @@ import ui.text_ui as ui
 from utils import get_email_addr
 
 quietly = False
-
-# Obscene hack :)
-def system(cmdline):
-    try:
-        x = os.getcwd()
-    except OSError:
-        os.chdir('/')
-    os.system(cmdline)
 
 ascii_range = ''.join([chr(ai) for ai in range(32,127)])
 notascii = re.compile(r'[^'+re.escape(ascii_range)+']')
@@ -173,9 +166,8 @@ def mime_attach(body, attachments, charset, body_charset=None):
             continue
         ctype = None
         cset = charset
-        info = commands.getoutput('file --mime --brief' +
-                                   commands.mkarg(attachment) +
-                                  ' 2>/dev/null')
+        info = Popen(['file','--mime', '--brief', attachment],
+            stdout=PIPE, stderr=STDOUT).communicate()[0]
         if info:
             match = re.match(r'([^;, ]*)(,[^;]+)?(?:; )?(.*)', info)
             if match:
@@ -433,7 +425,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         ewrite("Spawning %s...\n", bit or mua)
         if '%s' not in mua:
             mua += ' %s'
-        system(mua % commands.mkarg(filename)[1:])
+        ui.system(mua % commands.mkarg(filename)[1:])
     elif not failed and (using_sendmail or smtphost):
         if kudos:
             ewrite('\nMessage sent to: %s\n', sendto)
@@ -455,10 +447,10 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             for address in debbugs_cc:
                 ewrite('  %s\n', rfc822.dump_address_pair(address))
 
-        if not (exinfo or kudos) and rtype == 'debbugs' and sysinfo:
-            ewrite('\n')
-            ui.long_message(
-"""If you want to provide additional information, please wait to
+    if not (exinfo or kudos) and rtype == 'debbugs' and sysinfo:
+        ewrite('\n')
+        ui.long_message(
+            """If you want to provide additional information, please wait to
 receive the bug tracking number via email; you may then send any extra
 information to %s (e.g. %s), where n is the bug number.  Normally you
 will receive an acknowledgement via email including the bug report number

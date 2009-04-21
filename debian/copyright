@@ -70,7 +70,7 @@ License: PD
 Files: reportbug/ui/gtk2_ui.py
 Copyright:
     Copyright (C) 2006 Philipp Kern <pkern@debian.org>
-    Copyright (C) 2008 Luca Bruno <lethalman88@gmail.com>
+    Copyright (C) 2008-2009 Luca Bruno <lethalman88@gmail.com>
 License: other
     # This program is freely distributable per the following license:
     #

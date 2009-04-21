@@ -95,14 +95,6 @@ def stopmsg(filename):
         'it as bug report body, please take a look at the "-i FILE, '
         '--include=FILE" option.\n', filename)
 
-# Obscene hack :)
-def system(cmdline):
-    try:
-        x = os.getcwd()
-    except OSError:
-        os.chdir('/')
-    os.system(cmdline)
-
 def include_file_in_report(message, message_filename,
                            attachment_filenames, package_name,
                            include_filename, charset, inline=False):
@@ -143,8 +135,8 @@ def include_file_in_report(message, message_filename,
             os.unlink(message_filename)
             message_filename = temp_filename
         except (IOError, OSError), exc:
-            ewrite('Unable to attach file %s\n%s\n',
-                   include_filename, str(exc))
+            ui.display_failure('Unable to attach file %s\n%s\n',
+                               include_filename, str(exc))
     else:
         attachment_filenames.append(include_filename)
 
@@ -193,7 +185,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
 
         subject = re.search('^Subject: ', message, re.M | re.I)
         if not subject:
-            ewrite('No subject found in message.  Please edit again.\n')
+            ui.long_message('No subject found in message.  Please edit again.\n')
 
         menuopts = "Ynaceilmpq"
 
@@ -239,7 +231,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                         if not inline:
                             skip_editing = True
                     else:
-                        ewrite("Can't find %s to include!\n", attachfile)
+                        ui.display_failure("Can't find %s to include!\n", attachfile)
                 else:
                     break
         elif x == 'c':
@@ -437,9 +429,12 @@ def offer_configuration(options):
                    utils.MODES, 'Select mode: ', options.mode,
                    order=utils.MODELIST)
 
-    interface = ui.menu(
-        'Please choose the default interface for reportbug.', AVAILABLE_UIS,
-        'Select interface: ', options.interface)
+    if options.configure or not options.interface:
+        interface = ui.menu(
+            'Please choose the default interface for reportbug.', AVAILABLE_UIS,
+            'Select interface: ', options.interface)
+    else:
+        interface = options.interface
 
     online = ui.yes_no('Will reportbug often have direct '
                        'Internet access?  (You should answer yes to this '
@@ -455,6 +450,11 @@ def offer_configuration(options):
     def_realname, def_email = utils.get_email()
 
     try:
+        def_email = def_email.encode(charset, 'replace')
+    except UnicodeDecodeError:
+        def_email = ''
+
+    try:
         if options.realname:
             realname = options.realname.encode(charset, 'replace')
         else:
@@ -463,7 +463,7 @@ def offer_configuration(options):
         realname = ''
 
     realname = ui.get_string('What real name should be used for sending bug '
-                             'reports? [%s]' % realname, force_prompt=True)
+                             'reports?', default=realname, force_prompt=True)
     if isinstance(realname, str):
         realname = realname.decode(charset, 'replace')
 
@@ -471,8 +471,8 @@ def offer_configuration(options):
         'Which of your email addresses should be used when sending bug '
         'reports? (Note that this address will be visible in the bug tracking '
         'system, so you may want to use a webmail address or another address '
-        'with good spam filtering capabilities.) [%s]' %
-        (options.email or def_email), force_prompt=True)
+        'with good spam filtering capabilities.)',
+        default=(options.email or def_email), force_prompt=True)
 
     stupidmode = not ui.yes_no(
         'Do you have a "mail transport agent" (MTA) like Exim, Postfix or '
@@ -493,7 +493,7 @@ def offer_configuration(options):
             'If you need to use a different port than default, use the '
             '<host>:<port> alternative format. '
             'Just press ENTER if you don\'t have one or don\'t know.',
-            options=opts, force_prompt=True)
+            options=opts, empty_ok=True, force_prompt=True)
         if smtphost:
             stupidmode = False
     else:
@@ -503,7 +503,7 @@ def offer_configuration(options):
         smtpuser = ui.get_string(
             ('If you need to use a user name to send email via "%s" on your '
              'computer, please enter that user name.  Just press ENTER if you '
-             'don\'t need a user name.' % smtphost), force_prompt=True)
+             'don\'t need a user name.' % smtphost), empty_ok=True, force_prompt=True)
     else:
         smtpuser = ''
     
@@ -511,17 +511,16 @@ def offer_configuration(options):
         try:
             os.rename(utils.USERFILE, utils.USERFILE+'~')
         except OSError:
-            ewrite('Unable to rename %s as %s~\n', utils.USERFILE,
-                   utils.USERFILE)
+            ui.display_failure('Unable to rename %s as %s~\n', utils.USERFILE,
+                               utils.USERFILE)
 
     try:
         fd = os.open(utils.USERFILE, os.O_WRONLY|os.O_TRUNC|os.O_CREAT,
                      0600)
     except OSError, x:
-        ui.long_message('Unable to save %s; most likely, you do not have a '
+        efail('Unable to save %s; most likely, you do not have a '
                         'home directory.  Please fix this before using '
                         'reportbug again.\n', utils.USERFILE)
-        sys.exit(1)
 
     fp = os.fdopen(fd, 'w')
     print >> fp, '# reportbug preferences file'
@@ -823,10 +822,24 @@ def main():
 
     # Load the interface, *before* the configuration step.
     sys.argv = sys.argv[:1] + list(args)
+
+    # check if attachment files exist, else exiting
+    # all are checked, and it doesn't exit at the first missing
+    if options.attachments:
+        any_missing = False
+        for attachment in options.attachments:
+            if not os.path.exists(os.path.expanduser(attachment)):
+                print 'The attachment file %s does not exist.' % attachment
+                any_missing = True
+        if any_missing:
+            print "The above files are missing, so can't be attached; exiting"
+            sys.exit(1)
+
     if options.interface:
         interface = options.interface
 
         iface = '%(interface)s_ui' % vars()
+
         try:
             lib_package = __import__('reportbug.ui', fromlist=[iface])
             ui = getattr(lib_package, iface)
@@ -899,8 +912,7 @@ class UI(object):
             try:
                 body = open(self.options.bodyfile).read()
             except:
-                ewrite('Unable to read body from file %s.\n', self.options.bodyfile)
-                sys.exit(1)
+                efail('Unable to read body from file %s.\n', self.options.bodyfile)
 
         if body and not body.endswith('\n'):
             body += '\n'
@@ -1030,7 +1042,7 @@ class UI(object):
         try:
             blah = u'hello'.encode(charset)
         except LookupError:
-            ui.long_message(
+            ui.display_failure(
                 'Unable to use specified character set "%s"; you probably need '
                 'either cjkcodecs (for users of Asian locales) or iconvcodec '
                 'installed.\nFalling back to ASCII encoding.\n', charset)
@@ -1283,7 +1295,7 @@ class UI(object):
             if not (isvirtual or notatty):
                 pkgversion = ui.get_string('Please enter the version of the '
                                            'package this report applies to '
-                                           '(blank OK)', force_prompt=True)
+                                           '(blank OK)', empty_ok=True, force_prompt=True)
         elif (check_available and not (self.options.kudos or notatty or self.options.offline)
               and state == 'installed' and bts == 'debian'):
             arch = utils.get_arch()
@@ -1427,8 +1439,9 @@ class UI(object):
 This package is currently "orphaned"; if you are a current or prospective
 Debian developer, you might consider adopting it.  Please be aware that your
 report may not be resolved for a while, and that packages that have been
-orphaned for a long period of time are often removed from the archive.\n''')
-                ui.ewrite('\nFor more details, please see: http://www.debian.org/devel/wnpp/\n')
+orphaned for a long period of time are often removed from the archive.
+
+For more details, please see: http://www.debian.org/devel/wnpp/''')
 
         if self.options.kudos:
             sendto = '%s@packages.debian.org' % package
@@ -1479,7 +1492,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
                         break
                     elif x == 'd':
                         PAGER = os.environ.get('PAGER', '/usr/bin/sensible-pager')
-                        system(PAGER+' '+' '.join(changed))
+                        ui.system(PAGER+' '+' '.join(changed))
                     else:
                         break
 
@@ -1540,7 +1553,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
         elif not subject and not notatty:
             prompted = True
             subject = ui.get_string(
-                'Please briefly describe your problem (you can elaborate in '
+                'Please briefly describe your problem (max. 100 characters allowed; you can elaborate in '
                 'a moment; an empty response will stop reportbug).  This will '
 		'be the bug email subject, so write a concise summary of what '
 		'is wrong with the package, for example, "fails to send email" '
@@ -1553,7 +1566,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
             subject = ui.get_string(
                 'Your description is a bit long; please enter a shorter subject. '
                 '(An empty response will retain the existing subject.)',
-                force_prompt=True) or subject
+                empty_ok=True, force_prompt=True) or subject
         if package != 'wnpp' and prompted and mode < MODE_EXPERT:
             if foundfile:
                 subject = foundfile + ": " + subject
@@ -1694,7 +1707,7 @@ orphaned for a long period of time are often removed from the archive.\n''')
 
             fh, filename = TempFile(prefix=tfprefix)
             fh.close()
-            system('%s %s %s' % (handler, commands.mkarg(bugexec),
+            ui.system('%s %s %s' % (handler, commands.mkarg(bugexec),
                                  commands.mkarg(filename)))
 
             addinfo = None

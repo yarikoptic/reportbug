@@ -40,12 +40,8 @@ from reportbug import urlutils
 
 from reportbug.ui import AVAILABLE_UIS
 
-try:
-    import reportbug.ui.newt_ui as ui
-    ui_mode = 'newt'
-except:
-    import reportbug.ui.text_ui as ui
-    ui_mode = 'text'
+import reportbug.ui.text_ui as ui
+ui_mode = 'text'
 
 from reportbug import VERSION_NUMBER
 
@@ -221,19 +217,10 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        if ui_mode == 'newt':
-            print chr(27)+'c'
-            os.system('stty sane; clear')
         print "querybts: exiting due to user interrupt."
     except debianbts.Error, x:
-        if ui_mode == 'newt':
-            print chr(27)+'c'
-            os.system('stty sane; clear')
         print 'error accessing BTS: '+str(x)
     except SystemExit:
         pass
     except:
-        if ui_mode == 'newt':
-            print chr(27)+'c'
-            os.system('stty sane; clear')
         raise

@@ -2,7 +2,7 @@
 #   Written by Luca Bruno <lethalman88@gmail.com>
 #   Based on gnome-reportbug work done by Philipp Kern <pkern@debian.org>
 #   Copyright (C) 2006 Philipp Kern
-#   Copyright (C) 2008 Luca Bruno
+#   Copyright (C) 2008-2009 Luca Bruno
 #
 # This program is freely distributable per the following license:
 #
@@ -24,12 +24,20 @@
 
 try:
     import gtk
-    from gtk import gdk
     import gobject
+    import pango
 except ImportError:
     raise UINotImportable, 'Please install the python-gtk2 package to use this interface.'
 
-gdk.threads_init ()
+global vte
+
+try:
+    import gtkspell
+    has_spell = True
+except:
+    has_spell = False
+
+gtk.gdk.threads_init ()
 
 import sys
 import re
@@ -45,7 +53,7 @@ from reportbug.urlutils import launch_browser
 ISATTY = True
 DEBIAN_LOGO = "/usr/share/pixmaps/debian-logo.png"
 
-global application, assistant
+global application, assistant, report_message
 
 # Utilities
 
@@ -152,7 +160,7 @@ class ExceptionDialog (CustomDialog):
     def setup_dialog (self, vbox, tb):
         # The traceback
         expander = gtk.Expander ("More details")
-        vbox.pack_start (expander)
+        vbox.pack_start (expander, False)
 
         view = gtk.TextView ()
         view.set_editable (False)
@@ -164,6 +172,34 @@ class ExceptionDialog (CustomDialog):
 
     def on_response (self, dialog, res):
         sys.exit (1)
+
+class ReportViewerDialog (gtk.Dialog):
+    def __init__ (self, message):
+        gtk.Dialog.__init__ (self, "Reportbug", assistant,
+                             gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                             (gtk.STOCK_COPY, gtk.RESPONSE_APPLY,
+                              gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE))
+        self.message = message
+
+        self.set_default_size (400, 400)
+        self.set_default_response (gtk.RESPONSE_CLOSE)
+        self.set_border_width (6)
+        self.connect ('response', self.on_response)
+
+        view = gtk.TextView ()
+        view.get_buffer().set_text (self.message)
+        self.vbox.pack_start (create_scrollable (view))
+
+        self.show_all ()
+
+    def on_response (self, dialog, res):
+        # ok gtk.RESPONSE_APPLY is ugly for gtk.STOCK_COPY, but who cares?
+        # maybe adding it as a secondary button or such is better
+        if res == gtk.RESPONSE_APPLY:
+            clipboard = gtk.clipboard_get ()
+            clipboard.set_text (self.message)
+        else:
+            self.destroy ()
 
 # BTS
 
@@ -280,6 +316,8 @@ class BugPage (gtk.EventBox, threading.Thread):
     def __init__ (self, dialog, number, queryonly, bts, mirrors, http_proxy, archived):
         threading.Thread.__init__ (self)
         gtk.EventBox.__init__ (self)
+        self.setDaemon (True)
+
         self.dialog = dialog
         self.assistant = self.dialog.assistant
         self.application = self.assistant.application
@@ -332,6 +370,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         vbox.set_border_width (12)
         label = gtk.Label ('Description: '+desc)
         label.set_line_wrap (True)
+        label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (label, expand=False)
         
         view = gtk.TreeView ()
@@ -367,7 +406,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         self.application.set_next_value (self.number)
         # Forward the assistant to the progress bar
         self.assistant.forward_page ()
-        # Though we only a page, we are authorized to destroy our parent :)
+        # Though we're only a page, we are authorized to destroy our parent :)
         self.dialog.destroy ()
 
 class BugsDialog (gtk.Dialog):
@@ -396,6 +435,8 @@ class BugsDialog (gtk.Dialog):
 class ReportbugApplication (threading.Thread):
     def __init__ (self):
         threading.Thread.__init__ (self)
+        self.setDaemon (True)
+
         self.queue = Queue ()
         self.next_value = None
         
@@ -448,6 +489,7 @@ class Page (ReportbugConnector):
     page_type = gtk.ASSISTANT_PAGE_CONTENT
     default_complete = False
     side_image = DEBIAN_LOGO
+    WARNING_COLOR = gtk.gdk.color_parse ("#fff8ae")
 
     def __init__ (self, assistant):
         self.assistant = assistant
@@ -464,6 +506,7 @@ class Page (ReportbugConnector):
         self.empty_ok = kwargs.pop ('empty_ok', False)
         self.execute (*args, **kwargs)
         self.assistant.show ()
+        self.setup_focus ()
 
     def connect_signals (self):
         pass
@@ -484,13 +527,18 @@ class Page (ReportbugConnector):
         self.assistant.insert_page (self.widget, self.page_num)
         self.set_page_complete (self.default_complete)
         self.set_page_type (self.page_type)
-        self.assistant.set_page_side_image (self.widget, gdk.pixbuf_new_from_file (self.side_image))
+        self.assistant.set_page_side_image (self.widget, gtk.gdk.pixbuf_new_from_file (self.side_image))
         self.assistant.set_next_page (self)
         self.set_page_title ("Reportbug")
 
     # Setup keyboard focus in the page
     def setup_focus (self):
         self.widget.grab_focus ()
+
+    # Forward page when a widget is activated (e.g. GtkEntry) only if page is complete
+    def activate_forward (self, *args):
+        if self.assistant.get_page_complete (self.widget):
+            self.assistant.forward_page ()
 
     # The user forwarded the assistant to see the next page
     def switch_out (self):
@@ -539,6 +587,7 @@ class GetStringPage (Page):
         vbox = gtk.VBox (spacing=12)
         self.label = gtk.Label ()
         self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         self.entry = gtk.Entry ()
         vbox.pack_start (self.label, expand=False)
         vbox.pack_start (self.entry, expand=False)
@@ -546,15 +595,12 @@ class GetStringPage (Page):
 
     def connect_signals (self):
         self.entry.connect ('changed', self.validate)
+        self.entry.connect ('activate', self.activate_forward)
 
     def get_value (self):
         return self.entry.get_text ()
 
     def execute (self, prompt, options=None, force_prompt=False, default=''):
-        if 'blank OK' in prompt:
-            self.empty_ok = True
-        else:
-            self.empty_ok = False
         self.label.set_text (prompt)
         self.entry.set_text (default)
 
@@ -580,6 +626,8 @@ class GetMultilinePage (Page):
     def create_widget (self):
         vbox = gtk.VBox (spacing=12)
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (self.label, expand=False)
 
         self.view = gtk.TextView ()
@@ -637,6 +685,8 @@ class GetListPage (TreePage):
     def create_widget (self):
         vbox = gtk.VBox (spacing=12)
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (self.label, expand=False)
 
         hbox = gtk.HBox (spacing=6)
@@ -699,20 +749,34 @@ class GetListPage (TreePage):
 
         self.view.append_column (gtk.TreeViewColumn ('Item', gtk.CellRendererText (), text=0))
 
+class WrapRendererText (gtk.CellRendererText):
+    def do_render (self, window, widget, background_area, cell_area, expose_area, flags):
+        self.set_property ('wrap-width', cell_area.width)
+        gtk.CellRendererText.do_render (self, window, widget, background_area, cell_area, expose_area, flags)
+
+gobject.type_register (WrapRendererText)
+
 class MenuPage (TreePage):
     value_column = 0
 
     def create_widget (self):
         vbox = gtk.VBox (spacing=12)
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (self.label, expand=False)
 
         self.view = gtk.TreeView ()
         self.view.set_rules_hint (True)
         scrolled = create_scrollable (self.view)
+        scrolled.set_policy (gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         vbox.pack_start (scrolled)
         vbox.show_all ()
         return vbox
+
+    def connect_signals (self):
+        TreePage.connect_signals (self)
+        self.view.connect ('row-activated', self.activate_forward)
 
     def execute (self, par, options, prompt, default=None, any_ok=False,
                  order=None, extras=None, multiple=False):
@@ -725,14 +789,23 @@ class MenuPage (TreePage):
             self.selection.set_mode (gtk.SELECTION_MULTIPLE)
 
         self.view.append_column (gtk.TreeViewColumn ('Option', gtk.CellRendererText (), markup=0))
-        self.view.append_column (gtk.TreeViewColumn ('Description', gtk.CellRendererText (), text=1))
+        rend = WrapRendererText ()
+        rend.set_property ('wrap-mode', pango.WRAP_WORD)
+        rend.set_property ('wrap-width', 300)
+        self.view.append_column (gtk.TreeViewColumn ('Description', rend, text=1))
 
         default_iter = None
         if isinstance (options, dict):
-            for option, desc in options.iteritems ():
-                iter = self.model.append ((highlight (option), desc))
-                if option == default:
-                    default_iter = iter
+            if order:
+                for option in order:
+                    iter = self.model.append ((highlight (option), options[option]))
+                    if option == default:
+                        default_iter = iter
+            else:
+                for option, desc in options.iteritems ():
+                    iter = self.model.append ((highlight (option), desc))
+                    if option == default:
+                        default_iter = iter
         else:
             for row in options:
                 iter = self.model.append ((highlight (row[0]), row[1]))
@@ -822,7 +895,8 @@ class HandleBTSQueryPage (TreePage):
         self.entry = gtk.Entry ()
         hbox.pack_start (self.entry)
         button = gtk.Button ()
-        button.set_image (gtk.image_new_from_stock (gtk.STOCK_CLEAR, gtk.ICON_SIZE_BUTTON))
+        button.set_image (gtk.image_new_from_stock (gtk.STOCK_CLEAR, gtk.ICON_SIZE_MENU))
+        button.set_relief (gtk.RELIEF_NONE)
         button.connect ('clicked', self.on_filter_clear)
         hbox.pack_start (button, expand=False)
         vbox.pack_start (hbox, expand=False)
@@ -833,7 +907,9 @@ class HandleBTSQueryPage (TreePage):
         self.columns = ['ID', 'Tag', 'Package', 'Description', 'Reporter', 'Date', 'Severity', 'Version',
                         'Filed date', 'Modified date']
         for col in zip (self.columns, range (len (self.columns))):
-            self.view.append_column (gtk.TreeViewColumn (col[0], gtk.CellRendererText (), text=col[1]))
+            column = gtk.TreeViewColumn (col[0], gtk.CellRendererText (), text=col[1])
+            column.set_reorderable (True)
+            self.view.append_column (column)
         vbox.pack_start (scrolled)
 
         button = gtk.Button ("Retrieve and submit bug information")
@@ -937,6 +1013,7 @@ class LongMessagePage (Page):
         self.label = gtk.Label ()
         self.label.set_line_wrap (True)
         self.label.set_justify (gtk.JUSTIFY_FILL)
+        self.label.set_selectable (True)
         eb = gtk.EventBox ()
         eb.add (self.label)
         return eb
@@ -967,6 +1044,8 @@ class EditorPage (Page):
         vbox.pack_start (hbox, expand=False)
 
         self.view = gtk.TextView ()
+        if has_spell:
+            gtkspell.Spell (self.view)
         self.info_buffer = self.view.get_buffer ()
         scrolled = create_scrollable (self.view)
         vbox.pack_start (scrolled)
@@ -977,12 +1056,24 @@ class EditorPage (Page):
         self.others_buffer = view.get_buffer ()
         scrolled = create_scrollable (view)
         expander.add (scrolled)
-        vbox.pack_start (expander)
+        vbox.pack_start (expander, False)
+
+        if not has_spell:
+            box = gtk.EventBox ()
+            label = gtk.Label ("Please install <b>python-gnome2-extras</b> to enable spell checking")
+            label.set_use_markup (True)
+            label.set_line_wrap (True)
+            box.add (label)
+            box.modify_bg (gtk.STATE_NORMAL, self.WARNING_COLOR)
+            box.connect ('button-press-event', lambda *args: box.destroy ())
+            vbox.pack_start (box, False)
         return vbox
 
     def switch_out (self):
+        global report_message
+        report_message = self.get_value()[0]
         f = file (self.filename, "w")
-        f.write (self.get_value()[0])
+        f.write (report_message)
         f.close ()
 
     def connect_signals (self):
@@ -1030,6 +1121,8 @@ class SelectOptionsPage (Page):
 
     def create_widget (self):
         self.label = gtk.Label ()
+        self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         self.vbox = gtk.VBox (spacing=6)
         self.vbox.pack_start (self.label, expand=False, padding=6)
         self.default = None
@@ -1038,6 +1131,10 @@ class SelectOptionsPage (Page):
     def on_clicked (self, button, menuopt):
         self.application.set_next_value (menuopt)
         self.assistant.forward_page ()
+
+    def on_display_clicked (self, button):
+        global report_message
+        ReportViewerDialog (report_message)
 
     def setup_focus (self):
         if self.default:
@@ -1054,19 +1151,56 @@ class SelectOptionsPage (Page):
             # do we really need to launch an external editor?
             if 'Change editor' in desc:
                 continue
-            button = gtk.Button (options[menuopt.lower ()])
-            button.connect ('clicked', self.on_clicked, menuopt.lower ())
-            if menuopt.isupper ():
-                self.default = button
-                buttons.insert (0, gtk.HSeparator ())
-                buttons.insert (0, button)
-            else:
+            # this will be handled using the text view below
+            if 'Pipe the message through the pager' in desc:
+                continue
+            # stdout is a textview for us
+            if 'Print message to stdout' in desc:
+                button = gtk.Button ("Display message in a text view")
+                button.connect ('clicked', self.on_display_clicked)
                 buttons.append (button)
+            else:
+                button = gtk.Button ()
+                label = gtk.Label (options[menuopt.lower ()])
+                button.add (label)
+                button.connect ('clicked', self.on_clicked, menuopt.lower ())
+                if menuopt.isupper ():
+                    label.set_markup ("<b>%s</b>" % label.get_text ())
+                    self.default = button
+                    buttons.insert (0, gtk.HSeparator ())
+                    buttons.insert (0, button)
+                else:
+                    buttons.append (button)
 
         for button in buttons:
             self.vbox.pack_start (button, expand=False)
 
         self.vbox.show_all ()
+
+class SystemPage (Page):
+    default_complete = False
+
+    def create_widget (self):
+        hbox = gtk.HBox ()
+
+        self.terminal = vte.Terminal ()
+        self.terminal.set_cursor_blinks (True)
+        self.terminal.set_emulation ("xterm")
+        self.terminal.connect ('child-exited', self.on_child_exited)
+        hbox.pack_start (self.terminal)
+
+        scrollbar = gtk.VScrollbar ()
+        scrollbar.set_adjustment (self.terminal.get_adjustment ())
+        hbox.pack_start (scrollbar)
+
+        return hbox
+
+    def on_child_exited (self, terminal):
+        self.application.set_next_value (None)
+        self.assistant.forward_page ()
+
+    def execute (self, cmdline):
+        self.terminal.fork_command ('/bin/bash', ['/bin/bash', '-c', cmdline])
 
 class ProgressPage (Page):
     page_type = gtk.ASSISTANT_PAGE_PROGRESS
@@ -1079,6 +1213,7 @@ class ProgressPage (Page):
         vbox = gtk.VBox (spacing=6)
         self.label = gtk.Label ()
         self.label.set_line_wrap (True)
+        self.label.set_justify (gtk.JUSTIFY_FILL)
         self.progress = gtk.ProgressBar ()
         self.progress.set_pulse_step (0.01)
         vbox.pack_start (self.label, expand=False)
@@ -1190,8 +1325,8 @@ class DisplayFailureDialog (ReportbugConnector, gtk.MessageDialog):
         self.application.put_next_value ()
         self.destroy ()
 
-    def execute_operation (self, msg):
-        self.set_markup (msg)
+    def execute_operation (self, msg, *args):
+        self.set_markup (msg % args)
         self.show_all ()
              
 class GetFilenameDialog (ReportbugConnector, gtk.FileChooserDialog):
@@ -1237,7 +1372,8 @@ pages = { 'get_string': GetStringPage,
           'final_message': FinalMessagePage,
           'spawn_editor': EditorPage,
           'select_options': SelectOptionsPage,
-          'get_list': GetListPage }
+          'get_list': GetListPage,
+          'system': SystemPage }
 dialogs = { 'yes_no': YesNoDialog,
             'get_filename': GetFilenameDialog,
             'display_failure': DisplayFailureDialog, }
@@ -1258,7 +1394,21 @@ def forward_operations (parent, operations):
         globals()[operation] = create_forwarder (parent, klass)
 
 def initialize ():
-    global application, assistant
+    global application, assistant, vte
+
+    try:
+        vte = __import__ ("vte")
+    except ImportError:
+        message = "Please install the %s package to use the gtk2 interface."
+        dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                                    gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, None)
+        dialog.set_markup (message % "<b>python-vte</b>")
+        dialog.run ()
+        dialog.destroy ()
+        while gtk.events_pending ():
+            gtk.main_iteration ()
+        sys.exit (1)
+
     # Exception hook
     oldhook = sys.excepthook
     sys.excepthook = ExceptionDialog.create_excepthook (oldhook)
@@ -1281,6 +1431,7 @@ def test ():
     print select_options ('test', 'A', {'a': 'A test'})
     print get_multiline ('ENTER', empty_ok=True)
     print get_string ("test")
+    print system ("yes")
     page = HandleBTSQueryPage (assistant)
     application.run_once_in_main_thread (page.execute_operation, [('test', (Bug ('#123 [test] [we] we we Reported by: test;' ), Bug ('#123 [test] [we] we we Reported by: test;')))], 'test')
     return application.get_last_value ()

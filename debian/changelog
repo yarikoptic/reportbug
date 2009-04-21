@@ -1,3 +1,99 @@
+reportbug (4.2) UNRELEASED; urgency=low
+
+  [ Sandro Tosi ]
+  * reportbug/__init__.py
+    - bump reportbug version
+  * bin/reportbug
+    - resolved regression about not being able to select ui from cli, moving the
+      check for attachments existance out of the ui check code. Now all the
+      attachment files are checked for existance and it won't exit at the first
+      missing.
+    - added max number of characters allowed for report subject; thanks to Hong
+      Jen Yee for the report and Carl Chenet for the patch; Closes: #364626
+    - decode also email address (previously only realname was) when offering
+      configuration; thanks to James Vega for the report and to Carl Chenet for
+      the patch: Closes: #524297
+  * reportbug/utils.py
+    - fixed a typo in redirecting to /dev/null when calling lsb_release; thanks
+      to Carl Chenet for the report and patch; Closes: #523684
+    - handle import of pwd and tempfile in a try..catch, since they are platform
+      specific, so that there is a minimum of functionalities available even if
+      those modules are not present; thanks to Ritesh Raj Sarraf for the report
+      and patch; Closes: #523816
+
+  [ Luca Bruno ]
+  * reportbug/ui/gtk2_ui.py
+    - display report message in a dialog at the end, in substitution of pager
+      and stdout
+    - forward page when the user hits ENTER either on an entry or a menu
+    - respect given order in menus
+    - wrap text in menus and disable the horizontal scrollbar; partially fixes
+      #521162
+    - ui focus and layout improvements
+
+ -- Sandro Tosi <morph@debian.org>  Sat, 18 Apr 2009 19:38:24 +0200
+
+reportbug (4.1) unstable; urgency=low
+
+  [ Sandro Tosi ]
+  * reportbug/__init__.py
+    - bump version
+  * debian/{desktop, dirs, rules}
+    - install desktop file; thanks to Fabian Greffrath for the report and file;
+      Closes: #521186
+  * debian/rules
+    - cleanup
+  * debian/{extract_version, rules}
+    - parse changelog version removing any '+.*' part (to allow rebuild with
+      binNMU version style); thanks to Daniel Schepler for the report;
+      Closes: #522010
+  * reportbug/ui/text_ui.py:
+    - exit (with error) in case of locale not available; thanks Nico Schottelius
+      for the report and Carl Chenet for the patch; Closes: #512506
+  * bin/reportbug
+    - check if all the files passed on the CLI are present, if not quitting;
+      thanks to Jari Aalto for the report and Carl Chenet for the patch;
+      Closes: #445443
+  * reportbug/utils.py
+    - correctly recognize the CPUs number on Alpha systems; thanks to Juhana
+      Helovuo for the report and Carl Chenet for the patch; Closes: #512675
+  * reportbug/submit.py
+    - better handling of file with UTF8 name, using subprocess.Popen; thanks to
+      Sam Morris for the report and Carl Chenet for the patch; Closes: #491869
+
+  [ Luca Bruno ]
+  * bin/reportbug
+    - fix default when choosing for realname and email at configuration time
+    - offer interface configuration on explicit configuration or when no
+      interface is being specified (the used interface is set as default)
+    - specify whether the get_string result can be empty or not
+  * reportbug/debianbts.py
+    - use ui proper functions instead of ewrite; thanks to Jan Hauke Rahm for
+      the report; Closes: #521113
+  * reportbug/utils.py
+    - stronger check when opening files, so that it won't crash if files can't
+      be read; thanks to Carl Chenet for the report and patch; Closes: #521496
+  * reportbug/ui/gtk2_ui.py
+    - added VTE to handle bugscripts and mutt
+    - support for spell checking in the bug report editor
+    - fix display_failure handling
+    - make BTS query tree columns sortable
+    - ui layout improvements
+  * reportbug/ui/urwid_ui.py
+    - fix default severity (to normal) in non-multiple menus; Closes: #496969
+  * debian/control
+    - added suggests for python-vte and python-gnome2-extras (for spell check)
+  * debian/copyright, reportbug/ui/gtk2_ui.py
+    - bump copyright years
+  * man/{querybts.1, reportbug.1, reportbug.conf.5}, conf/reportbug.conf
+    - update frontends list, removing newt; thanks to Raphaël Hertzog for the
+      report; Closes: #522290
+  * bin/querybts
+    - do not try to import newt ui as default ui, since it's removed now; use
+      text ui instead
+
+ -- Sandro Tosi <morph@debian.org>  Sun, 12 Apr 2009 14:33:23 +0200
+
 reportbug (4.0) unstable; urgency=low
 
   * Uploading to unstable, since Lenny has been released

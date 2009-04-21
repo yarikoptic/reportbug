@@ -69,6 +69,13 @@ def ewrite(message, *args):
 log_message = ewrite
 display_failure = ewrite
 
+def system(cmdline):
+    try:
+        x = os.getcwd()
+    except OSError:
+        os.chdir('/')
+    os.system(cmdline)
+
 def indent_wrap_text(text, starttext='', indent=0, linelen=None):
     """Wrapper for textwrap.fill to the existing API."""
     if not linelen:
@@ -217,7 +224,7 @@ def long_message(text, *args):
 
 final_message = long_message
 
-def get_string(prompt, options=None, title=None, force_prompt=False,
+def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=False,
                default='', completer=None):
     if prompt and (len(prompt) < 2*columns/3) and not force_prompt:
         if default:
@@ -536,7 +543,11 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
 
 def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                 http_proxy, screen, title):
-    output_encoding = locale.getpreferredencoding()
+    try:
+        output_encoding = locale.getpreferredencoding()
+    except locale.Error, msg:
+        print msg
+        sys.exit(1)
     endcount = catcount = 0
     scount = startcount = 1
     category = hierarchy[0]
