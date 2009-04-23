@@ -209,7 +209,7 @@ def main():
     except NoBugs:
         ui.long_message('No bug reports found.\n')
     except NoReport:
-        ui.long_message('Nothing new to report; exiting.\n')
+        ui.long_message('Exiting.\n')
     except NoNetwork:
         ui.long_message('Cannot connect to network.\n')
 
