@@ -759,6 +759,28 @@ MUA = {
     }
 MUA['nmh'] = MUA['mh']
 
+MUAVERSION = {
+    MUA['mutt'] : 'mutt -v',
+    MUA[ 'af'] : 'af -v ',
+    MUA['mh'] : '/usr/bin/mh/comp -use -file',
+    MUA['gnus'] : 'emacs --version',
+    }
+
+def mua_exists(mua):
+    output = '/dev/null'
+    if os.path.exists(output):
+        try:
+            returnvalue = subprocess.call(MUAVERSION[mua], stdout=open(output, 'w'), stderr=subprocess.STDOUT, shell=True)
+        except IOError, OSError:
+            returnvalue = subprocess.call(MUAVERSION[mua], shell=True)
+    else:
+        returnvalue = subprocess.call(MUAVERSION[mua], shell=True)
+    # 127 is the shell standard return value to indicate a 'command not found' result
+    if returnvalue == 127:
+        return False
+    else:
+        return True        
+
 def first_run():
     return not os.path.exists(USERFILE)
 

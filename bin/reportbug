@@ -244,10 +244,13 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             mailer = ui.menu('Choose a mailer for your report', mailers,
                              'Select mailer: ', default='', empty_ok=True)
             if mailer:
-                mailer = utils.MUA.get(mailer)
-                if mailer:
-                    options.mua = mailer
-                    break
+                if not utils.mua_exists(utils.MUA[mailer]):
+                    ewrite("Your mail user agent can not be found.\n")
+                else:
+                    mailer = utils.MUA.get(mailer)
+                    if mailer:
+                        options.mua = mailer
+                        break
             skip_editing = True
         elif x in ('n', 'q'):
             stopmsg(filename)
@@ -833,6 +836,12 @@ def main():
                 any_missing = True
         if any_missing:
             print "The above files are missing, so can't be attached; exiting"
+            sys.exit(1)
+
+
+    if options.mua:
+        if not utils.mua_exists(options.mua):
+            ewrite("Your mail user agent can not be found; exiting.\n")
             sys.exit(1)
 
     if options.interface:
