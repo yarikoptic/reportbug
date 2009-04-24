@@ -7,7 +7,7 @@ reportbug (4.2) UNRELEASED; urgency=low
     - resolved regression about not being able to select ui from cli, moving the
       check for attachments existance out of the ui check code. Now all the
       attachment files are checked for existance and it won't exit at the first
-      missing.
+      missing. Thanks to Michael Meskes for the report; Closes: #525407
     - added max number of characters allowed for report subject; thanks to Hong
       Jen Yee for the report and Carl Chenet for the patch; Closes: #364626
     - decode also email address (previously only realname was) when offering
@@ -34,7 +34,7 @@ reportbug (4.2) UNRELEASED; urgency=low
   [ Y Giridhar Appaji Nag ]
   * Remove Y Giridhar Appaji Nag from Uploaders
 
- -- Y Giridhar Appaji Nag <appaji@debian.org>  Tue, 21 Apr 2009 09:52:22 +0530
+ -- Sandro Tosi <morph@debian.org>  Fri, 24 Apr 2009 19:09:50 +0200
 
 reportbug (4.1) unstable; urgency=low
 
