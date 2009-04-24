@@ -20,6 +20,9 @@ reportbug (4.2) UNRELEASED; urgency=low
       specific, so that there is a minimum of functionalities available even if
       those modules are not present; thanks to Ritesh Raj Sarraf for the report
       and patch; Closes: #523816
+  * bin/querybts
+    - replaced the exit messages, with a less confusing one; thanks to A Costa
+      for the report and to Carl Chenet for the patch; Closes: #358555
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py
@@ -34,7 +37,7 @@ reportbug (4.2) UNRELEASED; urgency=low
   [ Y Giridhar Appaji Nag ]
   * Remove Y Giridhar Appaji Nag from Uploaders
 
- -- Sandro Tosi <morph@debian.org>  Fri, 24 Apr 2009 19:09:50 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 24 Apr 2009 20:16:19 +0200
 
 reportbug (4.1) unstable; urgency=low
 
