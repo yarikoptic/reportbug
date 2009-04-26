@@ -201,8 +201,13 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     menuopts = "Eq"
                     prompt = 'ERROR: you have composed an ITP with fields unchanged from the template; this will NOT be submitted. You should edit all fields so they contain correct values for your ITP (e to edit)'
 
+        if options.outfile:
+            yesmessage = 'Store the report in %s.' % options.outfile
+        else:
+            yesmessage = 'Submit the bug report via email.'
+
         x = ui.select_options(prompt, menuopts,
-                              {'y': 'Submit the bug report via email.',
+                              {'y': yesmessage,
                                'n': "Don't submit the bug report; instead, "
                                "save it in a temporary file (exits reportbug).",
                                'q': "Save it in a temporary file and quit.",
@@ -213,6 +218,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                                'l': 'Pipe the message through the pager.',
                                'p': 'Print message to stdout.',
                                'm': "Choose a mailer to edit the report."})
+
         if x in ('a', 'i'):
             invalid = True
             while invalid:
