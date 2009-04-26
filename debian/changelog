@@ -2,6 +2,7 @@ reportbug (4.3) UNRELEASED; urgency=low
 
   * reportbug/ui/gtk2_ui.py:
     - fix crash when showing menu options
+    - make the textbox containing error information wider
 
  -- Luca Bruno <lethalman88@gmail.com>  Thu, 07 May 2009 21:38:45 +0200
 

@@ -160,7 +160,7 @@ class ExceptionDialog (CustomDialog):
     def setup_dialog (self, vbox, tb):
         # The traceback
         expander = gtk.Expander ("More details")
-        vbox.pack_start (expander, False)
+        vbox.pack_start (expander, True)
 
         view = gtk.TextView ()
         view.set_editable (False)
