@@ -952,11 +952,8 @@ class UI(object):
         if self.options.outfile or self.options.printonly:
             mua = smtphost = None
 
-        if smtphost and smtphost.lower() == 'master.debian.org':
-            ui.long_message('*** Warning: master.debian.org is no longer an appropriate smtphost setting for reportbug; please update your .reportbugrc file.\n')
-            smtphost = 'reportbug.debian.org'
-        if smtphost and smtphost.lower() == 'bugs.debian.org':
-            ui.long_message('*** Warning: bugs.debian.org is no longer an appropriate smtphost setting for reportbug; please update your .reportbugrc file.\n')
+        if smtphost and smtphost.lower() in ('master.debian.org', 'bugs.debian.org'):
+            ui.long_message('*** Warning: %s is no longer an appropriate smtphost setting for reportbug: it has been superseded by reportbug.debian.org and this one is forced as smtphost; please update your .reportbugrc file.\n', smtphost.lower())
             smtphost = 'reportbug.debian.org'
 
         if attachments and mua:

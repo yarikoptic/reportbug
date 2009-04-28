@@ -14,6 +14,9 @@ reportbug (4.2) UNRELEASED; urgency=low
     - decode also email address (previously only realname was) when offering
       configuration; thanks to James Vega for the report and to Carl Chenet for
       the patch: Closes: #524297
+    - clarified in the warning message that reportbug.debian.org superseded
+      master|bugs.d.o as smtphost; also merged the check fo the previous 2
+      hosts; thanks to Goswin von Brederlow for the report; Closes: #525856
   * reportbug/utils.py
     - fixed a typo in redirecting to /dev/null when calling lsb_release; thanks
       to Carl Chenet for the report and patch; Closes: #523684
@@ -38,7 +41,7 @@ reportbug (4.2) UNRELEASED; urgency=low
   [ Y Giridhar Appaji Nag ]
   * Remove Y Giridhar Appaji Nag from Uploaders
 
- -- Sandro Tosi <morph@debian.org>  Wed, 29 Apr 2009 00:01:07 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 29 Apr 2009 00:05:41 +0200
 
 reportbug (4.1) unstable; urgency=low
 
