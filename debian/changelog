@@ -1,4 +1,4 @@
-reportbug (4.2) UNRELEASED; urgency=low
+reportbug (4.2) unstable; urgency=low
 
   [ Sandro Tosi ]
   * reportbug/__init__.py
@@ -41,7 +41,7 @@ reportbug (4.2) UNRELEASED; urgency=low
   [ Y Giridhar Appaji Nag ]
   * Remove Y Giridhar Appaji Nag from Uploaders
 
- -- Sandro Tosi <morph@debian.org>  Wed, 29 Apr 2009 00:05:41 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 01 May 2009 19:22:23 +0200
 
 reportbug (4.1) unstable; urgency=low
 
