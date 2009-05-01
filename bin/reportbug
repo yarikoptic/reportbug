@@ -1093,7 +1093,7 @@ class UI(object):
             attachments = []
 
         if utils.first_run():
-            if not self.args:
+            if not self.args and not self.options.searchfor:
                 offer_configuration(self.options)
                 main()
                 sys.exit(0)
@@ -1131,7 +1131,7 @@ class UI(object):
                     ewrite("reportbug stopped.\n")
                     sys.exit(1)
 
-        if (utils.first_run() and not self.args):
+        if (utils.first_run() and not self.args and not self.options.searchfor):
             offer_configuration(self.options)
             ewrite('To report a bug, please rerun reportbug.\n')
             sys.exit(0)
