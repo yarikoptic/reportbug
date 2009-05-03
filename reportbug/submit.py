@@ -447,7 +447,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             for address in debbugs_cc:
                 ewrite('  %s\n', rfc822.dump_address_pair(address))
 
-    if not (exinfo or kudos) and rtype == 'debbugs' and sysinfo:
+    if not (exinfo or kudos) and rtype == 'debbugs' and sysinfo and not failed:
         ewrite('\n')
         ui.long_message(
             """If you want to provide additional information, please wait to
