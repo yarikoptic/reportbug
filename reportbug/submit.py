@@ -349,6 +349,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
 
         tryagain = True
         refused = None
+        retry = 0
         while tryagain:
             tryagain = False
             ewrite("Connecting to %s via SMTP...\n", smtphost)
@@ -382,7 +383,11 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                     ewrite('SMTP error: authentication failed.  Try again.\n')
                     tryagain = True
                     smtppasswd = None
-                    continue
+                    retry += 1
+                    if retry <= 2:
+                        continue
+                    else:
+                        tryagain = False
 
                 failed = True
                 ewrite('SMTP send failure: %s\n', x)
