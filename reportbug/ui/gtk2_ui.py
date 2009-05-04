@@ -313,13 +313,13 @@ class BugReport (object):
 # BTS GUI
 
 class BugPage (gtk.EventBox, threading.Thread):
-    def __init__ (self, dialog, number, queryonly, bts, mirrors, http_proxy, archived):
+    def __init__ (self, assistant, dialog, number, queryonly, bts, mirrors, http_proxy, archived):
         threading.Thread.__init__ (self)
         gtk.EventBox.__init__ (self)
         self.setDaemon (True)
 
         self.dialog = dialog
-        self.assistant = self.dialog.assistant
+        self.assistant = assistant
         self.application = self.assistant.application
         self.number = number
         self.queryonly = queryonly
@@ -407,6 +407,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         # Forward the assistant to the progress bar
         self.assistant.forward_page ()
         # Though we're only a page, we are authorized to destroy our parent :)
+        # This would be better handled connecting externally to self.reply_button
         self.dialog.destroy ()
 
 class BugsDialog (gtk.Dialog):
@@ -426,7 +427,7 @@ class BugsDialog (gtk.Dialog):
         self.destroy ()
 
     def show_bug (self, number, *args):
-        page = BugPage (self, number, self.queryonly, *args)
+        page = BugPage (self.assistant, self, number, self.queryonly, *args)
         self.notebook.append_page (page, gtk.Label (number))
         page.start ()
         
@@ -995,6 +996,34 @@ class HandleBTSQueryPage (TreePage):
         self.filter.set_visible_func (self.filter_visible_func)
         self.view.set_model (self.filter)
 
+class ShowReportPage (Page):
+    default_complete = True
+
+    def create_widget (self):
+        self.page = BugPage (self.assistant, None, None, None, None, None, None, None)
+        return self.page
+
+    def get_value (self):
+        return None
+
+    def is_valid (self, value):
+        return True
+
+    def sync_pre_operation (self, *args, **kwargs):
+        if kwargs.get ('queryonly'):
+            self.page_type = gtk.ASSISTANT_PAGE_CONFIRM
+        return args, kwargs
+
+    def execute (self, number, system, mirrors, http_proxy, queryonly=False, title='', archived='no'):
+        self.page.number = number
+        self.page.bts = system
+        self.page.mirrors = mirrors
+        self.page.http_proxy = http_proxy
+        self.page.queryonly = queryonly
+        self.page.archived = archived
+        self.page.start ()
+        self.validate ()
+
 class DisplayReportPage (Page):
     default_complete = True
 
@@ -1368,6 +1397,7 @@ def get_multiline (prompt, *args, **kwargs):
 pages = { 'get_string': GetStringPage,
           'menu': MenuPage,
           'handle_bts_query': HandleBTSQueryPage,
+          'show_report': ShowReportPage,
           'long_message': LongMessagePage,
           'display_report': DisplayReportPage,
           'final_message': FinalMessagePage,
