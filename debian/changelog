@@ -3,10 +3,10 @@ reportbug (4.3) UNRELEASED; urgency=low
   * reportbug/ui/gtk2_ui.py:
     - fix crash when showing menu options
     - make the textbox containing error information wider
-    - implement show_report(). Thanks to James Vega for the report;
-      Closes: 525762
+    - implement show_report() : it allows querybts to work with gtk2 UI; thanks
+      to James Vega for the report;  Closes: #525762
 
- -- Luca Bruno <lethalman88@gmail.com>  Mon, 04 May 2009 23:32:56 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 08 May 2009 17:54:39 +0200
 
 reportbug (4.2) unstable; urgency=low
 
