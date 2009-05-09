@@ -21,8 +21,12 @@ reportbug (4.3) UNRELEASED; urgency=low
   * debian/control
     - tight dependency of reportbug package to python-reportbug to be the same
       of source version
+  * bin/reportbug
+    - display the correct message when saving the report into a file (using the
+      '-o' option); thanks to Timo Juhani Lindfors for the report and to Carl
+      Chenet for the patch; Closes: #496083
 
- -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 12:00:23 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 15:00:34 +0200
 
 reportbug (4.2) unstable; urgency=low
 
