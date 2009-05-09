@@ -18,8 +18,11 @@ reportbug (4.3) UNRELEASED; urgency=low
     - added 'mua_exists' function to check existence of the selected MUA; thanks
       to Bernhard R. Link for the report and to Carl Chenet for the patch;
       Closes: #363920
+  * debian/control
+    - tight dependency of reportbug package to python-reportbug to be the same
+      of source version
 
- -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 11:44:19 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 12:00:23 +0200
 
 reportbug (4.2) unstable; urgency=low
 
