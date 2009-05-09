@@ -27,8 +27,11 @@ reportbug (4.3) UNRELEASED; urgency=low
     - display the correct message when saving the report into a file (using the
       '-o' option); thanks to Timo Juhani Lindfors for the report and to Carl
       Chenet for the patch; Closes: #496083
+  * reportbug/bugreport.py
+    - decode UTF-8 body text to avoid encoding issues; thanks to nathael for the
+      report and to Carl Chenet for the patch; Closes: #496210
 
- -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 16:34:28 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 17:14:51 +0200
 
 reportbug (4.2) unstable; urgency=low
 

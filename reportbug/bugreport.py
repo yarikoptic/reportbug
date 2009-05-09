@@ -98,6 +98,7 @@ class bugreport(object):
             headers += u'Version: %s\n' % version
 
         body = getattr(self, 'body', u'')
+        body = body.decode('utf8')
         if self.mode < utils.MODE_ADVANCED:
             body = utils.NEWBIELINE+u'\n\n'+body
         elif not body:
