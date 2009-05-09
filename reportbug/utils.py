@@ -760,10 +760,10 @@ MUA = {
 MUA['nmh'] = MUA['mh']
 
 MUAVERSION = {
-    MUA['mutt'] : 'mutt -v',
-    MUA[ 'af'] : 'af -v ',
-    MUA['mh'] : '/usr/bin/mh/comp -use -file',
-    MUA['gnus'] : 'emacs --version',
+    'mutt' : 'mutt -v',
+    'af' : 'af -v ',
+    'mh' : '/usr/bin/mh/comp -use -file',
+    'gnus' : 'emacs --version',
     }
 
 def mua_exists(mua):
