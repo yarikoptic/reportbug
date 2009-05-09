@@ -202,7 +202,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     prompt = 'ERROR: you have composed an ITP with fields unchanged from the template; this will NOT be submitted. You should edit all fields so they contain correct values for your ITP (e to edit)'
 
         if options.outfile:
-            yesmessage = 'Store the report in %s.' % options.outfile
+            yesmessage = 'Save the report into %s .' % options.outfile
         else:
             yesmessage = 'Submit the bug report via email.'
 
