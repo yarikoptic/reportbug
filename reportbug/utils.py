@@ -779,7 +779,7 @@ def mua_exists(mua):
     if returnvalue == 127:
         return False
     else:
-        return True        
+        return True
 
 def first_run():
     return not os.path.exists(USERFILE)
