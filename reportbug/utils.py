@@ -765,6 +765,7 @@ MUAVERSION = {
     'mh' : '/usr/bin/mh/comp -use -file',
     'gnus' : 'emacs --version',
     }
+MUAVERSION['nmh'] = MUAVERSION['mh']
 
 def mua_exists(mua):
     output = '/dev/null'
