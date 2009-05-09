@@ -245,7 +245,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                              'Select mailer: ', default='', empty_ok=True)
             if mailer:
                 if not utils.mua_exists(utils.MUA[mailer]):
-                    ewrite("Your mail user agent can not be found.\n")
+                    ewrite("Selected mail user agent cannot be found.\n")
                 else:
                     mailer = utils.MUA.get(mailer)
                     if mailer:
@@ -841,7 +841,7 @@ def main():
 
     if options.mua:
         if not utils.mua_exists(options.mua):
-            ewrite("Your mail user agent can not be found; exiting.\n")
+            ewrite("Selected mail user agent cannot be found; exiting.\n")
             sys.exit(1)
 
     if options.interface:
