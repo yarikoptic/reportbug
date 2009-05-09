@@ -7,7 +7,13 @@ reportbug (4.3) UNRELEASED; urgency=low
     - implement show_report() : it allows querybts to work with gtk2 UI; thanks
       to James Vega for the report;  Closes: #525762
 
- -- Sandro Tosi <morph@debian.org>  Fri, 08 May 2009 17:54:39 +0200
+  [ Sandro Tosi ]
+  * reportbug/submit.py
+    - skip to show the ack message if fails to send the email to all the
+      recipients; thanks to Cyril Brulebois for the report and to Carl Chenet
+      for the patch; Closes: #524640
+
+ -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 08:59:22 +0200
 
 reportbug (4.2) unstable; urgency=low
 
