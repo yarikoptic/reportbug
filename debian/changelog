@@ -8,6 +8,8 @@ reportbug (4.3) UNRELEASED; urgency=low
       to James Vega for the report;  Closes: #525762
 
   [ Sandro Tosi ]
+  * reportbug/__init__.py
+    - bump reportbug version
   * reportbug/submit.py
     - skip to show the ack message if fails to send the email to all the
       recipients; thanks to Cyril Brulebois for the report and to Carl Chenet
@@ -17,7 +19,7 @@ reportbug (4.3) UNRELEASED; urgency=low
       to Bernhard R. Link for the report and to Carl Chenet for the patch;
       Closes: #363920
 
- -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 11:21:57 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 11:44:19 +0200
 
 reportbug (4.2) unstable; urgency=low
 
