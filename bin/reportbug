@@ -212,7 +212,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                                "save it in a temporary file (exits reportbug).",
                                'q': "Save it in a temporary file and quit.",
                                'a': "Attach a file.",
-                               'd': "Detach a file.",
+                               'd': "Detach an attachment file.",
                                'i': "Include a text file.",
                                'c': "Change editor and re-edit.",
                                'e': 'Re-edit the bug report.',
@@ -244,15 +244,15 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         elif x == 'd':
             skip_editing = True
             if not attachments:
-                ewrite('No file to detached.\n')
+                ewrite('No attachment file to detached.\n')
             else:
-                detachprompt = 'Choose a file to detach:'
+                detachprompt = 'Choose an attachment file to detach:'
                 myattachments = []
                 myattachments = [(x, '') for x in attachments]
-                filetodetach = ui.menu( detachprompt, myattachments, 
+                filetodetach = ui.menu(detachprompt, myattachments,
                     'Select the file:', default='', empty_ok=True)
                 attachments.remove(filetodetach)
-                ewrite('File successfully detached.\n')
+                ewrite('Attachment file successfully detached.\n')
         elif x == 'c':
             ed = ui.get_filename('Choose editor: ', default=options.editor)
             if ed:
