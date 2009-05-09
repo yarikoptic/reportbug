@@ -14,6 +14,8 @@ reportbug (4.3) UNRELEASED; urgency=low
     - skip to show the ack message if fails to send the email to all the
       recipients; thanks to Cyril Brulebois for the report and to Carl Chenet
       for the patch; Closes: #524640
+    - limit tries to max 3 (1 try + 2 retries) to deliver the message; thanks to
+      alecs1 for the report and to Carl Chenet for the patch; Closes: #489447
   * reportbug/utils.py, bin/reportbug
     - added 'mua_exists' function to check existence of the selected MUA; thanks
       to Bernhard R. Link for the report and to Carl Chenet for the patch;
@@ -26,7 +28,7 @@ reportbug (4.3) UNRELEASED; urgency=low
       '-o' option); thanks to Timo Juhani Lindfors for the report and to Carl
       Chenet for the patch; Closes: #496083
 
- -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 15:00:34 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 16:34:28 +0200
 
 reportbug (4.2) unstable; urgency=low
 
