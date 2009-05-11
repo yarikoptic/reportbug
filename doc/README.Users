@@ -34,4 +34,19 @@ Please note that if you specify more than 2 tag, then they will be
 ordered alphabetically (so if you use usercategories, it will only
 appears in the first one).
 
-Thanks to: Sandro Tosi <matrixhasu@gmail.com>
+Thanks to: Sandro Tosi <morph@debian.org>
+
+How to Use New GTK+ User Interface
+==================================
+
+If you tried to set the new GTK+ UI (named in reportbug as gtk2 ui)
+and it fails to start (falling back to text mode, hopefully), chances
+are that you are missing some of the needed modules:
+
+ - python-gtk2
+ - python-vte
+
+If after installing both of them still GTK+ UI doesn't show up, please
+file a report (in text ui :) ).
+
+Thanks to: Sandro Tosi <morph@debian.org>
