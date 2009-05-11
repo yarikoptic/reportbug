@@ -1470,7 +1470,7 @@ orphaned for a long period of time are often removed from the archive.
 
 For more details, please see: http://www.debian.org/devel/wnpp/''')
 
-        if self.options.kudos:
+        if self.options.kudos and not self.options.debugmode:
             sendto = '%s@packages.debian.org' % package
 
         depinfo = ""
