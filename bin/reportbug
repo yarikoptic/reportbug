@@ -103,7 +103,7 @@ def stopmsg(filename):
 
 def include_file_in_report(message, message_filename,
                            attachment_filenames, package_name,
-                           include_filename, charset, inline=False):
+                           include_filename, charset, inline=False, draftpath=None):
     """ Include a file in the report.
 
         :parameters:
@@ -135,7 +135,7 @@ def include_file_in_report(message, message_filename,
                        fp.read().decode(charset, 'replace'))
             fp.close()
             fp, temp_filename = TempFile(
-                prefix=tempfile_prefix(package_name))
+                prefix=tempfile_prefix(package_name), dir=draftpath)
             fp.write(message.encode(charset, 'replace'))
             fp.close()
             os.unlink(message_filename)
@@ -245,7 +245,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                         inline = (x == 'i')
                         (message, filename, attachments) = include_file_in_report(
                             message, filename, attachments, package,
-                            attachfile, charset, inline=inline)
+                            attachfile, charset, inline=inline, draftpath=options.draftpath)
                         if not inline:
                             skip_editing = True
                     else:
@@ -920,6 +920,8 @@ def main():
     parser.add_option('--no-paranoid', action='store_false', dest='paranoid',
                       help='don\'t show contents of message before sending '
                       '(default)')
+    parser.add_option('--draftpath', dest="draftpath",
+                      help='Save the draft in this directory')
 
     (options, args) = parser.parse_args()
 
@@ -938,6 +940,11 @@ def main():
             print "The above files are missing, so can't be attached; exiting"
             sys.exit(1)
 
+    if options.draftpath:
+        options.draftpath = os.path.expanduser(options.draftpath)
+        if not os.path.exists(options.draftpath):
+            print "The directory % does not exist; exiting." % options.draftpath
+            sys.exit(1)
 
     if options.mua:
         if not utils.mua_is_supported(options.mua):
@@ -1875,7 +1882,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             else:
                 handler = '/usr/share/reportbug/handle_bugscript'
 
-            fh, filename = TempFile(prefix=tfprefix)
+            fh, filename = TempFile(prefix=tfprefix, dir=self.options.draftpath)
             fh.close()
             ui.system('LC_ALL=C %s %s %s' % (handler, commands.mkarg(bugexec),
                                              commands.mkarg(filename)))
@@ -1943,7 +1950,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         message = u"Subject: %s\n%s" % (subject, message)
 
         if mailing:
-            fh, filename = TempFile(prefix=tfprefix)
+            fh, filename = TempFile(prefix=tfprefix, dir=self.options.draftpath)
             fh.write(message.encode(charset, 'replace'))
             fh.close()
             oldmua = mua or self.options.mua
