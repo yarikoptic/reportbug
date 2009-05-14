@@ -859,9 +859,15 @@ def main():
 
 
     if options.mua:
+        if not utils.mua_is_supported(options.mua):
+            ewrite("Specified mail user agent is not supported; exiting.\n")
+            sys.exit(1)
+
         if not utils.mua_exists(options.mua):
             ewrite("Selected mail user agent cannot be found; exiting.\n")
             sys.exit(1)
+
+        options.mua = utils.mua_name(options.mua)
 
     if options.interface:
         interface = options.interface

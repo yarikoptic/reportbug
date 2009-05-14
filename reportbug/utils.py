@@ -761,14 +761,22 @@ MUA = {
 MUA['nmh'] = MUA['mh']
 
 MUAVERSION = {
-    'mutt' : 'mutt -v',
-    'af' : 'af -v ',
-    'mh' : '/usr/bin/mh/comp -use -file',
-    'gnus' : 'emacs --version',
+    MUA['mutt'] : 'mutt -v',
+    MUA[ 'af'] : 'af -v ',
+    MUA['mh'] : '/usr/bin/mh/comp -use -file',
+    MUA['gnus'] : 'emacs --version',
     }
-MUAVERSION['nmh'] = MUAVERSION['mh']
+
+def mua_is_supported(mua):
+    # check if the mua is supported by reportbug
+    if mua.split()[0] not in MUA:
+        return False
+    else:
+        return True
 
 def mua_exists(mua):
+    # check if the mua is available on the system
+    mua = MUA[mua.split()[0]]
     output = '/dev/null'
     if os.path.exists(output):
         try:
@@ -782,6 +790,13 @@ def mua_exists(mua):
         return False
     else:
         return True
+
+def mua_name(mua):
+    # in case the user specifies only the mua name in --mua, returns the default options
+    if mua in MUA:
+        return MUA[mua]
+    else:
+        return mua
 
 def first_run():
     return not os.path.exists(USERFILE)
