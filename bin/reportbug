@@ -1304,6 +1304,8 @@ class UI(object):
             ewrite('Verifying package integrity...\n')
             rc, output = commands.getstatusoutput('/usr/bin/debsums -s'+
                                                   commands.mkarg(package))
+            debsumsoutput = output
+
             if rc:
                 if not ui.yes_no(
                     'There may be a problem with your installation of '+package+
@@ -1768,7 +1770,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             message = utils.generate_blank_report(
                 submitas or package, pkgversion, severity, justification,
                 depinfo, conftext, foundfile, incfiles, bts, exinfo, rtype,
-                klass, subject, tags, body, mode, pseudos)
+                klass, subject, tags, body, mode, pseudos, debsumsoutput)
 
         # Substitute server email address
         if submitto and '@' not in sendto:

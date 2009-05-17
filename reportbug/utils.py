@@ -700,7 +700,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
                           depinfo, confinfo, foundfile='', incfiles='',
                           system='debian', exinfo=0, type=None, klass='',
                           subject='', tags='', body='', mode=MODE_EXPERT,
-                          pseudos=None):
+                          pseudos=None, debsumsoutput=None):
     # For now...
     import bugreport
 
@@ -711,7 +711,8 @@ def generate_blank_report(package, pkgversion, severity, justification,
                               mode=mode, subject=subject, tags=tags, body=body,
                               pseudoheaders=pseudos, exinfo=exinfo, type=type,
                               system=system, depinfo=depinfo, sysinfo=sysinfo,
-                              confinfo=confinfo, incfiles=incfiles)
+                              confinfo=confinfo, incfiles=incfiles, 
+                              debsumsoutput=debsumsoutput)
     return unicode(rep)
 
 def get_cpu_cores():
