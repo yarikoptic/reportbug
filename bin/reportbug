@@ -1115,7 +1115,7 @@ class UI(object):
                     sys.exit(1)
             incfiles += '\n'
 
-        pkgavail = maintainer = origin = src_name = state = ''
+        pkgavail = maintainer = origin = src_name = state = debsumsoutput = ''
         depends = []
         recommends = []
         suggests = []
