@@ -35,8 +35,11 @@ reportbug (4.3) UNRELEASED; urgency=low
   * po4a/po/fr.po
     - proof-read version of French manpage; thanks to Sylvain Cherrier for the
       report and patch; Closes: #528956
+  * bin/reportbug, reportbug/{bugreport.py, utils.py}
+    - include debsums output into bug report; thanks to Michael Biebl for the
+      report and to Carl Chenet for the patch; Closes: #458572
 
- -- Sandro Tosi <morph@debian.org>  Wed, 20 May 2009 13:20:09 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 20 May 2009 14:08:06 +0200
 
 reportbug (4.2) unstable; urgency=low
 

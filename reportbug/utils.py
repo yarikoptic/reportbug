@@ -711,7 +711,7 @@ def generate_blank_report(package, pkgversion, severity, justification,
                               mode=mode, subject=subject, tags=tags, body=body,
                               pseudoheaders=pseudos, exinfo=exinfo, type=type,
                               system=system, depinfo=depinfo, sysinfo=sysinfo,
-                              confinfo=confinfo, incfiles=incfiles, 
+                              confinfo=confinfo, incfiles=incfiles,
                               debsumsoutput=debsumsoutput)
     return unicode(rep)
 
