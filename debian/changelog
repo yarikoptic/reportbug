@@ -32,8 +32,11 @@ reportbug (4.3) UNRELEASED; urgency=low
   * reportbug/bugreport.py
     - decode UTF-8 body text to avoid encoding issues; thanks to nathael for the
       report and to Carl Chenet for the patch; Closes: #496210
+  * po4a/po/fr.po
+    - proof-read version of French manpage; thanks to Sylvain Cherrier for the
+      report and patch; Closes: #528956
 
- -- Sandro Tosi <morph@debian.org>  Sat, 09 May 2009 17:47:10 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 20 May 2009 13:20:09 +0200
 
 reportbug (4.2) unstable; urgency=low
 
