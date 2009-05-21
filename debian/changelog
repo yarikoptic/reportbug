@@ -38,8 +38,9 @@ reportbug (4.3) UNRELEASED; urgency=low
   * bin/reportbug, reportbug/{bugreport.py, utils.py}
     - include debsums output into bug report; thanks to Michael Biebl for the
       report and to Carl Chenet for the patch; Closes: #458572
+    - added debsums output also for --template (non interactive) executions
 
- -- Sandro Tosi <morph@debian.org>  Wed, 20 May 2009 14:08:06 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 21 May 2009 13:21:56 +0200
 
 reportbug (4.2) unstable; urgency=low
 

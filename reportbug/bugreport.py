@@ -168,7 +168,7 @@ class bugreport(object):
 
         # add debsums output to the bug report
         if self.debsumsoutput:
-            report += u"\n%s\n" % self.debsumsoutput
+            report += u"\n-- debsums errors found:\n%s\n" % self.debsumsoutput
 
         return report
 
