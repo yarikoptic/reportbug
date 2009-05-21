@@ -2,7 +2,7 @@ reportbug (4.3) UNRELEASED; urgency=low
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py:
-    - fix crash when showing menu options
+    - fix crash when showing menu options; Closes: #526628
     - make the textbox containing error information wider
     - implement show_report() : it allows querybts to work with gtk2 UI; thanks
       to James Vega for the report;  Closes: #525762
@@ -47,7 +47,7 @@ reportbug (4.3) UNRELEASED; urgency=low
       updating python requirements to >= 2.5; thanks to Kenneth E Drake for the
       report and getting back to Debian; Closes: #529660
 
- -- Sandro Tosi <morph@debian.org>  Thu, 21 May 2009 14:47:55 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 21 May 2009 19:01:25 +0200
 
 reportbug (4.2) unstable; urgency=low
 
