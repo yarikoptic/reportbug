@@ -1,20 +1,21 @@
 # translation of fr.po to French
 # Copyright (C) 2006, 2008 Free Software Foundation, Inc.
 #
-# Sylvain Cherrier <sylvain.cherrier@free.fr>, 2006, 2008.
+# Sylvain Cherrier <sylvain.cherrier@free.fr>, 2006, 2009
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "POT-Creation-Date: 2009-01-02 23:01+0100\n"
-"PO-Revision-Date: 2008-05-10 15:14+0200\n"
-"Last-Translator: Sylvain Cherrier <sylvain.cherrier@free.fr>\n"
-"Language-Team: French <debian-l10n-french@lists.debian.org>\n"
+"PO-Revision-Date: 2009-04-26 16:54+0200\n"
+"Last-Translator: sylvain Cherrier <sylvain.cherrier@free.fr>\n"
+"Language-Team: fr <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 # type: TH
 #: man/reportbug.1:1
@@ -502,7 +503,6 @@ msgstr "B<-i FICHIER, --include=FICHIER>"
 
 # type: Plain text
 #: man/reportbug.1:162
-#, fuzzy
 msgid ""
 "Include the specified file as part of the body of the message to be edited.  "
 "Can be used multiple times to add multiple files; text-only please! From a "
@@ -512,7 +512,7 @@ msgstr ""
 "Ajouter le fichier indiqué dans le corps du message à éditer. Peut être "
 "utilisé autant de fois qu'il y a de fichiers à inclure\\ ; au format texte "
 "uniquement\\ ! D'après une suggestion de Michael Alan Dorman dans la liste "
-"des bogues de B<bug>. (Voir aussi l'option --attach)."
+"de diffusion B<bug>. (Voir aussi l'option --attach)."
 
 # type: TP
 #: man/reportbug.1:162
@@ -1217,16 +1217,19 @@ msgstr ""
 
 # type: TP
 #: man/reportbug.1:405 man/querybts.1:50
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-u, --ui>"
-msgstr "B<-q, --quiet>"
+msgstr "B<-u, --ui>"
 
-# type: Plain text
 #: man/reportbug.1:410 man/querybts.1:55
+#, fuzzy
 msgid ""
 "Specify the user interface to use.  Valid options are B<text>, B<newt>, "
 "B<urwid>, B<gtk2>; default is taken from the reportbug configuration files."
 msgstr ""
+"Définir l'interface utilisateur à utiliser. Les options acceptées sont "
+"B<text>, B<urwid>, B<gtk2>\\ ; La valeur par défaut est définie dans les "
+"fichiers de configuration de reportbug."
 
 # type: TP
 #: man/reportbug.1:410
@@ -1388,19 +1391,19 @@ msgstr ""
 
 # type: TP
 #: man/reportbug.1:459
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<REPORTBUGEMAIL, EMAIL, DEBEMAIL>"
-msgstr "B<EMAIL, REPORTBUGEMAIL, DEBEMAIL>"
+msgstr "B<REPORTBUGEMAIL, EMAIL, DEBEMAIL>"
 
 # type: Plain text
 #: man/reportbug.1:464
-#, fuzzy
 msgid ""
 "Email address to use as your from address (in this order). If no environment "
 "variable exists, the default is taken from your user name and /etc/mailname."
 msgstr ""
-"Adresse de courriel à indiquer dans le champ From\\ ; par défaut, cette "
-"adresse est tirée de votre nom d'utilisateur et de /etc/mailname."
+"Adresse de courriel à indiquer (dans cet ordre) dans le champ From. Si "
+"aucune variable d'environnement n'existe, cette adresse est par défaut "
+"déduite de votre nom d'utilisateur et de /etc/mailname."
 
 # type: TP
 #: man/reportbug.1:464

@@ -36,7 +36,7 @@ install-stamp: build-stamp
 	dh_installdirs
 
 	# Add here commands to install the package into debian/reportbug.
-	python setup.py install --root $(CURDIR)/debian/reportbug
+	python setup.py install --root $(CURDIR)/debian/reportbug --install-layout=deb
 	mv $(CURDIR)/debian/reportbug/usr/lib $(CURDIR)/debian/python-reportbug/usr
 	chmod 0755 $(CURDIR)/debian/reportbug/usr/bin/*
 	cp -p conf/reportbug.conf $(CURDIR)/debian/reportbug/etc

@@ -1115,7 +1115,7 @@ class UI(object):
                     sys.exit(1)
             incfiles += '\n'
 
-        pkgavail = maintainer = origin = src_name = state = ''
+        pkgavail = maintainer = origin = src_name = state = debsumsoutput = ''
         depends = []
         recommends = []
         suggests = []
@@ -1300,11 +1300,13 @@ class UI(object):
             reportwith = [x for x in reportwith if x != package]
 
         if (pkgavail and self.options.verify and os.path.exists('/usr/bin/debsums')
-            and not (notatty or self.options.kudos) and state == 'installed'):
+            and not self.options.kudos and state == 'installed'):
             ewrite('Verifying package integrity...\n')
             rc, output = commands.getstatusoutput('/usr/bin/debsums -s'+
                                                   commands.mkarg(package))
-            if rc:
+            debsumsoutput = output
+
+            if rc and not notatty:
                 if not ui.yes_no(
                     'There may be a problem with your installation of '+package+
                     ';\nthe following files appear to be missing or changed:\n'+
@@ -1768,7 +1770,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             message = utils.generate_blank_report(
                 submitas or package, pkgversion, severity, justification,
                 depinfo, conftext, foundfile, incfiles, bts, exinfo, rtype,
-                klass, subject, tags, body, mode, pseudos)
+                klass, subject, tags, body, mode, pseudos, debsumsoutput)
 
         # Substitute server email address
         if submitto and '@' not in sendto:

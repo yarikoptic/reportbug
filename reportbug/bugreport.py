@@ -39,7 +39,7 @@ class bugreport(object):
     def __init__(self, package, subject='', body='', system='debian',
                  incfiles='', sysinfo=True,
                  followup=False, type='debbugs', mode=utils.MODE_STANDARD,
-                 **props):
+                 debsumsoutput=None, **props):
         self.type = type
         for (k, v) in props.iteritems():
             setattr(self, k, v)
@@ -51,6 +51,7 @@ class bugreport(object):
         self.system = system
         self.incfiles = incfiles
         self.sysinfo = sysinfo
+        self.debsumsoutput = debsumsoutput
 
     def tset(self, value):
         if value not in ('debbugs', 'launchpad'):
@@ -164,6 +165,10 @@ class bugreport(object):
             report += self.depinfo
         if hasattr(self, 'confinfo'):
             report += self.confinfo
+
+        # add debsums output to the bug report
+        if self.debsumsoutput:
+            report += u"\n-- debsums errors found:\n%s\n" % self.debsumsoutput
 
         return report
 

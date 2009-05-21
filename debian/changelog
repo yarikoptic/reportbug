@@ -35,8 +35,19 @@ reportbug (4.3) UNRELEASED; urgency=low
   * doc/README.Users
     - added explanation about what modules are needed to let GTK+ UI works;
       thanks to Leonardo Meira for the report; Closes: #527994
+  * po4a/po/fr.po
+    - proof-read version of French manpage; thanks to Sylvain Cherrier for the
+      report and patch; Closes: #528956
+  * bin/reportbug, reportbug/{bugreport.py, utils.py}
+    - include debsums output into bug report; thanks to Michael Biebl for the
+      report and to Carl Chenet for the patch; Closes: #458572
+    - added debsums output also for --template (non interactive) executions
+  * debian/{control, rules}
+    - added '--install-layout=deb', to prepare for Python 2.6 introduction,
+      updating python requirements to >= 2.5; thanks to Kenneth E Drake for the
+      report and getting back to Debian; Closes: #529660
 
- -- Sandro Tosi <morph@debian.org>  Mon, 11 May 2009 23:55:46 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 21 May 2009 14:47:55 +0200
 
 reportbug (4.2) unstable; urgency=low
 
