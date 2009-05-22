@@ -454,7 +454,7 @@ def offer_configuration(options):
     if options.configure or not options.interface:
         interface = ui.menu(
             'Please choose the default interface for reportbug.', AVAILABLE_UIS,
-            'Select interface: ', options.interface)
+            'Select interface: ', options.interface, order=['text'])
     else:
         interface = options.interface
 
