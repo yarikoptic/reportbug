@@ -1,4 +1,4 @@
-reportbug (4.3) UNRELEASED; urgency=low
+reportbug (4.3) unstable; urgency=low
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py:
@@ -49,7 +49,7 @@ reportbug (4.3) UNRELEASED; urgency=low
       updating python requirements to >= 2.5; thanks to Kenneth E Drake for the
       report and getting back to Debian; Closes: #529660
 
- -- Sandro Tosi <morph@debian.org>  Fri, 22 May 2009 15:43:17 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 24 May 2009 21:54:21 +0200
 
 reportbug (4.2) unstable; urgency=low
 
