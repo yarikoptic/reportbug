@@ -1,3 +1,10 @@
+reportbug (4.4) UNRELEASED; urgency=low
+
+  * reportbug/__init__.py
+    - bump reportbug version
+
+ -- Sandro Tosi <morph@debian.org>  Sun, 24 May 2009 22:31:54 +0200
+
 reportbug (4.3) unstable; urgency=low
 
   [ Luca Bruno ]
