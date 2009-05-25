@@ -2,8 +2,12 @@ reportbug (4.5) UNRELEASED; urgency=low
 
   * reportbug/__init__.py
     - bump reportbug version
+  * reportbug/debianbts.py
+    - force to enter the package name and short description while reporting a
+      wnpp bug; thanks to Sam Morris for the report and to Carl Chenet for the
+      idea about how to fix it; Closes: #456344
 
- -- Sandro Tosi <morph@debian.org>  Mon, 25 May 2009 22:24:50 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 26 May 2009 01:21:13 +0200
 
 reportbug (4.4) unstable; urgency=low
 

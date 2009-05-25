@@ -355,12 +355,15 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
         ui.long_message('To report a bug in a package, use the name of the package, not wnpp.\n')
         raise SystemExit
 
-    if tag in ('RFP', 'ITP'):
-        prompt = 'Please enter the proposed package name: '
-    else:
-        prompt = 'Please enter the name of the package: '
-    package = ui.get_string(prompt)
-    if not package: return
+    # keep asking for package name until one is entered
+    package = ""
+
+    while not package:
+        if tag in ('RFP', 'ITP'):
+            prompt = 'Please enter the proposed package name: '
+        else:
+            prompt = 'Please enter the package name: '
+        package = ui.get_string(prompt)
 
     ui.log_message('Checking status database...\n')
     info = utils.get_package_status(package)
@@ -381,11 +384,13 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
 
         severity = 'wishlist'
 
-        short_desc = ui.get_string(
-            'Please briefly describe this package; this should be an '
-            'appropriate short description for the eventual package: ')
-        if not short_desc:
-            return
+        # keep asking for short description until one is entered
+        short_desc = ""
+
+        while not short_desc:
+            short_desc = ui.get_string(
+                'Please briefly describe this package; this should be an '
+                'appropriate short description for the eventual package: ')
 
         if tag == 'ITP':
             headers.append('X-Debbugs-CC: debian-devel@lists.debian.org')
