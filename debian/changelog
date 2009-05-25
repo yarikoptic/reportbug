@@ -1,11 +1,11 @@
-reportbug (4.4) UNRELEASED; urgency=low
+reportbug (4.4) unstable; urgency=low
 
   * reportbug/__init__.py
     - bump reportbug version
   * bin/reportbug, reportbug/utils.py
     - enforce mua check; thanks to Carl Chenet for the patch; Closes: #530499
 
- -- Sandro Tosi <morph@debian.org>  Mon, 25 May 2009 19:59:43 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 25 May 2009 20:09:10 +0200
 
 reportbug (4.3) unstable; urgency=low
 
