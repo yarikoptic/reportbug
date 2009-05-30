@@ -350,8 +350,9 @@ class BugPage (gtk.EventBox, threading.Thread):
 
     def drop_progressbar (self):
         child = self.get_child ()
-        self.remove (child)
-        child.unparent ()
+        if child:
+            self.remove (child)
+            child.unparent ()
 
     def pulse (self):
         self.progress.pulse ()

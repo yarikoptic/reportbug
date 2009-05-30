@@ -19,8 +19,10 @@ reportbug (4.5) UNRELEASED; urgency=low
   * reportbug/ui/gtk2_ui.py:
     - add get_password() support; thanks to Arian Sanusi for the report;
       Closes: #530685
+    - check whether the progress bar is present or not before dropping it in
+      the bug page; thanks to Arian Sanusi for the report; Closes: #530686
 
- -- Luca Bruno <lethalman88@gmail.com>  Sat, 30 May 2009 21:31:18 +0200
+ -- Luca Bruno <lethalman88@gmail.com>  Sat, 30 May 2009 21:41:34 +0200
 
 reportbug (4.4) unstable; urgency=low
 
