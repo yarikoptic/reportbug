@@ -1,5 +1,6 @@
 reportbug (4.5) UNRELEASED; urgency=low
 
+  [ Sandro Tosi ]
   * reportbug/__init__.py
     - bump reportbug version
   * reportbug/debianbts.py
@@ -14,7 +15,12 @@ reportbug (4.5) UNRELEASED; urgency=low
     - removed support for 'af' mail user agent, since it's no more in Debian;
       thanks to Carl Chenet for the report and (partial) patch; Closes: #529987
 
- -- Sandro Tosi <morph@debian.org>  Sat, 30 May 2009 11:17:56 +0200
+  [ Luca Bruno ]
+  * reportbug/ui/gtk2_ui.py:
+    - add get_password() support; thanks to Arian Sanusi for the report;
+      Closes: #530685
+
+ -- Luca Bruno <lethalman88@gmail.com>  Sat, 30 May 2009 21:31:18 +0200
 
 reportbug (4.4) unstable; urgency=low
 

@@ -620,6 +620,12 @@ class GetStringPage (Page):
 
         self.validate ()
 
+class GetPasswordPage (GetStringPage):
+    def create_widget (self):
+        widget = GetStringPage.create_widget (self)
+        self.entry.set_visibility (False)
+        return widget
+
 class GetMultilinePage (Page):
     def setup_focus (self):
         self.view.grab_focus ()
@@ -1395,6 +1401,7 @@ def get_multiline (prompt, *args, **kwargs):
         return get_multiline (prompt, *args, **kwargs)
 
 pages = { 'get_string': GetStringPage,
+          'get_password': GetPasswordPage,
           'menu': MenuPage,
           'handle_bts_query': HandleBTSQueryPage,
           'show_report': ShowReportPage,
@@ -1459,6 +1466,7 @@ def initialize ():
 
 def test ():
     # Write some tests here
+    print get_password ("test")
     print select_options ('test', 'A', {'a': 'A test'})
     print get_multiline ('ENTER', empty_ok=True)
     print get_string ("test")
