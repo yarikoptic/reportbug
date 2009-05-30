@@ -6,8 +6,11 @@ reportbug (4.5) UNRELEASED; urgency=low
     - force to enter the package name and short description while reporting a
       wnpp bug; thanks to Sam Morris for the report and to Carl Chenet for the
       idea about how to fix it; Closes: #456344
+  * bin/reportbug
+    - offer a default value for UI at configuration time; thanks to Carl Chenet
+      for the repot and patch; Closes: #529981
 
- -- Sandro Tosi <morph@debian.org>  Tue, 26 May 2009 01:21:13 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 30 May 2009 10:42:04 +0200
 
 reportbug (4.4) unstable; urgency=low
 
