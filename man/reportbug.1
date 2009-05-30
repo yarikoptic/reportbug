@@ -40,11 +40,6 @@ Show the version of
 .B reportbug
 and exit.
 .TP
-.B \-a, \-\-af
-Instead of spawning an editor to revise the bug report, use the
-.B af
-mail reader to edit and send it.
-.TP
 .B \-A FILENAME, \-\-attach=FILENAME
 Attach a file to the bug report; both text and binary files are
 acceptable.  This routine will create a MIME attachment with the file
@@ -260,9 +255,9 @@ specified MUA (mail user agent) to edit and send it.  The
 .B option
 should be used to tell your mail reader to interpret the report as a
 draft message.  For examples of how this works, see how the
-.B --mutt, --nmh
+.B --mutt
 and
-.B --af
+.B --nmh
 options are processed.
 .TP
 .B \-n, \-\-nmh, \-\-mh
@@ -504,7 +499,7 @@ for available tags, querybts(1)
 Chris Lawrence <lawrencc@debian.org>.
 
 \"  LocalWords:  reportbug debbugs pathname Debian bts fBdebbugs fP filename fB
-\"  LocalWords:  af Debian's BODYFILE config reportbugrc pre DEBEMAIL gnupg gpg
+\"  LocalWords:  Debian's BODYFILE config reportbugrc pre DEBEMAIL gnupg gpg
 \"  LocalWords:  REPORTBUGEMAIL GnuPG MUA debian Dorman severities KEYID keyid
 \"  LocalWords:  PGP maintonly mta MTA smtphost mua nmh mh pgp http realname
 \"  LocalWords:  replyto wishlist ISP's localhost SMTP tls smtpuser USERNAME

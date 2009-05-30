@@ -754,7 +754,6 @@ CONFIG_ARGS = (
 
 MUA = {
     'mutt' : 'mutt -H',
-    'af' : 'af -EH < ',
     'mh' : '/usr/bin/mh/comp -use -file',
     'gnus' : 'REPORTBUG=%s emacs -l /usr/share/reportbug/reportbug.el -f tfheen-reportbug-insert-template',
     }
@@ -762,7 +761,6 @@ MUA['nmh'] = MUA['mh']
 
 MUAVERSION = {
     MUA['mutt'] : 'mutt -v',
-    MUA[ 'af'] : 'af -v ',
     MUA['mh'] : '/usr/bin/mh/comp -use -file',
     MUA['gnus'] : 'emacs --version',
     }

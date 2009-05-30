@@ -714,9 +714,6 @@ def main():
                       help='send the report using mutt')
     parser.add_option('--mirror', action='append', help='add a BTS mirror',
                       dest='mirrors')
-    parser.add_option('-a', '--af', action='store_const', dest='mua',
-                      const=utils.MUA['af'],
-                      help='send the report using af')
     parser.add_option('-n', '--mh', '--nmh', action='store_const', dest='mua',
                       help='send the report using mh/nmh',
                       const=utils.MUA['mh'])

@@ -145,21 +145,6 @@ msgid "Show the version of B<reportbug> and exit."
 msgstr "Afficher la version de B<reportbug> et s'arrêter."
 
 # type: TP
-#: man/reportbug.1:42
-#, no-wrap
-msgid "B<-a, --af>"
-msgstr "B<-a, --af>"
-
-# type: Plain text
-#: man/reportbug.1:47
-msgid ""
-"Instead of spawning an editor to revise the bug report, use the B<af> mail "
-"reader to edit and send it."
-msgstr ""
-"Utiliser le lecteur de courriel B<af> pour l'édition et l'envoi du rapport "
-"de bogue, plutôt que de lancer un éditeur."
-
-# type: TP
 #: man/reportbug.1:47
 #, no-wrap
 msgid "B<-A FILENAME, --attach=FILENAME>"
@@ -783,7 +768,7 @@ msgid ""
 "Instead of spawning an editor to revise the bug report, use the specified "
 "MUA (mail user agent) to edit and send it.  The B<option> should be used to "
 "tell your mail reader to interpret the report as a draft message.  For "
-"examples of how this works, see how the B<--mutt, --nmh> and B<--af> options "
+"examples of how this works, see how the B<--mutt> and B<--nmh> options "
 "are processed."
 msgstr ""
 "Utiliser le client de messagerie («\\ MUA\\ », Mail User Agent) indiqué pour "
@@ -791,7 +776,7 @@ msgstr ""
 "Le paramètre B<option> doit être utilisé pour préciser à votre lecteur de "
 "courriel qu'il doit interpréter le rapport de bogues en tant de message "
 "brouillon. Pour en savoir plus sur cette façon de fonctionner, regardez "
-"comment les options B<--mutt, --nmh> et B<--af> sont traitées."
+"comment les options B<--mutt> et B<--nmh> sont traitées."
 
 # type: TP
 #: man/reportbug.1:267

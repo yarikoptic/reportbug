@@ -9,8 +9,12 @@ reportbug (4.5) UNRELEASED; urgency=low
   * bin/reportbug
     - offer a default value (text) for UI at configuration time; thanks to Carl
       Chenet for the report and patch; Closes: #529981
+  * bin/reportbug, conf/reportbug.conf, debian/control, man/reportbug.*,
+    po4a/po/*, reportbug/utils.py
+    - removed 'af' mail user agent, since it's no more in Debian; thanks to Carl
+      Chenet for the report and (partial) patch; Closes: #529987
 
- -- Sandro Tosi <morph@debian.org>  Sat, 30 May 2009 11:04:35 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 30 May 2009 11:15:17 +0200
 
 reportbug (4.4) unstable; urgency=low
 
