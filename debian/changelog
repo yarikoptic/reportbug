@@ -7,10 +7,10 @@ reportbug (4.5) UNRELEASED; urgency=low
       wnpp bug; thanks to Sam Morris for the report and to Carl Chenet for the
       idea about how to fix it; Closes: #456344
   * bin/reportbug
-    - offer a default value for UI at configuration time; thanks to Carl Chenet
-      for the repot and patch; Closes: #529981
+    - offer a default value (text) for UI at configuration time; thanks to Carl
+      Chenet for the report and patch; Closes: #529981
 
- -- Sandro Tosi <morph@debian.org>  Sat, 30 May 2009 10:42:04 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 30 May 2009 11:04:35 +0200
 
 reportbug (4.4) unstable; urgency=low
 
