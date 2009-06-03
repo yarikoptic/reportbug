@@ -767,14 +767,29 @@ MUAVERSION = {
 
 def mua_is_supported(mua):
     # check if the mua is supported by reportbug
-    if mua.split()[0] not in MUA:
+    if mua == 'mh' or mua == MUA['mh']:
+        mua = 'mh'
+    elif mua == 'nmh' or mua == MUA['nmh']:
+        mua = 'mh'
+    elif mua == 'gnus' or mua == MUA['gnus']:
+        mua = 'gnus'
+    else:
+        mua = mua.split()[0]
+    if mua not in MUA:
         return False
     else:
         return True
 
 def mua_exists(mua):
     # check if the mua is available on the system
-    mua = MUA[mua.split()[0]]
+    if mua == 'mh' or mua == MUA['mh']:
+        mua = MUA['mh']
+    elif mua == 'nmh' or mua == MUA['nmh']:
+        mua = MUA['mh']
+    elif mua == 'gnus' or mua == MUA['gnus']:
+        mua = MUA['gnus']
+    else:
+        mua = MUA[mua.split()[0]]
     output = '/dev/null'
     if os.path.exists(output):
         try:
