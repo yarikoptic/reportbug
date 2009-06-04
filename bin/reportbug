@@ -553,12 +553,17 @@ def offer_configuration(options):
     if isinstance(realname, str):
         realname = realname.decode(charset, 'replace')
 
-    from_addr = ui.get_string(
-        'Which of your email addresses should be used when sending bug '
-        'reports? (Note that this address will be visible in the bug tracking '
-        'system, so you may want to use a webmail address or another address '
-        'with good spam filtering capabilities.)',
-        default=(options.email or def_email), force_prompt=True)
+    is_addr_ok = False
+    while is_addr_ok != True:
+        from_addr = ui.get_string(
+            'Which of your email addresses should be used when sending bug '
+            'reports? (Note that this address will be visible in the bug tracking '
+            'system, so you may want to use a webmail address or another address '
+            'with good spam filtering capabilities.)',
+            default=(options.email or def_email), force_prompt=True)
+        is_addr_ok = utils.check_email_addr(from_addr)
+        if not is_addr_ok:
+            ewrite('Your email address is not valid; please try another one.\n')
 
     stupidmode = not ui.yes_no(
         'Do you have a "mail transport agent" (MTA) like Exim, Postfix or '
@@ -932,6 +937,12 @@ def main():
 
     # check if attachment files exist, else exiting
     # all are checked, and it doesn't exit at the first missing
+
+    if options.email:
+        if not utils.check_email_addr(options.email):
+            ewrite('Your email address is not valid; exiting.\n')
+            sys.exit(1)
+
     if options.attachments:
         any_missing = False
         for attachment in options.attachments:

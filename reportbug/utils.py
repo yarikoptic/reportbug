@@ -211,6 +211,20 @@ def find_rewritten(username):
                     print 'Invalid entry in %s' % filename
                     return None
 
+def check_email_addr(addr):
+    if '@' not in addr:
+        return False
+    if addr.count('@') != 1:
+        return False
+    localpart, domainpart = addr.split('@')
+    if localpart.startswith('.') or localpart.endswith('.'):
+        return False
+    if '.' not in domainpart:
+        return False
+    if domainpart.startswith('.') or domainpart.endswith('.'):
+        return False
+    return True
+
 def get_email_addr(addr):
     addr = rfc822.AddressList(addr)
     return addr.addresslist[0]
