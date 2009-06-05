@@ -58,7 +58,6 @@ binary-indep: build install
 	dh_testroot
 	dh_installdocs
 	dh_installmenu
-	dh_desktop
 	dh_installman man/*
 	dh_installchangelogs
 	dh_compress

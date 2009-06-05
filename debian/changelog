@@ -25,6 +25,7 @@ reportbug (4.5) UNRELEASED; urgency=low
   * debian/rules
     - use dh_prep instead of "dh_clean -k"
     - improved clean rule
+    - removed dh_desktop call (no-op now)
   * debian/control
     - moved python to b-d (needed for clean) removing python-dev (not needed)
 
@@ -35,7 +36,7 @@ reportbug (4.5) UNRELEASED; urgency=low
     - check whether the progress bar is present or not before dropping it in
       the bug page; thanks to Arian Sanusi for the report; Closes: #530686
 
- -- Sandro Tosi <morph@debian.org>  Fri, 05 Jun 2009 13:10:42 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 05 Jun 2009 13:20:04 +0200
 
 reportbug (4.4) unstable; urgency=low
 
