@@ -21,9 +21,12 @@ clean:
 	dh_testdir
 	dh_testroot
 
-	# Add here commands to clean up after the build process.
+	python setup.py clean
+
 	rm -rf `find . -name '*~' -o -name '.#*' -o -name '*.orig' -o -name '*.rej' -o -name '*.py[co]'` sed-script
 	rm -rf build
+	rm -rf reportbug.egg-info
+
 	po4a --rm-translations po4a/po4a.cfg
 
 	dh_clean
@@ -32,7 +35,7 @@ install: install-stamp
 install-stamp: build-stamp
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 
 	# Add here commands to install the package into debian/reportbug.

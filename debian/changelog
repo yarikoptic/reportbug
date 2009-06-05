@@ -22,6 +22,9 @@ reportbug (4.5) UNRELEASED; urgency=low
       to Carl Chenet for the report and patch; Closes: #531741
   * debian/{compat, control}
     - use debhelper 7
+  * debian/rules
+    - use dh_prep instead of "dh_clean -k"
+    - improved clean rule
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py:
@@ -30,7 +33,7 @@ reportbug (4.5) UNRELEASED; urgency=low
     - check whether the progress bar is present or not before dropping it in
       the bug page; thanks to Arian Sanusi for the report; Closes: #530686
 
- -- Sandro Tosi <morph@debian.org>  Fri, 05 Jun 2009 12:18:45 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 05 Jun 2009 12:53:40 +0200
 
 reportbug (4.4) unstable; urgency=low
 
