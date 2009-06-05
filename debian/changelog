@@ -10,6 +10,9 @@ reportbug (4.5) UNRELEASED; urgency=low
   * bin/reportbug
     - offer a default value (text) for UI at configuration time; thanks to Carl
       Chenet for the report and patch; Closes: #529981
+    - make clear reportbug can work without smtphost, while proposing
+      configuration; thanks to Andrei Popescu for the report and to Carl Chenet
+      for the patch; Closes: #526630
   * bin/reportbug, conf/reportbug.conf, debian/control, man/reportbug.*,
     po4a/po/*, reportbug/utils.py
     - removed support for 'af' mail user agent, since it's no more in Debian;
@@ -25,7 +28,7 @@ reportbug (4.5) UNRELEASED; urgency=low
     - check whether the progress bar is present or not before dropping it in
       the bug page; thanks to Arian Sanusi for the report; Closes: #530686
 
- -- Sandro Tosi <morph@debian.org>  Wed, 03 Jun 2009 23:10:20 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 05 Jun 2009 11:24:47 +0200
 
 reportbug (4.4) unstable; urgency=low
 
