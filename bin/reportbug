@@ -1178,8 +1178,9 @@ class UI(object):
                             packages.append( (src, 'Source package') )
 
                         if len(packages) > 1:
+                            ewrite('Which of the following packages is the bug in?\n')
                             package = ui.menu(
-                                'Which of the following packages is the bug in?',
+                                'Just press ENTER to exit reportbug.',
                                 packages, empty_ok=True,
                                 prompt='Select one of these packages: ')
                         else:
