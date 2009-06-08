@@ -27,5 +27,9 @@ EDITORS: See the manual page reportbug(1) for how to choose an editor.
    be configured to be used as the editor for your report, which you
    may find preferable.
 
+REPORTING: It is useful to include the full transcript of reportbug
+   (with text ui) output, so we can see what it's trying to do and
+   provide a faster and more precise response.
+
 (You may need to press 'q' to exit your pager and continue using
 reportbug at this point.)
