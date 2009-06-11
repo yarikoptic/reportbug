@@ -528,6 +528,15 @@ def offer_configuration(options):
              'don\'t need a user name.' % smtphost), empty_ok=True, force_prompt=True)
     else:
         smtpuser = ''
+
+    http_proxy = ui.get_string(
+       'Please enter the name of your proxy server.  It should only '
+       'use this parameter if you are behind a firewall. '
+       'The PROXY argument should be  formatted as a valid HTTP URL,'
+       ' including (if necessary) a port number;'
+       ' for example, http://192.168.1.1:3128/. '
+       'Just press ENTER if you don\'t have one or don\'t know.',
+       empty_ok=True, force_prompt=True)
     
     if os.path.exists(utils.USERFILE):
         try:
@@ -590,6 +599,10 @@ def offer_configuration(options):
             print >> fp, '# If you need to enter a user name and password:'
             print >> fp, '#smtpuser "my username here"'
             print >> fp, '#smtppasswd "my password here"'
+
+    if http_proxy:
+        print >> fp, '# Your proxy server address'
+        print >> fp, 'http_proxy "%s"' % http_proxy
 
     if stupidmode:
         print >> fp, '# Disable fallback mode by commenting out the following:'
