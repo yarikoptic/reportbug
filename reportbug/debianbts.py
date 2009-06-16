@@ -929,6 +929,11 @@ def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
 
     parser = BTSParser(cgi=True)
     for line in page:
+        try:
+            line = line.decode('utf-8') # BTS pages are encoded in utf-8
+        except UnicodeDecodeError:
+            # page has a bad char
+            line = line.decode('utf-8', 'replace')
         parser.feed(line)
     parser.close()
     try:

@@ -34,10 +34,10 @@ reportbug (4.5) UNRELEASED; urgency=low
   * share/presubj
     - clarified to include the reportbug output when reporting bug agains us;
       thanks for the suggestion to Reuben Thomas (from #532295)
-  * reportbug/ui/text_ui.py
-    - let characterd be replaced with '?' if they can't be represented by UTF8;
-      thanks to Alexandre Rossi for the report and to Carl Chenet for the patch;
-      Closes: #531911
+  * reportbug/{debianbts.py, ui/text_ui.py}
+    - try to decode BTS page as they are parsed, replacing bad UTF-8 character;
+      this will solve all those UTF-8 conversion problems; thanks to Alexandre
+      Rossi for the report and patch; Closes: #531911
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py:
@@ -46,7 +46,7 @@ reportbug (4.5) UNRELEASED; urgency=low
     - check whether the progress bar is present or not before dropping it in
       the bug page; thanks to Arian Sanusi for the report; Closes: #530686
 
- -- Sandro Tosi <morph@debian.org>  Mon, 08 Jun 2009 15:46:12 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Jun 2009 20:31:28 +0200
 
 reportbug (4.4) unstable; urgency=low
 

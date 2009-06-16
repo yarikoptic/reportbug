@@ -613,7 +613,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
 
                 while 1:
                     for line in lastpage:
-                        sys.stderr.write(line.decode('utf-8', "replace").encode(output_encoding, "replace"))
+                        sys.stderr.write(line.encode(output_encoding, "replace"))
                     x = select_options(pstr, options, helptext,
                                        allow_numbers=allowed)
                     if x == 'n':
