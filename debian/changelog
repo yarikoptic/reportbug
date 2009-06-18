@@ -16,6 +16,9 @@ reportbug (4.5) UNRELEASED; urgency=low
     - in case of multiple packages selection, clarified that pressing ENTER only
       will exit reportbug; thanks to Carl Chenet for the report and patch;
       Closes: #532260
+    - add possibility to specify a proxy server when '--configure'; thanks to
+      Chris Chiappa for the report and to Carl Chenet for the patch;
+      Closes: #247885
   * bin/reportbug, conf/reportbug.conf, debian/control, man/reportbug.*,
     po4a/po/*, reportbug/utils.py
     - removed support for 'af' mail user agent, since it's no more in Debian;
@@ -46,7 +49,7 @@ reportbug (4.5) UNRELEASED; urgency=low
     - check whether the progress bar is present or not before dropping it in
       the bug page; thanks to Arian Sanusi for the report; Closes: #530686
 
- -- Sandro Tosi <morph@debian.org>  Tue, 16 Jun 2009 20:31:28 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 18 Jun 2009 12:02:48 +0200
 
 reportbug (4.4) unstable; urgency=low
 
