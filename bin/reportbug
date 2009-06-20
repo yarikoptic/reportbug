@@ -144,6 +144,8 @@ def include_file_in_report(message, message_filename,
 
     return (message, message_filename, attachment_filenames)
 
+# Useful to retrieve CCs given in handle_editing
+CCS = []
 def handle_editing(filename, dmessage, options, sendto, attachments, package,
                    severity, editor=None, charset='utf-8', tags=''):
     if not editor:
@@ -190,10 +192,10 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         if not subject:
             ui.long_message('No subject found in message.  Please edit again.\n')
 
-        menuopts = "Ynaceilmpqdt"
+        menuopts = "Ynaceilmpqdts"
 
         if not changed or not subject:
-            menuopts = "ynacEilmpqdt"
+            menuopts = "ynacEilmpqdts"
 
         # cfr Debian BTS #293361
         if package == 'wnpp':
@@ -222,6 +224,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                                'l': 'Pipe the message through the pager.',
                                'p': 'print message to stdout.',
                                't': 'Add tags.',
+                               's': 'Add a carbon copy.',
                                'm': "Choose a mailer to edit the report."})
 
         if x in ('a', 'i'):
@@ -330,6 +333,16 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     patch = True
                 message = message.replace(oldtags, newtags)
                 open(filename, 'w').write(message.encode(charset, 'replace'))
+        elif x == 's':
+            skip_editing = True
+            ccemail = ui.get_string(
+                ('Please add the email address. Just press ENTER if you '
+                 'don\'t want anymore.'), empty_ok=True, force_prompt=True)
+            if ccemail:
+                CCS.append(ccemail)
+                ewrite('The CC address was added.\n')
+            else:
+                ewrite('No CC address was added.\n')
         elif x == 'y':
             if message == dmessage:
                 x = ui.select_options(
@@ -1883,9 +1896,6 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             listcc += ['Debian Security Team <team@security.debian.org>']
             listcc += ['Debian Testing Security Team <secure-testing-team@lists.alioth.debian.org>']
 
-        if listcc:
-            headers.append('X-Debbugs-CC: '+', '.join(listcc))
-
         # Prepare bug report
         if self.options.kudos:
             message = u'\n\n'
@@ -1969,6 +1979,10 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                             ewrite('%s not found!', attachfile)
                     else:
                         break
+        if CCS:
+            listcc += CCS
+        if listcc:
+            headers.append('X-Debbugs-CC: '+', '.join(listcc))
 
         body, headers, pseudoheaders = utils.cleanup_msg(message,headers,rtype)
 
