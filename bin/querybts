@@ -153,18 +153,19 @@ def main():
         return
 
     if mbox:
-        m = re.match('^#?(\d+)$', args[0])
-        if not m:
-            print >> sys.stderr, "You must specify a bug number when using the --mbox option."
-            sys.exit(1)
-        num = int(m.group(1))
-        url = debianbts.get_report_url(system, num, archived, mbox=True)
-        try:
-            report = urlutils.open_url(url)
-            sys.stdout.write(report.read())
-        except urlutils.urllib2.URLError, ex:
-            print >> sys.stderr, "Error while accessing mbox report (%s)." % ex
-            sys.exit(1)
+        for bugnum in args:
+            m = re.match('^#?(\d+)$', bugnum)
+            if not m:
+                print >> sys.stderr, "You must specify a bug number when using the --mbox option."
+                sys.exit(1)
+            num = int(m.group(1))
+            url = debianbts.get_report_url(system, num, archived, mbox=True)
+            try:
+                report = urlutils.open_url(url)
+                sys.stdout.write(report.read())
+            except urlutils.urllib2.URLError, ex:
+                print >> sys.stderr, "Error while accessing mbox report (%s)." % ex
+                sys.exit(1)
 	return
 
     if interface:
