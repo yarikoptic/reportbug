@@ -34,6 +34,7 @@ reportbug (4.5) UNRELEASED; urgency=low
     - removed dh_desktop call (no-op now)
   * debian/control
     - moved python to b-d (needed for clean) removing python-dev (not needed)
+    - bump Standards-Version to 3.8.2 (no changes needed)
   * share/presubj
     - clarified to include the reportbug output when reporting bug agains us;
       thanks for the suggestion to Reuben Thomas (from #532295)
@@ -49,7 +50,7 @@ reportbug (4.5) UNRELEASED; urgency=low
     - check whether the progress bar is present or not before dropping it in
       the bug page; thanks to Arian Sanusi for the report; Closes: #530686
 
- -- Sandro Tosi <morph@debian.org>  Thu, 18 Jun 2009 12:02:48 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 29 Jun 2009 13:03:43 +0200
 
 reportbug (4.4) unstable; urgency=low
 
