@@ -1,4 +1,4 @@
-reportbug (4.5) UNRELEASED; urgency=low
+reportbug (4.5) unstable; urgency=low
 
   [ Sandro Tosi ]
   * reportbug/__init__.py
@@ -52,7 +52,7 @@ reportbug (4.5) UNRELEASED; urgency=low
     - check whether the progress bar is present or not before dropping it in
       the bug page; thanks to Arian Sanusi for the report; Closes: #530686
 
- -- Sandro Tosi <morph@debian.org>  Mon, 29 Jun 2009 13:26:22 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 29 Jun 2009 18:14:33 +0200
 
 reportbug (4.4) unstable; urgency=low
 
