@@ -118,11 +118,16 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
     signed.close()
 
     if sign == 'gpg':
-        signcmd = "gpg --local-user '%s' --clearsign" % pgp_addr
+        os.unlink(file2)
+        if 'GPG_AGENT_INFO' not in os.environ:
+            signcmd = "gpg --local-user '%s' --clearsign " % pgp_addr
+        else:
+            signcmd = "gpg --local-user '%s' --use-agent --clearsign " % pgp_addr
+        signcmd += '--output '+commands.mkarg(file2)+ ' ' + commands.mkarg(file1)
     else:
         signcmd = "pgp -u '%s' -fast" % pgp_addr
+        signcmd += '<'+commands.mkarg(file1)+' >'+commands.mkarg(file2)
 
-    signcmd += '<'+commands.mkarg(file1)+' >'+commands.mkarg(file2)
     try:
         os.system(signcmd)
         x = file(file2, 'r')
