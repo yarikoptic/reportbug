@@ -5,8 +5,11 @@ reportbug (4.6) UNRELEASED; urgency=low
   * bin/querybts
     - allows to specify multiple bugs number with --mbox; thanks to Trent Buck
       for the report and Carl Chenet for the patch: Closes: #427560
+  * reportbug/submit.py
+    - added support for gnupg-agent with signing emails; thanks to Mathias
+      Brodala or the report and Carl Chenet for the patch: Closes: #435818
 
- -- Sandro Tosi <morph@debian.org>  Fri, 03 Jul 2009 11:41:11 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 03 Jul 2009 12:47:02 +0200
 
 reportbug (4.5) unstable; urgency=low
 
