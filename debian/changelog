@@ -2,8 +2,11 @@ reportbug (4.6) UNRELEASED; urgency=low
 
   * reportbug/__init__.py
     - bump reportbug version
+  * bin/querybts
+    - allows to specify multiple bugs number with --mbox; thanks to Trent Buck
+      for the report and Carl Chenet for the patch: Closes: #427560
 
- -- Sandro Tosi <morph@debian.org>  Fri, 03 Jul 2009 11:18:10 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 03 Jul 2009 11:41:11 +0200
 
 reportbug (4.5) unstable; urgency=low
 
