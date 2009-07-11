@@ -246,13 +246,17 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             if not attachments:
                 ewrite('No attachment file to detached.\n')
             else:
-                detachprompt = 'Choose an attachment file to detach:'
+                detachprompt = 'Choose an attachment file to detach (an empty line will exit): '
                 myattachments = []
                 myattachments = [(x, '') for x in attachments]
                 filetodetach = ui.menu(detachprompt, myattachments,
                     'Select the file:', default='', empty_ok=True)
-                attachments.remove(filetodetach)
-                ewrite('Attachment file successfully detached.\n')
+                # only if selection is not empty and the file is in the attachment list
+                if filetodetach != '' and filetodetach in attachments:
+                    attachments.remove(filetodetach)
+                    ewrite('Attachment file "%s" successfully detached.\n\n', filetodetach)
+                else:
+                    ewrite('Nothing to detach.\n\n')
         elif x == 'c':
             ed = ui.get_filename('Choose editor: ', default=options.editor)
             if ed:

@@ -8,8 +8,11 @@ reportbug (4.6) UNRELEASED; urgency=low
   * reportbug/submit.py
     - added support for gnupg-agent with signing emails; thanks to Mathias
       Brodala or the report and Carl Chenet for the patch: Closes: #435818
+  * bin/reportbug
+    - allow ENTER to exit from file detaching menu (and enforced file checking);
+      thanks to Rodrigo Campos for report and (partial) patch; Closes: 535789
 
- -- Sandro Tosi <morph@debian.org>  Fri, 03 Jul 2009 12:47:02 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 11 Jul 2009 09:17:36 +0200
 
 reportbug (4.5) unstable; urgency=low
 
