@@ -1587,9 +1587,15 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             if special:
                 body = ''
             prompted = True
-            subject = ui.get_string(
-                'Please provide a subject for your response; no subject will '
-                'stop reportbug.', force_prompt=True)
+            subject_ok = False
+            while not subject_ok:
+                subject = ui.get_string(
+                    'Please provide a subject for your response.', force_prompt=True)
+                if not subject:
+                    ewrite("Providing a subject is mandatory.\n")
+                else:
+                    subject_ok = True
+
             # Check to make sure the bug still exists to avoid auto-reopens
             if subject and pkgversion:
                 if not ui.yes_no('Does this bug still exist in version %s '
