@@ -1600,15 +1600,19 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                     pkgversion = None
         elif not subject and not notatty:
             prompted = True
-            subject = ui.get_string(
-                'Please briefly describe your problem (max. 100 characters allowed; you can elaborate in '
-                'a moment; an empty response will stop reportbug).  This will '
-		'be the bug email subject, so write a concise summary of what '
-		'is wrong with the package, for example, "fails to send email" '
-		'or "does not start with -q option specified."', force_prompt=True)
+            subject_ok = False
+            while not subject_ok:
+                subject = ui.get_string(
+                    'Please briefly describe your problem (max. 100 characters allowed; you can elaborate in '
+                    'a moment; an empty response will stop reportbug).  This will '
+            'be the bug email subject, so write a concise summary of what '
+            'is wrong with the package, for example, "fails to send email" '
+            'or "does not start with -q option specified."', force_prompt=True)
 
-        if not subject:
-            efail("No subject specified; stopping.\n")
+                if not subject:
+                    ewrite("Providing a subject is mandatory.\n")
+                else:
+                    subject_ok = True
 
         if len(subject) > 100 and prompted and mode < MODE_EXPERT:
             subject = ui.get_string(
