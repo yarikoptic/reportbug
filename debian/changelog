@@ -11,10 +11,13 @@ reportbug (4.6) UNRELEASED; urgency=low
   * bin/reportbug
     - allow ENTER to exit from file detaching menu (and enforced file checking);
       thanks to Rodrigo Campos for report and (partial) patch; Closes: 535789
-    - do not exit if no subject is entered, keep asking it; thanks Olaf van der
-      Spek for the report and Carl Chenet for the patch: Closes: #537449
+    - do not exit if no subject is entered for new bugs, but keep asking it;
+      thanks to Olaf van der Spek for the report and Carl Chenet for the patch;
+      Closes: #537449
+    - do not exit if no subject is entered for additional information, but keep
+      asking it; thanks to Carl Chenet for the report and patch: Closes: #537624
 
- -- Sandro Tosi <morph@debian.org>  Mon, 20 Jul 2009 15:27:00 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 20 Jul 2009 15:45:40 +0200
 
 reportbug (4.5) unstable; urgency=low
 

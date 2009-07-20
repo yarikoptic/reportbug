@@ -1591,10 +1591,10 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             while not subject_ok:
                 subject = ui.get_string(
                     'Please provide a subject for your response.', force_prompt=True)
-                if not subject:
-                    ewrite("Providing a subject is mandatory.\n")
-                else:
+                if subject:
                     subject_ok = True
+                else:
+                    ewrite("Providing a subject is mandatory.\n")
 
             # Check to make sure the bug still exists to avoid auto-reopens
             if subject and pkgversion:
