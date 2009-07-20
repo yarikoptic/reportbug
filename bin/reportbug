@@ -1607,12 +1607,12 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                     'a moment; an empty response will stop reportbug).  This will '
             'be the bug email subject, so write a concise summary of what '
             'is wrong with the package, for example, "fails to send email" '
-            'or "does not start with -q option specified."', force_prompt=True)
+            'or "does not start with -q option specified" (enter Ctrl+c to exit).', force_prompt=True)
 
-                if not subject:
-                    ewrite("Providing a subject is mandatory.\n")
-                else:
+                if subject:
                     subject_ok = True
+                else:
+                    ewrite("Providing a subject is mandatory.\n")
 
         if len(subject) > 100 and prompted and mode < MODE_EXPERT:
             subject = ui.get_string(
