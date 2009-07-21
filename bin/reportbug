@@ -72,10 +72,12 @@ try:
 except IOError:
     pass
 
+
 # Magic constant time
 MIN_USER_ID = 250
 
 quietly = False
+reporttitle= ''
 
 # Cheat for now.
 # ewrite() may put stuff on the status bar or in message boxes depending on UI
@@ -1600,7 +1602,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             subject_ok = False
             while not subject_ok:
                 subject = ui.get_string(
-                    'Please provide a subject for your response.', force_prompt=True)
+                    'Please provide a subject for your response.', default="Re: %s" % reporttitle, force_prompt=True)
                 if subject:
                     subject_ok = True
                 else:
