@@ -16,8 +16,10 @@ reportbug (4.6) UNRELEASED; urgency=low
       Closes: #537449
     - do not exit if no subject is entered for additional information, but keep
       asking it; thanks to Carl Chenet for the report and patch: Closes: #537624
+    - configuration asks also if 'smtptls' is needed or not; thanks to Jerome
+      Reybert for the report; Closes: #538021
 
- -- Sandro Tosi <morph@debian.org>  Mon, 20 Jul 2009 15:45:40 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 22 Jul 2009 18:05:30 +0200
 
 reportbug (4.5) unstable; urgency=low
 

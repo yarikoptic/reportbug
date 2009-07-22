@@ -533,6 +533,10 @@ def offer_configuration(options):
     else:
         smtpuser = ''
 
+    if smtphost:
+        smtptls = ui.yes_no(
+            'Does your SMTP host require TLS authentication?', 'Yes', 'No', default=False)
+
     http_proxy = ui.get_string(
        'Please enter the name of your proxy server.  It should only '
        'use this parameter if you are behind a firewall. '
@@ -603,6 +607,12 @@ def offer_configuration(options):
             print >> fp, '# If you need to enter a user name and password:'
             print >> fp, '#smtpuser "my username here"'
             print >> fp, '#smtppasswd "my password here"'
+        if smtptls:
+            print >> fp, '# Enable TLS for the SMTP host'
+            print >> fp, 'smtptls'
+        else:
+            print >> fp, '# Enable this option if you need TLS for the SMTP host'
+            print >> fp, '#smtptls'
 
     if http_proxy:
         print >> fp, '# Your proxy server address'
