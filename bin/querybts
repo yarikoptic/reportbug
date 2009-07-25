@@ -152,22 +152,6 @@ def main():
         urlutils.launch_browser(url)
         return
 
-    if mbox:
-        for bugnum in args:
-            m = re.match('^#?(\d+)$', bugnum)
-            if not m:
-                print >> sys.stderr, "You must specify a bug number when using the --mbox option."
-                sys.exit(1)
-            num = int(m.group(1))
-            url = debianbts.get_report_url(system, num, archived, mbox=True)
-            try:
-                report = urlutils.open_url(url)
-                sys.stdout.write(report.read())
-            except urlutils.urllib2.URLError, ex:
-                print >> sys.stderr, "Error while accessing mbox report (%s)." % ex
-                sys.exit(1)
-	return
-
     if interface:
         global ui, ui_mode
         iface = '%(interface)s_ui' % vars()
@@ -181,6 +165,34 @@ def main():
                             interface, msg, ui_mode)
             print
     ui.initialize ()
+
+    if mbox:
+        for bugnum in args:
+            package = bugnum
+            m = re.match('^#?(\d+)$', bugnum)
+            if not m:
+                mboxbuglist = []
+                mboxbuglist = ui.handle_bts_query(package, system, mirrors, http_proxy,
+                                    queryonly=True, title=VERSION, archived=archived,
+                                    source=source, mbox=mbox)
+                for num in mboxbuglist:
+                    url = debianbts.get_report_url(system, num, archived, mbox=True)
+                    try:
+                        report = urlutils.open_url(url)
+                        sys.stdout.write(report.read())
+                    except urlutils.urllib2.URLError, ex:
+                        print >> sys.stderr, "Error while accessing mbox report (%s)." % ex
+            else:
+                num = int(m.group(1))
+                url = debianbts.get_report_url(system, num, archived, mbox=True)
+                try:
+                    report = urlutils.open_url(url)
+                    sys.stdout.write(report.read())
+                except urlutils.urllib2.URLError, ex:
+                    print >> sys.stderr, "Error while accessing mbox report (%s)." % ex
+                    sys.exit(1)
+        return
+
 
     reportre = re.compile(r'^#?(\d+)$')
     try:
