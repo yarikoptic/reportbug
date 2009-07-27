@@ -18,8 +18,12 @@ reportbug (4.6) UNRELEASED; urgency=low
       asking it; thanks to Carl Chenet for the report and patch: Closes: #537624
     - configuration asks also if 'smtptls' is needed or not; thanks to Jerome
       Reybert for the report; Closes: #538021
+  * bin/querybts, man/querybts.1, reportbug/ui/text_ui.py
+    - querybts is now able to handle multiple bug numbers, package names or any
+      mix of them when using --mbox option; thanks to Carl Chenet for the report
+      and patch; Closes: #535560
 
- -- Sandro Tosi <morph@debian.org>  Wed, 22 Jul 2009 18:05:30 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 27 Jul 2009 11:25:14 +0200
 
 reportbug (4.5) unstable; urgency=low
 
