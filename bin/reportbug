@@ -75,7 +75,6 @@ except IOError:
 
 # Magic constant time
 MIN_USER_ID = 250
-
 quietly = False
 reporttitle= ''
 
@@ -145,11 +144,12 @@ def include_file_in_report(message, message_filename,
     return (message, message_filename, attachment_filenames)
 
 def handle_editing(filename, dmessage, options, sendto, attachments, package,
-                   editor=None, charset='utf-8'):
+                   severity, editor=None, charset='utf-8', tags=''):
     if not editor:
         editor = options.editor
     editor = utils.which_editor(editor)
     message = None
+    patch = False
     skip_editing = False
     while True:
         if not skip_editing:
@@ -189,10 +189,10 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         if not subject:
             ui.long_message('No subject found in message.  Please edit again.\n')
 
-        menuopts = "Ynaceilmpqd"
+        menuopts = "Ynaceilmpqdt"
 
         if not changed or not subject:
-            menuopts = "ynacEilmpqd"
+            menuopts = "ynacEilmpqdt"
 
         # cfr Debian BTS #293361
         if package == 'wnpp':
@@ -219,7 +219,8 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                                'c': "Change editor and re-edit.",
                                'e': 'Re-edit the bug report.',
                                'l': 'Pipe the message through the pager.',
-                               'p': 'Print message to stdout.',
+                               'p': 'print message to stdout.',
+                               't': 'Add tags.',
                                'm': "Choose a mailer to edit the report."})
 
         if x in ('a', 'i'):
@@ -287,6 +288,31 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                 os.popen(pager, 'w').write(message.encode(charset, 'replace'))
             else:
                 sys.stdout.write(message.encode(charset, 'replace'))
+        elif x == 't':
+            newtaglist = []
+            skip_editing = True
+            ntags = debianbts.TAGS
+            tagorder = debianbts.TAGLIST
+            newtaglist = ui.select_multiple(
+                'Do any of the following apply to this report?', ntags,
+                'Please select tags: ', order=tagorder,
+                extras=debianbts.EXTRA_TAGS)
+            if newtaglist:
+                oldtags = ''
+                newtags = ''
+                if tags:
+                    oldtags = 'Tags: ' + tags
+                    newtaglist += tags.split()
+                    # suppress twins in the tag list
+                    newtaglist = list(set(newtaglist))
+                    newtags = 'Tags: ' + ' '.join(newtaglist)
+                else:
+                    oldtags = 'Severity: ' + severity + '\n'
+                    newtags = oldtags + 'Tags: ' + ' '.join(newtaglist) + '\n'
+                if 'patch' in newtaglist:
+                    patch = True
+                message = message.replace(oldtags, newtags)
+                open(filename, 'w').write(message.encode(charset, 'replace'))
         elif x == 'y':
             if message == dmessage:
                 x = ui.select_options(
@@ -305,7 +331,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             else:
                 break
 
-    return open(filename).read()
+    return open(filename).read(), patch
 
 def find_package_for(filename, notatty=False, pathonly=False):
     ewrite("Finding package for '%s'...\n", filename)
@@ -1851,9 +1877,12 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             fh.close()
             oldmua = mua or self.options.mua
             if not self.options.body and not self.options.bodyfile:
-                message = handle_editing(filename, message, self.options,
+                message, haspatch = handle_editing(filename, message, self.options,
                                          sendto, attachments, package,
-                                         charset=charset)
+                                         severity, charset=charset, tags=tags)
+                if haspatch:
+                    patch = True    
+
             if not oldmua and self.options.mua:
                 mua = self.options.mua
             if mua:
