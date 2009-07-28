@@ -194,13 +194,31 @@ def main():
             match = reportre.match(package)
             if match:
                 report = int(match.group(1))
-                return ui.show_report(report, options.system, options.mirrors,
-                                      options.http_proxy, queryonly=True,
-                                      title=VERSION,
-                                      archived=options.archived)
-        ui.handle_bts_query(package, options.system, options.mirrors, options.http_proxy,
-                            queryonly=True, title=VERSION, archived=options.archived,
-                            source=options.source, buglist=options.buglist)
+                while 1 :
+                    retvalue = ui.show_report(report, options.system, options.mirrors,
+                                          options.http_proxy, queryonly=True,
+                                          title=VERSION,
+                                          archived=options.archived)
+                    ui.long_message('This option is not available while using querybts alone.\n')
+                    x = ui.select_options('What do you want to do now?', 'Qb',
+                                          {'q': 'Exit querybts.',
+                                           'b': 'Query BTS one more time.'})
+                    if x == 'q':
+                        ui.long_message('Exiting.\n')
+                        sys.exit(0)
+
+        while 1:
+            ui.handle_bts_query(package, options.system, options.mirrors, options.http_proxy,
+                                queryonly=True, title=VERSION, archived=options.archived,
+                                source=options.source, buglist=options.buglist)
+            ui.long_message('This option is not available while using querybts alone.\n')
+            x = ui.select_options('What do you want to do now?', 'Qb',
+                                  {'q': 'Exit querybts.',
+                                   'b': 'Query BTS one more time.'})
+            if x == 'q':
+                ui.long_message('Exiting.\n')
+                sys.exit(0)
+
     except NoPackage:
         ui.long_message('Package appears not to exist in the BTS.\n')
     except NoBugs:
