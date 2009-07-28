@@ -1881,7 +1881,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                                          sendto, attachments, package,
                                          severity, charset=charset, tags=tags)
                 if haspatch:
-                    patch = True    
+                    patch = True
 
             if not oldmua and self.options.mua:
                 mua = self.options.mua
