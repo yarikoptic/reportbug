@@ -51,6 +51,7 @@ USAGE = ("querybts - Examine the state of a debbugs server.\n\n"
          "Usage: querybts [options] {<package> | <report number> [report2] ...}\n"
          "Supported options (see man page for long forms):\n"
          "  -A: Browse archived bugs.\n"
+         "  -b: Display a bugs list for the given package.\n"
          "  -B: Specify an alternate debbugs BTS. *\n"
          "  -h: Display this help message.\n"
          "  -s: Query for source packages rather than binary packages.\n"
@@ -66,6 +67,7 @@ def main():
     use_browser = source = False
     mirrors = None
     mbox = False
+    buglist = False
 
     args = utils.parse_config_files()
     for option, arg in args.items():
@@ -80,11 +82,12 @@ def main():
 
     try:
         (opts, args) = getopt.getopt(
-            sys.argv[1:], 'AB:hlmsuvw', ['help', 'version',
+            sys.argv[1:], 'AB:bhlmsuvw', ['help', 'version',
                                         'bts=', 'web', 'mbox',
                                         'archive', 'source',
                                         'http_proxy=', 'proxy=',
-                                        'ui=', 'interface='])
+                                        'ui=', 'interface=',
+                                        'buglist'])
     except getopt.error, msg:
         print msg
         sys.exit(1)
@@ -100,6 +103,8 @@ def main():
             http_proxy = arg
         elif option in ('-m', '--mbox'):
             mbox = True
+        elif option in ('-b', '--buglist'):
+            buglist = True
         elif option in ('--archive', '-A'):
             archived = True
         elif option in ('-s', '--source'):
@@ -142,6 +147,9 @@ def main():
         sys.exit(1)
 
     if use_browser:
+        if use_browser and buglist:
+            print "--web and --buglist can't work together, exiting."
+            sys.exit(1)
         package = args[0]
         m = re.match('^#?(\d+)$', package)
         if m:
@@ -167,6 +175,9 @@ def main():
     ui.initialize ()
 
     if mbox:
+        if mbox and buglist:
+            print "--mbox and --buglist can't work together, exiting."
+            sys.exit(1)
         for bugnum in args:
             package = bugnum
             m = re.match('^#?(\d+)$', bugnum)
@@ -216,7 +227,7 @@ def main():
                                       archived=archived)
         ui.handle_bts_query(package, system, mirrors, http_proxy,
                             queryonly=True, title=VERSION, archived=archived,
-                            source=source)
+                            source=source, buglist=buglist)
     except NoPackage:
         ui.long_message('Package appears not to exist in the BTS.\n')
     except NoBugs:

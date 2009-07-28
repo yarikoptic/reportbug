@@ -25,12 +25,15 @@ reportbug (4.6) UNRELEASED; urgency=low
     - querybts is now able to handle multiple bug numbers, package names or any
       mix of them when using --mbox option; thanks to Carl Chenet for the report
       and patch; Closes: #535560
+    - added -b/--buglist option to display a bugs list for the given package;
+      thanks to Andrew Ferrier for the report and Carl Chenet for the patch;
+      Closes: #222621
   * bin/reportbug, reportbug/ui/text_ui.py
     - provide a default reply subject ('Re: ' + <original subject>) when
       providing additional information to a bug report; thanks to Carl Chenet
       for the report and patch; Closes: #537929
 
- -- Sandro Tosi <morph@debian.org>  Tue, 28 Jul 2009 11:39:11 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 28 Jul 2009 12:17:33 +0200
 
 reportbug (4.5) unstable; urgency=low
 

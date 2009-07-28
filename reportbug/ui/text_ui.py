@@ -466,7 +466,7 @@ def show_report(number, system, mirrors,
 
 def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
-                     source=False, version=None, mbox=False):
+                     source=False, version=None, mbox=False, buglist=None):
     root = debianbts.SYSTEMS[bts].get('btsroot')
     if not root:
         ewrite('%s bug tracking system has no web URL; bypassing query\n',
@@ -515,6 +515,21 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                     if match:
                         mboxbuglist.append(int(match.group(1)))
             return mboxbuglist
+
+        if buglist:
+            for entry in hierarchy:
+                # second item is a list of bugs report
+                for bug in entry[1]:
+                    match = bug_re.match(bug)
+                    if match:
+                        # we take the info we need (bug number and subject)
+                        #bugs_new.append("#" + match.group(1) + "  " + match.group(2))
+                        # and at the same time create a list of bug number
+                        #bugs.append(int(match.group(1)))
+                        msg = "#" + match.group(1) + "  " + match.group(2)
+                        msg = msg.encode(charset, 'replace')
+                        print msg
+            sys.exit(0)
 
         for entry in hierarchy:
             # first item is the title of the section
