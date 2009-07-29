@@ -262,6 +262,8 @@ def get_password(prompt=None):
     return getpass.getpass(prompt)
 
 def FilenameCompleter(text, i):
+    text = os.path.expanduser(text)
+    text = os.path.expandvars(text)
     paths = glob.glob(text+'*')
     if not paths: return None
 
