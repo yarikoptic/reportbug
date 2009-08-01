@@ -559,7 +559,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
             ewrite('%d bug reports found:\n\n', count)
 
         return browse_bugs(hierarchy, count, bugs, bts, queryonly,
-                           mirrors, http_proxy, screen, title)
+                           mirrors, http_proxy, screen, title, package)
 
     except (IOError, NoNetwork):
         ewrite('Unable to connect to %s BTS; ', debianbts.SYSTEMS[bts]['name'])
@@ -570,7 +570,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
             raise NoNetwork
 
 def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
-                http_proxy, screen, title):
+                http_proxy, screen, title, package):
     try:
         output_encoding = locale.getpreferredencoding()
     except locale.Error, msg:
@@ -615,8 +615,8 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                 if endcount == count:
                     skipmsg = ''
 
-                options = 'yNmrqsf'
-                if queryonly: options = 'Nmrqf'
+                options = 'yNbmrqsf'
+                if queryonly: options = 'Nbmrqf'
 
                 rstr = "(%d-%d/%d) " % (startcount, endcount, count)
                 pstr = rstr + "Is the bug you found listed above"
@@ -628,6 +628,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                     'add extra information.',
                     'n' : 'Problem not listed above; possibly '
                     'check more.',
+                    'b' : 'Open the complete bug list in your web browser.',
                     'm' : 'Get more information about a bug (you '
                     'can also enter a number\n'
                     '     without selecting "m" first).',
@@ -647,6 +648,9 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                     if x == 'n':
                         lastpage = []
                         break
+                    elif x == 'b':
+                        launch_browser('http://bugs.debian.org/%s' % package)
+                        continue
                     elif x == 'r':
                         continue
                     elif x == 'q':
@@ -680,7 +684,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
 		    elif x == 'f':
 			# Do filter. Recursive done.
 			retval = search_bugs(hierarchy,bts, queryonly, mirrors,
-                                             http_proxy, screen, title)
+                                             http_proxy, screen, title, package)
 			if retval in ["FilterEnd", "Top"]:
 			    continue
 			else:
@@ -749,7 +753,7 @@ def proc_hierarchy(hierarchy):
     return count, bugs
 
 def search_bugs(hierarchyfull, bts, queryonly, mirrors,
-                http_proxy, screen, title):
+                http_proxy, screen, title, package):
     """Search for the bug list using a pattern."""
     """Return string "FilterEnd" when we are done with search."""
 
@@ -813,8 +817,8 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                 if endcount == count:
                     skipmsg = ''
 
-                options = 'yNmrqsfut'
-                if queryonly: options = 'Nmrqfut'
+                options = 'yNbmrqsfut'
+                if queryonly: options = 'Nmbrqfut'
 
                 rstr = "(%d-%d/%d) " % (startcount, endcount, count)
                 pstr = rstr + "Is the bug you found listed above"
@@ -826,6 +830,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                     'add extra information.',
                     'n' : 'Problem not listed above; possibly '
                     'check more.',
+                    'b' : 'Open the complete bug list in your web browser.',
                     'm' : 'Get more information about a bug (you '
                     'can also enter a number\n'
                     '     without selecting "m" first).',
@@ -846,6 +851,8 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                     if x == 'n':
                         lastpage = []
                         break
+                    elif x == 'b':
+                        launch_browser('http://bugs.debian.org/%s' % package)
                     elif x == 'r':
                         continue
                     elif x == 'q':
