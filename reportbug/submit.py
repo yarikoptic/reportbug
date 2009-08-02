@@ -435,7 +435,27 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         ewrite("Spawning %s...\n", bit or mua)
         if '%s' not in mua:
             mua += ' %s'
-        ui.system(mua % commands.mkarg(filename)[1:])
+        returnvalue = 0
+        succeeded = False
+        while not succeeded:
+            returnvalue = ui.system(mua % commands.mkarg(filename)[1:])
+            if returnvalue != 0:
+                ewrite("Mutt users should be aware it is mandatory to edit the draft before sending.\n")
+                mtitle = 'Sending the report has failed; What now?'
+                mopts = 'Eq'
+                moptsdesc = {'e' : 'Edit the message.',
+                'q' : 'Quit reportbug;Will save your report for a next use.'}
+                x = ui.select_options(mtitle, mopts, moptsdesc)
+                if x == 'q':
+                    failed = True
+                    fh, msgname = TempFile(prefix=tfprefix)
+                    fh.write(message)
+                    fh.close()
+                    ewrite('Original write failed, wrote bug report to %s\n', msgname)
+                    succeeded = True
+            else:
+                succeeded = True
+
     elif not failed and (using_sendmail or smtphost):
         if kudos:
             ewrite('\nMessage sent to: %s\n', sendto)

@@ -74,7 +74,8 @@ def system(cmdline):
         x = os.getcwd()
     except OSError:
         os.chdir('/')
-    os.system(cmdline)
+    returnvalue = os.system(cmdline)
+    return returnvalue
 
 def indent_wrap_text(text, starttext='', indent=0, linelen=None):
     """Wrapper for textwrap.fill to the existing API."""
