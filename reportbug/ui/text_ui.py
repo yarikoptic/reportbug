@@ -628,7 +628,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                     'add extra information.',
                     'n' : 'Problem not listed above; possibly '
                     'check more.',
-                    'b' : 'Open the complete bug list in your web browser.',
+                    'b' : 'Open the complete bugs list in a web browser.',
                     'm' : 'Get more information about a bug (you '
                     'can also enter a number\n'
                     '     without selecting "m" first).',
@@ -830,7 +830,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                     'add extra information.',
                     'n' : 'Problem not listed above; possibly '
                     'check more.',
-                    'b' : 'Open the complete bug list in your web browser.',
+                    'b' : 'Open the complete bugs list in a web browser.',
                     'm' : 'Get more information about a bug (you '
                     'can also enter a number\n'
                     '     without selecting "m" first).',
