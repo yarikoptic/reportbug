@@ -441,10 +441,10 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             returnvalue = ui.system(mua % commands.mkarg(filename)[1:])
             if returnvalue != 0:
                 ewrite("Mutt users should be aware it is mandatory to edit the draft before sending.\n")
-                mtitle = 'Sending the report has failed; What now?'
+                mtitle = 'Report has not been sent yet; what do you want to do now?'
                 mopts = 'Eq'
                 moptsdesc = {'e' : 'Edit the message.',
-                'q' : 'Quit reportbug;Will save your report for a next use.'}
+                'q' : 'Quit reportbug; will save the draft for future use.'}
                 x = ui.select_options(mtitle, mopts, moptsdesc)
                 if x == 'q':
                     failed = True
