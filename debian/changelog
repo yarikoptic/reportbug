@@ -32,8 +32,12 @@ reportbug (4.6) UNRELEASED; urgency=low
     - provide a default reply subject ('Re: ' + <original subject>) when
       providing additional information to a bug report; thanks to Carl Chenet
       for the report and patch; Closes: #537929
+  * reportbug/ui/text_ui.py
+    - allow to open a browser with the complete packages' bugs list; thanks to
+      Eduard Bloch for the report and to Carl Chenet for the patch;
+      Closes: #166168
 
- -- Sandro Tosi <morph@debian.org>  Tue, 28 Jul 2009 12:17:33 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 10 Aug 2009 16:26:48 +0200
 
 reportbug (4.5) unstable; urgency=low
 
