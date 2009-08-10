@@ -36,8 +36,12 @@ reportbug (4.6) UNRELEASED; urgency=low
     - allow to open a browser with the complete packages' bugs list; thanks to
       Eduard Bloch for the report and to Carl Chenet for the patch;
       Closes: #166168
+  * reportbug/submit.py, reportbug/ui/text_ui.py
+    - if MUA returns an error, notify the user allowing to re-edit the mail
+      (without loosing the mail); thanks to Raphaël Hertzog for the report and
+      to Carl Chenet for the patch; Closes: #529251
 
- -- Sandro Tosi <morph@debian.org>  Mon, 10 Aug 2009 16:26:48 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 10 Aug 2009 16:53:04 +0200
 
 reportbug (4.5) unstable; urgency=low
 
