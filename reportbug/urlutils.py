@@ -162,8 +162,8 @@ def open_url(url, http_proxy=None):
     return page
 
 def launch_browser(url):
-    if not os.system('command -v sensible-browser &> /dev/null'):
-        cmd = 'sensible-browser' + commands.mkarg(url)
+    if not os.system('command -v xdg-open &> /dev/null'):
+        cmd = 'xdg-open' + commands.mkarg(url)
         os.system(cmd)
         return
 

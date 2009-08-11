@@ -43,8 +43,12 @@ reportbug (4.6) UNRELEASED; urgency=low
     - if MUA returns an error, notify the user allowing to re-edit the mail
       (without loosing the mail); thanks to Raphaël Hertzog for the report and
       to Carl Chenet for the patch; Closes: #529251
+  * reportbug/urlutils.py
+    - use xdg-open instead of sensible-browser to open URLs: it uses the
+      selected browser in the desktop environment, else it falls back to s-b;
+      thanks to Alexandre Fournier for the report; Closes: #536873
 
- -- Sandro Tosi <morph@debian.org>  Mon, 10 Aug 2009 20:19:48 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 11 Aug 2009 23:40:56 +0200
 
 reportbug (4.5) unstable; urgency=low
 
