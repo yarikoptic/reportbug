@@ -403,12 +403,16 @@ def show_report(number, system, mirrors,
 
     if not info:
         ewrite('No report available: #%s\n', number)
-        return
+        raise NoBugs
+
+    # extract the package name
+    foundpackage = info[1][0].split('Package: ')[1].split('\n')[0]
 
     (title, messages) = info
     # save report subject in main
     m = sys.modules['__main__']
     m.reporttitle = ' '.join(title.split()[2:])
+    m.foundpackage = foundpackage
 
     current_message = 0
     skip_pager = False

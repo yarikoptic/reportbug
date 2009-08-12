@@ -36,6 +36,7 @@ import commands
 import rfc822
 import gettext
 import textwrap
+import re
 
 from reportbug import utils
 from reportbug import (
@@ -77,6 +78,7 @@ except IOError:
 MIN_USER_ID = 250
 quietly = False
 reporttitle= ''
+foundpackage = ''
 
 # Cheat for now.
 # ewrite() may put stuff on the status bar or in message boxes depending on UI
@@ -772,6 +774,8 @@ def main():
     parser.add_option('-n', '--mh', '--nmh', action='store_const', dest='mua',
                       help='send the report using mh/nmh',
                       const=utils.MUA['mh'])
+    parser.add_option('-N', '--bugnumber', action='store_true',
+                      dest='bugnumber',help='Specify a bug number to look for')
     parser.add_option('--mua', dest='mua',
                       help='send the report using the specified mailer')
     parser.add_option('--mta', dest='mta', help='send the report using the '
@@ -999,6 +1003,10 @@ class UI(object):
         rtype = self.options.type or sysinfo.get('type')
         attachments = self.options.attachments
         pgp_addr = self.options.keyid
+        bugnumber = self.options.bugnumber
+
+        if bugnumber:
+            dontquery = True
 
         if self.options.body:
             body = textwrap.fill(self.options.body)
@@ -1191,6 +1199,29 @@ class UI(object):
                      package not in sysinfo.get('nonvirtual', []))
         issource = installed = usedavail = False
         status = None
+
+        exinfo = None
+        try:
+            if bugnumber:
+                reportre = re.compile(r'^#?(\d+)$')
+                match = reportre.match(package)
+                if match:
+                    report = int(match.group(1))
+                    exinfo = ui.show_report(report, 'debian', self.options.mirrors,
+                                          self.options.http_proxy, queryonly=True,
+                                          title=VERSION,
+                                          archived=False)
+                    if foundpackage:
+                        package = foundpackage
+                    if not exinfo:
+                        dontquery = False
+                        bugnumber = False
+                else:
+                    efail("The report bug number you have provided does not match usual pattern.\n")
+        except NoBugs:
+            efail('No bug reports found.\n')
+        except NoReport:
+            efail('Exiting.\n')
 
         if not pkgversion and self.options.querydpkg and \
                sysinfo.get('query-dpkg', True):
@@ -1386,7 +1417,7 @@ class UI(object):
 
         if not pkgversion or usedavail or (not pkgavail and
                                            not self.options.pkgversion):
-            if not (isvirtual or notatty):
+            if not bugnumber and not (isvirtual or notatty):
                 pkgversion = ui.get_string('Please enter the version of the '
                                            'package this report applies to '
                                            '(blank OK)', empty_ok=True, force_prompt=True)
@@ -1482,7 +1513,8 @@ class UI(object):
                     dontquery = True
                 special = True
 
-        exinfo = None
+
+
         if not (dontquery or notatty or self.options.kudos):
             pkg, src = package, issource
             if self.options.query_src:
@@ -1643,7 +1675,6 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                     subject_ok = True
                 else:
                     ewrite("Providing a subject is mandatory.\n")
-
             # Check to make sure the bug still exists to avoid auto-reopens
             if subject and pkgversion:
                 if not ui.yes_no('Does this bug still exist in version %s '
