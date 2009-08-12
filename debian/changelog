@@ -1,4 +1,4 @@
-reportbug (4.6) UNRELEASED; urgency=low
+reportbug (4.6) unstable; urgency=low
 
   * reportbug/__init__.py
     - bump reportbug version
@@ -48,7 +48,7 @@ reportbug (4.6) UNRELEASED; urgency=low
       selected browser in the desktop environment, else it falls back to s-b;
       thanks to Alexandre Fournier for the report; Closes: #536873
 
- -- Sandro Tosi <morph@debian.org>  Wed, 12 Aug 2009 09:37:04 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 12 Aug 2009 10:57:03 +0200
 
 reportbug (4.5) unstable; urgency=low
 
