@@ -1,3 +1,11 @@
+reportbug (4.7) UNRELEASED; urgency=low
+
+  * debian/control
+    - replace python-gnome2-extras with python-gtkspell in Suggests; thanks to
+      Josselin Mouette for the report; Closes: #541598
+
+ -- Sandro Tosi <morph@debian.org>  Fri, 14 Aug 2009 22:35:18 +0200
+
 reportbug (4.6) unstable; urgency=low
 
   * reportbug/__init__.py
