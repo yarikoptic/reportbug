@@ -892,7 +892,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
 		    elif x == 'f':
 			# Do filter. Recursive done.
 			retval = search_bugs(hierarchy, bts, queryonly, mirrors,
-			    http_proxy, screen, title)
+			    http_proxy, screen, title, package)
 			if retval == "FilterEnd":
 			    continue
 			else:
