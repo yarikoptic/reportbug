@@ -759,6 +759,12 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
     """Search for the bug list using a pattern."""
     """Return string "FilterEnd" when we are done with search."""
 
+    try:
+        output_encoding = locale.getpreferredencoding()
+    except locale.Error, msg:
+        print msg
+        sys.exit(1)
+
     pattern = our_raw_input(
 	'Enter the search pattern (a Perl-compatible regular expression)\n'
 	'or press ENTER to exit: ')
@@ -847,7 +853,8 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                     helptext['n'] = helptext['n'][:-1]+' (skip to Next page).'
 
                 while 1:
-                    sys.stderr.writelines(lastpage)
+                    for line in lastpage:
+                        sys.stderr.write(line.encode(output_encoding, "replace"))
                     x = select_options(pstr, options, helptext,
                                        allow_numbers=allowed)
                     if x == 'n':
