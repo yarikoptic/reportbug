@@ -5,8 +5,12 @@ reportbug (4.7) UNRELEASED; urgency=low
   * debian/control
     - replace python-gnome2-extras with python-gtkspell in Suggests; thanks to
       Josselin Mouette for the report; Closes: #541598
+  * reportbug/ui/text_ui.py
+    - nomore use writelines() when filtering, but loop over lines then decode an
+      print one by one; thanks to Jakub Wilk for the report and Carl Chenet for
+      the patch: Closes: #541791
 
- -- Sandro Tosi <morph@debian.org>  Fri, 14 Aug 2009 22:36:28 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 18 Aug 2009 08:32:46 +0200
 
 reportbug (4.6) unstable; urgency=low
 
