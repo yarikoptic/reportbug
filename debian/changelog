@@ -9,8 +9,11 @@ reportbug (4.7) UNRELEASED; urgency=low
     - nomore use writelines() when filtering, but loop over lines then decode an
       print one by one; thanks to Jakub Wilk for the report and Carl Chenet for
       the patch: Closes: #541791
+    - correctly call search_bugs() when filtering bugs (now passing package
+      too); thanks to Vincent Lefevre for the report and Carl Chenet for the
+      patch: Closes: #541408, #542119
 
- -- Sandro Tosi <morph@debian.org>  Tue, 18 Aug 2009 08:32:46 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 18 Aug 2009 08:37:35 +0200
 
 reportbug (4.6) unstable; urgency=low
 
