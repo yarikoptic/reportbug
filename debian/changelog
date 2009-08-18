@@ -12,8 +12,12 @@ reportbug (4.7) UNRELEASED; urgency=low
     - correctly call search_bugs() when filtering bugs (now passing package
       too); thanks to Vincent Lefevre for the report and Carl Chenet for the
       patch: Closes: #541408, #542119
+  * reportbug/utils.py
+    - 'ldap' and 'no-ldap' options now issue a "Unrecognized token" warning:
+       LDAP support is gone since years; thanks to martin f krafft for the
+       report; Closes: #271057
 
- -- Sandro Tosi <morph@debian.org>  Tue, 18 Aug 2009 08:37:35 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 18 Aug 2009 09:39:44 +0200
 
 reportbug (4.6) unstable; urgency=low
 

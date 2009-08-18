@@ -844,8 +844,6 @@ def parse_config_files():
                     args['dontquery'] = (token == 'no-query-bts')
                 elif token in ('config-files', 'no-config-files'):
                     args['noconf'] = (token == 'no-config-files')
-                elif token in ('ldap', 'no-ldap'):
-                    pass
                 elif token in ('printonly', 'template', 'offline'):
                     args[token] = True
                 elif token in ('email', 'realname', 'replyto', 'http_proxy',
