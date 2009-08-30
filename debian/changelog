@@ -1,5 +1,6 @@
 reportbug (4.7) UNRELEASED; urgency=low
 
+  [ Sandro Tosi ]
   * reportbug/__init__.py
     - bump reportbug version
   * debian/control
@@ -16,6 +17,9 @@ reportbug (4.7) UNRELEASED; urgency=low
     - 'ldap' and 'no-ldap' options now issue a "Unrecognized token" warning:
        LDAP support is gone since years; thanks to martin f krafft for the
        report; Closes: #271057
+
+  [ Pierre Habouzit ]
+  * Add support for the release.debian.org pseudo-package.
 
  -- Sandro Tosi <morph@debian.org>  Tue, 18 Aug 2009 09:39:44 +0200
 

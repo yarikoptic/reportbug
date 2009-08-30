@@ -317,6 +317,120 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     return (subject, severity, headers, pseudos, body, query)
 
 
+def handle_debian_release(package, bts, ui, fromaddr, online=True, http_proxy=None):
+    body = ''
+    headers = []
+    pseudos = []
+    query = True
+    archs = None
+    version = None
+
+    tag = ui.menu('What sort of request is this?  (If none of these '
+                  'things mean anything to you, or you are trying to report '
+                  'a bug in an existing package, please press Enter to '
+                  'exit reportbug.)', {
+        'binnmu':           "binNMU requests",
+        'transition':       "transition tracking",
+        'unblock':          "unblock requests",
+        'freeze-exception': "Freeze exceptions",
+        'opu':              "oldstable proposed updates requests",
+        'pu':               "stable proposed updates requests",
+        'rm':               "Stable/Testing removal requests",
+        'other' :           "None of the above",
+        }, 'Choose the request type: ', empty_ok=True)
+    if not tag:
+        ui.long_message('To report a bug in a package, use the name of the package, not release.debian.org.\n')
+        raise SystemExit
+
+    severity = 'normal'
+    if tag == 'other':
+        return
+
+    prompt  = 'Please enter the name of the package: '
+    package = ui.get_string(prompt)
+    if not package:
+        ui.log_message('You seem to want to report a generic bug, not request a removal\n')
+        return
+
+    ui.log_message('Checking status database...\n')
+    info = utils.get_package_status(package)
+    available = info[1]
+
+    query = False
+    if not available:
+        info = utils.get_source_package(package)
+        if info:
+            info = utils.get_package_status(info[0][0])
+
+    if not info:
+        cont = ui.select_options(
+            "This package doesn't appear to exist; continue?",
+            'yN', {'y': 'Ignore this problem and continue.',
+                   'n': 'Exit without filing a report.' })
+        if cont == 'n':
+            sys.exit(1)
+    else:
+        package = info[12] or package
+
+    if tag in ('binnmu', 'unblock', 'freeze-exceptions', 'opu', 'pu', 'rm'):
+        # FIXME: opu/pu/rm should lookup the version elsewhere
+        version = info and info[0]
+        if version:
+            cont = ui.select_options(
+                "Latest version seems to be %s, is this the proper one ?" % (version),
+                "Yn", {'y': "This is the correct version",
+                       'n': "Enter the proper vesion"})
+            if cont == 'n':
+                version = None
+        if not version:
+            version = ui.get_string('Please enter the version of the package: ')
+            if not version:
+                ui.log_message("A version is required for action %s, not sending bug\n" % (tag))
+                return
+
+    if tag in ('binnmu'):
+        partial = ui.select_options(
+            "Is this request for specific architectures?",
+            'yN', {'y': 'This is a partial (specific architectures) removal.',
+                   'n': 'This removal is for all architectures.' })
+        if partial == 'y':
+            prompt = 'Please enter the arch list separated by a space: '
+            archs = ui.get_string(prompt)
+            if not archs:
+                ui.long_message('Partial removal requests must have a list of architectures.\n')
+                raise SystemExit
+
+    pseudos.append("User: debian-release@lists.debian.org")
+    pseudos.append("Usertags: %s" % (tag))
+
+    if tag == 'binnmu':
+        reason  = ui.get_string("binNMU changelog entry: ")
+        subject = "nmu: %s/%s" % (package, version)
+        body    = "nmu %s/%s . %s . -m \"%s\"\n" % (package, version, archs, reason)
+    elif tag == 'transition':
+        subject = 'transition: %s' % (package)
+        body    = '(please explain about the transition: impacted packages, reason, ...)\n'
+    elif tag == 'unblock' or tag == 'freeze-exception':
+        subject = 'unblock: %s/%s' % (package, version)
+        body    = textwrap.dedent(u"""\
+                Please unblock package %s
+
+                (explain the reason for the unblock here)
+
+                unblock %s/%s
+                """ % (package, package, version))
+    elif tag == 'pu' or tag == 'opu':
+        subject = '%s: package %s/%s' % (tag, package, version)
+        body    = '(please explain the reason for this update here)\n'
+    elif tag == 'rm':
+        if archs:
+            subject = 'RM: %s/%s [%s]' % (package, version, archs)
+        else:
+            subject = 'RM: %s/%s' % (package, version)
+        body = ''
+
+    return (subject, severity, headers, pseudos, body, query)
+
 itp_template = textwrap.dedent(u"""\
     * Package name    : %(package)s
       Version         : x.y.z
@@ -478,7 +592,8 @@ SYSTEMS = { 'debian' :
               'nonvirtual' : ['linux-image', 'kernel-image'],
               'specials' :
                 { 'wnpp': handle_wnpp,
-                  'ftp.debian.org': handle_debian_ftp },
+                  'ftp.debian.org': handle_debian_ftp,
+                  'release.debian.org': handle_debian_release },
               # Dependency packages
               'deppkgs' : ('gcc', 'g++', 'cpp', 'gcj', 'gpc', 'gobjc',
                            'chill', 'gij', 'g77', 'python', 'python-base',
