@@ -486,7 +486,7 @@ def offer_configuration(options):
     if options.configure or not options.interface:
         interface = ui.menu(
             'Please choose the default interface for reportbug.', AVAILABLE_UIS,
-            'Select interface: ', options.interface, order=['text'])
+            'Select interface: ', options.interface, order=['text', 'urwid', 'gtk2'])
     else:
         interface = options.interface
 
@@ -928,15 +928,21 @@ def main():
 
         try:
             lib_package = __import__('reportbug.ui', fromlist=[iface])
-            ui = getattr(lib_package, iface)
+            newui = getattr(lib_package, iface)
         except UINotImportable, msg:
             ui.long_message('*** Unable to import %s interface: %s '
                             'Falling back to text interface.\n',
                             interface, msg)
             ewrite('\n')
 
-        ui.initialize ()
-        submit.ui = ui
+        if newui.initialize ():
+            ui = newui
+            submit.ui = ui
+        else:
+            ui.long_message('*** Unable to initialize %s interface. '
+                            'Falling back to text interface.\n',
+                            interface)
+
         # Add INTERFACE as an environment variable to access it from the
         # script gathering the special information for reportbug, when
         # a new bug should be filed against it.

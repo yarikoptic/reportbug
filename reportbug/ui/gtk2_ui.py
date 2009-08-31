@@ -1438,7 +1438,8 @@ def initialize ():
     try:
         vte = __import__ ("vte")
     except ImportError:
-        message = "Please install the %s package to use the gtk2 interface."
+        message = """Please install the %s package to use the gtk2 interface. 
+Falling back to text interface."""
         dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                                     gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, None)
         dialog.set_markup (message % "<b>python-vte</b>")
@@ -1446,7 +1447,7 @@ def initialize ():
         dialog.destroy ()
         while gtk.events_pending ():
             gtk.main_iteration ()
-        sys.exit (1)
+        return False
 
     # Exception hook
     oldhook = sys.excepthook
@@ -1464,6 +1465,7 @@ def initialize ():
     forward_operations (application, dialogs)
 
     application.start ()
+    return True
 
 def test ():
     # Write some tests here

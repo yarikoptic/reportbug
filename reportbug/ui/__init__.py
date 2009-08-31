@@ -28,7 +28,7 @@ __all__ = ['text_ui', 'urwid_ui', 'gtk2_ui']
 
 UIS = {'text': 'A text-oriented console user interface',
        'urwid': 'A menu-based console user interface',
-       'gtk2': 'A graphical (GTK+) user interface'}
+       'gtk2': 'A graphical (GTK+) user interface. Requires python-vte package to work.'}
 
 # Only the available UIs
 AVAILABLE_UIS = {}
@@ -48,7 +48,6 @@ for uis in UIS.keys():
     except:
         # we can't import uis, so just skip it
         pass
-
 
 def getUI(ui):
     """Returns the requested UI, or default to text if not available"""

@@ -649,7 +649,7 @@ palette = [
     ]
 
 def initialize ():
-    pass
+    return True
 
 def test():
     import time

@@ -1013,4 +1013,4 @@ def spawn_editor(message, filename, editor, charset='utf-8'):
     return (newmessage, newmessage != message)
 
 def initialize ():
-    pass
+    return True
