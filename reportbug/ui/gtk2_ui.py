@@ -1081,6 +1081,7 @@ class EditorPage (Page):
         vbox.pack_start (hbox, expand=False)
 
         self.view = gtk.TextView ()
+        self.view.set_wrap_mode (gtk.WRAP_WORD)
         if has_spell:
             gtkspell.Spell (self.view)
         self.info_buffer = self.view.get_buffer ()

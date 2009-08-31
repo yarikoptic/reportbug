@@ -1,5 +1,6 @@
 reportbug (4.7) UNRELEASED; urgency=low
 
+  [ Sandro Tosi ]
   * reportbug/__init__.py
     - bump reportbug version
   * debian/control
@@ -17,7 +18,11 @@ reportbug (4.7) UNRELEASED; urgency=low
        LDAP support is gone since years; thanks to martin f krafft for the
        report; Closes: #271057
 
- -- Sandro Tosi <morph@debian.org>  Tue, 18 Aug 2009 09:39:44 +0200
+  [ Luca Bruno ]
+  * reportbug/ui/gtk_ui.py
+    - wrap words when editing bug reports
+
+ -- Luca Bruno <lethalman88@gmail.com>  Mon, 31 Aug 2009 11:37:23 +0200
 
 reportbug (4.6) unstable; urgency=low
 
