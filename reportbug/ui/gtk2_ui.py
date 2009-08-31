@@ -1325,7 +1325,6 @@ class ReportbugAssistant (gtk.Assistant):
         self.showing_page.switch_in ()
         self.progress_page = ProgressPage (self)
         self.progress_page.switch_in ()
-        self.set_current_page (0)
         Page.next_page_num = 1
 
 
