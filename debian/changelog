@@ -22,11 +22,11 @@ reportbug (4.7) UNRELEASED; urgency=low
   * reportbug/ui/gtk_ui.py
     - wrap words when editing bug reports
     - workaround possible GTK+ regression to show the intro page
+    - fix to menu to always display all menu options
   * bin/reportbug
     - fallback to text interface if UI can't be initialized; Closes: #534876
-    - set UI order to text, urwid, gtk2
 
- -- Luca Bruno <lethalman88@gmail.com>  Mon, 31 Aug 2009 12:11:33 +0200
+ -- Luca Bruno <lethalman88@gmail.com>  Tue, 01 Sep 2009 08:39:20 +0200
 
 reportbug (4.6) unstable; urgency=low
 
