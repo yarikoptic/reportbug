@@ -1,4 +1,4 @@
-reportbug (4.7) UNRELEASED; urgency=low
+reportbug (4.7) unstable; urgency=low
 
   [ Sandro Tosi ]
   * reportbug/__init__.py
@@ -30,7 +30,7 @@ reportbug (4.7) UNRELEASED; urgency=low
   [ Pierre Habouzit ]
   * Add support for the release.debian.org pseudo-package.
 
- -- Sandro Tosi <morph@debian.org>  Wed, 02 Sep 2009 22:58:49 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 02 Sep 2009 23:12:16 +0200
 
 reportbug (4.6) unstable; urgency=low
 
