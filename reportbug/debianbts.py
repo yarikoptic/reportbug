@@ -330,6 +330,7 @@ def handle_debian_release(package, bts, ui, fromaddr, online=True, http_proxy=No
                   'a bug in an existing package, please press Enter to '
                   'exit reportbug.)', {
         'binnmu':           "binNMU requests",
+        'britney':          "testing migration script bugs",
         'transition':       "transition tracking",
         'unblock':          "unblock requests",
         'freeze-exception': "Freeze exceptions",
@@ -346,31 +347,38 @@ def handle_debian_release(package, bts, ui, fromaddr, online=True, http_proxy=No
     if tag == 'other':
         return
 
-    prompt  = 'Please enter the name of the package: '
-    package = ui.get_string(prompt)
-    if not package:
-        ui.log_message('You seem to want to report a generic bug, not request a removal\n')
-        return
-
-    ui.log_message('Checking status database...\n')
-    info = utils.get_package_status(package)
-    available = info[1]
-
-    query = False
-    if not available:
-        info = utils.get_source_package(package)
-        if info:
-            info = utils.get_package_status(info[0][0])
-
-    if not info:
-        cont = ui.select_options(
-            "This package doesn't appear to exist; continue?",
-            'yN', {'y': 'Ignore this problem and continue.',
-                   'n': 'Exit without filing a report.' })
-        if cont == 'n':
+    if tag == 'britney':
+        subject_britney = ui.get_string('Please enter the subject of the bug report: ')
+        if not subject_britney:
+            ui.long_message('No subject specified, exiting')
             sys.exit(1)
     else:
-        package = info[12] or package
+        # package checks code
+        prompt  = 'Please enter the name of the package: '
+        package = ui.get_string(prompt)
+        if not package:
+            ui.log_message('You seem to want to report a generic bug, not request a removal\n')
+            return
+
+        ui.log_message('Checking status database...\n')
+        info = utils.get_package_status(package)
+        available = info[1]
+
+        query = False
+        if not available:
+            info = utils.get_source_package(package)
+            if info:
+                info = utils.get_package_status(info[0][0])
+
+        if not info:
+            cont = ui.select_options(
+                "This package doesn't appear to exist; continue?",
+                'yN', {'y': 'Ignore this problem and continue.',
+                       'n': 'Exit without filing a report.' })
+            if cont == 'n':
+                sys.exit(1)
+        else:
+            package = info[12] or package
 
     if tag in ('binnmu', 'unblock', 'freeze-exceptions', 'opu', 'pu', 'rm'):
         # FIXME: opu/pu/rm should lookup the version elsewhere
@@ -400,7 +408,7 @@ def handle_debian_release(package, bts, ui, fromaddr, online=True, http_proxy=No
                 ui.long_message('Partial removal requests must have a list of architectures.\n')
                 raise SystemExit
 
-    pseudos.append("User: debian-release@lists.debian.org")
+    pseudos.append("User: release.debian.org@packages.debian.org")
     pseudos.append("Usertags: %s" % (tag))
 
     if tag == 'binnmu':
@@ -410,6 +418,9 @@ def handle_debian_release(package, bts, ui, fromaddr, online=True, http_proxy=No
     elif tag == 'transition':
         subject = 'transition: %s' % (package)
         body    = '(please explain about the transition: impacted packages, reason, ...)\n'
+    elif tag == 'britney':
+        subject = subject_britney
+        body = ''
     elif tag == 'unblock' or tag == 'freeze-exception':
         subject = 'unblock: %s/%s' % (package, version)
         body    = textwrap.dedent(u"""\
