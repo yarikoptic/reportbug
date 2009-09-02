@@ -27,6 +27,9 @@ reportbug (4.7) UNRELEASED; urgency=low
     - fallback to text interface if a different UI can't be initialized; thanks
       to Colin S. Miller for the report; Closes: #534876
 
+  [ Pierre Habouzit ]
+  * Add support for the release.debian.org pseudo-package.
+
  -- Sandro Tosi <morph@debian.org>  Wed, 02 Sep 2009 22:58:49 +0200
 
 reportbug (4.6) unstable; urgency=low
