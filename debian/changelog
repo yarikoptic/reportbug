@@ -23,10 +23,11 @@ reportbug (4.7) UNRELEASED; urgency=low
     - wrap words when editing bug reports
     - workaround possible GTK+ regression to show the intro page
     - fix to menu to always display all menu options
-  * bin/reportbug
-    - fallback to text interface if UI can't be initialized; Closes: #534876
+  * bin/reportbug, reportbug/ui/*.py
+    - fallback to text interface if a different UI can't be initialized; thanks
+      to Colin S. Miller for the report; Closes: #534876
 
- -- Luca Bruno <lethalman88@gmail.com>  Tue, 01 Sep 2009 08:39:20 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 02 Sep 2009 22:58:49 +0200
 
 reportbug (4.6) unstable; urgency=low
 
