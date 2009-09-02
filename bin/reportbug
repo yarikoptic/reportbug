@@ -448,7 +448,7 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
                 False):
                 return get_package_name(bts, mode)
 
-        if package == 'ftp.debian.org' or package == 'release.debian.org':
+        if package in ('ftp.debian.org', 'release.debian.org'):
             if not ui.yes_no(
                 'Are you sure you want to file a bug on %s?' % (package),
                 'Yes, I am a developer or know what I\'m doing.',
@@ -1767,7 +1767,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
 
         if (rtype == 'debbugs' and not self.options.tags and
             not (notatty or self.options.kudos or exinfo) and
-            package not in ('wnpp','ftp.debian.org','release.debian.org') and
+            package not in ('wnpp', 'ftp.debian.org', 'release.debian.org') and
             mode > MODE_NOVICE):
             # Multiple-choice checkbox
             if severity in ('grave', 'critical', 'serious'):
