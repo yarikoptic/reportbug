@@ -357,7 +357,7 @@ def handle_debian_release(package, bts, ui, fromaddr, online=True, http_proxy=No
         prompt  = 'Please enter the name of the package: '
         package = ui.get_string(prompt)
         if not package:
-            ui.log_message('You seem to want to report a generic bug, not request a removal\n')
+            ui.log_message('You seem to want to report a generic bug.\n')
             return
 
         ui.log_message('Checking status database...\n')

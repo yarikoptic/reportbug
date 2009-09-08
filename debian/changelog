@@ -2,8 +2,11 @@ reportbug (4.8) UNRELEASED; urgency=low
 
   * reportbug/__init__.py
     - bump reportbug version
+  * reportbug/debianbts.py
+    - fix error message in case no package is specified for release.d.o; thanks
+      to Joachim Breitner for the report; Closes: #545747
 
- -- Sandro Tosi <morph@debian.org>  Tue, 08 Sep 2009 22:52:26 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 08 Sep 2009 22:58:18 +0200
 
 reportbug (4.7) unstable; urgency=low
 
