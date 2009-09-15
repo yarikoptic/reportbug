@@ -1810,8 +1810,8 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
 
             fh, filename = TempFile(prefix=tfprefix)
             fh.close()
-            ui.system('%s %s %s' % (handler, commands.mkarg(bugexec),
-                                 commands.mkarg(filename)))
+            ui.system('LC_ALL=C %s %s %s' % (handler, commands.mkarg(bugexec),
+                                             commands.mkarg(filename)))
 
             addinfo = None
             if not self.options.noconf:

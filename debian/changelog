@@ -6,11 +6,14 @@ reportbug (4.8) UNRELEASED; urgency=low
   * reportbug/debianbts.py
     - fix error message in case no package is specified for release.d.o; thanks
       to Joachim Breitner for the report; Closes: #545747
+  * bin/reportbug
+    - use LC_ALL=C when calling bug scripts (to avoid localized messages);
+      thanks to Alexander Galanin for the report; Closes: #546276
 
   [ Pierre Habouzit ]
   * Fix small issues with the release.debian.org binNMU template.
 
- -- Sandro Tosi <morph@debian.org>  Tue, 08 Sep 2009 22:58:18 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 15 Sep 2009 21:13:00 +0200
 
 reportbug (4.7) unstable; urgency=low
 
