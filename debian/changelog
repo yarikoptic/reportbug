@@ -9,11 +9,14 @@ reportbug (4.8) UNRELEASED; urgency=low
   * bin/reportbug
     - use LC_ALL=C when calling bug scripts (to avoid localized messages);
       thanks to Alexander Galanin for the report; Closes: #546276
+    - pass '--ignore-permissions' to debsums (because it's easier to workaround
+      problems than fixing them); thanks to Davide Prina for the report;
+      Closes: #539695
 
   [ Pierre Habouzit ]
   * Fix small issues with the release.debian.org binNMU template.
 
- -- Sandro Tosi <morph@debian.org>  Tue, 15 Sep 2009 21:13:00 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 16 Sep 2009 20:16:35 +0200
 
 reportbug (4.7) unstable; urgency=low
 

@@ -1367,7 +1367,7 @@ class UI(object):
         if (pkgavail and self.options.verify and os.path.exists('/usr/bin/debsums')
             and not self.options.kudos and state == 'installed'):
             ewrite('Verifying package integrity...\n')
-            rc, output = commands.getstatusoutput('/usr/bin/debsums -s'+
+            rc, output = commands.getstatusoutput('/usr/bin/debsums --ignore-permissions -s'+
                                                   commands.mkarg(package))
             debsumsoutput = output
 
