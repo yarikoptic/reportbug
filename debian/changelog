@@ -1,4 +1,4 @@
-reportbug (4.8) UNRELEASED; urgency=low
+reportbug (4.8) unstable; urgency=low
 
   [ Sandro Tosi ]
   * reportbug/__init__.py
@@ -21,7 +21,7 @@ reportbug (4.8) UNRELEASED; urgency=low
   [ Pierre Habouzit ]
   * Fix small issues with the release.debian.org binNMU template.
 
- -- Sandro Tosi <morph@debian.org>  Wed, 16 Sep 2009 20:29:00 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 16 Sep 2009 22:56:10 +0200
 
 reportbug (4.7) unstable; urgency=low
 
