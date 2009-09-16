@@ -1374,7 +1374,7 @@ class UI(object):
             if rc and not notatty:
                 if not ui.yes_no(
                     'There may be a problem with your installation of '+package+
-                    ';\nthe following files appear to be missing or changed:\n'+
+                    ';\nthe following problems were detected by debsums:\n'+
                     output+'\nDo you still want to file a report',
                     'Ignore this problem and continue.  This may be '
                     'appropriate if you have fixed the package manually already.  '

@@ -12,10 +12,11 @@ reportbug (4.8) UNRELEASED; urgency=low
     - pass '--ignore-permissions' to debsums (because it's easier to workaround
       problems than fixing them); thanks to Davide Prina for the report;
       Closes: #539695
+    - improved wording of debsums checks preamble; thanks to Jari Aalto for the
+      report; Closes: #322567
   * debian/control
     - added version (>= 2.0.47) to depends on debsums, to have the latest
       features
-
   [ Pierre Habouzit ]
   * Fix small issues with the release.debian.org binNMU template.
 
