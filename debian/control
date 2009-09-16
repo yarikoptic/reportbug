@@ -14,7 +14,7 @@ Homepage: http://alioth.debian.org/projects/reportbug/
 Package: reportbug
 Architecture: all
 Depends: ${python:Depends}, apt, python-reportbug (= ${source:Version})
-Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums, file (>> 1.30), dlocate, python-urwid, python-gtk2, python-vte, python-gtkspell, xdg-utils
+Suggests: postfix | exim4 | mail-transport-agent, gnupg | pgp, debconf-utils (>> 1.1.0), debsums (>= 2.0.47), file (>> 1.30), dlocate, python-urwid, python-gtk2, python-vte, python-gtkspell, xdg-utils
 Conflicts: python-urwid (<< 0.9.8-1), python-central (<< 0.5.13)
 XB-Python-Version: ${python:Versions}
 Description: reports bugs in the Debian distribution
