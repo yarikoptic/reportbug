@@ -4,13 +4,17 @@
 #export DH_VERBOSE=1
 
 VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | sed 's/^Version: \([^+]*\).*/\1/')
+DISTRO := $(shell dpkg-parsechangelog | egrep '^Distribution:' | sed 's/^Distribution: \([^+]*\).*/\1/')
 
 build: build-stamp
 build-stamp:
 	dh_testdir
 
-	# Test if versions are synchronized; this will bomb if not synced
-	@python -c "import reportbug, sys; sys.exit(reportbug.VERSION_NUMBER != '$(VERSION)')" || (echo 'Please update reportbug/__version__'; exit 1)
+	# Test if versions are synchronized (only if releasing); this will bomb if not synced
+	if [ "$(DISTRO)" != "UNRELEASED" ] ; \
+	then \
+		@python -c "import reportbug, sys; sys.exit(reportbug.VERSION_NUMBER != '$(VERSION)')" || (echo 'Please update reportbug/__init__.py __version__'; exit 1) ; \
+	fi
 
 	po4a po4a/po4a.cfg
 	python setup.py build
