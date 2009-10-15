@@ -1098,7 +1098,7 @@ class EditorPage (Page):
 
         if not has_spell:
             box = gtk.EventBox ()
-            label = gtk.Label ("Please install <b>python-gnome2-extras</b> to enable spell checking")
+            label = gtk.Label ("Please install <b>python-gtkspell</b> to enable spell checking")
             label.set_use_markup (True)
             label.set_line_wrap (True)
             box.add (label)

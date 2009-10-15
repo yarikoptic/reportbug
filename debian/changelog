@@ -3,8 +3,12 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
   * debian/rules
     - check if versions are in sync only when releasing (allowing for easier
       development)
+  * reportbug/ui/gtk2_ui.py
+    - replace python-gnome2-extras with python-gtkspell when suggesting what
+      pacakge to install for spell checking; thanks to David Steiner for the
+      report; Closes: #551046
 
- -- Sandro Tosi <morph@debian.org>  Mon, 21 Sep 2009 23:34:06 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 15 Oct 2009 11:16:39 +0200
 
 reportbug (4.8) unstable; urgency=low
 
