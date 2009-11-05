@@ -469,13 +469,13 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
 
         if len(addresses):
             ewrite("Copies sent to:\n")
-            for address in addresses:
-                ewrite('  %s\n', rfc822.dump_address_pair(address))
+            for address in addrs:
+                ewrite('  %s\n', address)
 
         if debbugs_cc and rtype == 'debbugs':
             ewrite("Copies will be sent after processing to:\n")
-            for address in debbugs_cc:
-                ewrite('  %s\n', rfc822.dump_address_pair(address))
+            for address in cclist:
+                ewrite('  %s\n', address)
 
     if not (exinfo or kudos) and rtype == 'debbugs' and sysinfo and not failed:
         ewrite('\n')
