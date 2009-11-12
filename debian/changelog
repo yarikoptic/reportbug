@@ -14,8 +14,12 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
   * reportbug/ui/urwid_ui.py
     - added missing arguments to handle_bts_query call; thanks to David Bremner
       for the report; Closes: #542309
+  * reportbug/submit.py
+    - don't encode email addresses when print report of mail recipients (after
+      mail being sent); thanks to Raphaël Hertzog for the report and Carl Chenet
+      for the patch; Closes: #546914
 
- -- Sandro Tosi <morph@debian.org>  Fri, 30 Oct 2009 16:27:11 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 12 Nov 2009 23:23:09 +0100
 
 reportbug (4.8) unstable; urgency=low
 
