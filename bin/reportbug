@@ -1530,10 +1530,12 @@ class UI(object):
             ewrite(mstr.encode(charset, 'replace'))
             if 'qa.debian.org' in maintainer:
                 ui.long_message('''\
-This package is currently "orphaned"; if you are a current or prospective
-Debian developer, you might consider adopting it.  Please be aware that your
-report may not be resolved for a while, and that packages that have been
-orphaned for a long period of time are often removed from the archive.
+This package seems to be currently "orphaned"; it also seems you're a
+bit interested in this package, since you're reporting a but against
+it, so you might consider adopting it.  Please be aware that your
+report may not be resolved for a while, because the package lacks an
+active maintainer, but please GO ON and REPORT the bug, if there is
+one.
 
 For more details, please see: http://www.debian.org/devel/wnpp/''')
 
