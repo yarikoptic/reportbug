@@ -7,6 +7,8 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
     - replace python-gnome2-extras with python-gtkspell when suggesting what
       pacakge to install for spell checking; thanks to David Steiner for the
       report; Closes: #551046
+    - clarified the dialog message that requires installation of additional
+      packages; thanks to Filipus Klutiero for the report; Closes: #554589
   * debian/control
     - added a Conflicts on 'debsums (<< 2.0.47)', to properly require the
       correct version of debsums; thanks to Flavio Stanchina for the report;

@@ -1438,8 +1438,8 @@ def initialize ():
     try:
         vte = __import__ ("vte")
     except ImportError:
-        message = """Please install the %s package to use the gtk2 interface. 
-Falling back to text interface."""
+        message = """Please install the %s package to use the GTK+ (known as 'gtk2' in reportbug) interface.
+Falling back to 'text' interface."""
         dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                                     gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, None)
         dialog.set_markup (message % "<b>python-vte</b>")
