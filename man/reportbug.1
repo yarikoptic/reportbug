@@ -124,7 +124,8 @@ Report a bug in the package containing
 .I FILENAME
 so you don't have to figure out what package the file belongs to.  The
 path will be searched for an exact path for FILENAME before attempting
-to broaden the search to all files.
+to broaden the search to all files. If dlocate is installed, FILENAME
+is actually a regular expression.
 .TP
 .B \-\-path
 If the \-f option is also specified, only search the path for the
