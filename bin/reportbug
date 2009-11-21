@@ -921,7 +921,9 @@ def main():
 
         options.mua = utils.mua_name(options.mua)
 
-    if options.interface:
+    # try to import the specified UI, but only if template
+    # is not set (it's useful only in 'text' UI).
+    if options.interface and not options.template:
         interface = options.interface
 
         iface = '%(interface)s_ui' % vars()
