@@ -26,8 +26,12 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
   * bin/reportbug
     - '--template' option forces the 'text' UI (it's only useful with that);
       thanks to Johan Kullstam for the report; Closes: #543281
+  * debian/{desktop, menu)
+    - run the GTK+ UI into a terminal: this way we can fall back to 'text' UI if
+      GTK+ is not usable; thanks to Filipus Klutiero and Philipp Kern for the
+      reports; Closes #554504, #543147
 
- -- Sandro Tosi <morph@debian.org>  Sat, 21 Nov 2009 13:04:15 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 21 Nov 2009 15:47:35 +0100
 
 reportbug (4.8) unstable; urgency=low
 
