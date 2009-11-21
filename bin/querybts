@@ -55,6 +55,7 @@ USAGE = ("querybts - Examine the state of a debbugs server.\n\n"
          "  -B: Specify an alternate debbugs BTS. *\n"
          "  -h: Display this help message.\n"
          "  -s: Query for source packages rather than binary packages.\n"
+         "  -u: Specify the user interface to  use.\n"
          "  -v: Show the version number of this program.\n"
          "  -w: Use a web browser instead of the internal interface.\n"
          "\nOptions marked * take the word 'help' to list allowed options."
@@ -82,7 +83,7 @@ def main():
 
     try:
         (opts, args) = getopt.getopt(
-            sys.argv[1:], 'AB:bhlmsuvw', ['help', 'version',
+            sys.argv[1:], 'ABu:bhlmsvw', ['help', 'version',
                                         'bts=', 'web', 'mbox',
                                         'archive', 'source',
                                         'http_proxy=', 'proxy=',

@@ -18,8 +18,11 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
     - don't encode email addresses when print report of mail recipients (after
       mail being sent); thanks to Raphaël Hertzog for the report and Carl Chenet
       for the patch; Closes: #546914
+  * bin/querybts
+    - enable '-u' options, along with '--ui'; thanks to David Bremner for the
+      report and to Carl Chenet for the patch; Closes: #542312
 
- -- Sandro Tosi <morph@debian.org>  Thu, 12 Nov 2009 23:23:09 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 21 Nov 2009 12:44:13 +0100
 
 reportbug (4.8) unstable; urgency=low
 
