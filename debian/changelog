@@ -39,10 +39,10 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
   * bin/reportbug, man/reportbug.1, reportbug/ui/text_ui.py
     - add '-N/--bugreport' option to run reportbug against a bug number (useful
       when the bug is already known and want to followup on it); thanks to all
-      the people requesting it (too many to list) and to Carl Chenet for the
-      patch; Closes: #223335, #232829, #244763, #363156, #433323, #517989
+      the people requesting it (too many to list) and Carl Chenet for the patch;
+      Closes: #214103, #223335, #232829, #244763, #363156, #433323, #517989
 
- -- Sandro Tosi <morph@debian.org>  Sat, 21 Nov 2009 23:18:07 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 21 Nov 2009 23:20:19 +0100
 
 reportbug (4.8) unstable; urgency=low
 
