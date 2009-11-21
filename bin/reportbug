@@ -36,7 +36,6 @@ import commands
 import rfc822
 import gettext
 import textwrap
-import re
 
 from reportbug import utils
 from reportbug import (
@@ -1005,6 +1004,7 @@ class UI(object):
         pgp_addr = self.options.keyid
         bugnumber = self.options.bugnumber
 
+        # if user specified a bug number on the command-line, don't query BTS
         if bugnumber:
             dontquery = True
 
@@ -1201,6 +1201,7 @@ class UI(object):
         status = None
 
         exinfo = None
+        # If user specified a bug number on the command line
         try:
             if bugnumber:
                 reportre = re.compile(r'^#?(\d+)$')
@@ -1217,9 +1218,9 @@ class UI(object):
                         dontquery = False
                         bugnumber = False
                 else:
-                    efail("The report bug number you have provided does not match usual pattern.\n")
+                    efail("The report bug number provided seems to not exist.\n")
         except NoBugs:
-            efail('No bug reports found.\n')
+            efail('No such bug report.\n')
         except NoReport:
             efail('Exiting.\n')
 
@@ -1675,6 +1676,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                     subject_ok = True
                 else:
                     ewrite("Providing a subject is mandatory.\n")
+
             # Check to make sure the bug still exists to avoid auto-reopens
             if subject and pkgversion:
                 if not ui.yes_no('Does this bug still exist in version %s '
