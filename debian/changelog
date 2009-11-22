@@ -1,5 +1,6 @@
 reportbug (4.8+WIP) UNRELEASED; urgency=low
 
+  [ Sandro Tosi ]
   * debian/rules
     - check if versions are in sync only when releasing (allowing for easier
       development)
@@ -42,7 +43,12 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
       the people requesting it (too many to list) and Carl Chenet for the patch;
       Closes: #214103, #223335, #232829, #244763, #363156, #433323, #517989
 
- -- Sandro Tosi <morph@debian.org>  Sat, 21 Nov 2009 23:20:19 +0100
+  [ Luca Bruno ]
+  * reportbug/ui/gtk2_ui.py
+    - more clean handling of response in error/info dialogs; thanks to
+      Julian Andres Klode; Closes: #527259
+
+ -- Luca Bruno <lethalman88@gmail.com>  Sun, 22 Nov 2009 10:13:24 +0100
 
 reportbug (4.8) unstable; urgency=low
 

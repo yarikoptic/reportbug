@@ -81,14 +81,14 @@ def create_scrollable (widget):
 def info_dialog (message):
     dialog = gtk.MessageDialog (assistant, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                                 gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, message)
-    dialog.connect ('response', lambda *args: dialog.destroy ())
+    dialog.connect ('response', lambda d, *args: d.destroy ())
     dialog.set_title ('Reportbug')
     dialog.show_all ()
 
 def error_dialog (message):
     dialog = gtk.MessageDialog (assistant, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                                 gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, message)
-    dialog.connect ('response', lambda *args: dialog.destroy ())
+    dialog.connect ('response', lambda d, *args: d.destroy ())
     dialog.set_title ('Reportbug')
     dialog.show_all ()
 
