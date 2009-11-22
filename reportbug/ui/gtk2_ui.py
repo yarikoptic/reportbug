@@ -1268,8 +1268,10 @@ class ProgressPage (Page):
 class ReportbugAssistant (gtk.Assistant):
     def __init__ (self, application):
         gtk.Assistant.__init__ (self)
-        self.set_title ('Reportbug')
         self.application = application
+
+        self.set_title ('Reportbug')
+        self.nuke_back_button ()
         self.showing_page = None
         self.requested_page = None
         self.progress_page = None
@@ -1278,12 +1280,29 @@ class ReportbugAssistant (gtk.Assistant):
         self.connect_signals ()
         self.setup_pages ()
 
+    def nuke_back_cb (self, widget):
+        # This is a real hack for two reasons:
+        # 1. There's no other way to access action area but inspecting the assistant and searching for the back button
+        # 2. Hide back button on show, because it can be shown-hidden by the assistant depending on the page
+        if isinstance (widget, gtk.Button):
+            if widget.get_label() == 'gtk-go-back':
+                widget.connect ('show', self.on_back_show)
+                return
+        if isinstance (widget, gtk.Container):
+            widget.forall (self.nuke_back_cb)
+
+    def nuke_back_button (self):
+        self.nuke_back_cb (self)
+
     def connect_signals (self):
         self.connect ('cancel', self.close)
         self.connect ('prepare', self.on_prepare)
         self.connect ('delete-event', self.close)
         self.connect ('apply', self.close)
-        
+
+    def on_back_show (self, widget):
+        widget.hide ()
+
     def on_prepare (self, assistant, widget):
         # If the user goes back then forward, we must ensure the feedback value to reportbug must be sent
         # when the user clicks on "Forward" to the requested page by reportbug

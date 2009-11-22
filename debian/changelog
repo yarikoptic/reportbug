@@ -48,8 +48,10 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
     - more clean handling of response in error/info dialogs; thanks to
       Julian Andres Klode; Closes: #527259
     - open a terminal when fallbacking to text mode if stdout is not available
+    - don't show back button as it's not possible to go back;
+      thanks to all the people reporting the bug; Closes: #532467
 
- -- Luca Bruno <lethalman88@gmail.com>  Sun, 22 Nov 2009 11:33:28 +0100
+ -- Luca Bruno <lethalman88@gmail.com>  Sun, 22 Nov 2009 11:51:10 +0100
 
 reportbug (4.8) unstable; urgency=low
 
