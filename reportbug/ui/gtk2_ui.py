@@ -1447,6 +1447,8 @@ Falling back to 'text' interface."""
         dialog.destroy ()
         while gtk.events_pending ():
             gtk.main_iteration ()
+        if not sys.stdout.isatty ():
+            os.execlp ('x-terminal-emulator', 'x-terminal-emulator', '-e', 'reportbug -u text')
         return False
 
     # Exception hook
