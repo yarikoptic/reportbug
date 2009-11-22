@@ -651,6 +651,9 @@ palette = [
 def initialize ():
     return True
 
+def can_input():
+    return sys.stdin.isatty()
+
 def test():
     import time
 

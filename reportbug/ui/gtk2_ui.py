@@ -1488,6 +1488,9 @@ Falling back to 'text' interface."""
     application.start ()
     return True
 
+def can_input ():
+    return True
+
 def test ():
     # Write some tests here
     print get_password ("test")

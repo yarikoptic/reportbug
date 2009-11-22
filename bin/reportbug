@@ -708,10 +708,6 @@ def main():
                     bodyfile=None, smtptls=False, smtpuser='', smtppasswd='',
                     paranoid=False)
 
-    if not sys.stdin.isatty():
-        defaults.update({ 'dontquery' : True, 'notatty' : True,
-                          'printonly' : True })
-
     # Convention: consider `option.foo' names read-only; they always contain
     # the original value as determined by the cascade of command-line options
     # and configuration files.  When we need to adjust a value, we first say
@@ -952,6 +948,10 @@ def main():
         # script gathering the special information for reportbug, when
         # a new bug should be filed against it.
         os.environ['INTERFACE'] = interface
+
+    if not ui.can_input():
+        defaults.update({ 'dontquery' : True, 'notatty' : True,
+                          'printonly' : True })
 
     iface = UI(options, args)
     if not hasattr(ui, 'run_interface'):

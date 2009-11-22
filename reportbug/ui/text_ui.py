@@ -1018,3 +1018,6 @@ def spawn_editor(message, filename, editor, charset='utf-8'):
 
 def initialize ():
     return True
+
+def can_input():
+    return sys.stdin.isatty()

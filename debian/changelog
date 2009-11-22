@@ -50,8 +50,11 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
     - open a terminal when fallbacking to text mode if stdout is not available
     - don't show back button as it's not possible to go back;
       thanks to all the people reporting the bug; Closes: #532467
+  * bin/reportbug:
+    - ask ui.can_input() to know whether the ui is able to receive input
+      or not; thanks to Sebastian Dalfuß; Closes: #531803
 
- -- Luca Bruno <lethalman88@gmail.com>  Sun, 22 Nov 2009 11:51:10 +0100
+ -- Luca Bruno <lethalman88@gmail.com>  Sun, 22 Nov 2009 12:02:26 +0100
 
 reportbug (4.8) unstable; urgency=low
 
