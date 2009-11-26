@@ -6,4 +6,3 @@ Icon=debian-logo
 TryExec=reportbug
 Exec=reportbug --exit-prompt --ui gtk2
 Categories=Application;System;
-Terminal=True
