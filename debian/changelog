@@ -45,16 +45,17 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
 
   [ Luca Bruno ]
   * reportbug/ui/gtk2_ui.py
-    - more clean handling of response in error/info dialogs; thanks to
-      Julian Andres Klode; Closes: #527259
+    - cleaner way of handling the response in error/info dialogs; thanks to
+      Julian Andres Klode for the report; Closes: #527259
     - open a terminal when fallbacking to text mode if stdout is not available
     - don't show back button as it's not possible to go back;
       thanks to all the people reporting the bug; Closes: #532467
-  * bin/reportbug:
-    - ask ui.can_input() to know whether the ui is able to receive input
-      or not; thanks to Sebastian Dalfuß; Closes: #531803
+  * bin/reportbug, reportbug/ui/*_ui.py:
+    - introduce the can_input() UI method, to know whether the UI is able to
+      receive input or not; thanks to Sebastian Dalfuß for the report;
+      Closes: #531803
 
- -- Luca Bruno <lethalman88@gmail.com>  Sun, 22 Nov 2009 12:02:26 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 26 Nov 2009 21:57:15 +0100
 
 reportbug (4.8) unstable; urgency=low
 
