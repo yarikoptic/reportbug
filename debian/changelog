@@ -45,7 +45,7 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
       Julian Andres Klode for the report; Closes: #527259
     - open a terminal when falling back to text mode if stdout is not available
       (usually when run through the menu); thanks to Filipus Klutiero and
-      Philipp Kern for the reports; Closes #554504, #543147
+      Philipp Kern for the reports; Closes: #554504, #543147
     - don't show back button as it's not possible to go back;
       thanks to all the people reporting the bug; Closes: #532467
   * bin/reportbug, reportbug/ui/*_ui.py:
