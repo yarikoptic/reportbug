@@ -1,4 +1,4 @@
-reportbug (4.8+WIP) UNRELEASED; urgency=low
+reportbug (4.9) unstable; urgency=low
 
   [ Sandro Tosi ]
   * debian/rules
@@ -53,7 +53,7 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
       receive input or not; thanks to Sebastian Dalfuß for the report;
       Closes: #531803
 
- -- Sandro Tosi <morph@debian.org>  Fri, 27 Nov 2009 20:04:02 +0100
+ -- Sandro Tosi <morph@debian.org>  Fri, 27 Nov 2009 20:12:38 +0100
 
 reportbug (4.8) unstable; urgency=low
 
