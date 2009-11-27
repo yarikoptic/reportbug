@@ -6,7 +6,7 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
       development)
   * reportbug/ui/gtk2_ui.py
     - replace python-gnome2-extras with python-gtkspell when suggesting what
-      pacakge to install for spell checking; thanks to David Steiner for the
+      package to install for spell checking; thanks to David Steiner for the
       report; Closes: #551046
     - clarified the dialog message that requires installation of additional
       packages; thanks to Filipus Klutiero for the report; Closes: #554589
@@ -53,7 +53,7 @@ reportbug (4.8+WIP) UNRELEASED; urgency=low
       receive input or not; thanks to Sebastian Dalfuß for the report;
       Closes: #531803
 
- -- Sandro Tosi <morph@debian.org>  Thu, 26 Nov 2009 22:09:06 +0100
+ -- Sandro Tosi <morph@debian.org>  Fri, 27 Nov 2009 20:04:02 +0100
 
 reportbug (4.8) unstable; urgency=low
 
