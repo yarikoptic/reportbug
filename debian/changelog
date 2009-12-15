@@ -3,8 +3,11 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
   * conf/reportbug.conf, man/reportbug.conf.5
     - added 'keyid' documentation; thanks to gregor herrmann for the report and
       to Carl Chenet for the partial patch; Closes: #558364
+  * bin/querybts
+    - use optparse instead of getopt to parse CLI options and arguments;
+      Closes: #559677
 
- -- Sandro Tosi <morph@debian.org>  Sun, 06 Dec 2009 10:23:00 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 15 Dec 2009 22:37:29 +0100
 
 reportbug (4.9) unstable; urgency=low
 
