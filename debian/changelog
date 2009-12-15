@@ -6,8 +6,12 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
   * bin/querybts
     - use optparse instead of getopt to parse CLI options and arguments;
       Closes: #559677
+  * reportbug/ui/text_ui.py
+    - if help option is selected in debconf values inclusion menu, the second
+      message doesn't contain newline, it's fixed now; thanks to Miroslaw
+      Zalewski for the report; Closes: #560302
 
- -- Sandro Tosi <morph@debian.org>  Tue, 15 Dec 2009 22:37:29 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 16 Dec 2009 00:07:14 +0100
 
 reportbug (4.9) unstable; urgency=low
 

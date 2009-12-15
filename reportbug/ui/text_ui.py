@@ -193,7 +193,7 @@ def select_options(msg, ok, help, allow_numbers=None, nowrap=False):
             desc += help.get(ch, help.get(ch.lower(),
                                           'No help for this option.'))
             ewrite(indent_wrap_text(desc+'\n', '%s - '% ch, 4))
-        return select_options(msg, ok, help, allow_numbers)
+        return select_options(msg, ok, help, allow_numbers, nowrap)
     elif (ch.lower() in ok) or (ch.upper() in ok):
         return ch.lower()
     elif err_message:
