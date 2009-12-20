@@ -9,7 +9,7 @@ EXIM IS CONFIGURED FOR LOCAL DELIVERY: In Debian 4.0 (etch) and later,
      mail to the Internet directly or via a smarthost.
 
    - Configure reportbug to deliver mail to your ISP's smarthost or
-     bugs.debian.org directly (using 'reportbug --configure').
+     reportbug.debian.org directly (using 'reportbug --configure').
 
    - Alternatively, see /usr/share/doc/reportbug/README.Users for
      instructions on how to use GMail's SMTP server to submit reports.
