@@ -10,8 +10,11 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
     - if help option is selected in debconf values inclusion menu, the second
       message doesn't contain newline, it's fixed now; thanks to Miroslaw
       Zalewski for the report; Closes: #560302
+  * share/presubj
+    - refer to reportbug.d.o instead of bugs.d.o as SMTP server; thanks to Karl
+      Goetz for the report and patch; Closes: #561802
 
- -- Sandro Tosi <morph@debian.org>  Wed, 16 Dec 2009 00:07:14 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 20 Dec 2009 13:33:28 +0100
 
 reportbug (4.9) unstable; urgency=low
 
