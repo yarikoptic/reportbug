@@ -406,7 +406,7 @@ def show_report(number, system, mirrors,
         raise NoBugs
 
     # extract the package name
-    foundpackage = info[1][0].split('Package: ')[1].split('\n')[0]
+    foundpackage = info[1][0].lower().split('package: ')[1].split('\n')[0]
 
     (title, messages) = info
     # save report subject in main
