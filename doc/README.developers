@@ -65,7 +65,7 @@ They just need to add a "send-to" header to the control file
 
 	Send-To: bugs.myproject.com
 
-`bug' will add `submit@' `quiet@' or `maintonly@' to form the address the
+``reportbug`` will add ``submit@` ``quiet@`` or ``maintonly@`` to form the address the
 bug report mail is send to.
 
 (Note: you probably should use dpkg's support for Origin and Bugs tags

@@ -12,12 +12,12 @@ The source tree for ``reportbug`` is organised this way:
   * ``debian/`` contains the control files used to build the Debian
     source and binary packages.
 
-* `Programs`_
+* Programs
 
   * ``bin/`` contains the end-user programs (e.g. ``reportbug``,
     ``querybts``).
 
-* `Libraries`_
+* Libraries
 
   * ``reportbug/`` contains the Python library module package used by
     the programs.
@@ -28,7 +28,7 @@ The source tree for ``reportbug`` is organised this way:
     discovered and run using the ``nosetests`` program, and are named
     as ``test_*.py``.
 
-* `Internal checking framework`_
+* Internal checking framework
 
   * ``checks/`` contains various scripts that ensure reportbug's
     internals are up-to-date with the Debian BTS.

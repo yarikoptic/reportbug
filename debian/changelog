@@ -15,8 +15,11 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
   * share/presubj
     - refer to reportbug.d.o instead of bugs.d.o as SMTP server; thanks to Karl
       Goetz for the report and patch; Closes: #561802
+  * doc/README.{developers, source}
+    - fix them to be valid reStrucuturedText files; thanks to Jakub Wilk for the
+      report; Closes: #563051
 
- -- Sandro Tosi <morph@debian.org>  Wed, 30 Dec 2009 00:43:31 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 30 Dec 2009 19:36:00 +0100
 
 reportbug (4.9) unstable; urgency=low
 
