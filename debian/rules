@@ -17,7 +17,6 @@ build-stamp:
 		echo 'Please update VERSION_NUMBER variable in reportbug/__init__.py'; exit 1 ; \
 	fi
 
-	po4a po4a/po4a.cfg
 	python setup.py build
 
 	touch build-stamp
