@@ -32,8 +32,6 @@ clean:
 	rm -rf build
 	rm -rf reportbug.egg-info
 
-	po4a --rm-translations po4a/po4a.cfg
-
 	dh_clean
 
 install: install-stamp

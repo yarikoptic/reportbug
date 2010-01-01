@@ -4,7 +4,7 @@ Priority: standard
 Maintainer: Reportbug Maintainers <reportbug-maint@lists.alioth.debian.org>
 Uploaders: Sandro Tosi <morph@debian.org>, Chris Lawrence <lawrencc@debian.org>
 Standards-Version: 3.8.2
-Build-Depends: debhelper (>= 7), po4a (>= 0.23), python (>= 2.5)
+Build-Depends: debhelper (>= 7), python (>= 2.5)
 Build-Depends-Indep: python-support, python-nose, python-setuptools
 XS-Python-Version: >= 2.5
 Vcs-Git: git://git.debian.org/git/reportbug/reportbug.git
