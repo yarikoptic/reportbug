@@ -24,8 +24,12 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
   * man/{querybts.1, reportbug.1}
     - removed NOTE about Python's getopt: both tools are now using optparse
       module to retrieve CLI parameters
+  * bin/reportbug
+    - notify the user that editing the report with a MUA in the last menu will
+      loose every attachements; thanks to Guido Trotter for the report and to
+      those that follow it up; Closes: #211808
 
- -- Sandro Tosi <morph@debian.org>  Fri, 01 Jan 2010 20:36:10 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 02 Jan 2010 02:08:53 +0100
 
 reportbug (4.9) unstable; urgency=low
 

@@ -274,8 +274,24 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                 if not utils.mua_exists(utils.MUA[mailer]):
                     ewrite("Selected mail user agent cannot be found.\n")
                 else:
+                    # get the MUA
                     mailer = utils.MUA.get(mailer)
-                    if mailer:
+                    # in case there are attachments
+                    if attachments:
+                        # notify that they will be lost
+                        if ui.yes_no(
+                            'Editing the report will loose all the attachement: are you sure you want to continue?',
+                            'Yes, please',
+                            'No, thanks',
+                            True):
+                            # if ok, go into the MUA
+                            options.mua = mailer
+                            break
+                        # else, go back to the menu
+                        else:
+                            pass
+                    # no attach, we can go directly into the MUA
+                    else:
                         options.mua = mailer
                         break
             skip_editing = True
