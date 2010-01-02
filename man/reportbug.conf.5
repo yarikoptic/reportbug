@@ -39,6 +39,11 @@ and the options may be overriding in
 .B $HOME/.reportbugrc
 -- which follows the same format as
 .B reportbug.conf
+
+Please note that any configuration file has to be a valid UTF-8
+document, and not in a different locale; this is particularly
+important in situations where localized characters has to be used
+(like for realname).
 .SH "FILE FORMAT"
 Configuration options can be specified in the form
 

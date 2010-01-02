@@ -28,8 +28,11 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
     - notify the user that editing the report with a MUA in the last menu will
       loose every attachements; thanks to Guido Trotter for the report and to
       those that follow it up; Closes: #211808
+  * man/reportbug.conf.5
+    - clarified the configuration files has to be UTF-8 documents; thanks to
+      Anders Lageras for the report; Closes: #417054
 
- -- Sandro Tosi <morph@debian.org>  Sat, 02 Jan 2010 02:08:53 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 02 Jan 2010 12:16:20 +0100
 
 reportbug (4.9) unstable; urgency=low
 
