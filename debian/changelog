@@ -28,6 +28,9 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
     - notify the user that editing the report with a MUA in the last menu will
       loose every attachements; thanks to Guido Trotter for the report and to
       those that follow it up; Closes: #211808
+    - add the possibility to specify the X-Debbugs-CC in the menu before report
+      submission; thanks to Sean Finney, Michael Gilbert and Branden Robinson
+      for the report and to Carl Chenet for the patch; Closes: #349690
   * man/reportbug.conf.5
     - clarified the configuration files has to be UTF-8 documents; thanks to
       Anders Lageras for the report; Closes: #417054
@@ -36,7 +39,7 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       particular with --configure to see the current values for realname and
       email; thanks to Andrei Popescu for the report; Closes: #526631
 
- -- Sandro Tosi <morph@debian.org>  Sun, 03 Jan 2010 01:21:27 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 03 Jan 2010 02:06:51 +0100
 
 reportbug (4.9) unstable; urgency=low
 
