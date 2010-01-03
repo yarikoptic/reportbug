@@ -216,8 +216,8 @@ class displaybox(dialog):
 
 class textentry(dialog):
     def __init__(self, text, width=None, height=None, multiline=False,
-                 title=''):
-        self.edit = urwid.Edit(multiline=multiline)
+                 title='', edit_text=''):
+        self.edit = urwid.Edit(edit_text=edit_text, multiline=multiline)
         body = urwid.ListBox([self.edit])
         body = urwid.AttrWrap(body, 'selectable', 'focustext')
         if not multiline:
@@ -356,7 +356,7 @@ def get_string(prompt, options=None, title=None, empty_ok=False, force_prompt=Fa
     else:
         title = VERSION
 
-    box = textentry(prompt, title=title)
+    box = textentry(prompt, title=title, edit_text=default)
     box.add_buttons([ ("OK", 0) ])
     code, text = box.main(ui)
     return text or default

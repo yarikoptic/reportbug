@@ -31,8 +31,12 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
   * man/reportbug.conf.5
     - clarified the configuration files has to be UTF-8 documents; thanks to
       Anders Lageras for the report; Closes: #417054
+  * reportbug/ui/urwid_ui.py
+    - when retrieving a string, also show a default text (if preset), useful in
+      particular with --configure to see the current values for realname and
+      email; thanks to Andrei Popescu for the report; Closes: #526631
 
- -- Sandro Tosi <morph@debian.org>  Sat, 02 Jan 2010 12:16:20 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 03 Jan 2010 01:21:27 +0100
 
 reportbug (4.9) unstable; urgency=low
 
