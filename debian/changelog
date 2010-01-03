@@ -6,6 +6,9 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
   * bin/querybts
     - use optparse instead of getopt to parse CLI options and arguments;
       Closes: #559677
+    - warn users for options not available in querybts (because they are
+      reportbug-only); thank to Marc-Jano Knopp, Josh Triplett and Tim Connors
+      for the reports and to Carl Chenet for the patch; Closes: #501285
   * reportbug/ui/text_ui.py
     - if help option is selected in debconf values inclusion menu, the second
       message doesn't contain newline, it's fixed now; thanks to Miroslaw
@@ -39,7 +42,7 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       particular with --configure to see the current values for realname and
       email; thanks to Andrei Popescu for the report; Closes: #526631
 
- -- Sandro Tosi <morph@debian.org>  Sun, 03 Jan 2010 02:06:51 +0100
+ -- Sandro Tosi <morph@debian.org>  Sun, 03 Jan 2010 16:28:52 +0100
 
 reportbug (4.9) unstable; urgency=low
 
