@@ -224,7 +224,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                                'l': 'Pipe the message through the pager.',
                                'p': 'print message to stdout.',
                                't': 'Add tags.',
-                               's': 'Add a carbon copy.',
+                               's': 'Add a X-Debbugs-CC recipient (a CC but after BTS processing).',
                                'm': "Choose a mailer to edit the report."})
 
         if x in ('a', 'i'):
@@ -340,9 +340,6 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                  'don\'t want anymore.'), empty_ok=True, force_prompt=True)
             if ccemail:
                 CCS.append(ccemail)
-                ewrite('The CC address was added.\n')
-            else:
-                ewrite('No CC address was added.\n')
         elif x == 'y':
             if message == dmessage:
                 x = ui.select_options(
