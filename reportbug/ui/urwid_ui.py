@@ -599,13 +599,13 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                 cancellabel = 'Exit'
                 quitlabel = None
             else:
-                cancellabel = 'Continue'
+                cancellabel = 'New bug'
                 quitlabel='Quit'
 
             while True:
-                info = menu('Select a bug to read the report:', buglist,
+                info = menu('Select a bug to read (and possibly report more information) or report a new bug:', buglist,
                             '', ui=ui, title=sectitle, default=p,
-                            oklabel='Get info',
+                            oklabel='Read bug',
                             cancellabel=cancellabel,
                             quitlabel=quitlabel)
                 ui = None
