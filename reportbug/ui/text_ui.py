@@ -405,8 +405,17 @@ def show_report(number, system, mirrors,
         ewrite('No report available: #%s\n', number)
         raise NoBugs
 
-    # extract the package name
-    foundpackage = info[1][0].lower().split('package: ')[1].split('\n')[0]
+    # extract the package name, either it's reported against
+    # the binary package or the source one
+    foundpackage = info[1][0].lower()
+    try:
+        foundpackage = foundpackage.split('package: ')[1].split('\n')[0]
+    except IndexError:
+        try:
+            foundpackage = foundpackage.split('source: ')[1].split('\n')[0]
+        except:
+            ewrite('Cannot retrieve bug\'s package, exiting...\n')
+            sys.exit(-1)
 
     (title, messages) = info
     # save report subject in main

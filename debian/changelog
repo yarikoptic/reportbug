@@ -15,6 +15,9 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       Zalewski for the report; Closes: #560302
     - retrieve the package information from the report using doing a lower-case
       check; thanks to Dan Greene for the report; Closes: #562912
+    - expanded the previous fix to consider either bugs submitted against the
+      binary (pseudo-header 'Package') or the source (pseudo-header 'Source')
+      package; thanks to Laurent Fousse for the report; Closes: #559065
   * share/presubj
     - refer to reportbug.d.o instead of bugs.d.o as SMTP server; thanks to Karl
       Goetz for the report and patch; Closes: #561802
@@ -52,7 +55,7 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       emacsclient to reuse an existing emacs instance (if any); thanks to Dan
       Jacobson for the report and Håkon Stordahl for the patch; Closes: #367298
 
- -- Sandro Tosi <morph@debian.org>  Mon, 04 Jan 2010 10:45:50 +0100
+ -- Sandro Tosi <morph@debian.org>  Mon, 04 Jan 2010 12:21:36 +0100
 
 reportbug (4.9) unstable; urgency=low
 
