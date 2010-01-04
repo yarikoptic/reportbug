@@ -95,7 +95,11 @@ def stopmsg(filename):
         'This file may be located in a temporary directory; if so, it might '
         'disappear without any further notice. To recover this file to use '
         'it as bug report body, please take a look at the "-i FILE, '
-        '--include=FILE" option.\n', filename)
+        '--include=FILE" option.\n'
+        'Alternatively, you can copy the content of the temporary file (both '
+        'headers and body) and copy it into your MUA and send the mail to '
+        'submit@bugs.debian.org, editing the subject and bug text as needed '
+        '(but not altering the other information).\n', filename)
 
 def include_file_in_report(message, message_filename,
                            attachment_filenames, package_name,

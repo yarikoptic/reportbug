@@ -34,6 +34,9 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
     - add the possibility to specify the X-Debbugs-CC in the menu before report
       submission; thanks to Sean Finney, Michael Gilbert and Branden Robinson
       for the report and to Carl Chenet for the patch; Closes: #349690
+    - clarified that the saved report to a temporary file can also be recovered
+      copying the text into a MUA and send the bug from there; thanks to Nelson
+      A. de Oliveira for the report; Closes: #405093
   * man/reportbug.conf.5
     - clarified the configuration files has to be UTF-8 documents; thanks to
       Anders Lageras for the report; Closes: #417054
@@ -49,7 +52,7 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       emacsclient to reuse an existing emacs instance (if any); thanks to Dan
       Jacobson for the report and Håkon Stordahl for the patch; Closes: #367298
 
- -- Sandro Tosi <morph@debian.org>  Mon, 04 Jan 2010 10:01:15 +0100
+ -- Sandro Tosi <morph@debian.org>  Mon, 04 Jan 2010 10:45:50 +0100
 
 reportbug (4.9) unstable; urgency=low
 
