@@ -10,10 +10,10 @@
 (if (or
      ;; Check for a separately packaged release of Gnus
      ;; (second component of version number even):
-     (= (% (string-to-int (match-string 2 gnus-version-number)) 2) 0)
+     (= (% (string-to-number (match-string 2 gnus-version-number)) 2) 0)
      ;; Check for a separately packaged pre-release of Gnus
      ;; (first component of version number 0):
-     (= (string-to-int (match-string 1 gnus-version-number)) 0))
+     (= (string-to-number (match-string 1 gnus-version-number)) 0))
     (require 'gnus-load))
 
 (defun tfheen-set-header (header value)
@@ -24,10 +24,10 @@
   (insert value)
   (widen))
 
-(defun tfheen-reportbug-insert-template ()
+(defun tfheen-reportbug-insert-template (reportbug-template)
   (interactive)
   (require 'gnus)
-  (find-file (getenv "REPORTBUG"))
+  (find-file reportbug-template)
   (let ((subject (message-fetch-field "Subject"))
         (toaddr (or (message-fetch-field "To") "submit@bugs.debian.org")))
     (gnus-narrow-to-body)
@@ -37,5 +37,7 @@
       (tfheen-set-header "To" toaddr)
       (gnus-narrow-to-body)
       (insert body)
+      (goto-char (point-min))
+      (search-forward "\n\n" nil t)
       (widen)))
-  (kill-buffer (find-buffer-visiting (getenv "REPORTBUG"))))
+  (kill-buffer (find-buffer-visiting reportbug-template)))

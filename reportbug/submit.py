@@ -430,15 +430,11 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             ewrite('Original write failed, wrote bug report to %s\n', msgname)
 
     if mua:
-        for bit in mua.split():
-            if '%s' not in bit: break
-        ewrite("Spawning %s...\n", bit or mua)
-        if '%s' not in mua:
-            mua += ' %s'
+        ewrite("Spawning %s...\n", mua.name)
         returnvalue = 0
         succeeded = False
         while not succeeded:
-            returnvalue = ui.system(mua % commands.mkarg(filename)[1:])
+            returnvalue = mua.send(filename)
             if returnvalue != 0:
                 ewrite("Mutt users should be aware it is mandatory to edit the draft before sending.\n")
                 mtitle = 'Report has not been sent yet; what do you want to do now?'

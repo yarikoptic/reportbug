@@ -46,6 +46,9 @@ import subprocess
 import debianbts
 from string import ascii_letters, digits
 
+# needed for MUA send
+import ui.text_ui as ui
+
 # Paths for dpkg
 DPKGLIB = '/var/lib/dpkg'
 AVAILDB = os.path.join(DPKGLIB, 'available')
@@ -752,13 +755,43 @@ CONFIG_ARGS = (
     'printonly', 'offline', 'check_uid', 'smtptls', 'smtpuser', 'smtppasswd',
     'paranoid')
 
+class Mua:
+    command = ""
+    name = ""
+
+    def __init__(self, command):
+        self.command = command
+        self.name = command.split()[0]
+
+    def send(self, filename):
+        mua = self.command
+        if '%s' not in mua:
+            mua += ' %s'
+        return ui.system(mua % commands.mkarg(filename)[1:])
+
+class Gnus(Mua):
+    name = "gnus"
+
+    def __init__(self):
+        pass
+
+    def send(self, filename):
+        elisp = """(progn
+                      (load-file "/usr/share/reportbug/reportbug.el")
+                      (tfheen-reportbug-insert-template "%s"))"""
+        filename = re.sub("[\"\\\\]", "\\\\\\g<0>", filename)
+        elisp = commands.mkarg(elisp % filename)
+        return ui.system("emacsclient --no-wait --eval %s 2>/dev/null"
+                         " || emacs --eval %s" % (elisp, elisp))
+
 MUA = {
-    'mutt' : 'mutt -H',
-    'mh' : '/usr/bin/mh/comp -use -file',
-    'gnus' : 'REPORTBUG=%s emacs -l /usr/share/reportbug/reportbug.el -f tfheen-reportbug-insert-template',
+    'mutt' : Mua('mutt -H'),
+    'mh' : Mua('/usr/bin/mh/comp -use -file'),
+    'gnus' : Gnus(),
     }
 MUA['nmh'] = MUA['mh']
 
+# TODO: convert them to class methods
 MUAVERSION = {
     MUA['mutt'] : 'mutt -v',
     MUA['mh'] : '/usr/bin/mh/comp -use -file',
@@ -774,7 +807,9 @@ def mua_is_supported(mua):
     elif mua == 'gnus' or mua == MUA['gnus']:
         mua = 'gnus'
     else:
-        mua = mua.split()[0]
+        pass
+	# FIXME: to adapt to new OO-style; previously it was:
+	# mua = mua.split()[0]
     if mua not in MUA:
         return False
     else:
@@ -789,7 +824,7 @@ def mua_exists(mua):
     elif mua == 'gnus' or mua == MUA['gnus']:
         mua = MUA['gnus']
     else:
-        mua = MUA[mua.split()[0]]
+        mua = MUA[mua]
     output = '/dev/null'
     if os.path.exists(output):
         try:

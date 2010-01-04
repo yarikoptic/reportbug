@@ -50,3 +50,30 @@ If after installing both of them still GTK+ UI doesn't show up, please
 file a report (in text ui :) ).
 
 Thanks to: Sandro Tosi <morph@debian.org>
+
+How to Use `gnus` MUA effectively
+=================================
+
+reportbug is now able to use an already running instance of emacs,
+instead of spawning a new one.
+
+In order to obtain that, you have to install:
+
+- `emacs22-bin-common` or `emacs23-bin-common` (as mentioned in
+  Suggests control field)
+
+that contains the `emacsclient` program needed for the integration to
+work (minimum version is 22 because earlier versions of `emacsclient`
+did not support the `--eval` option).
+
+Then a change to ~/.emacs file is needed, in order to add:
+
+  (server-start)
+
+or else Emacs won't listen for connections from emacsclient (and a new
+`emacs` instance is executed).
+
+With this changes, using the `gnus` MUA, the mail is opened in the
+running `emacs`, or if there's none, a new instance is executed.
+
+Thanks to: Håkon Stordahl <hakon@stordahl.org>
