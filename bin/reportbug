@@ -820,8 +820,8 @@ def main():
     parser.add_option('-z', '--no-compress', dest='nocompress',
                       action='store_true', help='do not strip blank lines '
                       'and comments from config files')
-    parser.add_option('-o', '--output', dest='outfile', help='output the '
-                      'report to the specified file')
+    parser.add_option('-o', '--output', dest='outfile', help='output the report'
+                      ' to the specified file (both mail headers and body)')
     parser.add_option('-O', '--offline', help='disable all external queries',
                       action='store_true')
     parser.add_option('-i', '--include', action='append',

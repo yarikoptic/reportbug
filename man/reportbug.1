@@ -276,6 +276,12 @@ and its number is already known.
 .TP
 .B \-o FILE, \-\-output=FILE
 Instead of sending an email, redirect it to the specified filename.
+
+The output file is a full dump of the email message, so it contains
+both headers and mail body. If you want to use it as a template to
+create a new bug report, then you have to remove all the headers (mind
+the \`Subject\` one, though) and start the report at the \'Package\'
+pseudo-header.
 .TP
 .B \-O, \-\-offline
 Disable all external queries.  Currently has the same effect as
