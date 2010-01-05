@@ -1,0 +1,19 @@
+=======================
+How To Report Good Bugs
+=======================
+
+In this document we will list some Internet resources we encourage you
+to read to provide effective and "good" bug reports:
+
+Title: How to report a bug in Debian using reportbug
+Author: Debian BTS administrators
+URL: http://www.debian.org/Bugs/Reporting
+
+Title: How to Report Bugs Effectively
+Author: Simon Tatham
+URL: http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
+
+Title: How To Ask Questions The Smart Way
+Author: Eric Steven Raymond, Rick Moen
+URL: http://catb.org/~esr/faqs/smart-questions.html
+
