@@ -63,8 +63,12 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
   * doc/HowToReportGoodBugs.txt
     - add a document listing some web resources for providing good bug reports;
       thanks to martin f krafft for the report; Closes: #446168
+  * bin/reportbug, man/reportbug.1
+    - introduce the new option '--draftpath' to specify an alternative location
+      where to save report drafts; thanks to Kokushoku Karasu for the report and
+      to Carl Chenet for the (partial) patch; Closes: #309273
 
- -- Sandro Tosi <morph@debian.org>  Tue, 05 Jan 2010 23:42:17 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 06 Jan 2010 00:45:03 +0100
 
 reportbug (4.9) unstable; urgency=low
 
