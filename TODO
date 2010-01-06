@@ -41,14 +41,6 @@ TODO list for reportbug 4.0 (squeeze):
    them... unless we figure out some way to get bug reports translated
    for maintainers.)
 
-5. (This is already done, I believe.) Convert BTS code to use the
-   mbox-format reports if available, as they should be easier to
-   parse.
-
-6. (SOAP is here, we need to integrate it.)  Alternatively, cajole the
-   BTS maintainers into producing an XML serialization of the BTS
-   data.  (See #184983)
-
 7. Allow followups from the command line using a specific bug number,
    rather than requiring people to go through the browser.  Coupled
    with --query-only, this should allow me to drop querybts
