@@ -1884,8 +1884,16 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
 
             fh, filename = TempFile(prefix=tfprefix, dir=self.options.draftpath)
             fh.close()
-            ui.system('LC_ALL=C %s %s %s' % (handler, commands.mkarg(bugexec),
+            rc = ui.system('LC_ALL=C %s %s %s' % (handler, commands.mkarg(bugexec),
                                              commands.mkarg(filename)))
+
+            if rc and not notatty:
+                if not ui.yes_no(
+                    'The package bug script %s exited with an error status (return '
+                    'code = %s). Do you still want to file a report?' % (bugexec,rc),
+                    'Ignore this problem and continue.',
+                    'Exit without filing a report.', False, nowrap=True):
+                    efail("Package bug script failed; stopping.\n")
 
             addinfo = None
             if not self.options.noconf:

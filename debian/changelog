@@ -42,6 +42,9 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       A. de Oliveira for the report; Closes: #405093
     - don't present configuration if using '-f' cli option; thanks to Ross
       Boylan for the report and to Carl Chenet for the patch; Closes: #372250
+    - in case the package bug script exited with a non-0 return code, reportbug
+      now asks if still reporting or stop; thanks to martin f krafft for the
+      report; Closes: #382010
   * man/reportbug.conf.5
     - clarified the configuration files has to be UTF-8 documents; thanks to
       Anders Lageras for the report; Closes: #417054
@@ -68,7 +71,7 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       where to save report drafts; thanks to Kokushoku Karasu for the report and
       to Carl Chenet for the (partial) patch; Closes: #309273
 
- -- Sandro Tosi <morph@debian.org>  Wed, 06 Jan 2010 00:45:03 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 06 Jan 2010 15:35:45 +0100
 
 reportbug (4.9) unstable; urgency=low
 
