@@ -26,17 +26,6 @@ TODO list for reportbug 4.0 (squeeze):
      'User-Agent' (as used by bts)? what's preferred to identify the tool
      generating the email?
 
-2. (In progress.)  Convert the modules to a proper package and stick
-   it in the Python search path (per #157079).  Reform the names.
-   Rename "reportbug.py" to something sensible.  This probably has to
-   be done before #1 can happen.
-
-   (Not sure of a good approach here.  Maybe we should have a class
-   that carries around all the information for a bug report, and be
-   able to do stuff like "report.get_debconf_settings()" and the like
-   when we go talking to external tools like dpkg, debconf-show,
-   debsums, etc.)
-
 3. BTS management interface for developers.  You should be able to
    view the list of bug reports for a package, construct a list of
    actions, and produce one giant email to control@bugs.debian.org to
