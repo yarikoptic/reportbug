@@ -26,15 +26,6 @@ TODO list for reportbug 4.0 (squeeze):
      'User-Agent' (as used by bts)? what's preferred to identify the tool
      generating the email?
 
-1. (We have one, but it needs to be updated.) Proper GNOME interface.
-   My current thinking is to hack the bug-buddy Glade file to pieces,
-   or do something similar in straight PyGTK, and give up on the whole
-   "UI abstraction" nonsense for now.
-
-   (To give you an idea of the limitations of the GNOME Druid widget,
-   bug-buddy doesn't even use a Druid... instead, it's a giant
-   notebook hack that emulates a Druid in appearance.)
-
 2. (In progress.)  Convert the modules to a proper package and stick
    it in the Python search path (per #157079).  Reform the names.
    Rename "reportbug.py" to something sensible.  This probably has to
