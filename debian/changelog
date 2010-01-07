@@ -76,8 +76,10 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       some stylistic changes; Closes: #559678
   * debian/control
     - added ${misc:Depends} to binary packages
+    - bump Standards-Version to 3.8.3, removal or outdated localized contents
+      and manpages updated of CLI options were needed
 
- -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 11:04:23 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 11:08:47 +0100
 
 reportbug (4.9) unstable; urgency=low
 
