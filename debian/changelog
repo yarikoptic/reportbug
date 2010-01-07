@@ -78,8 +78,10 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
     - added ${misc:Depends} to binary packages
     - bump Standards-Version to 3.8.3, removal or outdated localized contents
       and manpages updated of CLI options were needed
+  * debian/copyright
+    - update location of `handle_bugscript`
 
- -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 11:08:47 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 11:14:16 +0100
 
 reportbug (4.9) unstable; urgency=low
 
