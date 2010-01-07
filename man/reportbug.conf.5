@@ -30,15 +30,12 @@
 Debian distribution
 .hw config
 .SH DESCRIPTION
-This manual page describes the layout of the
-.B reportbug(1)
-configuration file and the available configuration options.  The default
-location of the file is
-.B /etc/reportbug.conf
-and the options may be overriding in
-.B $HOME/.reportbugrc
--- which follows the same format as
-.B reportbug.conf
+This manual page describes the layout of the \fBreportbug\fP and
+\fBquerybts\fP configuration file and the available configuration
+options.  The default location of the file is
+\fB/etc/reportbug.conf\fP and the options may be overriding in
+\fB$HOME/.reportbugrc\fP (which follows the same format as
+\fBreportbug.conf\fP).
 
 Please note that any configuration file has to be a valid UTF-8
 document, and not in a different locale; this is particularly
@@ -47,26 +44,27 @@ important in situations where localized characters has to be used
 .SH "FILE FORMAT"
 Configuration options can be specified in the form
 
-\fIoption-name\fP \fIoption-value\fP
+\fBoption-name\fP \fIoption-value\fP
 
-True/false (boolean) options can be specified as
+True/False (boolean) options can be specified as
 
-\fIboolean-option\fP
+\fBboolean-option\fP
 
-Usually, \fIno-option\fP will disable
-\fIoption\fP if \fIoption\fP is boolean.
+(if it's present, it's a \fBTrue\fP).
+
+Usually, \fBno-option\fP will disable \fBoption\fP if \fBoption\fP is
+boolean.
 
 Options can be specified in any order.
 .SH OPTIONS
 The summary of possible options (in alphabetical order) is as follows:
 .TP
 .B bts
-The bug tracking system to use, see
-.B reportbug --bts help
-for a list of currently supported BTSes
+The bug tracking system to use, see \fBreportbug --help\fP searching
+for \fB\-\-bts\fP option for a list of currently supported BTSes.
 .TP
 .B cc (\fIboolean\fP)
-Whether the reporter should be Cc:ed on the bug report
+Whether the reporter should be Cc:ed on the bug report.
 .TP
 .B check-available (\fIboolean\fP)
 Whether \fBpackages.debian.org\fP should be queried for newer releases
@@ -76,187 +74,161 @@ of the package.  In \fBadvanced\fP and \fBexpert\fP mode,
 .TP
 .B compress (\fIboolean\fP)
 Whether modified configuration files included in the bug report should
-be stripped down
+be stripped down.
 .TP
 .B config-files (\fIboolean\fP)
 Whether modified configuration files should be included with the bug
-report
+report.
 .TP
 .B editor
-The editor to use to edit the bug report
+The editor to use to edit the bug report.  Example:
 
-\fIeditor "emacs \-nw"\fP
+\fBeditor\fP \fI"emacs \-nw"\fP
 
 .TP
 .B email
-Default "From:" address of the bug email (override with environment
-variables, see
-.B reportbug(1))
+Default \fBFrom\fP address of the bug email (override with environment
+variables, see \fBreportbug(1)\fP). Example:
 
-\fIemail "humberto@example.com"\fP
+\fBemail\fP \fI"humberto@example.com"\fP
 
 .TP
 .B header
 Additional headers to add to the bug email.  Like:
 
-\fIheader "X-Debbugs-CC: debian-qa@lists.debian.org"\fP
+\fBheader\fP \fI"X-Debbugs-CC: debian-qa@lists.debian.org"\fP
 .br
-\fIheader "X-Silly-Header: I haven't edited my /etc/reportbug.conf"\fP
+\fBheader\fP \fI"X-Silly-Header: I haven't edited my /etc/reportbug.conf"\fP
 .br
-\fIheader "X-Debbugs-No-Ack: please" # to suppress acknowledgments\fP
+\fBheader\fP \fI"X-Debbugs-No-Ack: please" # to suppress acknowledgments\fP
 
 .TP
 .B http_proxy
 Default HTTP proxy used to query the BTS (override with environment
-variables, see
-.B reportbug(1))
+variables, see \fBreportbug(1)\fP). Example:
 
-\fIhttp_proxy http://proxy.example.com:3128/\fP
+\fBhttp_proxy\fP \fIhttp://proxy.example.com:3128/\fP
 
 .TP
 .B keyid
-The GPG key to use, if different from the default one on the system
+The GPG key to use, if different from the default one on the system.
+Example:
 
-\fIkeyid 12345678\fP
+\fBkeyid\fP \fI12345678\fP
 
 .TP
 .B maintonly
-See the
-.B --maintonly
-entry in
-.B reportbug(1)
+See the \fB\-\-maintonly\fP entry in \fBreportbug(1)\fP.
 .TP
 .B mh
-Use the
-.B mh
-mailer
+Use the \fBmh\fP mailer.
 .TP
 .B mode [\fInovice\fP|\fIstandard\fP|\fIadvanced\fP|\fIexpert\fP]
-The default operating mode for
-.B reportbug(1)
+The default operating mode for \fBreportbug(1)\fP.
 .TP
 .B mta
 The path to the MTA used.  Any any SMTP server on Debian should be OK
-with the default
+with the default:
 
-\fImta /usr/sbin/sendmail\fP
+\fBmta\fP \fI/usr/sbin/sendmail\fP
 
 .TP
 .B mua
-The mailer to use (the default is empty, to use an internal mailer).
-Takes an argument like that to
-.B --mua
-in
-.B reportbug(1)
+The mail user agent to use (the default is empty, to use an internal
+mailer). Example:
 
-\fImua 'mutt \-H'\fP
+\fBmua\fP \fI'mutt \-H'\fP
 
 .TP
 .B mutt
-Use the
-.B mutt
-mailer
+Use the \fBmutt\fP mailer.
 .TP
 .B nmh
-Use the
-.B nmh
-mailer
+Use the \fBnmh\fP mailer.
 .TP
 .B no-check-uid (\fIboolean\fP)
 Disables checking whether the UIDs are outside admin range (\fIroot\fP
-is still checked)
+is still checked).
 .TP
 .B no-debconf (\fIboolean\fP)
-Disables adding the
-.B debconf-show
-output to the bug report
+Disables adding the \fBdebconf-show\fP output to the bug report.
 .TP
 .B no-query-source (\fIboolean\fP)
-Disables querying the source packages for bugs
+Disables querying the source packages for bugs.
 .TP
 .B offline
-Disables all external queries
+Disables all external queries.
 .TP
 .B query-bts (\fIboolean\fP)
-Whether the BTS should be queried for existing bug reports
+Whether the BTS should be queried for existing bug reports.
 .TP
 .B quiet
-See the
-.B --report-quiet
-entry in
-.B reportbug(1)
+See the \fB\-\-report-quiet\fP entry in \fBreportbug(1)\fP.
 .TP
 .B realname
-The default real-name in the "From:" address of the bug email
-(override with environment variables.  See
-.B reportbug(1))
+The default real-name in the \fBFrom\fP address of the bug email
+(override with environment variables, see \fBreportbug(1)\fP. Example:
 
-\fIrealname "Humberto Flores III"\fP
+\fBrealname\fP \fI"Humberto Flores III"\fP
 
 .TP
 .B replyto
-The default "Reply-To:" in the bug email (override with environment
-variables.  See
-.B reportbug(1))
+The default \fBReply-To\fP in the bug email (override with environment
+variables, see \fBreportbug(1)\fP. Example:
 
-\fIreplyto "Humberto Flores <humflores@example.org>"\fP
+\fBreplyto\fP \fI"Humberto Flores <humflores@example.org>"\fP
 
 .TP
-.B severity [\fIcritical\fP|\fIgrave\fP|\fIserious\fP|\fIimportant\fP|\fIdoes-not-build\fP|\fInormal\fP|\fIminor\fP|\fIwishlist\fP]
+.B severity [\fIcritical\fP|\fIgrave\fP|\fIserious\fP|\fIimportant\fP|\fInormal\fP|\fIminor\fP|\fIwishlist\fP]
 The default severity level of the bug reported.  Setting this in the
 configuration file will disable prompting while running
-.B reportbug
+\fBreportbug\fP.
 .TP
 .B sign [\fIgpg\fP|\fIpgp\fP]
-Program used to digitally sign bug reports automatically
+Program used to digitally sign bug reports automatically.
 .TP
 .B smtphost
-Use an MTA different from /usr/sbin/sendmail.  A port number other than
-25 can also be specified
+Use an MTA different from \fB/usr/sbin/sendmail\fP.  A port number
+other than 25 can also be specified. Example:
 
-\fIsmtphost mail.example.com:2525\fP
+\fBsmtphost\fP \fImail.example.com:2525\fP
 
-Use \fIsmtphost localhost\fP to enable the internal MTA
+Use "\fBsmtphost\fP \fIlocalhost\fP" to enable the internal MTA.
 
 .TP
 .B smtppasswd
-The password to use for SMTP
+The password to use for SMTP. Example:
 
-\fIsmtppasswd f10r35\fP
+\fBsmtppasswd\fP \fIf10r35\fP
 
 .TP
 .B smtpuser
-The username to use for SMTP
+The username to use for SMTP. Example:
 
-\fIsmtpuser hflores\fP
+\fBsmtpuser\fP \fIhflores\fP
 
 .TP
 .B smtptls
-Enables TLS encryption
+Enables TLS encryption.
 .TP
 .B submit
-Use \fIsubmit\fP as the bug submission address
+Use \fIsubmit\fP as the bug submission address.
 .TP
 .B template
 Use the template mode, bypasses all prompts and the output it sent to
-stdout
+stdout.
 .TP
 .B ui [\fItext\fP|\fIurwid\fP|\fIgtk2\fP]
-The user interface that
-.B querybts(1)
-and
-.B reportbug(1)
-should use
+The user interface that \fBquerybts(1)\fP and \fBreportbug(1)\fP
+should use.
 .TP
 .B verify
 Enables automatic verification of package installation before reporting
-using debsums, if available
+using \fBdebsums\fP, if available.
 .SH "SEE ALSO"
 reportbug(1), querybts(1)
 .SH AUTHOR
-reportbug was written by Chris Lawrence <lawrencc@debian.org>
+reportbug was written by Chris Lawrence <lawrencc@debian.org> and it's now maintained by Sandro Tosi <morph@debian.org>
 .PP
 This manual page was written by Y Giridhar Appaji Nag
 <giridhar@appaji.net> for the Debian project, but may be used by others.
-.PP
-Last modified: 2007-12-20 by Y Giridhar Appaji Nag

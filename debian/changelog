@@ -70,8 +70,12 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
     - introduce the new option '--draftpath' to specify an alternative location
       where to save report drafts; thanks to Kokushoku Karasu for the report and
       to Carl Chenet for the (partial) patch; Closes: #309273
+  * bin/reportbug, man/*
+    - updated all the manpages to reflect the actual cli options accepted by
+      reportbug and querybts, removing outdated information and also applying
+      some stylistic changes; Closes: #559678
 
- -- Sandro Tosi <morph@debian.org>  Wed, 06 Jan 2010 15:35:45 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 10:56:43 +0100
 
 reportbug (4.9) unstable; urgency=low
 

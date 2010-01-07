@@ -769,21 +769,22 @@ def main():
     parser.add_option('-e', '--editor', dest='editor',
                       help='specify an editor for your report')
     parser.add_option('-f', '--filename', dest='searchfor',
-                      help='file to search for')
+                      help='report the bug against the package containing the specified file')
     parser.add_option('--path', dest='pathonly', action="store_true",
                       default=False, help='only search the path with -f')
     parser.add_option('-g', '--gnupg', '--gpg', action='store_const',
                       dest='sign', const='gpg',
-                      help='sign report with GNU Privacy Guard')
+                      help='sign report with GNU Privacy Guard (GnuPG/gpg)')
     parser.add_option('-G', '--gnus', action='store_const', dest='mua',
                       const=utils.MUA['gnus'],
                       help='send the report using GNUS')
     parser.add_option('--pgp', action='store_const', dest='sign',
-                      const='pgp', help='sign report with PGP')
+                      const='pgp',
+                      help='sign report with Pretty Good Privacy (PGP)')
     parser.add_option('-K', '--keyid', type="string", dest="keyid",
                       help="key ID to use for PGP/GnuPG signatures")
     parser.add_option('-H', '--header', action='append', dest='headers',
-                      help='add a custom RFC822 header to your report')
+                      help='add a custom RFC2822 header to your report')
     parser.add_option('-P', '--pseudo-header', action='append', dest='pseudos',
                       help='add a custom pseudo-header to your report')
     parser.add_option('--license', action='store_true', default=False,
@@ -800,9 +801,9 @@ def main():
                       help='send the report using mh/nmh',
                       const=utils.MUA['mh'])
     parser.add_option('-N', '--bugnumber', action='store_true',
-                      dest='bugnumber',help='Specify a bug number to look for')
+                      dest='bugnumber',help='specify a bug number to look for')
     parser.add_option('--mua', dest='mua',
-                      help='send the report using the specified mailer')
+                      help='send the report using the specified mail user agent')
     parser.add_option('--mta', dest='mta', help='send the report using the '
                       'specified mail transport agent')
     parser.add_option('--list-cc', action='append', dest='listcc',
@@ -902,9 +903,6 @@ def main():
     parser.add_option('-k', '--kudos', action='store_true', default=False,
                       help='send appreciative email to the maintainer, rather '
                       'than filing a bug report')
-    parser.add_option('--check-installed', action='store_true',
-                      dest='querydpkg', help='check whether the specified '
-                      'package is installed when filing a report (default)')
     parser.add_option('--body', dest="body", type="string",
                       help="specify the body for the report as a string")
     parser.add_option('--body-file', '--bodyfile', dest="bodyfile",
@@ -913,6 +911,9 @@ def main():
     parser.add_option('-I', '--no-check-installed', action='store_false',
                       default=True, dest='querydpkg',
                       help='don\'t check whether the package is installed')
+    parser.add_option('--check-installed', action='store_true',
+                      dest='querydpkg', help='check whether the specified '
+                      'package is installed when filing a report (default)')
     parser.add_option('--exit-prompt', action='store_true', dest='exitprompt',
                       help='prompt before exiting')
     parser.add_option('--paranoid', action='store_true', dest='paranoid',
