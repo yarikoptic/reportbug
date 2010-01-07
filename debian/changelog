@@ -63,7 +63,7 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
     - clarified the option -o/--output output the full mail dump (headers and
       body) and how to use to report a new bug; thanks to Alan W. Irwin for the
       report; Closes: #323483
-  * doc/HowToReportGoodBugs.txt
+  * doc/HowToReportGoodBugs.txt, debian/doc
     - add a document listing some web resources for providing good bug reports;
       thanks to martin f krafft for the report; Closes: #446168
   * bin/reportbug, man/reportbug.1
@@ -85,7 +85,7 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
   * debian/pycompat
     - removed, not needed
 
- -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 11:27:05 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 11:28:01 +0100
 
 reportbug (4.9) unstable; urgency=low
 
