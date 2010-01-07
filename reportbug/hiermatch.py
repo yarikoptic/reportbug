@@ -1,7 +1,7 @@
 # hiermatch - Doing match on a list of string or a hierarchy.
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   Copyright (C) 1999-2008 Chris Lawrence
-#   Copyright (C) 2008-2009 Sandro Tosi <morph@debian.org>
+#   Copyright (C) 2008-2010 Sandro Tosi <morph@debian.org>
 
 import re
 import exceptions

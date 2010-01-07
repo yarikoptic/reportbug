@@ -80,8 +80,10 @@ reportbug (4.10~WIP) UNRELEASED; urgency=low
       and manpages updated of CLI options were needed
   * debian/copyright
     - update location of `handle_bugscript`
+  * debian/control, *
+    - extending my copyright notices to 2010
 
- -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 11:14:16 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 07 Jan 2010 11:21:25 +0100
 
 reportbug (4.9) unstable; urgency=low
 

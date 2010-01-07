@@ -3,7 +3,7 @@
 # reportbug - Report a bug in the Debian distribution.
 #   Written by Chris Lawrence <lawrencc@debian.org>
 #   Copyright (C) 1999-2008 Chris Lawrence
-#   Copyright (C) 2008-2009 Sandro Tosi <morph@debian.org>
+#   Copyright (C) 2008-2010 Sandro Tosi <morph@debian.org>
 #
 # This program is freely distributable per the following license:
 #
@@ -29,4 +29,4 @@ VERSION_NUMBER = "4.9"
 
 VERSION = "reportbug "+VERSION_NUMBER
 COPYRIGHT = VERSION + '\nCopyright (C) 1999-2008 Chris Lawrence <lawrencc@debian.org>' + \
-                      '\nCopyright (C) 2008-2009 Sandro Tosi <morph@debian.org>'
+                      '\nCopyright (C) 2008-2010 Sandro Tosi <morph@debian.org>'
