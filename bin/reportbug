@@ -41,7 +41,8 @@ from reportbug import utils
 from reportbug import (
     VERSION,
     VERSION_NUMBER,
-    COPYRIGHT
+    COPYRIGHT,
+    LICENSE
     )
 from reportbug.utils import (
     MODE_EXPERT, MODE_ADVANCED, MODE_NOVICE, MODE_STANDARD,
