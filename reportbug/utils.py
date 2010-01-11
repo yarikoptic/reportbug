@@ -769,6 +769,9 @@ class Mua:
             mua += ' %s'
         return ui.system(mua % commands.mkarg(filename)[1:])
 
+    def get_name(self):
+        return self.name
+
 class Gnus(Mua):
     name = "gnus"
 
@@ -801,16 +804,16 @@ MUAVERSION = {
 def mua_is_supported(mua):
     # check if the mua is supported by reportbug
     if mua == 'mh' or mua == MUA['mh']:
-        mua = 'mh'
+        mua_tmp = 'mh'
     elif mua == 'nmh' or mua == MUA['nmh']:
-        mua = 'mh'
+        mua_tmp = 'mh'
     elif mua == 'gnus' or mua == MUA['gnus']:
-        mua = 'gnus'
+        mua_tmp = 'gnus'
+    elif mua == 'mutt' or mua == MUA['mutt']:
+        mua_tmp = 'mutt'
     else:
-        pass
-	# FIXME: to adapt to new OO-style; previously it was:
-	# mua = mua.split()[0]
-    if mua not in MUA:
+        mua_tmp = mua
+    if mua_tmp not in MUA:
         return False
     else:
         return True
@@ -818,21 +821,23 @@ def mua_is_supported(mua):
 def mua_exists(mua):
     # check if the mua is available on the system
     if mua == 'mh' or mua == MUA['mh']:
-        mua = MUA['mh']
+        mua_tmp = MUA['mh']
     elif mua == 'nmh' or mua == MUA['nmh']:
-        mua = MUA['mh']
+        mua_tmp = MUA['mh']
     elif mua == 'gnus' or mua == MUA['gnus']:
-        mua = MUA['gnus']
+        mua_tmp = MUA['gnus']
+    elif mua == 'mutt' or mua == MUA['mutt']:
+        mua_tmp = MUA['mutt']
     else:
-        mua = MUA[mua]
+        mua_tmp = MUA[mua]
     output = '/dev/null'
     if os.path.exists(output):
         try:
-            returnvalue = subprocess.call(MUAVERSION[mua], stdout=open(output, 'w'), stderr=subprocess.STDOUT, shell=True)
+            returnvalue = subprocess.call(MUAVERSION[mua_tmp], stdout=open(output, 'w'), stderr=subprocess.STDOUT, shell=True)
         except IOError, OSError:
-            returnvalue = subprocess.call(MUAVERSION[mua], shell=True)
+            returnvalue = subprocess.call(MUAVERSION[mua_tmp], shell=True)
     else:
-        returnvalue = subprocess.call(MUAVERSION[mua], shell=True)
+        returnvalue = subprocess.call(MUAVERSION[mua_tmp], shell=True)
     # 127 is the shell standard return value to indicate a 'command not found' result
     if returnvalue == 127:
         return False

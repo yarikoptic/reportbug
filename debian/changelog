@@ -2,8 +2,12 @@ reportbug (4.11~WIP) UNRELEASED; urgency=low
 
   * bin/reportbug
     - import LICENSE from reportbug, so --license won't trigger an error
+  * reportbug/utils.py
+    - fix broken '--mutt' CLI/config-file option by using a new variable, adding
+      the 'mutt' 'if' branch, and the 'get_name()' in MUA class; thanks to
+      Julien Cristau for the report; Closes: #564253
 
- -- Sandro Tosi <morph@debian.org>  Fri, 08 Jan 2010 01:18:38 +0100
+ -- Sandro Tosi <morph@debian.org>  Mon, 11 Jan 2010 19:45:35 +0100
 
 reportbug (4.10) unstable; urgency=low
 
