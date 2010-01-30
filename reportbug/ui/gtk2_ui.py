@@ -71,11 +71,14 @@ def ask_free (s):
         return s[:-1]
     return s
 
-def create_scrollable (widget):
+def create_scrollable (widget, with_viewport=False):
     scrolled = gtk.ScrolledWindow ()
     scrolled.set_shadow_type (gtk.SHADOW_ETCHED_IN)
     scrolled.set_policy (gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-    scrolled.add (widget)
+    if with_viewport:
+        scrolled.add_with_viewport (widget)
+    else:
+        scrolled.add (widget)
     return scrolled
 
 def info_dialog (message):
@@ -118,6 +121,7 @@ class CustomDialog (gtk.Dialog):
         label = gtk.Label (message)
         label.set_line_wrap (True)
         label.set_justify (gtk.JUSTIFY_FILL)
+        label.set_selectable (True)
         hbox.pack_start (label, expand=False)
 
         self.setup_dialog (vbox, *args, **kwargs)
@@ -373,16 +377,18 @@ class BugPage (gtk.EventBox, threading.Thread):
         label.set_line_wrap (True)
         label.set_justify (gtk.JUSTIFY_FILL)
         vbox.pack_start (label, expand=False)
-        
-        view = gtk.TreeView ()
-        view.get_selection().set_mode (gtk.SELECTION_NONE)
-        view.set_rules_hint (True)
-        model = gtk.ListStore (str)
-        view.set_model (model)
-        view.append_column (gtk.TreeViewColumn ('Replies', gtk.CellRendererText (), text=0))
+
+        views = gtk.VBox ()
+        odd = False
         for body in bodies:
-            model.append ([body])
-        scrolled = create_scrollable (view)
+            view = gtk.TextView ()
+            view.set_editable (False)
+            view.get_buffer().set_text (body)
+            if odd:
+                view.set_state (gtk.STATE_PRELIGHT)
+            views.pack_start (view, False)
+            odd = not odd
+        scrolled = create_scrollable (views, True)
         vbox.pack_start (scrolled)
 
         bbox = gtk.HButtonBox ()
@@ -590,6 +596,7 @@ class GetStringPage (Page):
         self.label = gtk.Label ()
         self.label.set_line_wrap (True)
         self.label.set_justify (gtk.JUSTIFY_FILL)
+        self.label.set_selectable (True)
         self.entry = gtk.Entry ()
         vbox.pack_start (self.label, expand=False)
         vbox.pack_start (self.entry, expand=False)
@@ -636,6 +643,7 @@ class GetMultilinePage (Page):
         self.label = gtk.Label ()
         self.label.set_line_wrap (True)
         self.label.set_justify (gtk.JUSTIFY_FILL)
+        self.label.set_selectable (True)
         vbox.pack_start (self.label, expand=False)
 
         self.view = gtk.TextView ()
@@ -1101,6 +1109,7 @@ class EditorPage (Page):
             label = gtk.Label ("Please install <b>python-gtkspell</b> to enable spell checking")
             label.set_use_markup (True)
             label.set_line_wrap (True)
+            label.set_selectable (True)
             box.add (label)
             box.modify_bg (gtk.STATE_NORMAL, self.WARNING_COLOR)
             box.connect ('button-press-event', lambda *args: box.destroy ())
