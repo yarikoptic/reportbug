@@ -45,6 +45,7 @@ import os
 import traceback
 from Queue import Queue
 import threading
+import textwrap
 
 from reportbug.exceptions import NoPackage, NoBugs, NoNetwork, NoReport
 from reportbug import debianbts
@@ -311,7 +312,7 @@ class BugReport (object):
 %s
 
 
-%s""" % ('\n'.join (self.headers), info,self.others)
+%s""" % ('\n'.join (self.headers), textwrap.fill (info, width=79), self.others)
         return message
 
 # BTS GUI
@@ -1159,7 +1160,7 @@ class EditorPage (Page):
 
         info = self.report.get_original_info ()
         if info.strip () == "*** Please type your report below this line ***":
-            info = "Please type your report here..."
+            info = "Please type your report here.\nThe text will be wrapped to be max 79 chars long per line."
             self.handle_first_info ()
         self.info_buffer.set_text (info)
 

@@ -4,8 +4,10 @@ reportbug (4.10.3) UNRELEASED; urgency=low
     - rename Forward button to Continue button; Closes: #565140
     - more selectable labels and use text views for bug replies;
       thanks to Éric Araujo for the report; Closes: #564447
+    - wrap text to be 79 chars width in the editor; thanks to Mark Brown for
+      the report; Closes: #562878
 
- -- Luca Bruno <lethalman88@gmail.com>  Sat, 30 Jan 2010 21:54:48 +0100
+ -- Luca Bruno <lethalman88@gmail.com>  Sat, 30 Jan 2010 22:15:13 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 
