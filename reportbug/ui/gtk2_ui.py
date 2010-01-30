@@ -123,6 +123,7 @@ class CustomDialog (gtk.Dialog):
         label.set_line_wrap (True)
         label.set_justify (gtk.JUSTIFY_FILL)
         label.set_selectable (True)
+        label.set_property ("can-focus", False)
         hbox.pack_start (label, expand=False)
 
         self.setup_dialog (vbox, *args, **kwargs)
@@ -598,6 +599,7 @@ class GetStringPage (Page):
         self.label.set_line_wrap (True)
         self.label.set_justify (gtk.JUSTIFY_FILL)
         self.label.set_selectable (True)
+        self.label.set_property ("can-focus", False)
         self.entry = gtk.Entry ()
         vbox.pack_start (self.label, expand=False)
         vbox.pack_start (self.entry, expand=False)
@@ -645,6 +647,7 @@ class GetMultilinePage (Page):
         self.label.set_line_wrap (True)
         self.label.set_justify (gtk.JUSTIFY_FILL)
         self.label.set_selectable (True)
+        self.label.set_property ("can-focus", False)
         vbox.pack_start (self.label, expand=False)
 
         self.view = gtk.TextView ()
@@ -1060,6 +1063,7 @@ class LongMessagePage (Page):
         self.label.set_line_wrap (True)
         self.label.set_justify (gtk.JUSTIFY_FILL)
         self.label.set_selectable (True)
+        self.label.set_property ("can-focus", False)
         eb = gtk.EventBox ()
         eb.add (self.label)
         return eb
@@ -1111,6 +1115,7 @@ class EditorPage (Page):
             label.set_use_markup (True)
             label.set_line_wrap (True)
             label.set_selectable (True)
+            label.set_property ("can-focus", False)
             box.add (label)
             box.modify_bg (gtk.STATE_NORMAL, self.WARNING_COLOR)
             box.connect ('button-press-event', lambda *args: box.destroy ())
@@ -1333,7 +1338,7 @@ class ReportbugAssistant (gtk.Assistant):
         if self.showing_page == self.progress_page:
             self.progress_page.reset_label ()
 
-        self.showing_page.setup_focus ()
+        gobject.idle_add (self.showing_page.setup_focus)
 
     def close (self, *args):
         sys.exit (0)
