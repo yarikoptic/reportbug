@@ -1304,7 +1304,7 @@ class ReportbugAssistant (gtk.Assistant):
                 widget.connect ('show', self.on_back_show)
                 return
             if widget.get_label() == 'gtk-go-forward':
-                image = gtk.image_new_from_stock (gtk.STOCK_GO_BACK, gtk.ICON_SIZE_BUTTON)
+                image = gtk.image_new_from_stock (gtk.STOCK_GO_FORWARD, gtk.ICON_SIZE_BUTTON)
                 widget.set_label ("_Continue")
                 widget.set_image (image)
                 return
