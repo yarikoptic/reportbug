@@ -32,4 +32,4 @@ REPORTING: It is useful to include the full transcript of reportbug
    provide a faster and more precise response.
 
 (You may need to press 'q' to exit your pager and continue using
-reportbug at this point.)
+reportbug at this point. Doesn't apply to GTK+ UI.)

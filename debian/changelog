@@ -11,7 +11,12 @@ reportbug (4.10.3) UNRELEASED; urgency=low
     - fix focus stealing issues; thanks to Eduard Bloch for the report;
       Closes: #564418
 
- -- Sandro Tosi <morph@debian.org>  Wed, 03 Feb 2010 20:19:01 +0100
+  [ Sandro Tosi ]
+  * share/presubj
+    - specified the pager exit key doesn't apply to GTK+ UI; thanks to Éric
+      Araujo for the report; Closes: 568196
+
+ -- Sandro Tosi <morph@debian.org>  Thu, 04 Feb 2010 07:19:32 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 
