@@ -31,5 +31,12 @@ REPORTING: It is useful to include the full transcript of reportbug
    (with text ui) output, so we can see what it's trying to do and
    provide a faster and more precise response.
 
+GTK+ UI: There are some situation when the GTK+ stack crashes,
+   reporting "Floating point exception" or GTK+ stack traces; those
+   are bugs in GTK+ or misconfigurations (for example, using 'testing'
+   suite can lead to such errors) on the current machine. Do nor
+   report bugs against reportbug in such situations but consult users
+   support forums.
+
 (You may need to press 'q' to exit your pager and continue using
 reportbug at this point. Doesn't apply to GTK+ UI.)
