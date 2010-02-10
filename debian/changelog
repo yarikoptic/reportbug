@@ -15,7 +15,7 @@ reportbug (4.10.3) UNRELEASED; urgency=low
   * share/presubj
     - specified the pager exit key doesn't apply to GTK+ UI; thanks to Éric
       Araujo for the report; Closes: 568196
-    - clarified to not repot bugs against reportbug in case of GTK+ crashes
+    - clarified to not report bugs against reportbug in case of GTK+ crashes
 
  -- Sandro Tosi <morph@debian.org>  Tue, 09 Feb 2010 13:40:32 +0100
 

@@ -34,7 +34,7 @@ REPORTING: It is useful to include the full transcript of reportbug
 GTK+ UI: There are some situation when the GTK+ stack crashes,
    reporting "Floating point exception" or GTK+ stack traces; those
    are bugs in GTK+ or misconfigurations (for example, using 'testing'
-   suite can lead to such errors) on the current machine. Do nor
+   suite can lead to such errors) on the current machine. Do not
    report bugs against reportbug in such situations but consult users
    support forums.
 
