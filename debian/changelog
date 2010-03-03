@@ -16,8 +16,12 @@ reportbug (4.10.3) UNRELEASED; urgency=low
     - specified the pager exit key doesn't apply to GTK+ UI; thanks to Éric
       Araujo for the report; Closes: 568196
     - clarified to not repot bugs against reportbug in case of GTK+ crashes
+  * bin/reportbug, reportbug/utils.py
+    - identify the pseudo-headers passed on the command-line and don't merge
+      them in the mail headers, but add them to the bug "standard"
+      pseudo-headers; thanks to Piotr Engelking for the report; Closes: #552167
 
- -- Sandro Tosi <morph@debian.org>  Tue, 09 Feb 2010 13:40:32 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 03 Mar 2010 19:18:46 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 

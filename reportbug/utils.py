@@ -964,7 +964,7 @@ def parse_bug_control_file(filename):
 
     return submitas, submitto, reportwith, supplemental
 
-def cleanup_msg(dmessage, headers, type):
+def cleanup_msg(dmessage, headers, pseudos, type):
     pseudoheaders = []
     # Handle non-pseduo-headers
     headerre = re.compile(r'^([^:]+):\s*(.*)$', re.I)
@@ -978,6 +978,13 @@ def cleanup_msg(dmessage, headers, type):
         if mob:
             newheaders.append(mob.groups())
 
+    # Get the pseudo-headers fields
+    PSEUDOS = []
+    for ph in pseudos:
+        mob = headerre.match(ph)
+        if mob:
+            PSEUDOS.append(mob.group(1))
+
     for line in dmessage.split(os.linesep):
         if not line and parsing:
             parsing = False
@@ -986,7 +993,8 @@ def cleanup_msg(dmessage, headers, type):
             # GNATS and debbugs have different ideas of what a pseudoheader
             # is...
             if mob and ((type == 'debbugs' and
-                         mob.group(1) not in PSEUDOHEADERS) or
+                         mob.group(1) not in PSEUDOHEADERS and
+                         mob.group(1) not in PSEUDOS) or
                         (type == 'gnats' and mob.group(1)[0] != '>')):
                 newheaders.append(mob.groups())
                 lastpseudo = False
@@ -1020,12 +1028,13 @@ def cleanup_msg(dmessage, headers, type):
     else:
         ph2 = {}
         for header, content in pseudoheaders:
-            if header in PSEUDOHEADERS:
+            # if either in the canonical pseudo-headers list or in those passed on the command line
+            if header in list(PSEUDOHEADERS) + PSEUDOS:
                 ph2[header] = content
             else:
                 newheaders.append( (header, content) )
 
-        for header in PSEUDOHEADERS:
+        for header in list(PSEUDOHEADERS) + PSEUDOS:
             if header in ph2:
                 ph += ['%s: %s' % (header, ph2[header])]
 

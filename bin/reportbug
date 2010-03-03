@@ -2002,7 +2002,8 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         if listcc:
             headers.append('X-Debbugs-CC: '+', '.join(listcc))
 
-        body, headers, pseudoheaders = utils.cleanup_msg(message,headers,rtype)
+        # Pass both headers and pseudo-headers (passed on command-line, f.e.)
+        body, headers, pseudoheaders = utils.cleanup_msg(message, headers, pseudos, rtype)
 
         if sign:
             ewrite('Passing message to %s for signature...\n', sign)
