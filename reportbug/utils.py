@@ -212,6 +212,7 @@ def find_rewritten(username):
                     return None
 
 def check_email_addr(addr):
+    """Simple check for email validity"""
     if '@' not in addr:
         return False
     if addr.count('@') != 1:
