@@ -182,7 +182,17 @@ def query_dpkg_for(filename, use_dlocate=True):
 
 def find_package_for(filename, pathonly=False):
     """Find the package(s) containing this file."""
+
     packages = {}
+
+    # tries to match also files in /var/lib/dpkg/info/
+    if filename.startswith('/var/lib/dpkg/info/'):
+        dpkg_info = re.compile('/var/lib/dpkg/info/(.+)\.[^.]+')
+        m = dpkg_info.match(filename)
+        # callee want a dict as second pair element...
+        packages[m.group(1)]=''
+        return (filename, packages)
+
     if filename[0] == '/':
         fn, pkglist = query_dpkg_for(filename)
         if pkglist: return fn, pkglist
