@@ -77,3 +77,35 @@ With this changes, using the `gnus` MUA, the mail is opened in the
 running `emacs`, or if there's none, a new instance is executed.
 
 Thanks to: Håkon Stordahl <hakon@stordahl.org>
+
+How To Specify Pseudo-Headers
+=============================
+
+A pseudo-header is like a mail header (a pair of '<field>: value') but specified
+at the beginning of the mail body, instead of in the mail headers section.
+
+Some pseudo-headers, like 'Version' or 'Package' are added automatically by
+reportbug when preparing the report, but others can be specified by the
+reporter.
+
+This can be achieved in two ways:
+
+ - from the command-line, using "-P '<field>: value'" command-line option;
+ - directly when writing the report, appending the pseudo-header to the list at
+   the beginning of the email body.
+
+First of all, please note that reportbug tries to recognize if a given header is
+a pseudo-header, and so it should be left in the pseudo-header list, or else
+it's a mail header, and so it should be moved into mail headers section. This is
+done because it's easier to add a mail header to the pseudo-header list (because
+it's in the mail body, so you don't have to edit the mail headers) and let
+reportbug move it (or leave it) to the correct location (for example,
+'X-Debbugs-Cc' if added to the pseudo-header is then moved to mail headers
+section to be processed by debbugs engine).
+
+That said, please note that this two ways have now a different semantics: any
+pseudo-header passed on the command-line is preserved as a pseudo-header, and
+not moved to the mail headers part of the email, while adding a header into the
+mail body still trigger the reportbug recognition code that will move the header
+to mail headers part if not a "common" pseudo-header (like 'Usertags',
+'Severity', or 'Package' and so on).

@@ -20,8 +20,10 @@ reportbug (4.10.3) UNRELEASED; urgency=low
     - identify the pseudo-headers passed on the command-line and don't merge
       them in the mail headers, but add them to the bug "standard"
       pseudo-headers; thanks to Piotr Engelking for the report; Closes: #552167
+  * doc/README.Users
+    - document how to add a pseudo-header
 
- -- Sandro Tosi <morph@debian.org>  Wed, 03 Mar 2010 19:18:46 +0100
+ -- Sandro Tosi <morph@debian.org>  Sat, 06 Mar 2010 09:47:22 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 
