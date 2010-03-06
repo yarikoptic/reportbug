@@ -99,7 +99,7 @@ def rfc2047_encode_header(header, charset, mua=None):
 def ewrite(*args):
     return quietly or ui.log_message(*args)
 
-def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
+def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg', draftpath=None):
     '''Sign message with pgp key.'''
     ''' Return: a signed body.
         On failure, return None.
@@ -109,12 +109,12 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
         pgp_addr = get_email_addr(fromaddr)[1]
 
     # Make the unsigned file first
-    (unsigned, file1) = TempFile(prefix=tempfile_prefix(package, 'unsigned'))
+    (unsigned, file1) = TempFile(prefix=tempfile_prefix(package, 'unsigned'), dir=draftpath)
     unsigned.write(body)
     unsigned.close()
 
     # Now make the signed file
-    (signed, file2) = TempFile(prefix=tempfile_prefix(package, 'signed'))
+    (signed, file2) = TempFile(prefix=tempfile_prefix(package, 'signed'), dir=draftpath)
     signed.close()
 
     if sign == 'gpg':
@@ -143,7 +143,7 @@ def sign_message(body, fromaddr, package='x', pgp_addr=None, sign='gpg'):
             raise NoMessage
         body = signedbody
     except (NoMessage, IOError, OSError):
-        fh, tmpfile2 = TempFile(prefix=tempfile_prefix(package))
+        fh, tmpfile2 = TempFile(prefix=tempfile_prefix(package), dir=draftpath)
         fh.write(body)
         fh.close()
         ewrite('gpg/pgp failed; input file in %s\n', tmpfile2)
@@ -226,7 +226,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 rtype='debbugs', exinfo=None, replyto=None, printonly=False,
                 template=False, outfile=None, mta='', kudos=False,
                 smtptls=False, smtphost='localhost',
-                smtpuser=None, smtppasswd=None, paranoid=False):
+                smtpuser=None, smtppasswd=None, paranoid=False, draftpath=None):
     '''Send a report.'''
 
     failed = using_sendmail = False
@@ -315,7 +315,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
     if template or printonly:
         pipe = sys.stdout
     elif mua:
-        pipe, filename = TempFile(prefix=tfprefix)
+        pipe, filename = TempFile(prefix=tfprefix, dir=draftpath)
     elif outfile or not mta or not os.path.exists(mta):
         msgname = outfile or ('/var/tmp/%s.bug' % package)
         if os.path.exists(msgname):
@@ -327,7 +327,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
         try:
             pipe = open_write_safe(msgname, 'w')
         except OSError:
-            fh, newmsgname = TempFile(prefix=tfprefix)
+            fh, newmsgname = TempFile(prefix=tfprefix, dir=draftpath)
             fh.write(message.as_string())
             fh.close()
             ewrite('Writing to %s failed; '
@@ -397,7 +397,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 failed = True
                 ewrite('SMTP send failure: %s\n', x)
 
-                fh, msgname = TempFile(prefix=tfprefix)
+                fh, msgname = TempFile(prefix=tfprefix, dir=draftpath)
                 fh.write(message)
                 fh.close()
 
@@ -407,7 +407,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
             for (addr, err) in refused.iteritems():
                 ewrite('Unable to send report to %s: %d %s\n', addr, err[0],
                        err[1])
-            fh, msgname = TempFile(prefix=tfprefix)
+            fh, msgname = TempFile(prefix=tfprefix, dir=draftpath)
             fh.write(message)
             fh.close()
 
@@ -424,7 +424,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
 
         if failed or (pipe.close() and using_sendmail):
             failed = True
-            fh, msgname = TempFile(prefix=tfprefix)
+            fh, msgname = TempFile(prefix=tfprefix, dir=draftpath)
             fh.write(message)
             fh.close()
             ewrite('Original write failed, wrote bug report to %s\n', msgname)
@@ -444,7 +444,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                 x = ui.select_options(mtitle, mopts, moptsdesc)
                 if x == 'q':
                     failed = True
-                    fh, msgname = TempFile(prefix=tfprefix)
+                    fh, msgname = TempFile(prefix=tfprefix, dir=draftpath)
                     fh.write(message)
                     fh.close()
                     ewrite('Original write failed, wrote bug report to %s\n', msgname)

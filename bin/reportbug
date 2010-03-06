@@ -2019,7 +2019,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         if sign:
             ewrite('Passing message to %s for signature...\n', sign)
             oldbody = body
-            body = submit.sign_message(body, fromaddr, package, pgp_addr, sign)
+            body = submit.sign_message(body, fromaddr, package, pgp_addr, sign, self.options.draftpath)
             if not body:
                 ewrite('Signature failed; sending message unsigned.\n')
                 body = oldbody
@@ -2036,7 +2036,8 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             headers, package, charset, mailing, sysinfo, rtype, exinfo,
             self.options.replyto, self.options.printonly, self.options.template,
             self.options.outfile, self.options.mta, self.options.kudos, self.options.smtptls,
-            smtphost, self.options.smtpuser, self.options.smtppasswd, self.options.paranoid)
+            smtphost, self.options.smtpuser, self.options.smtppasswd, self.options.paranoid,
+            self.options.draftpath)
 
         if self.options.exitprompt:
             ui.get_string('Please press ENTER to exit reportbug: ')
