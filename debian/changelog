@@ -32,8 +32,11 @@ reportbug (4.10.3) UNRELEASED; urgency=low
   * bin/reportbug, reportbug/submit.py
     - use 'draftpath' anytime a temporary file needs to be used; thanks to
       Vincent Lefevre for the report; Closes: #564704
+  * bin/reportbug
+    - fix spelling error when alerting of attachments drop when spawning a MUA;
+      thanks to gregor herrmann for the report and patch; Closes: #572894
 
- -- Sandro Tosi <morph@debian.org>  Mon, 08 Mar 2010 19:18:02 +0100
+ -- Sandro Tosi <morph@debian.org>  Mon, 08 Mar 2010 19:24:59 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 

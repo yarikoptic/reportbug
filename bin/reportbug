@@ -288,7 +288,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     if attachments:
                         # notify that they will be lost
                         if ui.yes_no(
-                            'Editing the report will loose all the attachement: are you sure you want to continue?',
+                            'Editing the report will lose all attachments: are you sure you want to continue?',
                             'Yes, please',
                             'No, thanks',
                             True):
