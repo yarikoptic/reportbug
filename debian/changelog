@@ -35,8 +35,11 @@ reportbug (4.10.3) UNRELEASED; urgency=low
   * bin/reportbug
     - fix spelling error when alerting of attachments drop when spawning a MUA;
       thanks to gregor herrmann for the report and patch; Closes: #572894
+    - in the last menu, if cancelling from selecting a MUA to edit the report,
+      just go back to the menu and don't crash; thanks to Elie Roux for the
+      report; Closes: #562853
 
- -- Sandro Tosi <morph@debian.org>  Mon, 08 Mar 2010 19:24:59 +0100
+ -- Sandro Tosi <morph@debian.org>  Mon, 08 Mar 2010 20:33:03 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 

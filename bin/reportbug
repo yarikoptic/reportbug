@@ -278,7 +278,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
             mailers.sort()
             mailer = ui.menu('Choose a mailer for your report', mailers,
                              'Select mailer: ', default='', empty_ok=True)
-            if mailer:
+            if mailer and mailer != -1:
                 if not utils.mua_exists(utils.MUA[mailer]):
                     ewrite("Selected mail user agent cannot be found.\n")
                 else:
