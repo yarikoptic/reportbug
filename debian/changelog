@@ -28,11 +28,12 @@ reportbug (4.10.3) UNRELEASED; urgency=low
   * reportbug/utils.py
     - recognize also files in /var/lib/dpkg/info/, identifying the package they
       belong to; thanks to Dan Jacobson for the report; Closes: #230582
+    - added 'Forwarded' to the list of supported pseudo-header
   * bin/reportbug, reportbug/submit.py
     - use 'draftpath' anytime a temporary file needs to be used; thanks to
       Vincent Lefevre for the report; Closes: #564704
 
- -- Sandro Tosi <morph@debian.org>  Sat, 06 Mar 2010 14:52:41 +0100
+ -- Sandro Tosi <morph@debian.org>  Mon, 08 Mar 2010 19:18:02 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 

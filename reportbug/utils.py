@@ -56,7 +56,8 @@ STATUSDB = os.path.join(DPKGLIB, 'status')
 
 # Headers other than these become email headers for debbugs servers
 PSEUDOHEADERS = ('Package', 'Source', 'Version', 'Severity', 'File', 'Tags',
-                 'Justification', 'Followup-For', 'Owner', 'User', 'Usertags')
+                 'Justification', 'Followup-For', 'Owner', 'User', 'Usertags',
+                 'Forwarded')
 
 from reportbug.ui import AVAILABLE_UIS
 
