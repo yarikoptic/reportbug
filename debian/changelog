@@ -38,8 +38,10 @@ reportbug (4.10.3) UNRELEASED; urgency=low
     - in the last menu, if cancelling from selecting a MUA to edit the report,
       just go back to the menu and don't crash; thanks to Elie Roux for the
       report; Closes: #562853
+    - don't ask to choose a UI when there is only one choice; thanks to Olaf van
+      der Spek for the report and to Carl Chenet for the patch; Closes: #567501
 
- -- Sandro Tosi <morph@debian.org>  Mon, 08 Mar 2010 20:33:03 +0100
+ -- Sandro Tosi <morph@debian.org>  Wed, 10 Mar 2010 20:53:39 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 

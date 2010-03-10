@@ -516,6 +516,7 @@ def offer_configuration(options):
                    order=utils.MODELIST)
 
     if options.configure or not options.interface:
+        # if there is only one UI available, the it's 'text', else ask
         if len(AVAILABLE_UIS) == 1:
             interface = 'text'
         else:
