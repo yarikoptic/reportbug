@@ -642,19 +642,28 @@ CRITICAL_TAGS = {
 
 TAGS = {
     'patch' : 'You are including a patch to fix this problem.',
-##    'upstream' : 'You believe this problem is not specific to Debian.',
-##    'potato' : 'This bug only applies to the potato release (Debian 2.2).',
-##    'woody' : 'This bug only applies to the woody release (Debian 3.0).',
-##    'sarge' : 'This bug only applies to the sarge release (Debian 3.1).',
-##    'sid' : 'This bug only applies to the unstable branch of Debian.',
-    "l10n" : "This bug reports a localization/internationalization issue.",
-##    'done' : 'No more tags.',
+    'upstream' : 'This bug applies to the upstream part of the package.',
+    'd-i' : 'This bug is relevant to the development of debian-installer.',
+    'ipv6' : 'This bug affects support for Internet Protocol version 6.',
+    'lfs' : 'This bug affects support for large files (over 2 gigabytes).',
+    'lenny' : 'This bug only applies to the lenny release (Debian 5.0).',
+    'squeeze' : 'This bug only applies to the squeeze release.',
+    'sid' : 'This bug only applies to the unstable branch of Debian.',
+    'experimental' : 'This bug only applies to the unstable branch of Debian.',
+    'l10n' : 'This bug reports a localization/internationalization issue.'
     }
 
-EXTRA_TAGS = ['potato', 'woody', 'sarge', 'security', 'sid', 'upstream']
+def get_tags(severity=''):
+    """Returns the current tags list.
 
-TAGLIST = ['l10n', 'patch']
-CRITICAL_TAGLIST = ['security']
+    If severity is release critical, than add additional tags not always present."""
+
+    if severity in ('grave', 'critical', 'serious'):
+        temp_tags = TAGS.copy()
+        temp_tags.update(CRITICAL_TAGS)
+        return temp_tags
+    else:
+        return TAGS
 
 def yn_bool(setting):
     if setting:

@@ -679,14 +679,11 @@ def test():
 
     import debianbts
 
-    tags = debianbts.TAGS.copy()
-    tags.update(debianbts.CRITICAL_TAGS)
-    tagorder = debianbts.TAGLIST + debianbts.CRITICAL_TAGLIST
+    tags = debianbts.get_tags()
 
     taglist = select_multiple(
         'Do any of the following apply to this report?', tags,
-        'Please select tags: ', order=tagorder,
-        extras=debianbts.EXTRA_TAGS)
+        'Please select tags: ')
     print >> fp, taglist
 
 if __name__ == '__main__':

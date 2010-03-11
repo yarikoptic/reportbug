@@ -316,12 +316,10 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         elif x == 't':
             newtaglist = []
             skip_editing = True
-            ntags = debianbts.TAGS
-            tagorder = debianbts.TAGLIST
+            ntags = debianbts.get_tags(severity)
             newtaglist = ui.select_multiple(
                 'Do any of the following apply to this report?', ntags,
-                'Please select tags: ', order=tagorder,
-                extras=debianbts.EXTRA_TAGS)
+                'Please select tags: ')
             if newtaglist:
                 oldtags = ''
                 newtags = ''
@@ -846,7 +844,7 @@ def main():
     parser.add_option('-T', '--tag', action='callback', dest='tags',
                       callback=verify_append_option,  type='string',
                       callback_args=('Permitted tags:',
-                                     debianbts.TAGLIST+['none']),
+                                     sorted(debianbts.get_tags().keys())+['none']),
                       help='add the specified tag to the report')
     parser.add_option('--http_proxy', '--proxy', help='use this proxy for '
                       'HTTP accesses')
@@ -1866,19 +1864,11 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             not (notatty or self.options.kudos or exinfo) and
             package not in ('wnpp', 'ftp.debian.org', 'release.debian.org') and
             mode > MODE_NOVICE):
-            # Multiple-choice checkbox
-            if severity in ('grave', 'critical', 'serious'):
-                tags = debianbts.TAGS.copy()
-                tags.update(debianbts.CRITICAL_TAGS)
-                tagorder = debianbts.TAGLIST + debianbts.CRITICAL_TAGLIST
-            else:
-                tags = debianbts.TAGS
-                tagorder = debianbts.TAGLIST
+            tags = debianbts.get_tags(severity)
 
             taglist = ui.select_multiple(
                 'Do any of the following apply to this report?', tags,
-                'Please select tags: ', order=tagorder,
-                extras=debianbts.EXTRA_TAGS)
+                'Please select tags: ')
 
         patch = ('patch' in taglist)
 

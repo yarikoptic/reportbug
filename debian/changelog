@@ -40,8 +40,16 @@ reportbug (4.10.3) UNRELEASED; urgency=low
       report; Closes: #562853
     - don't ask to choose a UI when there is only one choice; thanks to Olaf van
       der Spek for the report and to Carl Chenet for the patch; Closes: #567501
+  * bin/reportbug, reportbug/{debianbts.py, ui/urwid_ui.py}
+    - reorganized how BTS tags are retrieved and used
+    - create a get_tags() method to return the tags depending on severity of bug
+      report (for example, 'security' is available only if severity is RC)
+    - remove TAGLIST and EXTRA_TAGS, no more used
+    - update the tags list, including all those supported by BTS, not restricted
+      to Release Team and meaningfull at report time; thanks to Ido Kanner and
+      to martin f krafft for the reports; Closes: #286745, #498919, #524511
 
- -- Sandro Tosi <morph@debian.org>  Wed, 10 Mar 2010 20:53:39 +0100
+ -- Sandro Tosi <morph@debian.org>  Fri, 12 Mar 2010 00:04:36 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 
