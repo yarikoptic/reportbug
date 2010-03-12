@@ -955,6 +955,10 @@ def main():
             print "The above files are missing, so can't be attached; exiting"
             sys.exit(1)
 
+    if options.keyid and not options.sign:
+        ewrite('Option -K/--keyid requires --gpg or --pgp sign option set, which currently is not; exiting.\n')
+        sys.exit(1)
+
     if options.draftpath:
         options.draftpath = os.path.expanduser(options.draftpath)
         if not os.path.exists(options.draftpath):
