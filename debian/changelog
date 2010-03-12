@@ -48,8 +48,12 @@ reportbug (4.10.3) UNRELEASED; urgency=low
     - update the tags list, including all those supported by BTS, not restricted
       to Release Team and meaningfull at report time; thanks to Ido Kanner and
       to martin f krafft for the reports; Closes: #286745, #498919, #524511
+  * reportbug/submit.py
+    - in case of SMTP error when submitting the report, ask to retry or else to
+      save the report and exit; thanks to Stuart Young for the report;
+      Closes: #293266
 
- -- Sandro Tosi <morph@debian.org>  Fri, 12 Mar 2010 00:04:36 +0100
+ -- Sandro Tosi <morph@debian.org>  Fri, 12 Mar 2010 10:23:07 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 

@@ -394,14 +394,19 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
                     else:
                         tryagain = False
 
-                failed = True
-                ewrite('SMTP send failure: %s\n', x)
+                # In case of failure, ask to retry or to save & exit
+                if ui.yes_no('SMTP send failure: %s. Do you want to retry (or else save the report and exit)?' % x, 'Yes, please retry.',
+                         'No, save and exit.'):
+                    tryagain = True
+                    continue
+                else:
+                    failed = True
 
-                fh, msgname = TempFile(prefix=tfprefix, dir=draftpath)
-                fh.write(message)
-                fh.close()
+                    fh, msgname = TempFile(prefix=tfprefix, dir=draftpath)
+                    fh.write(message)
+                    fh.close()
 
-                ewrite('Wrote bug report to %s\n', msgname)
+                    ewrite('Wrote bug report to %s\n', msgname)
         # Handle when some recipients are refused.
         if refused:
             for (addr, err) in refused.iteritems():
