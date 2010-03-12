@@ -1784,6 +1784,10 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                     default = 'non-critical'
                 else:
                     severities = debianbts.SEVERITIES
+                    if mode < MODE_STANDARD:
+                        ewrite("Removing release critical severities, since running in \'%s\' mode.\n" % utils.MODELIST[mode])
+                        for sev in ['critical', 'grave', 'serious', 'does-not-build']:
+                            del severities[sev]
                     default = 'normal'
 
                 severity = ui.menu("How would you rate the severity of this "

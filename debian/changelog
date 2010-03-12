@@ -40,6 +40,8 @@ reportbug (4.10.3) UNRELEASED; urgency=low
       report; Closes: #562853
     - don't ask to choose a UI when there is only one choice; thanks to Olaf van
       der Spek for the report and to Carl Chenet for the patch; Closes: #567501
+    - remove release critical severities when running in 'novice' mode; thanks
+      to Steve Langasek for the report; Closes: #295386
   * bin/reportbug, reportbug/{debianbts.py, ui/urwid_ui.py}
     - reorganized how BTS tags are retrieved and used
     - create a get_tags() method to return the tags depending on severity of bug
@@ -53,7 +55,7 @@ reportbug (4.10.3) UNRELEASED; urgency=low
       save the report and exit; thanks to Stuart Young for the report;
       Closes: #293266
 
- -- Sandro Tosi <morph@debian.org>  Fri, 12 Mar 2010 10:23:07 +0100
+ -- Sandro Tosi <morph@debian.org>  Fri, 12 Mar 2010 20:08:57 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 
