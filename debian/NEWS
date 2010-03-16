@@ -1,6 +1,6 @@
 reportbug (3.48) unstable; urgency=low
 
-  * There were some infrastructure changes, in order to provide a better BTS
+    There were some infrastructure changes, in order to provide a better BTS
     service, that made the previous SMTP server 'bugs.debian.org' no more
     working as expected, so we now provide another host for SMTP for reportbug:
     'reportbug.debian.org'.
@@ -20,7 +20,7 @@ reportbug (3.48) unstable; urgency=low
 
 reportbug (3.18) unstable; urgency=high
 
-  * The proper SMTP setting for reporting bugs to Debian without a working
+    The proper SMTP setting for reporting bugs to Debian without a working
     local mailer has changed to 'bugs.debian.org'.  reportbug will noisily
     override any .reportbugrc settings for the old mail relay... however,
     you would be best advised to update .reportbugrc files accordingly.
@@ -29,7 +29,7 @@ reportbug (3.18) unstable; urgency=high
 
 reportbug (2.47) unstable; urgency=medium
 
-  * The dependency relationships between reportbug and Python's locale
+    The dependency relationships between reportbug and Python's locale
     support modules have changed in this version of reportbug:
   
     . python2.3-iconvcodec is now a Recommendation.
@@ -43,8 +43,9 @@ reportbug (2.47) unstable; urgency=medium
     a UTF encoding should use python2.3-cjkcodec.
   
     Users of other locales should use python2.3-iconvcodec.
-  
-  * In addition, reportbug will now issue a warning on startup if the
+
+
+    In addition, reportbug will now issue a warning on startup if the
     encoders installed on your system are insufficient for encoding the
     character set used by your locale.  (Previously, this would lead to a
     mysterious crash with a "LookupError" later in the reporting process.)
