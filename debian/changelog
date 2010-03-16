@@ -57,8 +57,10 @@ reportbug (4.10.3) UNRELEASED; urgency=low
     - in case of SMTP error when submitting the report, ask to retry or else to
       save the report and exit; thanks to Stuart Young for the report;
       Closes: #293266
+  * debian/control
+    - bump Standards-Version to 3.8.4 (no changes needed)
 
- -- Sandro Tosi <morph@debian.org>  Fri, 12 Mar 2010 23:52:24 +0100
+ -- Sandro Tosi <morph@debian.org>  Tue, 16 Mar 2010 19:14:53 +0100
 
 reportbug (4.10.2) unstable; urgency=low
 
