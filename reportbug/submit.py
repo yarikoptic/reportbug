@@ -485,7 +485,7 @@ def send_report(body, attachments, mua, fromaddr, sendto, ccaddr, bccaddr,
 receive the bug tracking number via email; you may then send any extra
 information to %s (e.g. %s), where n is the bug number.  Normally you
 will receive an acknowledgement via email including the bug report number
-within an hour.\n""",
+within an hour; if you haven't receive a confirmation, then the bug reporting process failed at some point (reportbug or MTA failure, BTS maintenance, etc.).\n""",
             (sysinfo['email'] % 'n'), (sysinfo['email'] % '999999'))
 
     # If we've stored more than one copy of the message, delete the
