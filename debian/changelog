@@ -3,8 +3,12 @@ reportbug (4.12) UNRELEASED; urgency=low
   * reportbug/debianbts.py
     - fix description for 'experimental' tag; thanks to Raphael Rigo for the
       report; Closes: #575044
+  * bin/reportbug
+    - removed the information that an empty subject would stop the report: it
+      will continue until entered or Ctrl+c; thanks Torquil Macdonald Sørensen
+      for the report; Closes: #575450
 
- -- Sandro Tosi <morph@debian.org>  Wed, 24 Mar 2010 20:48:01 +0100
+ -- Sandro Tosi <morph@debian.org>  Thu, 25 Mar 2010 22:52:19 +0100
 
 reportbug (4.11) unstable; urgency=low
 
