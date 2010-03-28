@@ -1793,11 +1793,11 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                         for sev in ['critical', 'grave', 'serious', 'does-not-build']:
                             del severities[sev]
                     default = 'normal'
-
-                severity = ui.menu("How would you rate the severity of this "
-                                   "problem or report?", severities,
-                                   'Please select a severity level: ',
-                                   default=default, order=debianbts.SEVLIST)
+                while not severity or severity not in debianbts.SEVLIST:
+                    severity = ui.menu("How would you rate the severity of this "
+                                       "problem or report?", severities,
+                                       'Please select a severity level: ',
+                                       default=default, order=debianbts.SEVLIST)
 
             if rtype == 'gnats':
                 # Class of report

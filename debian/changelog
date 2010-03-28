@@ -7,6 +7,9 @@ reportbug (4.12) UNRELEASED; urgency=low
     - removed the information that an empty subject would stop the report: it
       will continue until entered or Ctrl+c; thanks Torquil Macdonald Sørensen
       for the report; Closes: #575450
+    - keep presenting the severity menu until one is selected (prevent a crash
+      with urwid UI and Cancel button); thanks to Noah Slater for the report;
+      Closes: #461908
   * reportbug/submit.py
     - clarify that in case no acknowledge is received, then there was an error;
       thanks to mpapet for the report; Closes: #575418
@@ -15,7 +18,7 @@ reportbug (4.12) UNRELEASED; urgency=low
       class, needed to run querybts; thanks to Andrey Rahmatullin for the
       report; Closes: #565283
 
- -- Sandro Tosi <morph@debian.org>  Sun, 28 Mar 2010 15:16:05 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 28 Mar 2010 15:50:47 +0200
 
 reportbug (4.11) unstable; urgency=low
 
