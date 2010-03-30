@@ -199,7 +199,7 @@ progenyother = {
     'debian-general' : 'Any non-package-specific bug',
     }
 
-def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
+def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_proxy=None):
     body = reason = archs = ''
     suite = 'unstable'
     headers = []
@@ -317,7 +317,7 @@ def handle_debian_ftp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     return (subject, severity, headers, pseudos, body, query)
 
 
-def handle_debian_release(package, bts, ui, fromaddr, online=True, http_proxy=None):
+def handle_debian_release(package, bts, ui, fromaddr, timeout, online=True, http_proxy=None):
     body = ''
     headers = []
     pseudos = []
@@ -455,7 +455,7 @@ itp_template = textwrap.dedent(u"""\
 """)
 
 
-def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
+def handle_wnpp(package, bts, ui, fromaddr, timeout, online=True, http_proxy=None):
     short_desc = body = ''
     headers = []
     pseudos = []
@@ -497,7 +497,7 @@ def handle_wnpp(package, bts, ui, fromaddr, online=True, http_proxy=None):
     severity = 'normal'
     if tag in ('ITP', 'RFP'):
         if available and (not online or checkversions.check_available(
-            package, '0', http_proxy=http_proxy)):
+            package, '0', timeout, http_proxy=http_proxy)):
             if not ui.yes_no(
                 ('A package called %s already appears to exist (at least on '
                  'your system); continue?' % package),
@@ -948,8 +948,8 @@ class BTSParser(sgmllib.SGMLParser):
         if fixed:
             self.hierarchy = [('Bugs fixed in subsequent releases (%d bugs)' % len(fixed), fixed)] + newhierarchy
 
-def parse_html_report(number, url, http_proxy, followups=False, cgi=True):
-    page = open_url(url, http_proxy)
+def parse_html_report(number, url, http_proxy, timeout, followups=False, cgi=True):
+    page = open_url(url, http_proxy, timeout)
     if not page:
         return None
 
@@ -991,8 +991,8 @@ def parse_html_report(number, url, http_proxy, followups=False, cgi=True):
     return (title, output)
 
 # XXX: Need to handle charsets properly
-def parse_mbox_report(number, url, http_proxy, followups=False):
-    page = open_url(url, http_proxy)
+def parse_mbox_report(number, url, http_proxy, timeout, followups=False):
+    page = open_url(url, http_proxy, timeout)
     if not page:
         return None
 
@@ -1047,11 +1047,11 @@ def parse_mbox_report(number, url, http_proxy, followups=False):
     title = "#%d: %s" % (number, title)
     return (title, output)
 
-def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
-                    source=False, version=None):
+def get_cgi_reports(package, timeout, system='debian', http_proxy='',
+                    archived=False, source=False, version=None):
     try:
         page = open_url(cgi_package_url(system, package, archived, source,
-                                    version=version), http_proxy)
+                                    version=version), http_proxy, timeout)
     except:
         raise NoNetwork
 
@@ -1091,12 +1091,12 @@ def get_cgi_reports(package, system='debian', http_proxy='', archived=False,
 
     return data
 
-def get_cgi_report(number, system='debian', http_proxy='', archived=False,
+def get_cgi_report(number, timeout, system='debian', http_proxy='', archived=False,
                    followups=False):
     number = int(number)
 
     url = cgi_report_url(system, number, archived='no', mbox=True)
-    return parse_mbox_report(number, url, http_proxy, followups)
+    return parse_mbox_report(number, url, http_proxy, timeout, followups)
     #return parse_html_report(number, url, http_proxy, followups, cgi=True)
 
 def get_btsroot(system, mirrors=None):
@@ -1107,12 +1107,12 @@ def get_btsroot(system, mirrors=None):
                 return alternates[mirror]
     return SYSTEMS[system].get('btsroot', '')
 
-def get_reports(package, system='debian', mirrors=None, version=None,
+def get_reports(package, timeout, system='debian', mirrors=None, version=None,
                 http_proxy='', archived=False, source=False):
     if isinstance(package, basestring):
         if SYSTEMS[system].get('cgiroot'):
             try:
-                result = get_cgi_reports(package, system, http_proxy, archived,
+                result = get_cgi_reports(package, timeout, system, http_proxy, archived,
                                      source, version=version)
             except:
                 raise NoNetwork
@@ -1120,7 +1120,7 @@ def get_reports(package, system='debian', mirrors=None, version=None,
 
         url = package_url(system, package, mirrors, source)
         try:
-            page = open_url(url, http_proxy)
+            page = open_url(url, http_proxy, timeout)
         except:
             raise NoNetwork
         if not page:
@@ -1147,7 +1147,7 @@ def get_reports(package, system='debian', mirrors=None, version=None,
     package = [int(x) for x in package]
     package.sort()
     for bug in package:
-        result = get_report(bug, system, mirrors, http_proxy, archived)
+        result = get_report(bug, timeout, system, mirrors, http_proxy, archived)
         if result:
             title, body = result
             this_hierarchy.append(title)
@@ -1159,24 +1159,24 @@ def get_reports(package, system='debian', mirrors=None, version=None,
 
     return bugcount, title, hierarchy
 
-def get_report(number, system='debian', mirrors=None,
+def get_report(number, timeout, system='debian', mirrors=None,
                http_proxy='', archived=False, followups=False):
     number = int(number)
     if SYSTEMS[system].get('cgiroot'):
-        result = get_cgi_report(number, system, http_proxy, archived,
-                                followups)
+        result = get_cgi_report(number, timeout, system, http_proxy,
+                                archived, followups)
         if result: return result
 
     url = report_url(system, number, mirrors)
     if not url: return None
 
-    return parse_html_report(number, url, http_proxy, followups, cgi=False)
+    return parse_html_report(number, url, http_proxy, timeout, followups, cgi=False)
 
 class NullParser(sgmllib.SGMLParser):
     def __init__(self):
         sgmllib.SGMLParser.__init__(self)
 
 if __name__ == '__main__':
-    data = get_cgi_reports('reportbug')
+    data = get_cgi_reports('reportbug', timeout=60)
     pprint.pprint(data)
     time.sleep(1000)

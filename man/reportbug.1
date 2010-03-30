@@ -356,6 +356,15 @@ use 'localhost' if you have a working mail server running on your
 machine.  If the \fBPORT\fP is omitted, the standard port for SMTP,
 port 25, is used.
 .TP
+.B \-\-timeout=SECONDS
+Specify the network timeout, the number of seconds to wait for a
+resource to respond. If nothing is specified, a default timeout of 1
+minute is selected.
+
+In case of a network error, there are chances it's due to a too low
+timeout: try passing the \-\-timeout option with a higher value than
+default.
+.TP
 .B \-\-tls
 If using SMTP, use Transport Layer Security (TLS) encryption to secure
 the connection to the mail server.  Some SMTP servers may require this

@@ -492,7 +492,7 @@ def select_multiple(par, options, prompt, title=None, order=None, extras=None):
 
 # Things that are very UI dependent go here
 def show_report(number, system, mirrors,
-                http_proxy, screen=None, queryonly=False, title='',
+                http_proxy, timeout, screen=None, queryonly=False, title='',
                 archived='no'):
     from reportbug import debianbts
 
@@ -504,7 +504,7 @@ def show_report(number, system, mirrors,
     display_message('Retrieving report #%d from %s bug tracking system...',
         number, sysinfo['name'], title=title, ui=ui)
 
-    info = debianbts.get_report(number, system, mirrors=mirrors,
+    info = debianbts.get_report(number, timeout, system, mirrors=mirrors,
                                 http_proxy=http_proxy, archived=archived)
     if not info:
         long_message('Bug report #%d not found.', number, title=title, ui=ui)
@@ -530,7 +530,7 @@ def show_report(number, system, mirrors,
         launch_browser(debianbts.get_report_url(system, number, archived))
     return
 
-def handle_bts_query(package, bts, mirrors=None, http_proxy="",
+def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, screen=None, title="", archived='no',
                      source=False, version=None, mbox=False, buglist=None):
     from reportbug import debianbts
@@ -562,7 +562,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     result = None
     try:
         (count, sectitle, hierarchy) = debianbts.get_reports(
-            package, bts, mirrors=mirrors, version=version,
+            package, timeout, bts, mirrors=mirrors, version=version,
             http_proxy=http_proxy, archived=archived, source=source)
 
         if not count:
@@ -618,7 +618,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
                 else:
                     p = info
                     res = show_report(int(p), bts, mirrors, http_proxy,
-                                      queryonly=queryonly)
+                                      timeout, queryonly=queryonly)
                     if res:
                         result = res
                         break

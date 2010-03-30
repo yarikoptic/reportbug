@@ -388,14 +388,14 @@ def menu(par, options, prompt, default=None, title=None, any_ok=False,
 
 # Things that are very UI dependent go here
 def show_report(number, system, mirrors,
-                http_proxy, screen=None, queryonly=False, title='',
+                http_proxy, timeout, screen=None, queryonly=False, title='',
                 archived='no'):
     sysinfo = debianbts.SYSTEMS[system]
     ewrite('Retrieving report #%d from %s bug tracking system...\n',
            number, sysinfo['name'])
 
     try:
-        info = debianbts.get_report(number, system, mirrors=mirrors,
+        info = debianbts.get_report(number, timeout, system, mirrors=mirrors,
                                     followups=1,
                                     http_proxy=http_proxy, archived=archived)
     except:
@@ -479,7 +479,7 @@ def show_report(number, system, mirrors,
             current_message -= 1
     return
 
-def handle_bts_query(package, bts, mirrors=None, http_proxy="",
+def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                      queryonly=False, title="", screen=None, archived='no',
                      source=False, version=None, mbox=False, buglist=None):
     root = debianbts.SYSTEMS[bts].get('btsroot')
@@ -503,13 +503,13 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
     bugs = []
     try:
         (count, title, hierarchy)=debianbts.get_reports(
-            package, bts, mirrors=mirrors, version=version,
+            package, timeout, bts, mirrors=mirrors, version=version,
             source=source, http_proxy=http_proxy, archived=archived)
 
         if debianbts.SYSTEMS[bts].has_key('namefmt'):
             package2 = debianbts.SYSTEMS[bts]['namefmt'] % package
             (count2, title2, hierarchy2) = \
-                     debianbts.get_reports(package2, bts,
+                     debianbts.get_reports(package2, timeout, bts,
                                            mirrors=mirrors, source=source,
                                            http_proxy=http_proxy,
                                            version=version)
@@ -574,7 +574,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
             ewrite('%d bug reports found:\n\n', count)
 
         return browse_bugs(hierarchy, count, bugs, bts, queryonly,
-                           mirrors, http_proxy, screen, title, package)
+                           mirrors, http_proxy, timeout, screen, title, package)
 
     except (IOError, NoNetwork):
         ewrite('Unable to connect to %s BTS; ', debianbts.SYSTEMS[bts]['name'])
@@ -585,7 +585,7 @@ def handle_bts_query(package, bts, mirrors=None, http_proxy="",
             raise NoNetwork
 
 def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
-                http_proxy, screen, title, package):
+                http_proxy, timeout, screen, title, package):
     try:
         output_encoding = locale.getpreferredencoding()
     except locale.Error, msg:
@@ -725,7 +725,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
                                 if number not in bugs and 1 <= number <= len(bugs):
                                     number = bugs[number-1]
                                 res = show_report(number, bts, mirrors,
-                                                  http_proxy,
+                                                  http_proxy, timeout,
                                                   queryonly=queryonly,
                                                   screen=screen,
                                                   title=title)
@@ -934,7 +934,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
                                 if number not in bugs and 1 <= number <= len(bugs):
                                     number = bugs[number-1]
                                 res = show_report(number, bts, mirrors,
-                                                  http_proxy,
+                                                  http_proxy, timeout,
                                                   queryonly=queryonly,
                                                   screen=screen,
                                                   title=title)

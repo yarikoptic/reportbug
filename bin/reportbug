@@ -488,12 +488,12 @@ def get_package_name(bts='debian', mode=MODE_EXPERT):
 
     return package
 
-def special_prompts(package, bts, ui, fromaddr):
+def special_prompts(package, bts, ui, fromaddr, timeout):
     prompts = debianbts.SYSTEMS[bts].get('specials')
     if prompts:
         pkgprompts = prompts.get(package)
         if pkgprompts:
-            return pkgprompts(package, bts, ui, fromaddr)
+            return pkgprompts(package, bts, ui, fromaddr, timeout)
     return
 
 def offer_configuration(options):
@@ -931,6 +931,8 @@ def main():
                       '(default)')
     parser.add_option('--draftpath', dest="draftpath",
                       help='Save the draft in this directory')
+    parser.add_option('--timeout', type="int", dest='timeout', default=60,
+                      help='Specify the network timeout, in seconds [default: %default]')
 
     (options, args) = parser.parse_args()
 
@@ -1265,7 +1267,7 @@ class UI(object):
                 if match:
                     report = int(match.group(1))
                     exinfo = ui.show_report(report, 'debian', self.options.mirrors,
-                                          self.options.http_proxy, queryonly=True,
+                                          self.options.http_proxy, self.options.timeout, queryonly=True,
                                           title=VERSION,
                                           archived=False)
                     if foundpackage:
@@ -1488,8 +1490,8 @@ class UI(object):
             else:
                 ewrite('Checking for newer versions at packages.debian.org...\n')
             (avail, toonew) = checkversions.check_available(
-                package, pkgversion, check_incoming=check_more,
-                check_newqueue=check_more,
+                package, pkgversion, timeout=self.options.timeout,
+                check_incoming=check_more, check_newqueue=check_more,
                 http_proxy=self.options.http_proxy, arch=arch)
             if toonew:
                 if not ui.yes_no(
@@ -1561,7 +1563,7 @@ class UI(object):
 
         special = False
         if not body and not subject and not notatty:
-            res = special_prompts(package, bts, ui, fromaddr)
+            res = special_prompts(package, bts, ui, fromaddr, self.options.timeout)
             if res:
                 (subject, severity, h, ph, body, query) = res
                 headers += h
@@ -1579,7 +1581,8 @@ class UI(object):
                 if src_name:
                     pkg = src_name
             try:
-                exinfo = ui.handle_bts_query(pkg, bts, self.options.mirrors,
+                exinfo = ui.handle_bts_query(pkg, bts, self.options.timeout,
+                                             self.options.mirrors,
                                              self.options.http_proxy,
                                              source=src,
                                              queryonly=self.options.queryonly,
@@ -1839,7 +1842,8 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                 ewrite('Checking buildd.debian.org for past builds of %s...\n',
                        src_name)
                 built = checkbuildd.check_built(src_name,
-                                                http_proxy=self.options.http_proxy)
+                                                http_proxy=self.options.http_proxy,
+                                                timeout=options.timeout)
 
                 if built:
                     ewrite('Successful past builds... treating as serious.\n')

@@ -70,12 +70,12 @@ class BuilddParser(sgmllib.SGMLParser):
 def archname():
     return commands.getoutput('dpkg --print-architecture')
 
-def check_built(src_package, arch=None, http_proxy=None):
+def check_built(src_package, timeout, arch=None, http_proxy=None):
     if not arch:
         arch = archname()
 
     try:
-        page = open_url(BUILDD_URL % (arch, src_package), http_proxy)
+        page = open_url(BUILDD_URL % (arch, src_package), http_proxy, timeout)
     except NoNetwork:
         return {}
     if not page:

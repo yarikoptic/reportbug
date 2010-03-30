@@ -47,6 +47,15 @@ behind a firewall.
 .B \-s, \-\-source
 Query on source packages, rather than binary packages.
 .TP
+.B \-\-timeout=SECONDS
+Specify the network timeout, the number of seconds to wait for a
+resource to respond. If nothing is specified, a default timeout of 1
+minute is selected.
+
+In case of a network error, there are chances it's due to a too low
+timeout: try passing the \-\-timeout option with a higher value than
+default.
+.TP
 .B \-u INTERFACE, \-\-ui=INTERFACE, \-\-interface=INTERFACE
 Specify the user interface to use.  Valid options are \fBtext\fP,
 \fBurwid\fP, \fBgtk2\fP; default is taken from the reportbug

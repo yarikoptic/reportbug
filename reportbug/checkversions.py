@@ -187,12 +187,12 @@ def later_version(a, b):
         return b
     return a
 
-def get_versions_available(package, dists=None, http_proxy=None, arch='i386'):
+def get_versions_available(package, timeout, dists=None, http_proxy=None, arch='i386'):
     if not dists:
         dists = ('stable', 'testing', 'unstable')
 
     try:
-        page = open_url(PACKAGES_URL % package, http_proxy)
+        page = open_url(PACKAGES_URL % package, http_proxy, timeout)
     except NoNetwork:
         return {}
     except urllib2.HTTPError, x:
@@ -225,11 +225,11 @@ def get_versions_available(package, dists=None, http_proxy=None, arch='i386'):
 
     return versions
 
-def get_newqueue_available(package, dists=None, http_proxy=None, arch='i386'):
+def get_newqueue_available(package, timeout, dists=None, http_proxy=None, arch='i386'):
     if dists is None:
         dists = ('unstable (new queue)', )
     try:
-        page = open_url(NEWQUEUE_URL, http_proxy)
+        page = open_url(NEWQUEUE_URL, http_proxy, timeout)
     except NoNetwork:
         return {}
     except urllib2.HTTPError, x:
@@ -259,9 +259,9 @@ def get_newqueue_available(package, dists=None, http_proxy=None, arch='i386'):
     #print 'HERE', gc.garbage
     return versions
 
-def get_incoming_version(package, http_proxy=None, arch='i386'):
+def get_incoming_version(package, timeout, http_proxy=None, arch='i386'):
     try:
-        page = open_url(INCOMING_URL, http_proxy)
+        page = open_url(INCOMING_URL, http_proxy, timeout)
     except NoNetwork:
         return None
     except urllib2.HTTPError, x:
@@ -289,22 +289,22 @@ def get_incoming_version(package, http_proxy=None, arch='i386'):
     del parser
     return None
 
-def check_available(package, version, dists=None, check_incoming=True,
-                    check_newqueue=True,
+def check_available(package, version, timeout, dists=None,
+                    check_incoming=True, check_newqueue=True,
                     http_proxy=None, arch='i386'):
     avail = {}
 
     if check_incoming:
-        iv = get_incoming_version(package, http_proxy, arch)
+        iv = get_incoming_version(package, timeout, http_proxy, arch)
         if iv:
             avail['incoming'] = iv
-    stuff = get_versions_available(package, dists, http_proxy, arch)
+    stuff = get_versions_available(package, timeout, dists, http_proxy, arch)
     avail.update(stuff)
     if check_newqueue:
         srcpackage = utils.get_source_name(package)
 	if srcpackage is None:
 	    srcpackage = package
-        stuff = get_newqueue_available(srcpackage, dists, http_proxy, arch)
+        stuff = get_newqueue_available(srcpackage, timeout, dists, http_proxy, arch)
         avail.update(stuff)
         #print gc.garbage, stuff
 
@@ -328,9 +328,9 @@ def check_available(package, version, dists=None, check_incoming=True,
 
 if __name__=='__main__':
     gc.set_debug(gc.DEBUG_LEAK)
-    print get_newqueue_available('reportbug')
+    print get_newqueue_available('reportbug', timeout=60)
     print gc.garbage
-    print check_available('reportbug', '3.7', arch='s390')
+    #print check_available('reportbug', timeout=60, '3.7', arch='s390')
     #print check_available('openssh-server', '1:4.2p1-8', arch='i386')
     #print check_available('openssh-server', '1:4.2p1-8', arch='kfreebsd-i386')
     time.sleep(1000)

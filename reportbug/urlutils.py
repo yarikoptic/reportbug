@@ -42,9 +42,6 @@ from __init__ import VERSION_NUMBER
 
 UA_STR = 'reportbug/'+VERSION_NUMBER+' (Debian)'
 
-# Set timeout to 60 secs (1 min), cfr bug #516449
-socket.setdefaulttimeout(60)
-
 def decode (page):
     "gunzip or deflate a compressed page"
     #print page.info().headers
@@ -130,7 +127,11 @@ def urlopen(url, proxies=None, data=None):
 
 # Global useful URL opener; returns None if the page is absent, otherwise
 # like urlopen
-def open_url(url, http_proxy=None):
+def open_url(url, http_proxy=None, timeout=60):
+    # Set timeout to 60 secs (1 min), cfr bug #516449
+    # in #572316 we set a user-configurable timeout
+    socket.setdefaulttimeout(timeout)
+
     proxies = urllib.getproxies()
     if http_proxy:
         proxies['http'] = http_proxy

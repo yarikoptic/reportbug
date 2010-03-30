@@ -109,3 +109,17 @@ not moved to the mail headers part of the email, while adding a header into the
 mail body still trigger the reportbug recognition code that will move the header
 to mail headers part if not a "common" pseudo-header (like 'Usertags',
 'Severity', or 'Package' and so on).
+
+Network Errors and Timeout
+==========================
+
+There are situations where a network error is returned, for example:
+"Unable to connect to BTS". These of course can be caused by a network
+unavailability.
+
+Another explanation can be that the remote resource is so slow to
+respond (or it's stale) and a timeout is triggered. By default this
+timeout is set to 1 minute; so in case of such an error, if you're
+unsure that it's a clear network outage, you can try to pass
+`--timeout <secs>' to either `reportbug' or `querybts' and see if it
+solves the issue.

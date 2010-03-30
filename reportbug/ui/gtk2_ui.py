@@ -319,7 +319,7 @@ class BugReport (object):
 # BTS GUI
 
 class BugPage (gtk.EventBox, threading.Thread):
-    def __init__ (self, assistant, dialog, number, queryonly, bts, mirrors, http_proxy, archived):
+    def __init__ (self, assistant, dialog, number, queryonly, bts, mirrors, http_proxy, timeout, archived):
         threading.Thread.__init__ (self)
         gtk.EventBox.__init__ (self)
         self.setDaemon (True)
@@ -332,6 +332,7 @@ class BugPage (gtk.EventBox, threading.Thread):
         self.bts = bts
         self.mirrors = mirrors
         self.http_proxy = http_proxy
+        self.timeout = timeout
         self.archived = archived
 
         vbox = gtk.VBox (spacing=12)
@@ -347,7 +348,8 @@ class BugPage (gtk.EventBox, threading.Thread):
         # Start the progress bar
         gobject.timeout_add (10, self.pulse)
 
-        info = debianbts.get_report (int (self.number), self.bts, mirrors=self.mirrors,
+        info = debianbts.get_report (int (self.number), self.timeout,
+                                     self.bts, mirrors=self.mirrors,
                                      http_proxy=self.http_proxy, archived=self.archived)
         if not info:
             self.application.run_once_in_main_thread (self.not_found)
@@ -840,11 +842,12 @@ class HandleBTSQueryPage (TreePage):
     default_complete = True
     value_column = 0
 
-    def sync_pre_operation (self, package, bts, mirrors=None, http_proxy="", queryonly=False, screen=None,
+    def sync_pre_operation (self, package, bts, timeout, mirrors=None, http_proxy="", queryonly=False, screen=None,
                             archived='no', source=False, title=None, version=None, buglist=None):
         self.bts = bts
         self.mirrors = mirrors
         self.http_proxy = http_proxy
+        self.timeout = timeout
         self.archived = archived
 
         self.queryonly = queryonly
@@ -871,7 +874,7 @@ class HandleBTSQueryPage (TreePage):
 
         try:
             (count, sectitle, hierarchy) = debianbts.get_reports (
-                package, bts, mirrors=mirrors, version=version,
+                package, timeout, bts, mirrors=mirrors, version=version,
                 http_proxy=http_proxy, archived=archived, source=source)
 
             if not count:
@@ -959,7 +962,7 @@ class HandleBTSQueryPage (TreePage):
 
         dialog = BugsDialog (self.assistant, self.queryonly)
         for id in bug_ids:
-            dialog.show_bug (id, self.bts, self.mirrors, self.http_proxy, self.archived)
+            dialog.show_bug (id, self.bts, self.mirrors, self.http_proxy, self.timeout, self.archived)
         dialog.show_all ()
 
     def is_valid (self, value):
@@ -1019,7 +1022,7 @@ class ShowReportPage (Page):
     default_complete = True
 
     def create_widget (self):
-        self.page = BugPage (self.assistant, None, None, None, None, None, None, None)
+        self.page = BugPage (self.assistant, None, None, None, None, None, None, None, None)
         return self.page
 
     def get_value (self):
@@ -1033,11 +1036,12 @@ class ShowReportPage (Page):
             self.page_type = gtk.ASSISTANT_PAGE_CONFIRM
         return args, kwargs
 
-    def execute (self, number, system, mirrors, http_proxy, queryonly=False, title='', archived='no'):
+    def execute (self, number, system, mirrors, http_proxy, timeout, queryonly=False, title='', archived='no'):
         self.page.number = number
         self.page.bts = system
         self.page.mirrors = mirrors
         self.page.http_proxy = http_proxy
+        self.page.timeout = timeout
         self.page.queryonly = queryonly
         self.page.archived = archived
         self.page.start ()
