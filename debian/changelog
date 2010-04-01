@@ -17,6 +17,9 @@ reportbug (4.12) UNRELEASED; urgency=low
     - pass 'buglist' to 'sync_pre_operation' method of 'HandleBTSQueryPage'
       class, needed to run querybts; thanks to Andrey Rahmatullin for the
       report; Closes: #565283
+    - new method to correctly wrap the report body: before the text was all on a
+      single line, now the long lines are wrapped but the paragraph formatting
+      is preserved; thanks to Witold Baryluk for the report; Closes: #576116
   * bin/*, reportbub/*
     - add a user-configurable network timeout, adding the CLI option --timeout;
       thanks to Miles Bader for the report; Closes: #572316
@@ -25,7 +28,7 @@ reportbug (4.12) UNRELEASED; urgency=low
       network error might be due to a too low timeout; thanks to Michal Suchanek
       for the report; Closes: #571955
 
- -- Sandro Tosi <morph@debian.org>  Tue, 30 Mar 2010 21:49:15 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 01 Apr 2010 23:56:02 +0200
 
 reportbug (4.11) unstable; urgency=low
 

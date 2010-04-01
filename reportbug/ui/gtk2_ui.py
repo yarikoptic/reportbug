@@ -307,13 +307,33 @@ class BugReport (object):
                 self.headers[i] = 'Subject: '+subject
                 break
 
+    def wrap_bug_body (self, msg, width=79, break_long_words=False):
+        """Wrap every line in the message"""
+
+        # resulting body text
+        body = ''
+        for line in msg.splitlines():
+            # wrap long lines, it returns a list of "sub-lines"
+            tmp = textwrap.wrap(line, width=width,
+                                break_long_words=break_long_words)
+            # need to special-case this else a join() on the list generator
+            # would remove all the '[]' so no empty lines in the report
+            if tmp == []:
+                body += '\n'
+            else:
+                # join the "sub-lines" and add a \n at the end (if there is
+                # only one item in the list, else there wouldn't be a \n)
+                body += '\n'.join(tmp) + '\n'
+
+        return body
+
     def create_message (self, info):
         message = """%s
 
 %s
 
 
-%s""" % ('\n'.join (self.headers), textwrap.fill (info, width=79), self.others)
+%s""" % ('\n'.join (self.headers), self.wrap_bug_body (info), self.others)
         return message
 
 # BTS GUI
