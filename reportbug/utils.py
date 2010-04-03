@@ -299,7 +299,7 @@ def get_package_status(package, avail=False):
     dependsre = re.compile('(Pre-)?Depends: ')
     recsre = re.compile('Recommends: ')
     suggestsre = re.compile('Suggests: ')
-    conffilesre = re.compile('Conffiles: ')
+    conffilesre = re.compile('Conffiles:')
     maintre = re.compile('Maintainer: ')
     statusre = re.compile('Status: ')
     originre = re.compile('Origin: ')
@@ -339,10 +339,10 @@ def get_package_status(package, avail=False):
         if not line: continue
 
         if confmode:
-            if line[0] != '/':
+            if line[:2] != ' /':
                 confmode = False
             else:
-                conffiles = conffiles + (line.split(),)
+                conffiles = conffiles + [tuple(line.split())]
 
         if versionre.match(line):
             (crud, pkgversion) = line.split(": ", 1)

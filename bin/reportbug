@@ -1660,14 +1660,14 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         if conffiles and not self.options.kudos:
             ewrite("Getting changed configuration files...\n")
             confinfo, changed = utils.get_changed_config_files(
-                conffiles, nocompress)
+                conffiles, self.options.nocompress)
 
             if self.options.noconf and changed:
                 for f in changed:
                     confinfo[f] = 'changed [not included]'
             elif changed and not notatty:
                 while 1:
-                    x = ui.select_self.options(
+                    x = ui.select_options(
                         "*** WARNING: The following configuration files have been "
                         "modified:\n"+ "\n".join(changed)+
                         "\nSend modified configuration files", 'Ynd',
