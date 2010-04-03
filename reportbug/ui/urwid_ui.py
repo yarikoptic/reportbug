@@ -582,6 +582,9 @@ def handle_bts_query(package, bts, timeout, mirrors=None, http_proxy="",
                 bcount = len(bugs)
                 buglist.append( ('---', t) )
                 for bug in bugs:
+                    # encode the bug summary line, to avoid crashes due to
+                    # unparsable UTF8 characters
+                    bug = bug.encode('us-ascii', 'replace')
                     bits = re.split(r'[: ]', bug[1:], 1)
                     if len(bits) > 1:
                         tag, info = bits
