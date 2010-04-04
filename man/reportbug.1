@@ -137,6 +137,12 @@ searched for an exact path for \fIFILENAME\fP before attempting to
 broaden the search to all files. If \fBdlocate\fP is installed,
 \fIFILENAME\fP is actually a regular expression.
 .TP
+.B \-\-from-buildd=BUILDD_FORMAT
+This options is a shortcut for buildd admins to report bugs from
+buildd log; the option expects a value in the format of
+\fI$source_$version\fP where \fI$source\fP is the source package the
+bug will be reported against and \fI$version\fP is its version.
+.TP
 .B \-\-path
 If the \fB\-f/\-\-filename\fP option is also specified, only search
 the path for the specified \fIFILENAME\fP.  Specifying an absolute

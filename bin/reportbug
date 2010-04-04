@@ -778,6 +778,8 @@ def main():
                       help='specify an editor for your report')
     parser.add_option('-f', '--filename', dest='searchfor',
                       help='report the bug against the package containing the specified file')
+    parser.add_option('--from-buildd', dest='buildd_format',
+                      help='parse information from buildd format: $source_$version')
     parser.add_option('--path', dest='pathonly', action="store_true",
                       default=False, help='only search the path with -f')
     parser.add_option('-g', '--gnupg', '--gpg', action='store_const',
@@ -1014,6 +1016,10 @@ def main():
         defaults.update({ 'dontquery' : True, 'notatty' : True,
                           'printonly' : True })
 
+    # force to report the bug against the source package if --from-buildd
+    if options.buildd_format:
+        options.source = True
+
     iface = UI(options, args)
     if not hasattr(ui, 'run_interface'):
         return iface.user_interface()
@@ -1169,8 +1175,14 @@ class UI(object):
 
         foundfile = None
         package = None
-        if not len(self.args) and not self.options.searchfor and not notatty:
+        if not len(self.args) and not self.options.searchfor and not notatty and not self.options.buildd_format:
             package = get_package_name(bts, mode)
+        elif self.options.buildd_format:
+            # retrieve package name and version from the input string
+            package, self.options.pkgversion = self.options.buildd_format.split('_')
+            # retrieve the source package name (it should be the source alraedy,
+            # just for sake of safeness)
+            package = utils.get_source_name(package)
         elif len(self.args) > 1:
             ewrite("Please report one bug at a time.\n")
             ewrite("[Did you forget to put all switches before the "
