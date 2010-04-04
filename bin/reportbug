@@ -853,6 +853,9 @@ def main():
     parser.add_option('--smtphost', help='specify SMTP server for mailing')
     parser.add_option('--tls', help='use TLS to talk to SMTP servers',
                       dest="smtptls", action='store_true')
+    parser.add_option('--source', '--src', dest='source', default=False,
+                      help='report the bug against the source package ',
+                      action='store_true')
     parser.add_option('--smtpuser', help='username to use for SMTP')
     parser.add_option('--smtppasswd', help='password to use for SMTP')
     parser.add_option('--replyto', '--reply-to', help='specify Reply-To '
@@ -1180,6 +1183,9 @@ class UI(object):
             package = self.args[0]
             if package and package.startswith('/'):
                 (foundfile, package) = find_package_for(package, notatty)
+            elif package and self.options.source:
+                # convert it to the source package if we are reporting for src
+                package = utils.get_source_name(package)
 
         others = debianbts.SYSTEMS[bts].get('otherpkgs')
         if package == 'other' and others:
@@ -1944,7 +1950,8 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             message = utils.generate_blank_report(
                 submitas or package, pkgversion, severity, justification,
                 depinfo, conftext, foundfile, incfiles, bts, exinfo, rtype,
-                klass, subject, tags, body, mode, pseudos, debsumsoutput)
+                klass, subject, tags, body, mode, pseudos, debsumsoutput,
+                issource=self.options.source)
 
         # Substitute server email address
         if submitto and '@' not in sendto:

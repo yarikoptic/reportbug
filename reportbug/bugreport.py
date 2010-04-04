@@ -39,7 +39,7 @@ class bugreport(object):
     def __init__(self, package, subject='', body='', system='debian',
                  incfiles='', sysinfo=True,
                  followup=False, type='debbugs', mode=utils.MODE_STANDARD,
-                 debsumsoutput=None, **props):
+                 debsumsoutput=None, issource=False, **props):
         self.type = type
         for (k, v) in props.iteritems():
             setattr(self, k, v)
@@ -52,6 +52,7 @@ class bugreport(object):
         self.incfiles = incfiles
         self.sysinfo = sysinfo
         self.debsumsoutput = debsumsoutput
+        self.issource = issource
 
     def tset(self, value):
         if value not in ('debbugs', 'launchpad'):
@@ -105,6 +106,11 @@ class bugreport(object):
         elif not body:
             body = u'\n'
 
+        if self.issource:
+            reportto = 'Source'
+        else:
+            reportto = 'Package'
+
         if not self.followup:
             for (attr, name) in dict(severity='Severity',
                                      justification='Justification',
@@ -114,10 +120,10 @@ class bugreport(object):
                 if a:
                     headers += u'%s: %s\n' % (name, a)
             
-            report = u"Package: %s\n%s\n" % (self.package, headers)
+            report = u"%s: %s\n%s\n" % (reportto, self.package, headers)
         else:
-            report = "Followup-For: Bug #%d\nPackage: %s\n%s\n" % (
-                self.followup, self.package, headers)
+            report = "Followup-For: Bug #%d\n%s: %s\n%s\n" % (
+                self.followup, reportto, self.package, headers)
 
         infofunc = debianbts.SYSTEMS[self.system].get('infofunc', debianbts.generic_infofunc)
         if infofunc:

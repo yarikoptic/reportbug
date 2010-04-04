@@ -35,8 +35,12 @@ reportbug (4.12) UNRELEASED; urgency=low
     - restore the functionality that includes changed conffile into the bug
       report, that went broken log ago; thanks to Håkon Stordahl for the report
       and patch; Closes: #503131
+  * bin/reportbug, man/reportbug.1, reportbug/{bugreport.py, utils.py}
+    - added the '--source/--src' command-line option, to report bugs against the
+      source package instead of the binary one; thanks to Cyril Brulebois for
+      the report; Closes: #560230
 
- -- Sandro Tosi <morph@debian.org>  Sat, 03 Apr 2010 19:00:08 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 04 Apr 2010 19:35:12 +0200
 
 reportbug (4.11) unstable; urgency=low
 

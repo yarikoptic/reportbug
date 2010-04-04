@@ -383,6 +383,10 @@ should set this option in \fB$HOME/.reportbugrc\fP and ensure it is
 only readable by your user (e.g. with \fBchmod 600
 $HOME/.reportbugrc\fP).
 .TP
+.B \-\-src, \-\-source
+Specify to report the bug against the source package, and not the
+binary package (default behaviour).
+.TP
 .B \-t TYPE, \-\-type=TYPE
 Specify the type of report to be submitted; currently accepts either
 \fBgnats\fP or \fBdebbugs\fP.
