@@ -1737,7 +1737,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         ewrite('\n')
         prompted = False
         if interactive and not (self.options.kudos or exinfo) and presubj:
-            ui.display_report(open(presubj).read()+'\n')
+            ui.display_report(open(presubj).read()+'\n', presubj=True)
 
         if self.options.kudos:
             subject = subject or ('Thanks for packaging %s!' % package)

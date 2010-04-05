@@ -37,6 +37,3 @@ GTK+ UI: There are some situation when the GTK+ stack crashes,
    suite can lead to such errors) on the current machine. Do not
    report bugs against reportbug in such situations but consult users
    support forums.
-
-(You may need to press 'q' to exit your pager and continue using
-reportbug at this point. Doesn't apply to GTK+ UI.)

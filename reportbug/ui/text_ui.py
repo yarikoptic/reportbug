@@ -958,10 +958,12 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
             scount = scount + 1
     return "FilterEnd"
 
-def display_report(text, use_pager=True):
+def display_report(text, use_pager=True, presubj=False):
     if not use_pager:
         ewrite(text)
         return
+    elif presubj:
+        text += "\n(You may need to press 'q' to exit your pager and continue using\nreportbug at this point.)"
 
     pager = os.environ.get('PAGER', 'sensible-pager')
     try:

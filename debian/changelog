@@ -43,8 +43,13 @@ reportbug (4.12) UNRELEASED; urgency=low
     - added the '--from-buildd $SRC_$VER' option to make reportbug file the bug
       against the source package $SRC for the given $VER version; thanks to
       Cyril Brulebois for the report; Closes: #571970
+  * bin/reportbug, reportbug/ui/text_ui.py, share/presubj
+    - append a notice to every 'presubj' script shown in UI text that 'q' is
+      probably the key to press to exit the pager (updating reportbug 'presubj'
+      script to remove that notice); thanks to Chris Walker for the report;
+      Closes: #488414
 
- -- Sandro Tosi <morph@debian.org>  Sun, 04 Apr 2010 23:38:44 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 05 Apr 2010 15:04:25 +0200
 
 reportbug (4.11) unstable; urgency=low
 
