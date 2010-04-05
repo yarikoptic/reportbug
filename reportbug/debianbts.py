@@ -491,7 +491,7 @@ def handle_wnpp(package, bts, ui, fromaddr, timeout, online=True, http_proxy=Non
         package = ui.get_string(prompt)
 
     ui.log_message('Checking status database...\n')
-    info = utils.get_package_status(package)
+    info = utils.get_package_status(package, avail=True)
     available = info[1]
 
     severity = 'normal'

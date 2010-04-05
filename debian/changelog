@@ -3,6 +3,8 @@ reportbug (4.12) UNRELEASED; urgency=low
   * reportbug/debianbts.py
     - fix description for 'experimental' tag; thanks to Raphael Rigo for the
       report; Closes: #575044
+    - check the available packages (not only the installed ones) when reporting
+      a wnpp bug; thanks to Filippo Giunchedi for the report; Closes: #565435
   * bin/reportbug
     - removed the information that an empty subject would stop the report: it
       will continue until entered or Ctrl+c; thanks Torquil Macdonald Sørensen
@@ -49,7 +51,7 @@ reportbug (4.12) UNRELEASED; urgency=low
       script to remove that notice); thanks to Chris Walker for the report;
       Closes: #488414
 
- -- Sandro Tosi <morph@debian.org>  Mon, 05 Apr 2010 15:04:25 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 05 Apr 2010 15:43:26 +0200
 
 reportbug (4.11) unstable; urgency=low
 
