@@ -941,6 +941,12 @@ def main():
                       help='Save the draft in this directory')
     parser.add_option('--timeout', type="int", dest='timeout', default=60,
                       help='Specify the network timeout, in seconds [default: %default]')
+    parser.add_option('--no-cc-menu', dest="ccmenu", default=True,
+                      action='store_false',
+                      help='don\'t show additional CC menu')
+    parser.add_option('--no-tags-menu', dest="tagsmenu", default=True,
+                      action='store_false',
+                      help='don\'t show tags menu')
 
     (options, args) = parser.parse_args()
 
@@ -1798,7 +1804,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         if not listcc:
             listcc = []
 
-        if not listcc and mode > MODE_STANDARD and rtype == 'debbugs' and not self.options.testmode and not self.options.template:
+        if not listcc and mode > MODE_STANDARD and rtype == 'debbugs' and not self.options.testmode and not self.options.template and self.options.ccmenu:
             listcc += ui.get_multiline('Enter any additional addresses this report should be sent to; press ENTER after each address.')
 
         if severity and rtype:
@@ -1889,7 +1895,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         if (rtype == 'debbugs' and not self.options.tags and
             not (notatty or self.options.kudos or exinfo) and
             package not in ('wnpp', 'ftp.debian.org', 'release.debian.org') and
-            mode > MODE_NOVICE):
+            mode > MODE_NOVICE and self.options.tagsmenu):
             tags = debianbts.get_tags(severity)
 
             taglist = ui.select_multiple(

@@ -52,13 +52,18 @@ reportbug (4.12) UNRELEASED; urgency=low
     - added the '--no-bug-script' command-line option to not execute the bug
       script; thanks to Håkon Stordahl for the report and the (inspiring) patch;
       Closes: #511210
+    - added the '--no-cc-menu' command-line option to not display the menu
+      asking for additional CCs; part of #428113
+    - added the '--no-tags-menu' command-line option to not display the menu 
+      asking for tags; thanks to Josh Triplett for the report and Carl Chenet
+      for the (partial) patch; Closes: #428113
   * bin/reportbug, reportbug/ui/text_ui.py, share/presubj
     - append a notice to every 'presubj' script shown in UI text that 'q' is
       probably the key to press to exit the pager (updating reportbug 'presubj'
       script to remove that notice); thanks to Chris Walker for the report;
       Closes: #488414
 
- -- Sandro Tosi <morph@debian.org>  Tue, 06 Apr 2010 21:58:31 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 06 Apr 2010 23:44:58 +0200
 
 reportbug (4.11) unstable; urgency=low
 
