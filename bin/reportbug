@@ -1863,30 +1863,23 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                                                 http_proxy=self.options.http_proxy,
                                                 timeout=options.timeout)
 
+                severity = 'serious'
+                justification = 'fails to build from source'
+                # special-case only if it was built in the past
                 if built:
-                    ewrite('Successful past builds... treating as serious.\n')
-                    severity = 'serious'
-                    justification = 'no longer builds from source'
-                else:
-                    ewrite('No successful builds... treating as important.\n')
-                    severity = 'important'
-                    justification = 'fails to build from source'
+                    justification += ' (but built successfully in the past)'
             else:
-                if notatty:
-                    severity = 'important'
-                    justification = 'fails to build from source'
-                else:
+                severity = 'serious'
+                justification = 'fails to build from source'
+                if not notatty:
+                    # special-case only if it was built in the past
                     if ui.yes_no(
                         'Has this package successfully been built for this '
                         'architecture in the past (you can look this up at '
                         'buildd.debian.org)',
                         'Yes, this is a recently-introduced problem.',
                         'No, it has always been this way.'):
-                        severity = 'serious'
-                        justification = 'no longer builds from source'
-                    else:
-                        severity = 'important'
-                        justification = 'fails to build from source'
+                        justification += ' (but built successfully in the past)'
 
         HOMEDIR = os.environ.get('HOME', '/')
 

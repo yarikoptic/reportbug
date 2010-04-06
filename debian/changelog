@@ -12,6 +12,10 @@ reportbug (4.12) UNRELEASED; urgency=low
     - keep presenting the severity menu until one is selected (prevent a crash
       with urwid UI and Cancel button); thanks to Noah Slater for the report;
       Closes: #461908
+    - treat every FTBFS bug (pseudo-severity 'does-not-build') as 'serious' but
+      adding a note in the Justification pseudo-header if the package was built
+      successfully in the past; thanks to Alexander Schmehl for the report;
+      Closes: #390466
   * reportbug/submit.py
     - clarify that in case no acknowledge is received, then there was an error;
       thanks to mpapet for the report; Closes: #575418
@@ -51,7 +55,7 @@ reportbug (4.12) UNRELEASED; urgency=low
       script to remove that notice); thanks to Chris Walker for the report;
       Closes: #488414
 
- -- Sandro Tosi <morph@debian.org>  Mon, 05 Apr 2010 15:43:26 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 06 Apr 2010 11:09:14 +0200
 
 reportbug (4.11) unstable; urgency=low
 
