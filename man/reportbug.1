@@ -269,6 +269,11 @@ to edit and send it.
 Run \fBreportbug\fP against the specified bug report, useful when
 following-up a bug and its number is already known.
 .TP
+.B \-\-no\-bug\-script
+Do not execute the bug script (if present); this option can be useful
+together with \-\-template to suppress every interactive actions,
+since some bug scripts can ask questions.
+.TP
 .B \-o FILE, \-\-output=FILE
 Instead of sending an email, redirect it to the specified filename.
 

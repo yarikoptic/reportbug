@@ -934,6 +934,9 @@ def main():
     parser.add_option('--no-paranoid', action='store_false', dest='paranoid',
                       help='don\'t show contents of message before sending '
                       '(default)')
+    parser.add_option('--no-bug-script', dest="bugscript", default=True,
+                      action='store_false',
+                      help='don\'t execute the bug script (if present)')
     parser.add_option('--draftpath', dest="draftpath",
                       help='Save the draft in this directory')
     parser.add_option('--timeout', type="int", dest='timeout', default=60,
@@ -1906,7 +1909,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             tags = ''
 
         # Execute bug script
-        if (interactive or self.options.template) and bugexec and not self.options.kudos:
+        if self.options.bugscript and bugexec and not self.options.kudos:
             if os.path.exists('handle_bugscript'):
                 handler = './handle_bugscript'
             else:
