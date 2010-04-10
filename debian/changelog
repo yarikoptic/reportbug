@@ -16,6 +16,10 @@ reportbug (4.12) UNRELEASED; urgency=low
       adding a note in the Justification pseudo-header if the package was built
       successfully in the past; thanks to Alexander Schmehl for the report;
       Closes: #390466
+    - in case of a bug for an undisclosed vulnerability (tagged 'security'),
+      report it to the private Security Team mailing list instead of to the
+      public BTS (to coordinate the release of the fix); thanks to Chris
+      Lawrence for the report and to the Sec Team for review; Closes: #474187
   * reportbug/submit.py
     - clarify that in case no acknowledge is received, then there was an error;
       thanks to mpapet for the report; Closes: #575418
@@ -63,7 +67,7 @@ reportbug (4.12) UNRELEASED; urgency=low
       script to remove that notice); thanks to Chris Walker for the report;
       Closes: #488414
 
- -- Sandro Tosi <morph@debian.org>  Tue, 06 Apr 2010 23:44:58 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 10 Apr 2010 08:59:38 +0200
 
 reportbug (4.11) unstable; urgency=low
 

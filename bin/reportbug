@@ -1914,6 +1914,13 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
         else:
             tags = ''
 
+        if 'security' in taglist:
+            if ui.yes_no(
+                'Are you reporting an undisclosed vulnerability? If so, in order to responsibly disclose the issue, it should not be sent to the public BTS right now, but instead to the private Security Team mailing list.',
+                'Yes, it is an undisclosed vulnerability, send this report to the private Security Team mailing list and not to the BTS.',
+                'No, it is already a publicly disclosed vulnerability, send this report to the BTS.', False):
+                sendto = 'team@security.debian.org'
+
         # Execute bug script
         if self.options.bugscript and bugexec and not self.options.kudos:
             if os.path.exists('handle_bugscript'):
@@ -1946,7 +1953,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             elif addinfo:
                 incfiles = addinfo
 
-        if bts == 'debian' and 'security' in taglist:
+        if bts == 'debian' and 'security' in taglist and sendto != 'team@security.debian.org':
             ewrite('Will send a CC of this report to the Debian Security and Testing Security Team.\n')
             listcc += ['Debian Security Team <team@security.debian.org>']
             listcc += ['Debian Testing Security Team <secure-testing-team@lists.alioth.debian.org>']
