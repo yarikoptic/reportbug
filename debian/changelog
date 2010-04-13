@@ -66,8 +66,12 @@ reportbug (4.12) UNRELEASED; urgency=low
       probably the key to press to exit the pager (updating reportbug 'presubj'
       script to remove that notice); thanks to Chris Walker for the report;
       Closes: #488414
+  * debian/source/format
+    - Switch to dpkg-source 3.0 (native) format
+  * debian/source/options
+    - options to compress the tarball with bzip2 (and max compression)
 
- -- Sandro Tosi <morph@debian.org>  Sat, 10 Apr 2010 08:59:38 +0200
+ -- Sandro Tosi <morph@debian.org>  Tue, 13 Apr 2010 18:46:36 +0200
 
 reportbug (4.11) unstable; urgency=low
 
