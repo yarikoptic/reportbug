@@ -1,4 +1,4 @@
-reportbug (4.12) UNRELEASED; urgency=low
+reportbug (4.12) unstable; urgency=low
 
   * reportbug/debianbts.py
     - fix description for 'experimental' tag; thanks to Raphael Rigo for the
@@ -71,7 +71,7 @@ reportbug (4.12) UNRELEASED; urgency=low
   * debian/source/options
     - options to compress the tarball with bzip2 (and max compression)
 
- -- Sandro Tosi <morph@debian.org>  Tue, 13 Apr 2010 18:46:36 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 14 Apr 2010 17:30:48 +0200
 
 reportbug (4.11) unstable; urgency=low
 
