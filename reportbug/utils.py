@@ -342,7 +342,7 @@ def get_package_status(package, avail=False):
             if line[:2] != ' /':
                 confmode = False
             else:
-                conffiles = conffiles + [tuple(line.split())]
+                conffiles = conffiles + [tuple(line.split()[:2])]
 
         if versionre.match(line):
             (crud, pkgversion) = line.split(": ", 1)
