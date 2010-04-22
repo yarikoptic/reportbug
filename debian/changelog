@@ -3,8 +3,11 @@ reportbug (4.12+fixes) UNRELEASED; urgency=low
   * reportbug/utils.py
     - only take file name and md5sum from Conffile from dpkg --status; thanks to
       all the reporters; Closes: #577986
+  * reportbug/ui/text_ui.py
+    - pass 'timeout' to search_bug, needed when filtering bugs; thanks to Matt
+      Kraai for the report and patch; Closes: #578505
 
- -- Sandro Tosi <morph@debian.org>  Thu, 22 Apr 2010 19:30:32 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 22 Apr 2010 21:34:38 +0200
 
 reportbug (4.12) unstable; urgency=low
 

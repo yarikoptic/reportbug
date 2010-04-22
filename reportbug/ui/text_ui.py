@@ -699,7 +699,7 @@ def browse_bugs(hierarchy, count, bugs, bts, queryonly, mirrors,
 		    elif x == 'f':
 			# Do filter. Recursive done.
 			retval = search_bugs(hierarchy,bts, queryonly, mirrors,
-                                             http_proxy, screen, title, package)
+                                             http_proxy, timeout, screen, title, package)
 			if retval in ["FilterEnd", "Top"]:
 			    continue
 			else:
@@ -768,7 +768,7 @@ def proc_hierarchy(hierarchy):
     return count, bugs
 
 def search_bugs(hierarchyfull, bts, queryonly, mirrors,
-                http_proxy, screen, title, package):
+                http_proxy, timeout, screen, title, package):
     """Search for the bug list using a pattern."""
     """Return string "FilterEnd" when we are done with search."""
 
@@ -905,7 +905,7 @@ def search_bugs(hierarchyfull, bts, queryonly, mirrors,
 		    elif x == 'f':
 			# Do filter. Recursive done.
 			retval = search_bugs(hierarchy, bts, queryonly, mirrors,
-			    http_proxy, screen, title, package)
+			    http_proxy, timeout, screen, title, package)
 			if retval == "FilterEnd":
 			    continue
 			else:
