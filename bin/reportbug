@@ -1189,9 +1189,11 @@ class UI(object):
         elif self.options.buildd_format:
             # retrieve package name and version from the input string
             package, self.options.pkgversion = self.options.buildd_format.split('_')
-            # retrieve the source package name (it should be the source alraedy,
-            # just for sake of safeness)
-            package = utils.get_source_name(package)
+            # TODO: fix it when refactoring
+            # if not done as of below, it will ask for version when the package
+            # is not available on the local system (try a dummy one, like foo_12-3)
+            pkgversion = self.options.pkgversion
+            print package, self.options.pkgversion
         elif len(self.args) > 1:
             ewrite("Please report one bug at a time.\n")
             ewrite("[Did you forget to put all switches before the "
