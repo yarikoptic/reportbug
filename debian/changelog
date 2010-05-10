@@ -4,8 +4,10 @@ reportbug (4.12.2) UNRELEASED; urgency=low
     - don't try to map package to source when using --from-buildd, and also
       force version set; thanks to Cyril Brulebois for reporting this (on IRC)
       and testing preliminary patches
+    - correctly pass the 'timeout' parameter to 'check_built'; thanks to Daniel
+      Bolton for the report and to Milan Vancura for the patch; Closes: #580382
 
- -- Sandro Tosi <morph@debian.org>  Wed, 28 Apr 2010 19:00:06 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 10 May 2010 22:34:14 +0200
 
 reportbug (4.12.1) unstable; urgency=low
 

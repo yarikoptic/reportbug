@@ -1872,7 +1872,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                        src_name)
                 built = checkbuildd.check_built(src_name,
                                                 http_proxy=self.options.http_proxy,
-                                                timeout=options.timeout)
+                                                timeout=self.options.timeout)
 
                 severity = 'serious'
                 justification = 'fails to build from source'
