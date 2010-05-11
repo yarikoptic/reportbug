@@ -1053,14 +1053,23 @@ def cleanup_msg(dmessage, headers, pseudos, type):
                 ph += [header]
     else:
         ph2 = {}
+        # generate a list of pseudoheaders, but without duplicates
+        # we take the list of pseudoheaders defined in reportbug and add
+        # the ones passed by the user (if not already present). We are not using
+        # set(..) because we want to preserve the item order of PSEUDOHEADERS
+        pseudo_list = list(PSEUDOHEADERS)
+        for p in PSEUDOS:
+            if p not in pseudo_list:
+                pseudo_list.append(p)
+
         for header, content in pseudoheaders:
             # if either in the canonical pseudo-headers list or in those passed on the command line
-            if header in list(PSEUDOHEADERS) + PSEUDOS:
+            if header in pseudo_list:
                 ph2[header] = content
             else:
                 newheaders.append( (header, content) )
 
-        for header in list(PSEUDOHEADERS) + PSEUDOS:
+        for header in pseudo_list:
             if header in ph2:
                 ph += ['%s: %s' % (header, ph2[header])]
 
