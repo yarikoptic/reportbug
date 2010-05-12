@@ -1,4 +1,4 @@
-reportbug (4.12.2) UNRELEASED; urgency=low
+reportbug (4.12.2) unstable; urgency=low
 
   * bin/reportbug
     - don't try to map package to source when using --from-buildd, and also
@@ -15,7 +15,7 @@ reportbug (4.12.2) UNRELEASED; urgency=low
       presubj file), fixing a crash; thanks to Michael Schmitt for the report;
       Closes: #578711
 
- -- Sandro Tosi <morph@debian.org>  Wed, 12 May 2010 19:09:43 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 12 May 2010 19:21:22 +0200
 
 reportbug (4.12.1) unstable; urgency=low
 
