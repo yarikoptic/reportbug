@@ -536,6 +536,7 @@ class Page (ReportbugConnector):
         self.switch_in ()
         self.connect_signals ()
         self.empty_ok = kwargs.pop ('empty_ok', False)
+        self.presubj = kwargs.pop ('presubj', False)
         self.execute (*args, **kwargs)
         self.assistant.show ()
         self.setup_focus ()

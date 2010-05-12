@@ -10,8 +10,12 @@ reportbug (4.12.2) UNRELEASED; urgency=low
     - generate a list of pseudoheaders (without duplicates), so that when
       writing them into the report body they are not repeated; thanks to Cyril
       Brulebois for the report; Closes: #579597
+  * reportbug/ui/gtk2_ui.py
+    - retrieve the 'presubj' keyword argument (passed when we have to show the
+      presubj file), fixing a crash; thanks to Michael Schmitt for the report;
+      Closes: #578711
 
- -- Sandro Tosi <morph@debian.org>  Tue, 11 May 2010 19:23:40 +0200
+ -- Sandro Tosi <morph@debian.org>  Wed, 12 May 2010 19:09:43 +0200
 
 reportbug (4.12.1) unstable; urgency=low
 
