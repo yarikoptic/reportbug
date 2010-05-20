@@ -661,7 +661,7 @@ def get_changed_config_files(conffiles, nocompress=False):
 
             thisinfo += line
 
-        confinfo[filename] = thisinfo
+        confinfo[filename] = thisinfo.decode('utf-8', 'replace')
 
     return confinfo, changed
 
