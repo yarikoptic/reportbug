@@ -3,8 +3,12 @@ reportbug (4.12.3) UNRELEASED; urgency=low
   * reportbug/utils.py
     - convert the config file name to UTF-8, avoinding a crash; thanks to Anders
       Lagerås for the report and to Carl Chenet for the patch; Closes: #578085
+  * bin/reportbug
+    - when configuring, show the complete text about SMTP host (part was hidden
+      if using GTK+ UI); thanks to Elie De Brauwer for the report and patch;
+      Closes: #583292
 
- -- Sandro Tosi <morph@debian.org>  Fri, 21 May 2010 07:25:11 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 27 May 2010 22:20:51 +0200
 
 reportbug (4.12.2) unstable; urgency=low
 
