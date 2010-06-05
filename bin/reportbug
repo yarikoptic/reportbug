@@ -316,7 +316,7 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
         elif x == 't':
             newtaglist = []
             skip_editing = True
-            ntags = debianbts.get_tags(severity)
+            ntags = debianbts.get_tags(severity, mode)
             newtaglist = ui.select_multiple(
                 'Do any of the following apply to this report?', ntags,
                 'Please select tags: ')
@@ -1898,7 +1898,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             not (notatty or self.options.kudos or exinfo) and
             package not in ('wnpp', 'ftp.debian.org', 'release.debian.org') and
             mode > MODE_NOVICE and self.options.tagsmenu):
-            tags = debianbts.get_tags(severity)
+            tags = debianbts.get_tags(severity, mode)
 
             taglist = ui.select_multiple(
                 'Do any of the following apply to this report?', tags,

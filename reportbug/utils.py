@@ -43,11 +43,7 @@ import rfc822
 import socket
 import subprocess
 
-import debianbts
 from string import ascii_letters, digits
-
-# needed for MUA send
-import ui.text_ui as ui
 
 # Paths for dpkg
 DPKGLIB = '/var/lib/dpkg'
@@ -74,6 +70,11 @@ MODELIST = ['novice', 'standard', 'advanced', 'expert']
 for mode in MODELIST:
     exec 'MODE_%s=%d' % (mode.upper(), MODELIST.index(mode))
 del mode
+
+# moved here since it needs the MODE_* vars to be defined
+import debianbts
+# it needs to be imported after debianbts
+import ui.text_ui as ui
 
 NEWBIELINE = '*** Please type your report below this line ***'
 

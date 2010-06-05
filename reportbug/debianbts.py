@@ -640,30 +640,37 @@ CRITICAL_TAGS = {
     'security' : 'This problem is a security vulnerability in Debian.',
 }
 
+EXPERT_TAGS = {
+    'lenny' : 'This bug only applies to the lenny release (Debian 5.0).',
+    'squeeze' : 'This bug only applies to the squeeze release.',
+    'sid' : 'This bug only applies to the unstable branch of Debian.',
+    'experimental' : 'This bug only applies to the experimental branch of Debian.'
+}
+
 TAGS = {
     'patch' : 'You are including a patch to fix this problem.',
     'upstream' : 'This bug applies to the upstream part of the package.',
     'd-i' : 'This bug is relevant to the development of debian-installer.',
     'ipv6' : 'This bug affects support for Internet Protocol version 6.',
     'lfs' : 'This bug affects support for large files (over 2 gigabytes).',
-    'lenny' : 'This bug only applies to the lenny release (Debian 5.0).',
-    'squeeze' : 'This bug only applies to the squeeze release.',
-    'sid' : 'This bug only applies to the unstable branch of Debian.',
-    'experimental' : 'This bug only applies to the experimental branch of Debian.',
     'l10n' : 'This bug reports a localization/internationalization issue.'
     }
 
-def get_tags(severity=''):
+def get_tags(severity='', mode=utils.MODE_NOVICE):
     """Returns the current tags list.
 
-    If severity is release critical, than add additional tags not always present."""
+    If severity is release critical, than add additional tags not always present.
+    If mode is higher than STANDARD, then add suite tags."""
+
+    tags = TAGS.copy()
 
     if severity in ('grave', 'critical', 'serious'):
-        temp_tags = TAGS.copy()
-        temp_tags.update(CRITICAL_TAGS)
-        return temp_tags
-    else:
-        return TAGS
+        tags.update(CRITICAL_TAGS)
+
+    if mode > utils.MODE_STANDARD:
+        tags.update(EXPERT_TAGS)
+
+    return tags
 
 def yn_bool(setting):
     if setting:
