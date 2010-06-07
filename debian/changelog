@@ -13,8 +13,10 @@ reportbug (4.12.3) UNRELEASED; urgency=low
   * reportbug/ui/gtk2_ui.py
     - ask confirmation to user when closing reportbug using GTK+ UI; thanks to
       Matej Zary for the report; Closes: #574843
+  * checks/compare_pseudo-pkgs_lists.py
+    - make it work again, with a dirty trick (import 'utils' before 'debianbts')
 
- -- Sandro Tosi <morph@debian.org>  Mon, 07 Jun 2010 20:03:46 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 07 Jun 2010 20:34:44 +0200
 
 reportbug (4.12.2) unstable; urgency=low
 
