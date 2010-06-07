@@ -1,4 +1,4 @@
-reportbug (4.12.3) UNRELEASED; urgency=low
+reportbug (4.12.3) unstable; urgency=low
 
   * reportbug/utils.py
     - convert the config file name to UTF-8, avoinding a crash; thanks to Anders
@@ -20,7 +20,7 @@ reportbug (4.12.3) UNRELEASED; urgency=low
     - added 'debian-maintainers' and 'snapshot.debian.org' to the
       pseudo-packages list
 
- -- Sandro Tosi <morph@debian.org>  Mon, 07 Jun 2010 20:41:04 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 07 Jun 2010 20:59:28 +0200
 
 reportbug (4.12.2) unstable; urgency=low
 
