@@ -1,3 +1,11 @@
+reportbug (4.12.4) UNRELEASED; urgency=low
+
+  * man/reportbug.1
+    - fixed documentation for '--no-tags-menu', wrongly associated to
+      '--no-bug-script'; thanks to Jakub Wilk for the report; Closes: #584964
+
+ -- Sandro Tosi <morph@debian.org>  Mon, 07 Jun 2010 23:14:55 +0200
+
 reportbug (4.12.3) unstable; urgency=low
 
   * reportbug/utils.py
