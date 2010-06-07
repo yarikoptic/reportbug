@@ -1341,7 +1341,7 @@ class ReportbugAssistant (gtk.Assistant):
         self._hack_buttons (self)
 
     def connect_signals (self):
-        self.connect ('cancel', self.close)
+        self.connect ('cancel', self.confirm_exit)
         self.connect ('prepare', self.on_prepare)
         self.connect ('delete-event', self.close)
         self.connect ('apply', self.close)
@@ -1367,6 +1367,15 @@ class ReportbugAssistant (gtk.Assistant):
 
     def close (self, *args):
         sys.exit (0)
+
+    def confirm_exit(self, *args):
+        dialog = gtk.MessageDialog (None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                                    gtk.MESSAGE_WARNING, gtk.BUTTONS_YES_NO,
+                                    "Are you sure you want to quit Reportbug?")
+        response = dialog.run ()
+        dialog.destroy ()
+        if response == gtk.RESPONSE_YES:
+            sys.exit (0)
         
     def forward (self, page_num):
         return page_num + 1

@@ -10,8 +10,11 @@ reportbug (4.12.3) UNRELEASED; urgency=low
   * bin/reportbug, reportbug/{debianbts.py, utils.py}
     - don't present suite tags ('sid', 'lenny', etc) when running in modes lower
       than 'advanced'; thanks to Julien Cristau for the report; Closes: #583890
+  * reportbug/ui/gtk2_ui.py
+    - ask confirmation to user when closing reportbug using GTK+ UI; thanks to
+      Matej Zary for the report; Closes: #574843
 
- -- Sandro Tosi <morph@debian.org>  Sat, 05 Jun 2010 10:38:05 +0200
+ -- Sandro Tosi <morph@debian.org>  Mon, 07 Jun 2010 20:03:46 +0200
 
 reportbug (4.12.2) unstable; urgency=low
 
