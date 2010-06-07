@@ -159,21 +159,16 @@ def convert_severity(severity, type='debbugs'):
 # These packages are virtual in Debian; we don't look them up...
 debother = {
     'base' : 'General bugs in the base system',
-# Actually a real package, but most people don't have boot-floppies installed for good reason
-#    'boot-floppy' : '(Obsolete, please use boot-floppies instead.)',
-#    'boot-floppies' : 'Bugs in the woody installation subsystem',
     'bugs.debian.org' : 'The bug tracking system, @bugs.debian.org',
     'buildd.debian.org' :  'Problems and requests related to the Debian Buildds',
     'buildd.emdebian.org' :  'Problems related to building packages for Emdebian',
     'cdimage.debian.org' : 'CD Image issues',
     'cdrom' : 'Problems with installation from CD-ROMs',
-# dpkg-iwj -- The dpkg branch maintained by Ian Jackson
+    'debian-maintainers' :  'Problems and requests related to Debian Maintainers',
     'debian-policy' : 'Proposed changes in the Debian policy documentation',
     'debian-i18n' :  'Requests regarding Internationalization (i18n) of the distribution',
     'ftp.debian.org' : 'Problems with the FTP site and Package removal requests',
     'general' : 'General problems (e.g., that many manpages are mode 755)',
-#    'install' : 'Problems with the sarge installer.',
-#    'installation' : 'General installation problems not covered otherwise.',
     'installation-reports' : 'Problems with installing Debian',
     'listarchives' :  'Problems with the WWW mailing list archives',
     'lists.debian.org' : 'The mailing lists, debian-*@lists.debian.org.',
@@ -182,11 +177,11 @@ debother = {
     'press' : 'Press release issues',
     'project' : 'Problems related to project administration',
     'qa.debian.org' : 'Problems related to the quality assurance group',
-#slink-cd -- Slink CD
     'release.debian.org' : 'Requests regarding Debian releases and release team tools',
     'release-notes' : 'Problems with the release notes',
     'security-tracker' : 'The Debian Security Bug Tracker',
     'security.debian.org' : 'Problems with the security updates server',
+    'snapshot.debian.org' :  'Issues with the snapshot.debian.org service',
     'spam' : 'Spam (reassign spam to here so we can complain about it)',
     'tech-ctte' : 'Issues to be referred to the technical committee',
     'upgrade-reports' : 'Reports of successful and unsucessful upgrades',
