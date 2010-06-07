@@ -55,8 +55,6 @@ PSEUDOHEADERS = ('Package', 'Source', 'Version', 'Severity', 'File', 'Tags',
                  'Justification', 'Followup-For', 'Owner', 'User', 'Usertags',
                  'Forwarded')
 
-from reportbug.ui import AVAILABLE_UIS
-
 MODES = {'novice': 'Offer simple prompts, bypassing technical questions.',
          'standard': 'Offer more extensive prompts, including asking about '
          'things that a moderately sophisticated user would be expected to '
@@ -75,6 +73,8 @@ del mode
 import debianbts
 # it needs to be imported after debianbts
 import ui.text_ui as ui
+
+from reportbug.ui import AVAILABLE_UIS
 
 NEWBIELINE = '*** Please type your report below this line ***'
 
