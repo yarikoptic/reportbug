@@ -152,7 +152,7 @@ def include_file_in_report(message, message_filename,
 # Useful to retrieve CCs given in handle_editing
 CCS = []
 def handle_editing(filename, dmessage, options, sendto, attachments, package,
-                   severity, editor=None, charset='utf-8', tags=''):
+                   severity, mode, editor=None, charset='utf-8', tags=''):
     if not editor:
         editor = options.editor
     editor = utils.which_editor(editor)
@@ -2014,7 +2014,7 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
             if not self.options.body and not self.options.bodyfile:
                 message, haspatch = handle_editing(filename, message, self.options,
                                          sendto, attachments, package,
-                                         severity, charset=charset, tags=tags)
+                                         severity, mode, charset=charset, tags=tags)
                 if haspatch:
                     patch = True
 
