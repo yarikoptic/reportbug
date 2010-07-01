@@ -1,4 +1,4 @@
-reportbug (4.12.4) UNRELEASED; urgency=low
+reportbug (4.12.4) unstable; urgency=low
 
   * man/reportbug.1
     - fixed documentation for '--no-tags-menu', wrongly associated to
@@ -7,7 +7,7 @@ reportbug (4.12.4) UNRELEASED; urgency=low
     - fix the crash when asking for tags menu after editing of bug body; thanks
       to Christoph Anton Mitterer for the report; Closes: #586044
 
- -- Sandro Tosi <morph@debian.org>  Wed, 16 Jun 2010 20:07:08 +0200
+ -- Sandro Tosi <morph@debian.org>  Thu, 01 Jul 2010 20:56:57 +0200
 
 reportbug (4.12.3) unstable; urgency=low
 
