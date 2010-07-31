@@ -45,6 +45,11 @@ file included; in some cases (usually text files), it is probably
 better to use \fB\-i/\-\-include\fP option.  (Please note that
 Debian's bug tracking system has limited support for MIME
 attachments.)
+
+This option supports also globbing (i.e. names with wildcards, like
+file.*) but remember to include them between single quotes (the
+previous example becomes: 'file.*') else the shell would expand it
+before calling reportbug leading to an error.
 .TP
 .B \-b, \-\-no\-query\-bts
 Don't check the Debian bug tracking system to see if this problem has

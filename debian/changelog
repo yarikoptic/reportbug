@@ -6,8 +6,11 @@ reportbug (4.12.5) UNRELEASED; urgency=low
   * reportbug/submit.py
     - fixed a typo: 'receive'/'received'; thanks to Joey Hess for the report;
       Closes: #588198
+  * bin/reportbug, man/reportbug.1
+    - support globbing when attachments are allowed (so both command-line args
+      and sub-menus); thanks to Josh Triplett for the report: Closes: #452648
 
- -- Sandro Tosi <morph@debian.org>  Sat, 31 Jul 2010 15:07:01 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 31 Jul 2010 22:59:26 +0200
 
 reportbug (4.12.4) unstable; urgency=low
 

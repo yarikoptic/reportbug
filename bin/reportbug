@@ -36,6 +36,8 @@ import commands
 import rfc822
 import gettext
 import textwrap
+# for blogging of attachments file
+from glob import glob
 
 from reportbug import utils
 from reportbug import (
@@ -241,16 +243,18 @@ def handle_editing(filename, dmessage, options, sendto, attachments, package,
                     attachfile = ui.get_filename('Choose a file to attach: ')
                 if attachfile:
                     attachfile = os.path.expanduser(attachfile)
-                    if os.access(attachfile, os.R_OK) and os.path.isfile(attachfile):
-                        invalid = False
-                        inline = (x == 'i')
-                        (message, filename, attachments) = include_file_in_report(
-                            message, filename, attachments, package,
-                            attachfile, charset, inline=inline, draftpath=options.draftpath)
-                        if not inline:
-                            skip_editing = True
-                    else:
-                        ui.display_failure("Can't find %s to include!\n", attachfile)
+                    # loop over the globbed 'attachfile', you can specify wildcards now
+                    for attachf in glob(attachfile):
+                        if os.access(attachf, os.R_OK) and os.path.isfile(attachf):
+                            invalid = False
+                            inline = (x == 'i')
+                            (message, filename, attachments) = include_file_in_report(
+                                message, filename, attachments, package,
+                                attachf, charset, inline=inline, draftpath=options.draftpath)
+                            if not inline:
+                                skip_editing = True
+                        else:
+                            ui.display_failure("Can't find %s to include!\n", attachf)
                 else:
                     break
         elif x == 'd':
@@ -962,6 +966,12 @@ def main():
             sys.exit(1)
 
     if options.attachments:
+        # needed to support glob
+        for attachment in options.attachments:
+            # remove each element
+            options.attachments.remove(attachment)
+            # and replace it with its glob
+            options.attachments.extend(glob(attachment))
         any_missing = False
         for attachment in options.attachments:
             if not os.path.exists(os.path.expanduser(attachment)):
@@ -2039,11 +2049,12 @@ For more details, please see: http://www.debian.org/devel/wnpp/''')
                         force_prompt=True)
                     if patchfile:
                         attachfile = os.path.expanduser(patchfile)
-                        if os.path.exists(attachfile):
-                            attachments.append(attachfile)
-                            break
-                        else:
-                            ewrite('%s not found!', attachfile)
+                        # loop over the glob of 'attachfile', we support glob now
+                        for attachf in glob(attachfile):
+                            if os.path.exists(attachfile):
+                                attachments.append(attachfile)
+                            else:
+                                ewrite('%s not found!', attachfile)
                     else:
                         break
         if CCS:
