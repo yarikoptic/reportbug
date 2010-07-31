@@ -1,3 +1,11 @@
+reportbug (4.12.5) UNRELEASED; urgency=low
+
+  * bin/reportbug
+    - add a warning we are actually working (and not blocked) when executing bug
+      script; thanks to Arthur Marsh for the report; Closes: #587952
+
+ -- Sandro Tosi <morph@debian.org>  Sat, 31 Jul 2010 14:55:47 +0200
+
 reportbug (4.12.4) unstable; urgency=low
 
   * man/reportbug.1
