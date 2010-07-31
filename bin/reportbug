@@ -589,7 +589,8 @@ def offer_configuration(options):
             'something like "mail.example.org" or "smtp.example.org". '
             'If you need to use a different port than default, use the '
             '<host>:<port> alternative format.\n\n'
-            'Just press ENTER if you don\'t have one or don\'t know.',
+            'Just press ENTER if you don\'t have one or don\'t know, and '
+            'so a Debian SMTP host will be used.',
             options=opts, empty_ok=True, force_prompt=True)
         if smtphost:
             stupidmode = False

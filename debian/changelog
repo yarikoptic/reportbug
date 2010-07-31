@@ -3,6 +3,8 @@ reportbug (4.12.5) UNRELEASED; urgency=low
   * bin/reportbug
     - add a warning we are actually working (and not blocked) when executing bug
       script; thanks to Arthur Marsh for the report; Closes: #587952
+    - clarified that not specifying an SMTP host, the one from Debian will be
+      used; thanks to Andrei Popescu for the report; Closes: #590306
   * reportbug/submit.py
     - fixed a typo: 'receive'/'received'; thanks to Joey Hess for the report;
       Closes: #588198
@@ -10,7 +12,7 @@ reportbug (4.12.5) UNRELEASED; urgency=low
     - support globbing when attachments are allowed (so both command-line args
       and sub-menus); thanks to Josh Triplett for the report: Closes: #452648
 
- -- Sandro Tosi <morph@debian.org>  Sat, 31 Jul 2010 22:59:26 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 31 Jul 2010 23:34:59 +0200
 
 reportbug (4.12.4) unstable; urgency=low
 
