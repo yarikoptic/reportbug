@@ -3,8 +3,11 @@ reportbug (4.12.5) UNRELEASED; urgency=low
   * bin/reportbug
     - add a warning we are actually working (and not blocked) when executing bug
       script; thanks to Arthur Marsh for the report; Closes: #587952
+  * reportbug/submit.py
+    - fixed a typo: 'receive'/'received'; thanks to Joey Hess for the report;
+      Closes: #588198
 
- -- Sandro Tosi <morph@debian.org>  Sat, 31 Jul 2010 14:55:47 +0200
+ -- Sandro Tosi <morph@debian.org>  Sat, 31 Jul 2010 15:07:01 +0200
 
 reportbug (4.12.4) unstable; urgency=low
 
