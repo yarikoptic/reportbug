@@ -11,8 +11,10 @@ reportbug (4.12.5) UNRELEASED; urgency=low
   * bin/reportbug, man/reportbug.1
     - support globbing when attachments are allowed (so both command-line args
       and sub-menus); thanks to Josh Triplett for the report: Closes: #452648
+  * doc/README.Users
+    - clarified the usage terms for reportbug.debian.org
 
- -- Sandro Tosi <morph@debian.org>  Sat, 31 Jul 2010 23:34:59 +0200
+ -- Sandro Tosi <morph@debian.org>  Sun, 01 Aug 2010 20:02:10 +0200
 
 reportbug (4.12.4) unstable; urgency=low
 

@@ -123,3 +123,32 @@ timeout is set to 1 minute; so in case of such an error, if you're
 unsure that it's a clear network outage, you can try to pass
 `--timeout <secs>' to either `reportbug' or `querybts' and see if it
 solves the issue.
+
+reportbug.debian.org SMTP Host Service Usage Policy
+===================================================
+
+Since Dec 2008 (see NEWS entry about it), the Debian project provides
+a convenient SMTP host specifically aimed for reportbug:
+reportbug.debian.org.
+
+This host is useful in situations like:
+
+ - the machine doesn't have a local MTA to forward emails;
+ - no SMTP server is known;
+ - the usual SMTP server is not working/unusable (different network);
+ - etc.
+
+Please keep in mind that this service has some limitations:
+
+ - only 5 reports per hour are allowed (technically, 5 connections to
+   the server, even if they don't result in bugs submission);
+ - relay is not allowed.
+
+The last rule, in particular, doesn't allow to send a carbon-copy of
+the report to the submitter (the same email sent to the BTS to open
+the bug), and X-Debbugs-CC has to be used instead (that will send an
+email after BTS processing).
+
+Let us also clarify that this service is in no way controlled by
+reportbug maintainers, so in case any questions/complains/information
+requests you have to contact owner@bugs.debian.org .
