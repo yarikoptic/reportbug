@@ -861,7 +861,7 @@ def mua_exists(mua):
     if os.path.exists(output):
         try:
             returnvalue = subprocess.call(MUAVERSION[mua_tmp], stdout=open(output, 'w'), stderr=subprocess.STDOUT, shell=True)
-        except IOError, OSError:
+        except (IOError, OSError):
             returnvalue = subprocess.call(MUAVERSION[mua_tmp], shell=True)
     else:
         returnvalue = subprocess.call(MUAVERSION[mua_tmp], shell=True)
