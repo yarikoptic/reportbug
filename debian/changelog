@@ -1,4 +1,4 @@
-reportbug (4.12.5) UNRELEASED; urgency=low
+reportbug (4.12.5) unstable; urgency=low
 
   * bin/reportbug
     - add a warning we are actually working (and not blocked) when executing bug
@@ -17,7 +17,7 @@ reportbug (4.12.5) UNRELEASED; urgency=low
   * debian/control
     - bump Standards-Version to 3.9.1 (no changes needed)
 
- -- Sandro Tosi <morph@debian.org>  Fri, 06 Aug 2010 15:15:13 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 06 Aug 2010 15:15:41 +0200
 
 reportbug (4.12.4) unstable; urgency=low
 
