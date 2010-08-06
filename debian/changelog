@@ -14,8 +14,10 @@ reportbug (4.12.5) UNRELEASED; urgency=low
       and sub-menus); thanks to Josh Triplett for the report: Closes: #452648
   * doc/README.Users
     - clarified the usage terms for reportbug.debian.org
+  * debian/control
+    - bump Standards-Version to 3.9.1 (no changes needed)
 
- -- Sandro Tosi <morph@debian.org>  Tue, 03 Aug 2010 19:48:32 +0200
+ -- Sandro Tosi <morph@debian.org>  Fri, 06 Aug 2010 15:15:13 +0200
 
 reportbug (4.12.4) unstable; urgency=low
 
