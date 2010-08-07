@@ -375,7 +375,7 @@ def handle_debian_release(package, bts, ui, fromaddr, timeout, online=True, http
         else:
             package = info[12] or package
 
-    if tag in ('binnmu', 'unblock', 'freeze-exceptions', 'opu', 'pu', 'rm'):
+    if tag in ('binnmu', 'unblock', 'freeze-exception', 'opu', 'pu', 'rm'):
         # FIXME: opu/pu/rm should lookup the version elsewhere
         version = info and info[0]
         if version:

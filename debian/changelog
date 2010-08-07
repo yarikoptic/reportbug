@@ -1,3 +1,11 @@
+reportbug (4.12.6) UNRELEASED; urgency=low
+
+  * reportbug/debianbts.py
+    - fix a typo to properly recognize free-exception; thanks to Jakub Wilk for
+      the report; Closes: #592138
+
+ -- Sandro Tosi <morph@debian.org>  Sat, 07 Aug 2010 21:37:37 +0200
+
 reportbug (4.12.5) unstable; urgency=low
 
   * bin/reportbug
