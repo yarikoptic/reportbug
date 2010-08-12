@@ -223,6 +223,8 @@ def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_pro
         "Package removal - Architecture Not Allowed In Source.",
         'ICE' :
         "Package removal - Internal Compiler Error.",
+        'override' :
+        "Change override request.",
         'other' :
         "Not a package removal request, report other problems.",
         }, 'Choose the request type: ', empty_ok=True)
@@ -259,7 +261,58 @@ def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_pro
                 sys.exit(1)
         else:
             package = info[12] or package
+            # get package section and priority, for override
+            section, priority = info[16], info[10]
 
+    if tag == 'override':
+        # we handle here the override change request
+        new_section = ui.menu('Select the new section', {
+                'admin': "", 'cli-mono': "", 'comm': "", 'database': "",
+                'debian-installer': "", 'debug': "", 'devel': "", 'doc': "",
+                'editors': "", 'electronics': "", 'embedded': "", 'fonts': "",
+                'games': "", 'gnome': "", 'gnu-r': "", 'gnustep': "",
+                'graphics': "", 'hamradio': "", 'haskell': "", 'httpd': "",
+                'interpreters': "", 'java': "", 'kde': "", 'kernel': "",
+                'libdevel': "", 'libs': "", 'lisp': "", 'localization': "",
+                'mail': "", 'math': "", 'misc': "", 'net': "",
+                'news': "", 'ocaml': "", 'oldlibs': "", 'otherosfs': "",
+                'perl': "", 'php': "", 'python': "", 'ruby': "",
+                'science': "", 'shells': "", 'sound': "", 'tex': "",
+                'text': "", 'utils': "", 'vcs': "", 'video': "",
+                'web': "", 'x11': "", 'xfce': "", 'zope': "",
+        }, 'Choose the section: ', default=section, empty_ok=True)
+        if not new_section:
+            new_section = section
+
+        new_priority = ui.menu('Select the new priority', {
+                'required': "",
+                'important': "",
+                'standard': "",
+                'optional': "",
+                'extra': "",
+        }, 'Choose the priority: ', default=priority, empty_ok=True)
+        if not new_priority:
+            new_priority = priority
+
+        if new_section == section and new_priority == priority:
+            ui.long_message("You didn't change section nor priority, exiting...")
+            sys.exit(1)
+
+        arch_section = ui.menu('Is this request for an archive section other than "main"?', {
+            'main' : "",
+            'contrib' : "",
+            'non-free' : "",
+        }, 'Choose the archive section: ', default='main', empty_ok=True)
+        if not arch_section:
+           arch_section = 'main'
+
+        if arch_section != 'main':
+            subject = "override: %s:%s/%s %s" % (package, arch_section, new_section, new_priority)
+        else:
+            subject = "override: %s:%s/%s" % (package, new_section, new_priority)
+        body = "(Describe here the reason for this change)"
+    else:
+        # we handle here the removal requests
         suite = ui.menu('Is the removal to be done in a suite other than'
                         ' "unstable"?  Please press Enter for "unstable"', {
             'oldstable' : "Old stable.",
@@ -292,29 +345,30 @@ def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_pro
                 ui.long_message('Partial removal requests must have a list of architectures.\n')
                 raise SystemExit
 
-    if suite == 'testing' and archs:
-        ui.long_message('Partial removal for testing; forcing suite to '
-                        '\'unstable\', since it\'s the proper way to do that.')
-        suite = 'unstable'
-        body = '(please explain the reason for the removal here)\n\n' +\
-        'Note: this was a request for a partial removal from testing, ' +\
-        'converted in one for unstable'
 
-    if archs:
-        if suite != 'unstable':
-            subject = 'RM: %s/%s [%s] -- %s; %s' % (package, suite, archs, tag, reason)
-        else:
-            subject = 'RM: %s [%s] -- %s; %s' % (package, archs, tag, reason)
-    else:
-        if suite != 'unstable':
-            subject = 'RM: %s/%s -- %s; %s' % (package, suite, tag, reason)
-        else:
-            subject = 'RM: %s -- %s; %s' % (package, tag, reason)
+        if suite == 'testing' and archs:
+            ui.long_message('Partial removal for testing; forcing suite to '
+                            '\'unstable\', since it\'s the proper way to do that.')
+            suite = 'unstable'
+            body = '(please explain the reason for the removal here)\n\n' +\
+                'Note: this was a request for a partial removal from testing, ' +\
+                'converted in one for unstable'
 
-    if suite == 'testing':
-        ui.long_message('Please use release.debian.org pseudo-package and '
-                        'report a bug there.')
-        sys.exit(1)
+        if archs:
+            if suite != 'unstable':
+                subject = 'RM: %s/%s [%s] -- %s; %s' % (package, suite, archs, tag, reason)
+            else:
+                subject = 'RM: %s [%s] -- %s; %s' % (package, archs, tag, reason)
+        else:
+            if suite != 'unstable':
+                subject = 'RM: %s/%s -- %s; %s' % (package, suite, tag, reason)
+            else:
+                subject = 'RM: %s -- %s; %s' % (package, tag, reason)
+
+        if suite == 'testing':
+            ui.long_message('Please use release.debian.org pseudo-package and '
+                            'report a bug there.')
+            sys.exit(1)
 
     return (subject, severity, headers, pseudos, body, query)
 

@@ -1455,7 +1455,7 @@ class UI(object):
 
             (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
              installed, origin, vendor, reportinfo, priority, desc, src_name,
-             fulldesc, state, suggests) = status
+             fulldesc, state, suggests, section) = status
 
         buginfo = '/usr/share/bug/' + package
         bugexec = submitas = submitto = presubj = None

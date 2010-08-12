@@ -308,9 +308,10 @@ def get_package_status(package, avail=False):
     descre = re.compile('Description: ')
     fullre = re.compile(' ')
     srcre = re.compile('Source: ')
+    sectionre = re.compile('Section: ')
 
     pkgversion = pkgavail = maintainer = status = origin = None
-    bugs = vendor = priority = desc = src_name = None
+    bugs = vendor = priority = desc = src_name = section = None
     conffiles = []
     fulldesc = []
     depends = []
@@ -384,6 +385,8 @@ def get_package_status(package, avail=False):
         elif srcre.match(line):
             crud, src_name = line.split(": ", 1)
             src_name = src_name.split()[0]
+        elif sectionre.match(line):
+            crud, section = line.split(": ", 1)
         elif desc and line[0]==' ':
             fulldesc.append(line)
 
@@ -408,7 +411,8 @@ def get_package_status(package, avail=False):
     info = (pkgversion, pkgavail, tuple(depends), tuple(recommends),
             tuple(conffiles),
             maintainer, installed, origin, vendor, reportinfo, priority,
-            desc, src_name, os.linesep.join(fulldesc), state, tuple(suggests))
+            desc, src_name, os.linesep.join(fulldesc), state, tuple(suggests),
+            section)
 
     if not avail:
         statuscache[package] = info

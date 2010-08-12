@@ -5,6 +5,11 @@ reportbug (4.99) UNRELEASED; urgency=low
     - automatically convert a partial removal from testing in a partial removal
       from unstable; thanks to Adam D. Barratt for support while developing the
       patch and Russ Allbery for the report; Closes: #597359
+  * bin/reportbug, reportbug{debianbts.py, utils.py}
+    - added support for ftp.debian.org override requests; added support for
+      'Section' information, reorganized ftp.d.o code to support 'override'
+      along with normal RM requests; thanks to Emilio Pozuelo Monfort for the
+      report; Closes: #568980
 
  -- Sandro Tosi <morph@debian.org>  Wed, 17 Nov 2010 23:25:52 +0100
 
