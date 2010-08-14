@@ -292,6 +292,14 @@ def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_pro
                 ui.long_message('Partial removal requests must have a list of architectures.\n')
                 raise SystemExit
 
+    if suite == 'testing' and archs:
+        ui.long_message('Partial removal for testing; forcing suite to '
+                        '\'unstable\', since it\'s the proper way to do that.')
+        suite = 'unstable'
+        body = '(please explain the reason for the removal here)\n\n' +\
+        'Note: this was a request for a partial removal from testing, ' +\
+        'converted in one for unstable'
+
     if archs:
         if suite != 'unstable':
             subject = 'RM: %s/%s [%s] -- %s; %s' % (package, suite, archs, tag, reason)
@@ -304,9 +312,8 @@ def handle_debian_ftp(package, bts, ui, fromaddr, timeout, online=True, http_pro
             subject = 'RM: %s -- %s; %s' % (package, tag, reason)
 
     if suite == 'testing':
-        ui.long_message('Please use the following subject and send a mail to '
-                        'debian-release@lists.debian.org to request removal.\n')
-        ui.log_message(subject)
+        ui.long_message('Please use release.debian.org pseudo-package and '
+                        'report a bug there.')
         sys.exit(1)
 
     return (subject, severity, headers, pseudos, body, query)
@@ -391,17 +398,23 @@ def handle_debian_release(package, bts, ui, fromaddr, timeout, online=True, http
                 ui.log_message("A version is required for action %s, not sending bug\n" % (tag))
                 return
 
-    if tag in ('binnmu'):
+    if tag in ('binnmu', 'rm'):
         partial = ui.select_options(
             "Is this request for specific architectures?",
             'yN', {'y': 'This is a partial (specific architectures) removal.',
                    'n': 'This removal is for all architectures.' })
         if partial == 'y':
+            if tag == 'rm':
+                ui.long_message('The proper way to request a partial removal '
+                   'from testing is to file a partial removal from unstable: '
+                   'this way the package for the specified architectures will '
+                   'be automatically removed from testing too. Please re-run '
+                   'reportbug against ftp.debian.org package.')
+                raise SystemExit
             prompt = 'Please enter the arch list separated by a space: '
             archs = ui.get_string(prompt)
             if not archs:
-                ui.long_message('Partial removal requests must have a list of architectures.\n')
-                raise SystemExit
+                ui.long_message('No architecture specified, skipping...')
 
     pseudos.append("User: release.debian.org@packages.debian.org")
     pseudos.append("Usertags: %s" % (tag))
@@ -429,11 +442,8 @@ def handle_debian_release(package, bts, ui, fromaddr, timeout, online=True, http
         subject = '%s: package %s/%s' % (tag, package, version)
         body    = '(please explain the reason for this update here)\n'
     elif tag == 'rm':
-        if archs:
-            subject = 'RM: %s/%s [%s]' % (package, version, archs)
-        else:
-            subject = 'RM: %s/%s' % (package, version)
-        body = ''
+        subject = 'RM: %s/%s' % (package, version)
+        body = '(explain the reason for the removal here)\n'
 
     return (subject, severity, headers, pseudos, body, query)
 
