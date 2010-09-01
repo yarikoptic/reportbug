@@ -38,28 +38,6 @@ License: GPL-any
     On Debian systems, the complete text of the GNU General Public License
     can be found in file "/usr/share/common-licenses/GPL".
 
-Files: Makefile, */module.mk
-Copyright:
-    © 2008 Ben Finney <ben+debian@benfinney.id.au>
-License: GPL-2+
-    # This is free software; you may copy, modify and/or distribute this work
-    # under the terms of the GNU General Public License, version 2 or later.
-    # No warranty expressed or implied. See the file LICENSE for details.
-    .
-    On Debian systems, the complete text of the GNU General Public License
-    can be found in file "/usr/share/common-licenses/GPL-2".
-
-Files: test/scaffold.py, test/test_*.py
-Copyright:
-    © 2008 Ben Finney <ben+debian@benfinney.id.au>
-License: GPL-2+
-    # This is free software; you may copy, modify and/or distribute this work
-    # under the terms of the GNU General Public License, version 2 or later.
-    # No warranty expressed or implied. See the file LICENSE for details.
-    .
-    On Debian systems, the complete text of the GNU General Public License
-    can be found in file "/usr/share/common-licenses/GPL-2".
-
 Files: checks/compare_pseudo-pkgs_lists.py
 Copyright:
     © 2008 Sandro Tosi <morph@debian.org>
