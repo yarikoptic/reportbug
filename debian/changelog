@@ -1,6 +1,10 @@
 reportbug (4.99) UNRELEASED; urgency=low
 
   * Completely rewritten the unittest suite
+  * reportbug/debianbts.py
+    - automatically convert a partial removal from testing in a partial removal
+      from unstable; thanks to Adam D. Barratt for support while developing the
+      patch and Russ Allbery for the report; Closes: #597359
 
  -- Sandro Tosi <morph@debian.org>  Wed, 17 Nov 2010 23:25:52 +0100
 
