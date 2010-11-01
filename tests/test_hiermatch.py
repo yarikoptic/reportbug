@@ -1,6 +1,6 @@
 import unittest2
 
-from reportbug import hiermatch
+from reportbug import hiermatch, exceptions
 
 test_strings_list = ['Beautiful is better than ugly.',
                      'Explicit is better than implicit.',
@@ -12,6 +12,11 @@ test_strings_list = ['Beautiful is better than ugly.',
 class TestHiermatch(unittest2.TestCase):
 
     def test_egrep_list(self):
-        matches = hiermatch.egrep_list(test_strings_list, 'better')
+        res = hiermatch.egrep_list(None, '')
+        self.assertIsNone(res)
 
+        with self.assertRaises(exceptions.InvalidRegex):
+            matches = hiermatch.egrep_list(test_strings_list, 42)
+
+        matches = hiermatch.egrep_list(test_strings_list, 'better')
         self.assertEqual(len(matches), 6)
