@@ -1,0 +1,8 @@
+package-status: python
+Package-Status: perl
+Report-with: python
+report-with: perl
+Submit-As: reportbug2
+Send-to: reportbug-maint@lists.alioth.debian.org
+
+dummy: line: will: be: skipped
