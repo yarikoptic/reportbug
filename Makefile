@@ -1,6 +1,6 @@
 #! /usr/bin/make -f
 
-NOSETESTS = nosetests tests -v
+NOSETESTS = nosetests test -v
 nosetests_cmd = $(NOSETESTS) ${NOSETESTS_OPTS}
 
 .PHONY: checks
