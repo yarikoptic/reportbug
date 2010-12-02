@@ -75,7 +75,7 @@ class TestPackages(unittest2.TestCase):
 
         (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
          installed, origin, vendor, reportinfo, priority, desc, src_name,
-         fulldesc, state, suggests) = status
+         fulldesc, state, suggests, section) = status
 
         self.assertIsNone(pkgversion)
         self.assertIsNone(pkgavail)
@@ -93,13 +93,14 @@ class TestPackages(unittest2.TestCase):
         self.assertEqual(fulldesc, '')
         self.assertEqual(state, '')
         self.assertEqual(suggests, ())
+        self.assertIsNone(section)
 
         # Using an 'Essential: yes' package, what's better than 'dpkg'?
         status = utils.get_package_status('dpkg')
 
         (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
          installed, origin, vendor, reportinfo, priority, desc, src_name,
-         fulldesc, state, suggests) = status
+         fulldesc, state, suggests, section) = status
 
         self.assertIsNotNone(pkgversion)
         self.assertEqual(pkgavail, 'dpkg')
@@ -112,6 +113,7 @@ class TestPackages(unittest2.TestCase):
         self.assertIsNotNone(desc)
         self.assertIsNotNone(fulldesc)
         self.assertEqual(state, 'installed')
+        self.assertEqual(section, 'admin')
 
         # it exploits the 'statuscache', it's already called before
         # so it's now in the cache
@@ -121,7 +123,7 @@ class TestPackages(unittest2.TestCase):
 
         (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
          installed, origin, vendor, reportinfo, priority, desc, src_name,
-         fulldesc, state, suggests) = status
+         fulldesc, state, suggests, section) = status
 
         self.assertIsNotNone(pkgversion)
         self.assertEqual(pkgavail, 'reportbug')
@@ -136,7 +138,7 @@ class TestPackages(unittest2.TestCase):
 
         (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
          installed, origin, vendor, reportinfo, priority, desc, src_name,
-         fulldesc, state, suggests) = status
+         fulldesc, state, suggests, section) = status
 
         self.assertIsNotNone(recommends)
 
@@ -147,7 +149,7 @@ class TestPackages(unittest2.TestCase):
 
         (pkgversion, pkgavail, depends, recommends, conffiles, maintainer,
          installed, origin, vendor, reportinfo, priority, desc, src_name,
-         fulldesc, state, suggests) = status
+         fulldesc, state, suggests, section) = status
 
         confinfo, changed = utils.get_changed_config_files(conffiles)
         self.assertIsNotNone(confinfo)
