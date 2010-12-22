@@ -718,7 +718,7 @@ def get_debian_release_info():
     return debinfo
 
 def lsb_release_info():
-    return commands.getoutput('lsb_release -a 2>/dev/null')
+    return commands.getoutput('lsb_release -a 2>/dev/null') + '\n'
 
 def get_arch():
     arch = commands.getoutput('COLUMNS=79 dpkg --print-installation-architecture 2>/dev/null')
@@ -728,7 +728,7 @@ def get_arch():
         arch = re.sub(r'i[456]86', 'i386', arch)
         arch = re.sub(r's390x', 's390', arch)
         arch = re.sub(r'ppc', 'powerpc', arch)
-    return arch
+    return arch + '\n'
 
 def generate_blank_report(package, pkgversion, severity, justification,
                           depinfo, confinfo, foundfile='', incfiles='',
