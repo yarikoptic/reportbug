@@ -650,7 +650,7 @@ def ubuntu_infofunc():
     return utils.lsb_release_info() + dpkg_infofunc()
 
 def generic_infofunc():
-    utsmachine = os.uname(4)
+    utsmachine = os.uname()[4]
     return utils.lsb_release_info() + u'Architecture: %s\n\n' % utsmachine
 
 # Supported servers
